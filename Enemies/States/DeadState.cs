@@ -1,0 +1,74 @@
+using UnityEngine;
+
+public class DeadState : State
+{
+    protected D_DeadState stateData;
+
+    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected Movement movement;
+
+    public DeadState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, D_DeadState stateData) : base(enemy, stateMachine, animBoolName)
+    {
+        this.stateData = stateData;
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+
+        InstantiateDeathSFX();
+        InstantiateDeathSound();
+        InstantiateCorpse();
+        InstantiateCurrencyDrop();
+
+        enemy.gameObject.SetActive(false);
+    }
+
+    private void InstantiateDeathSFX()
+    {
+        if (stateData.deathSFXPrefab != null)
+        {
+            GameObject deathSFX = GameObject.Instantiate(stateData.deathSFXPrefab, enemy.transform.position, Quaternion.identity);
+            deathSFX.transform.parent = null;
+            deathSFX.transform.Rotate(0, 0, 90);
+            GameObject.Destroy(deathSFX, deathSFX.GetComponent<ParticleSystem>() != null ? deathSFX.GetComponent<ParticleSystem>().main.duration : 0f);
+        }
+    }
+
+    private void InstantiateDeathSound()
+    {
+        if (stateData.deathSoundPrefab != null)
+        {
+            GameObject deathSound = GameObject.Instantiate(stateData.deathSoundPrefab, enemy.transform.position, Quaternion.identity);
+            deathSound.transform.parent = null;
+            GameObject.Destroy(deathSound, deathSound.GetComponent<AudioSource>() != null ? deathSound.GetComponent<AudioSource>().clip.length : 0f);
+        }
+    }
+
+    private void InstantiateCorpse()
+    {
+        if (stateData.corpsePrefab != null)
+        {
+            GameObject corpse = GameObject.Instantiate(stateData.corpsePrefab);
+            corpse.transform.position = enemy.transform.position;
+            if (Movement.FacingDirection == 1) corpse.transform.Rotate(0, 180f, 0);
+            corpse.GetComponent<SpriteRenderer>().sortingOrder = enemy.GetComponent<SpriteRenderer>().sortingOrder - 1;
+        }
+    }
+
+    private void InstantiateCurrencyDrop()
+    {
+        if (stateData.currencyDropPrefab != null)
+        {
+            ShinyEnemyRandomizer shinyRandomizer = enemy.GetComponent<ShinyEnemyRandomizer>();
+            int drops = shinyRandomizer != null && shinyRandomizer.IsShiny ? Random.Range(4, 6) : Random.Range(1, 3);
+            for (int i = 0; i < drops; i++)
+            {
+                GameObject currencyDrop = GameObject.Instantiate(stateData.currencyDropPrefab);
+                currencyDrop.transform.position = new Vector2(
+                    enemy.transform.position.x + Random.Range(0, 3),
+                    enemy.transform.position.y + Random.Range(0, 3));
+            }
+        }
+    }
+}
