@@ -76,6 +76,9 @@ public class UIEnemyList : UIEntityList
                 currentSlotSprite.sprite = entry.entryViewSprite;
                 currentSlotSpriteVariant.sprite = entry.shinyEntryViewSprite;
                 currentSlotDescription.text = entry.description;
+
+                currentSlotSprite.preserveAspect = true;
+                currentSlotSpriteVariant.preserveAspect = true;
             }
         }
     }

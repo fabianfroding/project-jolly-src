@@ -9,9 +9,9 @@ public class State
     protected Enemy enemy;
     protected EntityCore core;
 
-    protected string animBoolName;
+    protected int animBoolName;
 
-    public State(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName)
+    public State(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName)
     {
         this.enemy = enemy;
         this.stateMachine = stateMachine;

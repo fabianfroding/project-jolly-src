@@ -3,6 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newPlayerData", menuName = "Data/PlayerData/StateData")]
 public class Player_StateData : ScriptableObject
 {
+    public LayerMask groundLayer;
+
     [Header("Move State")]
     public float movementVelocity = 10f;
 
@@ -12,9 +14,8 @@ public class Player_StateData : ScriptableObject
     public GameObject jumpSFXPrefab;
     public GameObject jumpTrailSFXPrefab;
     public GameObject jumpSNDPrefab;
-
-    [Header("Jump State")]
     public GameObject landSoundPrefab;
+    public GameObject doubleJumpSFX;
 
     [Header("In Air State")]
     public float coyoteTime = 0.2f;
@@ -52,4 +53,24 @@ public class Player_StateData : ScriptableObject
     public float distBetweenAfterimages = 0.5f;
     public float maxHoldTime = 1f;
     public float holdTimeScale = 0.25f;
+    public GameObject dashSFX;
+    public GameObject dashTimeSlowSFX;
+
+    [Header("Warp State")]
+    public float ascendRayDistance = 20f;
+    public float ascendDiveInRayDistance = 5f;
+    public GameObject ascendDiveInVFX;
+    public GameObject ascendEmergeVFX;
+    public GameObject ascendDiveInSFX;
+    public GameObject ascendEmergeSFX;
+    public GameObject warpCeilingCheck;
+
+    [Header("Thunder State")]
+    public float thunderHeight = 15f;
+    public float thunderDelay = 0.25f;
+    public float thunderRadius = 7f;
+    public float thunderCooldown = 1f;
+    public Damage thunderDamage;
+    public GameObject thunderSFX;
+    public GameObject thunderVFX;
 }

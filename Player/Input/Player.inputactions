@@ -11,7 +11,8 @@
                     "id": "19a6cdc3-6a13-4d04-8bfd-cf64879728e0",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Jump",
@@ -19,7 +20,8 @@
                     "id": "58e5318c-71d0-4bb1-b995-3f07b2cd0f93",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ChargeArrow",
@@ -27,7 +29,8 @@
                     "id": "8eeeb6d6-0b30-4cb9-af66-98a212b67638",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Attack",
@@ -35,7 +38,8 @@
                     "id": "f6bd5131-cff4-4936-b6ae-a10da168ffbb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Dash",
@@ -43,7 +47,8 @@
                     "id": "ebd55115-63a8-422e-8946-1203b0186fbe",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "DashDirection",
@@ -51,7 +56,35 @@
                     "id": "19f73eb2-d1b1-4522-a832-fdea3b0b405a",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Warp",
+                    "type": "Button",
+                    "id": "60b470c0-5c43-483e-8ed2-84284978c3ee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "WarpDirection",
+                    "type": "Button",
+                    "id": "5e6a9f25-cf8d-4afd-a4ad-38cc8020b7e9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Thunder",
+                    "type": "Button",
+                    "id": "a5c9d358-b25b-4807-aea5-5466c7d76c9d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -274,6 +307,94 @@
                     "action": "DashDirection",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "e26d7eb6-5672-4a58-bbe9-ee1f3a076845",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Warp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86ea3d05-8b19-4801-b889-d6d4291bc51a",
+                    "path": "<Gamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "WarpDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "0056fe63-c9a0-404c-b6d7-70fc2aa8a0a4",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WarpDirection",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "3a298d10-789f-4084-8847-bdef41425cbc",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "WarpDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "49881ab1-49d8-4934-975f-688c728d2788",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "WarpDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "aeb2b878-86ad-4ce2-8c69-cf76d4c4d8ff",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "WarpDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "3dd14dba-6b9f-411c-bc70-5059b8b36b54",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "WarpDirection",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "e5fd56d1-0d46-4894-a7fe-14aa982f5ccf",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Thunder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -287,7 +408,8 @@
                     "id": "436db74d-8a8c-49bb-867a-a097d379cbdf",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "InGameMenuMoveUp",
@@ -295,7 +417,8 @@
                     "id": "a6c1a634-57e4-40c0-897a-e9157a3d81ac",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "InGameMenuMoveDown",
@@ -303,7 +426,8 @@
                     "id": "cd346e36-7e5f-4dcf-a145-916e0cf87a19",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "InGameMenuMoveRight",
@@ -311,7 +435,8 @@
                     "id": "22610a32-724a-4c12-b222-a9b41f99db28",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "InGameMenuMoveLeft",
@@ -319,7 +444,8 @@
                     "id": "9b0bd74e-e1cc-4d31-bbd8-ac3095348eaa",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "InGameMenuSelect",
@@ -327,7 +453,8 @@
                     "id": "df422ead-4235-45a7-b756-0cbe99371b09",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "InGameMenuShiftRight",
@@ -335,7 +462,8 @@
                     "id": "ad9b3512-ceec-4919-8081-d60ea79a0218",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "InGameMenuShiftLeft",
@@ -343,7 +471,8 @@
                     "id": "c57b4188-ec30-4850-936f-c86bbaa9c2cb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -535,7 +664,8 @@
                     "id": "bfd1111a-f49f-48ec-b429-e5e16fcff900",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

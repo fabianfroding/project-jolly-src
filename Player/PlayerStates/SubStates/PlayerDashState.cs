@@ -8,8 +8,9 @@ public class PlayerDashState : PlayerAbilityState
     private float lastDashTime;
     private Vector2 dashDirection;
     private Vector2 dashDirectionInput;
+    private GameObject timeSlowSFX;
     
-    public PlayerDashState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerDashState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()
@@ -24,6 +25,9 @@ public class PlayerDashState : PlayerAbilityState
 
         Time.timeScale = playerStateData.holdTimeScale;
         startTime = Time.unscaledTime;
+
+        timeSlowSFX = GameObject.Instantiate(playerStateData.dashTimeSlowSFX);
+        timeSlowSFX.transform.position = player.transform.position;
     }
 
     public override void Exit()
@@ -67,6 +71,10 @@ public class PlayerDashState : PlayerAbilityState
                     Movement.CheckIfShouldFlip(Mathf.RoundToInt(dashDirection.x));
                     Movement.SetDrag(playerStateData.drag);
                     Movement.SetVelocity(playerStateData.dashVelocity, dashDirection);
+
+                    if (timeSlowSFX) GameObject.Destroy(timeSlowSFX);
+                    GameObject tempGO = GameObject.Instantiate(playerStateData.dashSFX);
+                    tempGO.transform.position = player.transform.position;
                 }
             }
             else {

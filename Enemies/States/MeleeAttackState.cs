@@ -7,7 +7,7 @@ public class MeleeAttackState : AttackState
     protected Combat Combat { get => combat ?? core.GetCoreComponent(ref combat); }
     protected Combat combat;
 
-    public MeleeAttackState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, Transform attackPosition, D_MeleeAttackState stateData) : base(enemy, stateMachine, animBoolName, attackPosition)
+    public MeleeAttackState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_MeleeAttackState stateData) : base(enemy, stateMachine, animBoolName, attackPosition)
     {
         this.stateData = stateData;
     }

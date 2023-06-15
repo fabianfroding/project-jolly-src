@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class EditorConstants : MonoBehaviour
+﻿public static class EditorConstants
 {
     //==================== LAYERS ====================//
     public static readonly string LAYER_ENEMY = "Enemy";
@@ -13,6 +11,7 @@ public class EditorConstants : MonoBehaviour
     public static readonly string RESOURCE_WHITE_FLASH = "WhiteFlash";
 
     //==================== TAGS ====================//
+    public static readonly string TAG_BREAKABLE_GROUND = "BreakableGround";
     public static readonly string TAG_ENEMY = "Enemy";
     public static readonly string TAG_ENVIRONMENT = "Environment";
     public static readonly string TAG_GROUND = "Ground";

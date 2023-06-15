@@ -25,9 +25,9 @@ public class DamagingObject : MonoBehaviour
     {
         if (birthSoundPrefab != null)
         {
-            Instantiate(birthSoundPrefab);
-            birthSoundPrefab.transform.SetParent(null);
-            birthSoundPrefab.transform.position = transform.position;
+            GameObject GO = Instantiate(birthSoundPrefab);
+            GO.transform.SetParent(null);
+            GO.transform.position = transform.position;
         }
 
         StopCoroutine(DestroySelf());

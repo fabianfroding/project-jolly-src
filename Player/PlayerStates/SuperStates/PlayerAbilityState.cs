@@ -8,7 +8,7 @@ public class PlayerAbilityState : PlayerState
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    public PlayerAbilityState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerAbilityState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {
     }
 

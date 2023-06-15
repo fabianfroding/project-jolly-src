@@ -2,7 +2,7 @@ public class EnemyPlaguetooth_IdleState : IdleState
 {
     EnemyPlaguetooth plaguetooth;
 
-    public EnemyPlaguetooth_IdleState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, D_IdleState stateData, EnemyPlaguetooth plaguetooth) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyPlaguetooth_IdleState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData, EnemyPlaguetooth plaguetooth) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.plaguetooth = plaguetooth;
     }

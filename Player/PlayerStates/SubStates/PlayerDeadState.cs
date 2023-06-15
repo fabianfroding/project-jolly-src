@@ -4,7 +4,7 @@ public class PlayerDeadState : PlayerLockedState
 {
     public static event Action OnPlayerBecomeDead;
 
-    public PlayerDeadState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerDeadState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

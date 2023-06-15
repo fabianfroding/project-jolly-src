@@ -25,7 +25,7 @@ public class PlayerInAirState : PlayerState
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    public PlayerInAirState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerInAirState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void DoChecks()

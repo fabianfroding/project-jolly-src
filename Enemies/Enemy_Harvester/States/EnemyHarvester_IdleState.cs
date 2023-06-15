@@ -2,7 +2,7 @@ public class EnemyHarvester_IdleState : IdleState
 {
     private EnemyHarvester harvester;
 
-    public EnemyHarvester_IdleState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, D_IdleState stateData, EnemyHarvester harvester) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyHarvester_IdleState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData, EnemyHarvester harvester) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.harvester = harvester;
     }

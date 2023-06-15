@@ -7,11 +7,11 @@ public class DestroyWhenDone : MonoBehaviour
         AudioSource audioSource = GetComponent<AudioSource>();
         ParticleSystem particleSystem = GetComponent<ParticleSystem>();
 
-        if (particleSystem != null)
+        if (particleSystem)
         {
             Destroy(gameObject, particleSystem.main.duration);
         }
-        else if (audioSource != null)
+        else if (audioSource && audioSource.clip)
         {
             Destroy(gameObject, audioSource.clip.length);
         }

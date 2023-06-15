@@ -5,6 +5,8 @@ public class PlayerGroundedState : PlayerState
     private bool isGrounded;
     private bool chargeArrowInput;
     private bool dashInput;
+    private bool holdAscendState;
+    private bool thunderInput;
 
     // Null-coalescing operator.
     protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
@@ -12,7 +14,7 @@ public class PlayerGroundedState : PlayerState
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    public PlayerGroundedState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerGroundedState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void DoChecks()
@@ -45,6 +47,8 @@ public class PlayerGroundedState : PlayerState
         jumpInput = player.InputHandler.JumpInput;
         chargeArrowInput = player.InputHandler.ChargeArrowInput;
         dashInput = player.InputHandler.DashInput;
+        holdAscendState = player.InputHandler.HoldAscendInput;
+        thunderInput = player.InputHandler.ThunderInput;
 
         if (player.InputHandler.AttackInput)
         {
@@ -59,13 +63,21 @@ public class PlayerGroundedState : PlayerState
             player.InAirState.StartCoyoteTime();
             stateMachine.ChangeState(player.InAirState);
         }
-        else if (chargeArrowInput && player.ChargeArrowState.CheckIfCanChargeArrow())
+        else if (player.ChargeArrowState.CheckIfCanChargeArrow() && chargeArrowInput)
         {
             stateMachine.ChangeState(player.ChargeArrowState);
         }
         else if (dashInput && player.DashState.CheckIfCanDash())
         {
             stateMachine.ChangeState(player.DashState);
+        }
+        else if (holdAscendState)
+        {
+            stateMachine.ChangeState(player.HoldAscendState);
+        }
+        else if (player.ThunderState.CheckIfCanuseThunder() && thunderInput)
+        {
+            stateMachine.ChangeState(player.ThunderState);
         }
     }
 

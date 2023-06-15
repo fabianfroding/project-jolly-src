@@ -13,7 +13,7 @@ public class LookForPlayerState : State
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    public LookForPlayerState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, D_LookForPlayerState stateData) : base(enemy, stateMachine, animBoolName)
+    public LookForPlayerState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_LookForPlayerState stateData) : base(enemy, stateMachine, animBoolName)
     {
         this.stateData = stateData;
     }

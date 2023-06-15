@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerLandState : PlayerGroundedState
 {
-    public PlayerLandState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerLandState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()
@@ -33,8 +33,11 @@ public class PlayerLandState : PlayerGroundedState
     {
         if (collisionSenses.Ground)
         {
-            GameObject tempGO = GameObject.Instantiate(playerStateData.landSoundPrefab);
-            tempGO.transform.position = player.transform.position;
+            if (playerStateData.landSoundPrefab)
+            {
+                GameObject tempGO = GameObject.Instantiate(playerStateData.landSoundPrefab);
+                tempGO.transform.position = player.transform.position;
+            }
         }
     }
 }

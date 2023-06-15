@@ -13,5 +13,7 @@ public class UIEnemyListEntry : MonoBehaviour
         this.entry = entry;
         listName.text = entry.enemyName;
         listImage.sprite = entry.listPreviewSprite;
+
+        listImage.preserveAspect = true;
     }
 }

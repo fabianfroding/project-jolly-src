@@ -4,7 +4,7 @@ public class EnemyHarvester_MeleeAttackState : MeleeAttackState
 {
     private EnemyHarvester harvester;
 
-    public EnemyHarvester_MeleeAttackState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, Transform attackPosition, D_MeleeAttackState stateData, EnemyHarvester harvester) : base(enemy, stateMachine, animBoolName, attackPosition, stateData)
+    public EnemyHarvester_MeleeAttackState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_MeleeAttackState stateData, EnemyHarvester harvester) : base(enemy, stateMachine, animBoolName, attackPosition, stateData)
     {
         this.harvester = harvester;
     }

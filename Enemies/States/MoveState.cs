@@ -3,6 +3,7 @@ public class MoveState : State
     protected D_MoveState stateData;
     protected bool isDetectingWall;
     protected bool isDetectingLedge;
+    protected bool isDetectingEnemy;
     protected bool isPlayerInMinAggroRange;
 
     protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
@@ -10,7 +11,7 @@ public class MoveState : State
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    public MoveState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, D_MoveState stateData) : base(enemy, stateMachine, animBoolName)
+    public MoveState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData) : base(enemy, stateMachine, animBoolName)
     {
         this.stateData = stateData;
     }
@@ -32,6 +33,7 @@ public class MoveState : State
         base.DoChecks();
         isDetectingLedge = CollisionSenses.Ledge;
         isDetectingWall = CollisionSenses.WallFront;
+        isDetectingEnemy = CollisionSenses.EnemyFront;
         isPlayerInMinAggroRange = enemy.CheckPlayerInMinAggroRange();
     }
 }

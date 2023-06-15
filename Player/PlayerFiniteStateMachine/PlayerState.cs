@@ -11,9 +11,9 @@ public class PlayerState
     protected bool isAnimationFinished;
     protected bool isExitingState;
 
-    private string animBoolName;
+    private int animBoolName;
 
-    public PlayerState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName)
+    public PlayerState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
     {
         this.player = player;
         this.stateMachine = stateMachine;
@@ -31,7 +31,6 @@ public class PlayerState
         startTime = Time.time;
         isAnimationFinished = false;
         isExitingState = false;
-        //Debug.Log("Entering state: " + animBoolName);
     }
 
     public virtual void Exit()

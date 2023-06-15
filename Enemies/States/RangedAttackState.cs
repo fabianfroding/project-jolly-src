@@ -6,7 +6,7 @@ public class RangedAttackState : AttackState
     protected GameObject projectile;
     protected Projectile projectileScript;
 
-    public RangedAttackState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, Transform attackPosition, D_RangedAttackState stateData) : base(enemy, stateMachine, animBoolName, attackPosition)
+    public RangedAttackState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_RangedAttackState stateData) : base(enemy, stateMachine, animBoolName, attackPosition)
     {
         this.stateData = stateData;
     }

@@ -4,7 +4,7 @@ public class EnemyDreadripper_MoveState : FlyingMoveState
 {
     private EnemyDreadripper dreadripper;
 
-    public EnemyDreadripper_MoveState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, D_MoveState stateData, EnemyDreadripper dreadripper) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyDreadripper_MoveState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData, EnemyDreadripper dreadripper) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.dreadripper = dreadripper;
     }

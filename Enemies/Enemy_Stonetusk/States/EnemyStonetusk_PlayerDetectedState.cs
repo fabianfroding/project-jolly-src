@@ -4,7 +4,7 @@ public class EnemyStonetusk_PlayerDetectedState : PlayerDetectedState
 {
     EnemyStonetusk stonetusk;
 
-    public EnemyStonetusk_PlayerDetectedState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, D_PlayerDetectedState stateData, EnemyStonetusk stonetusk) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyStonetusk_PlayerDetectedState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData, EnemyStonetusk stonetusk) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.stonetusk = stonetusk;
     }

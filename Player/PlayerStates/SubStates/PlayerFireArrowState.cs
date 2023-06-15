@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerFireArrowState : PlayerAbilityState
 {
-    public PlayerFireArrowState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerFireArrowState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

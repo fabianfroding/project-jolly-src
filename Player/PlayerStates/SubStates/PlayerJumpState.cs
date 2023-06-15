@@ -4,7 +4,7 @@ public class PlayerJumpState : PlayerAbilityState
 {
     private int amountOfJumpsLeft;
 
-    public PlayerJumpState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerJumpState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {
         amountOfJumpsLeft = playerStateData.amountOfJumps;
     }
@@ -39,6 +39,11 @@ public class PlayerJumpState : PlayerAbilityState
             tempGO.transform.position = player.transform.position;
 
             tempGO = GameObject.Instantiate(playerStateData.jumpSNDPrefab);
+            tempGO.transform.position = player.transform.position;
+        }
+        else if (!collisionSenses.Ground && amountOfJumpsLeft < playerStateData.amountOfJumps)
+        {
+            GameObject tempGO = GameObject.Instantiate(playerStateData.doubleJumpSFX);
             tempGO.transform.position = player.transform.position;
         }
     }

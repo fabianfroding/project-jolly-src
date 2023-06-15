@@ -9,6 +9,8 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 RawMovementInput { get; private set; }
     public Vector2 RawDashDirectionInput { get; private set; }
     public Vector2Int DashDirectionInput { get; private set; }
+    public Vector2 RawWarpDirectionInput { get; private set; }
+    public Vector2Int WarpDirectionInput { get; private set; }
 
     public int NormInputX { get; private set; }
     public int NormInputY { get; private set; }
@@ -19,6 +21,9 @@ public class PlayerInputHandler : MonoBehaviour
     public bool AttackInput { get; private set; }
     public bool DashInput { get; private set; }
     public bool DashInputStop { get; private set; }
+    public bool HoldAscendInput { get; private set; }
+    public bool HoldAscendInputStop { get; private set; }
+    public bool ThunderInput { get; private set; }
 
     public static event Action OnTriggerFungusDialog;
 
@@ -97,6 +102,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
         else if (context.canceled)
         {
+            ChargeArrowInput = false;
             ChargeArrowInputRelease = true;
         }
     }
@@ -111,6 +117,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
         else if (context.canceled)
         {
+            DashInput = false;
             DashInputStop = true;
         }
     }
@@ -121,6 +128,38 @@ public class PlayerInputHandler : MonoBehaviour
         DashDirectionInput = Vector2Int.RoundToInt(RawDashDirectionInput.normalized);
     }
 
+    public void OnAscendInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            HoldAscendInput = true;
+            HoldAscendInputStop = false;
+        }
+        else if (context.canceled)
+        {
+            HoldAscendInput = false;
+            HoldAscendInputStop = true;
+        }
+    }
+
+    public void OnWarpDirectionInput(InputAction.CallbackContext context)
+    {
+        RawWarpDirectionInput = context.ReadValue<Vector2>();
+        WarpDirectionInput = Vector2Int.RoundToInt(RawWarpDirectionInput.normalized);
+    }
+
+    public void OnThunderInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            ThunderInput = true;
+        }
+        if (context.canceled)
+        {
+            ThunderInput = false;
+        }
+    }
+
     public void UseJumpInput() => JumpInput = false;
 
     public void UseChargeArrowInput() => ChargeArrowInput = false;
@@ -128,6 +167,10 @@ public class PlayerInputHandler : MonoBehaviour
     public void UseAttackInput() => AttackInput = false;
 
     public void UseDashInput() => DashInput = false;
+
+    public void UseHoldAscendInput() => HoldAscendInput = false;
+
+    public void UseThunderInput() => ThunderInput = false;
 
     private void CheckJumpInputHoldTime()
     {

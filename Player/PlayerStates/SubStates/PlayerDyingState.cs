@@ -4,7 +4,7 @@ public class PlayerDyingState : PlayerLockedState
 {
     float defaultGravityScale;
 
-    public PlayerDyingState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerDyingState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

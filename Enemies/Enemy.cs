@@ -189,6 +189,9 @@ public class Enemy : Entity, IParriable
 
     protected virtual bool CanBeParried(GameObject source, GameObject damagingObject) 
     {
+        if (!damagingObject)
+            return false;
+
         Entity entity = source.GetComponent<Entity>();
         if (entity != null)
         {

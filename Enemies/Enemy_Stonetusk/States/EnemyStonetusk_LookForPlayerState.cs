@@ -2,7 +2,7 @@ public class EnemyStonetusk_LookForPlayerState : LookForPlayerState
 {
     private EnemyStonetusk stonetusk;
 
-    public EnemyStonetusk_LookForPlayerState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, D_LookForPlayerState stateData, EnemyStonetusk stonetusk) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyStonetusk_LookForPlayerState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_LookForPlayerState stateData, EnemyStonetusk stonetusk) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.stonetusk = stonetusk;
     }

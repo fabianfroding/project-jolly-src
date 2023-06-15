@@ -4,9 +4,8 @@ public class PlayerChargeArrowState : PlayerAbilityState
 {
     public bool isCharging { get; private set; }
     private float lastChargeArrowTime;
-    private bool chargeArrowReleased;
 
-    public PlayerChargeArrowState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, string animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerChargeArrowState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()
@@ -27,9 +26,8 @@ public class PlayerChargeArrowState : PlayerAbilityState
             if (isCharging)
             {
                 player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, true);
-                chargeArrowReleased = player.InputHandler.ChargeArrowInputRelease;
 
-                if (chargeArrowReleased)
+                if (player.InputHandler.ChargeArrowInputRelease)
                 {
                     player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, false);
                     isCharging = false;
@@ -47,6 +45,6 @@ public class PlayerChargeArrowState : PlayerAbilityState
 
     public bool CheckIfCanChargeArrow()
     {
-        return Time.time >= lastChargeArrowTime + playerStateData.chargeArrowCooldown;
+        return Time.time < playerStateData.chargeArrowCooldown || Time.time >= lastChargeArrowTime + playerStateData.chargeArrowCooldown;
     }
 }

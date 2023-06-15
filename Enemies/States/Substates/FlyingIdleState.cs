@@ -1,6 +1,6 @@
 public class FlyingIdleState : IdleState
 {
-    public FlyingIdleState(Enemy enemy, FiniteStateMachine stateMachine, string animBoolName, D_IdleState stateData) : base(enemy, stateMachine, animBoolName, stateData)
+    public FlyingIdleState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData) : base(enemy, stateMachine, animBoolName, stateData)
     {}
 
     public override void Enter()
