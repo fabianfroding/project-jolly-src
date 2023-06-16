@@ -43,6 +43,8 @@ public class Player : Entity
 
     #region Events
     public static event Action OnPlayerTakeDamageFromENV;
+    public static event Action OnPlayerEnterAirGlideState;
+    public static event Action OnPlayerExitAirGlideState;
     #endregion
 
     #region Unity Callback Functions
@@ -198,6 +200,11 @@ public class Player : Entity
     public bool HasXMovementInput() =>  InputHandler.NormInputX != 0;
 
     public Vector2 GetFireArrowSpawnPosition() => fireArrowSpawnTransform.position;
+
+    public void TriggerOnPlayerEnterAirGlideState() => OnPlayerEnterAirGlideState();
+    public void TriggerOnPlayerExitAirGlideState() => OnPlayerExitAirGlideState();
+
+    public Player_StateData GetPlayerStateData() => playerStateData;
 
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
 

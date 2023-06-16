@@ -4,6 +4,7 @@ using UnityEngine;
 public class Player_StateData : ScriptableObject
 {
     public LayerMask groundLayer;
+    public float defaultGravityScale = 4f;
 
     [Header("Move State")]
     public float movementVelocity = 10f;

@@ -32,6 +32,8 @@ public class PlayerAirGlideState : PlayerAbilityState
             GameObject tempGO = GameObject.Instantiate(playerStateData.airGlideStartSFX);
             tempGO.transform.position = player.transform.position;
         }
+
+        player.TriggerOnPlayerEnterAirGlideState();
     }
 
     public override void Exit()
@@ -48,6 +50,8 @@ public class PlayerAirGlideState : PlayerAbilityState
             GameObject tempGO = GameObject.Instantiate(playerStateData.airGlideEndSFX);
             tempGO.transform.position = player.transform.position;
         }
+
+        player.TriggerOnPlayerExitAirGlideState();
     }
 
     public override void LogicUpdate()
