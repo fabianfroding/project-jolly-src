@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class AnimationConstants : MonoBehaviour
 {
+    public static readonly int ANIM_PARAM_AIR_GLIDE = Animator.StringToHash("airGlide");
     public static readonly int ANIM_PARAM_ASCEND = Animator.StringToHash("ascend");
     public static readonly int ANIM_PARAM_ATTACK = Animator.StringToHash("attack");
     public static readonly int ANIM_PARAM_CHARGE = Animator.StringToHash("charge");

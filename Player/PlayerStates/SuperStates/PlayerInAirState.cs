@@ -8,6 +8,7 @@ public class PlayerInAirState : PlayerState
     private bool jumpInputStop;
     private bool chargeArrowInput;
     private bool dashInput;
+    private bool airGlideInput;
 
     // Checks
     private bool isGrounded;
@@ -57,10 +58,15 @@ public class PlayerInAirState : PlayerState
         jumpInputStop = player.InputHandler.JumpInputStop;
         chargeArrowInput = player.InputHandler.ChargeArrowInput;
         dashInput = player.InputHandler.DashInput;
+        airGlideInput = player.InputHandler.AirGlideInput;
 
         CheckJumpMultiplier();
 
-        if (player.InputHandler.AttackInput)
+        if (airGlideInput)
+        {
+            stateMachine.ChangeState(player.AirGlideState);
+        }
+        else if (player.InputHandler.AttackInput)
         {
             stateMachine.ChangeState(player.AttackState);
         }

@@ -24,6 +24,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool HoldAscendInput { get; private set; }
     public bool HoldAscendInputStop { get; private set; }
     public bool ThunderInput { get; private set; }
+    public bool AirGlideInput { get; private set; }
 
     public static event Action OnTriggerFungusDialog;
 
@@ -157,6 +158,18 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.canceled)
         {
             ThunderInput = false;
+        }
+    }
+
+    public void OnAirGlideInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            AirGlideInput = true;
+        }
+        if (context.canceled)
+        {
+            AirGlideInput = false;
         }
     }
 

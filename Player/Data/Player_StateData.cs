@@ -73,4 +73,9 @@ public class Player_StateData : ScriptableObject
     public Damage thunderDamage;
     public GameObject thunderSFX;
     public GameObject thunderVFX;
+
+    [Header("Air Glide State")]
+    public float airGlideFallVelocity = -1.5f;
+    public GameObject airGlideStartSFX;
+    public GameObject airGlideEndSFX;
 }

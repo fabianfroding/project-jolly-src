@@ -24,6 +24,7 @@ public class Player : Entity
     public PlayerHoldAscendState HoldAscendState { get; private set; }
     public PlayerAscendState AscendState { get; private set; }
     public PlayerThunderState ThunderState { get; private set; }
+    public PlayerAirGlideState AirGlideState { get; private set; }
     #endregion
 
     #region Components
@@ -67,6 +68,7 @@ public class Player : Entity
         HoldAscendState = new PlayerHoldAscendState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_HOLD_ASCEND);
         AscendState = new PlayerAscendState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ASCEND);
         ThunderState = new PlayerThunderState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_THUNDER);
+        AirGlideState = new PlayerAirGlideState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_AIR_GLIDE);
 
         InputHandler = GetComponent<PlayerInputHandler>();
         timestop = GetComponent<Timestop>();

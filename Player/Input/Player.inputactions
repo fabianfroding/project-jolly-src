@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AirGlide",
+                    "type": "Button",
+                    "id": "b3ac85a3-4f2b-4193-bb6e-d2e4f9ae6ce3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -393,6 +402,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Thunder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0271828c-eaed-400f-9060-659ad125d5fb",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "AirGlide",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
