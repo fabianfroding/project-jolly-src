@@ -18,7 +18,7 @@ public class FloatingBubble : MonoBehaviour
             Player player = enteringGameObject.GetComponent<Player>();
             if (player)
             {
-                player.StateMachine.ChangeState(player.FloatingBubbleState);
+                player.StateMachine.ChangeState(player.InAirState);
             }
         }
 
