@@ -4,7 +4,7 @@ public class WindArea : MonoBehaviour
 {
     [SerializeField] private float windVelocity = 8f;
     private Player player;
-    private Rigidbody2D rigidbody2D;
+    private Rigidbody2D playerRigidbody2D;
 
     private void OnEnable()
     {
@@ -23,7 +23,7 @@ public class WindArea : MonoBehaviour
         if (collision.CompareTag(EditorConstants.LAYER_PLAYER))
         {
             player = collision.GetComponent<Player>();
-            rigidbody2D = player.GetComponent<Rigidbody2D>();
+            playerRigidbody2D = player.GetComponent<Rigidbody2D>();
             if (player)
             {
                 SetWindVelocity();
@@ -53,19 +53,19 @@ public class WindArea : MonoBehaviour
 
     private void SetWindVelocity()
     {
-        if (player && player.StateMachine.CurrentState == player.AirGlideState)
+        if (player && playerRigidbody2D && player.StateMachine.CurrentState == player.AirGlideState)
         {
-            rigidbody2D.gravityScale = 0f;
-            rigidbody2D.velocity = new Vector3(0, windVelocity, 0);
+            playerRigidbody2D.gravityScale = 0f;
+            playerRigidbody2D.velocity = new Vector3(0, windVelocity, 0);
         }
     }
 
     private void ResetWindVelocity()
     {
-        if (player && rigidbody2D)
+        if (player && playerRigidbody2D)
         {
-            rigidbody2D.gravityScale = player.GetPlayerStateData().defaultGravityScale;
-            rigidbody2D.velocity = Vector3.zero;
+            playerRigidbody2D.gravityScale = player.GetPlayerStateData().defaultGravityScale;
+            playerRigidbody2D.velocity = Vector3.zero;
         }
     }
 }
