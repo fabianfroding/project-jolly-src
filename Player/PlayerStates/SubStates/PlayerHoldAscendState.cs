@@ -55,7 +55,7 @@ public class PlayerHoldAscendState : PlayerAbilityState
 
                 RaycastHit2D hit = Physics2D.Raycast(player.transform.position, (Vector2)direction, playerStateData.ascendRayDistance, playerStateData.groundLayer);
 
-                if (hit.collider != null)
+                if (hit.collider != null && !hit.collider.CompareTag(EditorConstants.TAG_WALKABLE_CLOUD))
                 {
                     ascendHit = true;
                     lineRenderer.material.color = Color.green;
