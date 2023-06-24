@@ -129,6 +129,10 @@ public class PlayerInAirState : PlayerState
                 isJumping = false;
             }
         }
+        else if (Movement.CurrentVelocity.y < playerStateData.maxFallVelocity)
+        {
+            Movement.SetVelocityY(playerStateData.maxFallVelocity);
+        }
     }
 
     private void CheckCoyoteTime()

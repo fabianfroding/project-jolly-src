@@ -21,6 +21,7 @@ public class Player_StateData : ScriptableObject
     [Header("In Air State")]
     public float coyoteTime = 0.2f;
     public float variableJumpHeightMultiplier = 0.25f;
+    public float maxFallVelocity = -1f;
 
     [Header("Wall Touch State")]
     public float wallFrictionMultiplier = 0.99f;

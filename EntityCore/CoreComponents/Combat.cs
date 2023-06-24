@@ -46,15 +46,15 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         if (Stats.currentHealth > 0)
         {
             Stats.DecreaseHealth(damage.damageAmount);
-            InstantiateTakeDamageVisuals();
+            InstantiateTakeDamageVisuals(damage);
             ApplyKnockback(source, damage, damagingObject);
             //Debug.Log(gameObject.name + " took " + damage.amount + " damage from " + source.name);
         }
     }
 
-    protected void InstantiateTakeDamageVisuals()
+    protected void InstantiateTakeDamageVisuals(Damage damage)
     {
-        if (takeDmgSoundPrefab != null)
+        if (takeDmgSoundPrefab != null && damage.damageRange != Damage.DAMAGE_RANGE.RANGED)
         {
             GameObject takeDmgSound = Instantiate(takeDmgSoundPrefab, transform.position, Quaternion.identity);
             Destroy(takeDmgSound, takeDmgSound.GetComponent<AudioSource>() != null ? takeDmgSound.GetComponent<AudioSource>().clip.length : 0f);

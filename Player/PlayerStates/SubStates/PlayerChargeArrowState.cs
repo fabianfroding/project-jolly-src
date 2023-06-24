@@ -17,6 +17,12 @@ public class PlayerChargeArrowState : PlayerAbilityState
         player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, true);
     }
 
+    public override void Exit()
+    { 
+        base.Exit();
+        player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, 0f);
+    }
+
     public override void LogicUpdate()
     {
         base.LogicUpdate();
@@ -26,6 +32,7 @@ public class PlayerChargeArrowState : PlayerAbilityState
             if (isCharging)
             {
                 player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, true);
+                player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, player.InputHandler.NormInputY);
 
                 if (player.InputHandler.ChargeArrowInputRelease)
                 {

@@ -70,12 +70,12 @@
                 },
                 {
                     "name": "WarpDirection",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "5e6a9f25-cf8d-4afd-a4ad-38cc8020b7e9",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Thunder",
@@ -199,7 +199,7 @@
                 {
                     "name": "",
                     "id": "fea4a9fd-76b5-4ee5-925d-9bf3dd589e2f",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -232,7 +232,7 @@
                 {
                     "name": "",
                     "id": "1f7cf305-52bb-4b6c-a69d-778813fa1d15",
-                    "path": "<Keyboard>/o",
+                    "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -243,7 +243,7 @@
                 {
                     "name": "",
                     "id": "642b6529-f280-44ed-9f5b-ff327219deb3",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -320,7 +320,7 @@
                 {
                     "name": "",
                     "id": "e26d7eb6-5672-4a58-bbe9-ee1f3a076845",
-                    "path": "<Keyboard>/j",
+                    "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -330,8 +330,19 @@
                 },
                 {
                     "name": "",
+                    "id": "56c4082b-3595-424d-968c-a0cb0025ae0d",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Warp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "86ea3d05-8b19-4801-b889-d6d4291bc51a",
-                    "path": "<Gamepad>/leftStick/down",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -397,10 +408,21 @@
                 {
                     "name": "",
                     "id": "e5fd56d1-0d46-4894-a7fe-14aa982f5ccf",
-                    "path": "<Keyboard>/p",
+                    "path": "<Keyboard>/o",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "Thunder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "90ce0e82-52ac-4bef-a48f-7edfd49626f0",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "Thunder",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -412,6 +434,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "AirGlide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a4ef4cd6-db7a-4de1-a3c6-754bc162947b",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "AirGlide",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -554,10 +587,10 @@
                 {
                     "name": "",
                     "id": "0b5006ca-5f9b-4bc7-ae3f-a5a226453c33",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/select",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "ToggleInGameMenus",
                     "isComposite": false,
                     "isPartOfComposite": false

@@ -44,8 +44,10 @@ public class WindArea : MonoBehaviour
                 {
                     rigidBody2D.gravityScale = playerComponent.GetPlayerStateData().defaultGravityScale;
                 }
-
-                rigidBody2D.velocity = new Vector3(rigidBody2D.velocity.x, playerComponent.GetPlayerStateData().airGlideFallVelocity, 0);
+                else
+                {
+                    rigidBody2D.velocity = new Vector3(rigidBody2D.velocity.x, playerComponent.GetPlayerStateData().airGlideFallVelocity, 0);
+                }
             }
             player = null;
         }

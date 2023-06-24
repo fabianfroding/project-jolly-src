@@ -10,11 +10,18 @@ public class Damage : ScriptableObject
     public Vector2 knockbackAngle;
 
     public DAMAGE_TYPE damageType;
+    public DAMAGE_RANGE damageRange;
 
     public enum DAMAGE_TYPE
     {
         ENVIRONMENT,
         PHYSICAL,
         MAGICAL
+    }
+
+    public enum DAMAGE_RANGE
+    {
+        MELEE,
+        RANGED
     }
 }

@@ -12,6 +12,12 @@ public class PlayerFireArrowState : PlayerAbilityState
         FireArrow();
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, 0f);
+    }
+
     public override void LogicUpdate()
     {
         base.LogicUpdate();
@@ -19,12 +25,15 @@ public class PlayerFireArrowState : PlayerAbilityState
         {
             Movement.SetVelocityX(0);
         }
+
+        player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, player.InputHandler.NormInputY);
     }
 
     public override void AnimationFinishTrigger()
     {
         base.AnimationFinishTrigger();
         isAbilityDone = true;
+        player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, 0f);
         player.Animator.SetBool(AnimationConstants.ANIM_PARAM_FIRE_ARROW, false);
     }
 
