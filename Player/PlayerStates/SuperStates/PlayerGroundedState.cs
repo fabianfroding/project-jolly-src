@@ -45,9 +45,9 @@ public class PlayerGroundedState : PlayerState
         base.LogicUpdate();
         xInput = player.InputHandler.NormInputX;
         jumpInput = player.InputHandler.JumpInput;
-        chargeArrowInput = player.InputHandler.ChargeArrowInput;
+        chargeArrowInput = player.InputHandler.ChargeBowInput;
         dashInput = player.InputHandler.DashInput;
-        holdAscendState = player.InputHandler.HoldAscendInput;
+        holdAscendState = player.InputHandler.HoldWarpInput;
         thunderInput = player.InputHandler.ThunderInput;
 
         if (player.InputHandler.AttackInput)

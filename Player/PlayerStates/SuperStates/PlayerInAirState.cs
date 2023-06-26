@@ -6,7 +6,7 @@ public class PlayerInAirState : PlayerState
     private int xInput;
     private bool jumpInput;
     private bool jumpInputStop;
-    private bool chargeArrowInput;
+    private bool chargeBowInput;
     private bool dashInput;
     private bool airGlideInput;
 
@@ -56,7 +56,7 @@ public class PlayerInAirState : PlayerState
         xInput = player.InputHandler.NormInputX;
         jumpInput = player.InputHandler.JumpInput;
         jumpInputStop = player.InputHandler.JumpInputStop;
-        chargeArrowInput = player.InputHandler.ChargeArrowInput;
+        chargeBowInput = player.InputHandler.ChargeBowInput;
         dashInput = player.InputHandler.DashInput;
         airGlideInput = player.InputHandler.AirGlideInput;
 
@@ -90,7 +90,7 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.WallSlideState);
         }
-        else if (chargeArrowInput && player.ChargeArrowState.CheckIfCanChargeArrow())
+        else if (chargeBowInput && player.ChargeArrowState.CheckIfCanChargeArrow())
         {
             stateMachine.ChangeState(player.ChargeArrowState);
         }

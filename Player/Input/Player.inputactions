@@ -24,18 +24,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ChargeArrow",
+                    "name": "Attack",
                     "type": "Button",
-                    "id": "8eeeb6d6-0b30-4cb9-af66-98a212b67638",
+                    "id": "f6bd5131-cff4-4936-b6ae-a10da168ffbb",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "BowCharge",
                     "type": "Button",
-                    "id": "f6bd5131-cff4-4936-b6ae-a10da168ffbb",
+                    "id": "8eeeb6d6-0b30-4cb9-af66-98a212b67638",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -182,28 +182,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fa301257-7890-4469-bad5-e6d1a3438b55",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ChargeArrow",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fea4a9fd-76b5-4ee5-925d-9bf3dd589e2f",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "ChargeArrow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -446,6 +424,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "AirGlide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fa301257-7890-4469-bad5-e6d1a3438b55",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "BowCharge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fea4a9fd-76b5-4ee5-925d-9bf3dd589e2f",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "BowCharge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

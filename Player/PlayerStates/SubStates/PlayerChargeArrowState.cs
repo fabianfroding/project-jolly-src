@@ -13,7 +13,7 @@ public class PlayerChargeArrowState : PlayerAbilityState
         base.Enter();
         isCharging = true;
         startTime = Time.time;
-        player.InputHandler.UseChargeArrowInput();
+        player.InputHandler.UseChargeBowInput();
         player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, true);
     }
 
@@ -34,7 +34,7 @@ public class PlayerChargeArrowState : PlayerAbilityState
                 player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, true);
                 player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, player.InputHandler.NormInputY);
 
-                if (player.InputHandler.ChargeArrowInputRelease)
+                if (player.InputHandler.ChargeBowInputRelease)
                 {
                     player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, false);
                     isCharging = false;

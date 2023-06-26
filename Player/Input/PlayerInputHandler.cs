@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerInput playerInput;
+    private PlayerAbilityManager playerAbilityManager;
 
     public Vector2 RawMovementInput { get; private set; }
     public Vector2 RawDashDirectionInput { get; private set; }
@@ -16,13 +17,13 @@ public class PlayerInputHandler : MonoBehaviour
     public int NormInputY { get; private set; }
     public bool JumpInput { get; private set; }
     public bool JumpInputStop { get; private set; }
-    public bool ChargeArrowInput { get; private set; }
-    public bool ChargeArrowInputRelease { get; private set; }
+    public bool ChargeBowInput { get; private set; }
+    public bool ChargeBowInputRelease { get; private set; }
     public bool AttackInput { get; private set; }
     public bool DashInput { get; private set; }
     public bool DashInputStop { get; private set; }
-    public bool HoldAscendInput { get; private set; }
-    public bool HoldAscendInputStop { get; private set; }
+    public bool HoldWarpInput { get; private set; }
+    public bool HoldWarpInputStop { get; private set; }
     public bool ThunderInput { get; private set; }
     public bool AirGlideInput { get; private set; }
 
@@ -43,6 +44,16 @@ public class PlayerInputHandler : MonoBehaviour
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        if (!playerInput)
+        {
+            Debug.LogError("PlayerInputHandler:Awake: Failed to get PlayerInput component.");
+        }
+
+        playerAbilityManager = GetComponent<PlayerAbilityManager>();
+        if (!playerAbilityManager)
+        {
+            Debug.LogError("PlayerInputHandler:Awake: Failed to get PlayerAbilityManager component.");
+        }
     }
 
     private void Start()
@@ -61,7 +72,6 @@ public class PlayerInputHandler : MonoBehaviour
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         RawMovementInput = context.ReadValue<Vector2>();
-
         NormInputX = Mathf.RoundToInt(RawMovementInput.x); // > 0.5 => 1, < 0.5 = 0.
         NormInputY = Mathf.RoundToInt(RawMovementInput.y);
     }
@@ -94,32 +104,38 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    public void OnChargeArrowInput(InputAction.CallbackContext context)
+    public void OnChargeBowInput(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityConstants.PLAYER_ABILITY_BOW))
         {
-            ChargeArrowInput = true;
-            ChargeArrowInputRelease = false;
-        }
-        else if (context.canceled)
-        {
-            ChargeArrowInput = false;
-            ChargeArrowInputRelease = true;
+            if (context.started)
+            {
+                ChargeBowInput = true;
+                ChargeBowInputRelease = false;
+            }
+            else if (context.canceled)
+            {
+                ChargeBowInput = false;
+                ChargeBowInputRelease = true;
+            }
         }
     }
 
     public void OnDashInput(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityConstants.PLAYER_ABILITY_DASH))
         {
-            DashInput = true;
-            DashInputStop = false;
-            dashInputStartTime = Time.time;
-        }
-        else if (context.canceled)
-        {
-            DashInput = false;
-            DashInputStop = true;
+            if (context.started)
+            {
+                DashInput = true;
+                DashInputStop = false;
+                dashInputStartTime = Time.time;
+            }
+            else if (context.canceled)
+            {
+                DashInput = false;
+                DashInputStop = true;
+            }
         }
     }
 
@@ -129,17 +145,20 @@ public class PlayerInputHandler : MonoBehaviour
         DashDirectionInput = Vector2Int.RoundToInt(RawDashDirectionInput.normalized);
     }
 
-    public void OnAscendInput(InputAction.CallbackContext context)
+    public void OnWarpInput(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityConstants.PLAYER_ABILITY_WARP))
         {
-            HoldAscendInput = true;
-            HoldAscendInputStop = false;
-        }
-        else if (context.canceled)
-        {
-            HoldAscendInput = false;
-            HoldAscendInputStop = true;
+            if (context.started)
+            {
+                HoldWarpInput = true;
+                HoldWarpInputStop = false;
+            }
+            else if (context.canceled)
+            {
+                HoldWarpInput = false;
+                HoldWarpInputStop = true;
+            }
         }
     }
 
@@ -151,37 +170,43 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnThunderInput(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityConstants.PLAYER_ABILITY_THUNDER))
         {
-            ThunderInput = true;
-        }
-        if (context.canceled)
-        {
-            ThunderInput = false;
+            if (context.started)
+            {
+                ThunderInput = true;
+            }
+            if (context.canceled)
+            {
+                ThunderInput = false;
+            }
         }
     }
 
     public void OnAirGlideInput(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityConstants.PLAYER_ABILITY_AIR_GLIDE))
         {
-            AirGlideInput = true;
-        }
-        if (context.canceled)
-        {
-            AirGlideInput = false;
+            if (context.started)
+            {
+                AirGlideInput = true;
+            }
+            if (context.canceled)
+            {
+                AirGlideInput = false;
+            }
         }
     }
 
     public void UseJumpInput() => JumpInput = false;
 
-    public void UseChargeArrowInput() => ChargeArrowInput = false;
+    public void UseChargeBowInput() => ChargeBowInput = false;
 
     public void UseAttackInput() => AttackInput = false;
 
     public void UseDashInput() => DashInput = false;
 
-    public void UseHoldAscendInput() => HoldAscendInput = false;
+    public void UseHoldWarpInput() => HoldWarpInput = false;
 
     public void UseThunderInput() => ThunderInput = false;
 

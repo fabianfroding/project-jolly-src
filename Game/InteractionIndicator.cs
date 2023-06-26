@@ -10,6 +10,7 @@ public class InteractionIndicator : MonoBehaviour
 {
     [Tooltip("For Enter-type interaction indicators only. Set the field to the scene to load.")]
     [SerializeField] private string sceneToLoad;
+    [SerializeField] private GameObject fungusFlowChart;
 
     private SpriteRenderer spriteRenderer;
     private Animator animator;
@@ -42,6 +43,12 @@ public class InteractionIndicator : MonoBehaviour
         {
             playerInRange = true;
             spriteRenderer.enabled = true;
+
+            if (fungusFlowChart)
+            {
+                fungusFlowChart.SetActive(true);
+            }
+
             animator.Play("Show");
         }
     }
@@ -51,6 +58,12 @@ public class InteractionIndicator : MonoBehaviour
         if (other.gameObject.CompareTag(EditorConstants.TAG_PLAYER))
         {
             playerInRange = false;
+
+            if (fungusFlowChart)
+            {
+                fungusFlowChart.SetActive(false);
+            }
+
             animator.Play("Hide");
         }
     }

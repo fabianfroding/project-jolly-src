@@ -29,7 +29,7 @@ public class PlayerHoldAscendState : PlayerAbilityState
 
         isHolding = true;
         ascendHit = false;
-        player.InputHandler.UseHoldAscendInput();
+        player.InputHandler.UseHoldWarpInput();
         player.Animator.SetBool(AnimationConstants.ANIM_PARAM_HOLD_ASCEND, true);
     }
 
@@ -68,7 +68,7 @@ public class PlayerHoldAscendState : PlayerAbilityState
                     lineRenderer.SetPosition(1, player.transform.position + direction * playerStateData.ascendRayDistance);
                 }
 
-                if (player.InputHandler.HoldAscendInputStop)
+                if (player.InputHandler.HoldWarpInputStop)
                 {
                     lineRenderer.enabled = false;
                     isHolding = false;
