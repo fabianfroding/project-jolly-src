@@ -26,7 +26,7 @@ public class Pickup_Powerup : Pickup
 
     protected override void GetPickup()
     {
-        InstantiateOnPickupSound();
+        base.GetPickup();
         GameObject sfxObtaining = Instantiate(sfxObtainingPrefab);
         sfxObtaining.transform.position = player.transform.position;
         sfxObtaining.transform.parent = player.transform;

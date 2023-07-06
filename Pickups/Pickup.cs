@@ -12,7 +12,7 @@ public class Pickup : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         if (PickupRepository.GetHasBeenPickedUp(name))
         {
