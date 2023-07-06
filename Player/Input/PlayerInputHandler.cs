@@ -106,7 +106,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnChargeBowInput(InputAction.CallbackContext context)
     {
-        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityConstants.PLAYER_ABILITY_BOW))
+        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.Bow))
         {
             if (context.started)
             {
@@ -123,7 +123,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnDashInput(InputAction.CallbackContext context)
     {
-        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityConstants.PLAYER_ABILITY_DASH))
+        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.Dash))
         {
             if (context.started)
             {
@@ -147,7 +147,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnWarpInput(InputAction.CallbackContext context)
     {
-        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityConstants.PLAYER_ABILITY_WARP))
+        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.Warp))
         {
             if (context.started)
             {
@@ -170,7 +170,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnThunderInput(InputAction.CallbackContext context)
     {
-        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityConstants.PLAYER_ABILITY_THUNDER))
+        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.Thunder))
         {
             if (context.started)
             {
@@ -185,7 +185,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnAirGlideInput(InputAction.CallbackContext context)
     {
-        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityConstants.PLAYER_ABILITY_AIR_GLIDE))
+        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.AirGlide))
         {
             if (context.started)
             {

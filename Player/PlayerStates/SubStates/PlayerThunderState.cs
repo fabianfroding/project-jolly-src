@@ -29,7 +29,7 @@ public class PlayerThunderState : PlayerAbilityState
             lineRenderer.material.color = Color.cyan;
             lineRenderer.enabled = true;
             RaycastHit2D hit = Physics2D.Raycast(lineRenderer.GetPosition(0), Vector2.down, playerStateData.thunderHeight, playerStateData.groundLayer);
-            if (hit.collider)
+            if (hit.collider && !hit.collider.CompareTag(EditorConstants.TAG_WALKABLE_CLOUD))
             {
                 lineRenderer.SetPosition(1, hit.point);
             }

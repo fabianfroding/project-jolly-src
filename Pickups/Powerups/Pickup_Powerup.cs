@@ -9,7 +9,7 @@ public class Pickup_Powerup : Pickup
     [SerializeField] private GameObject sfxObtainingPrefab;
     [Tooltip("The particle system prefab that is spawned when the player finishes obtaining the powerup.")]
     [SerializeField] private GameObject sfxObtainedPrefab;
-    [SerializeField] private List<string> abilitiesUnlocked;
+    [SerializeField] private List<PlayerAbilityManager.PlayerAbility> abilitiesGained;
 
     public static event Action<string> OnPickupPowerup;
 
@@ -47,9 +47,9 @@ public class Pickup_Powerup : Pickup
             PlayerAbilityManager playerAbilityManager = player.GetComponent<PlayerAbilityManager>();
             if (playerAbilityManager)
             {
-                foreach (string abilityUnlocked in abilitiesUnlocked)
+                foreach (PlayerAbilityManager.PlayerAbility playerAbility in abilitiesGained)
                 {
-                    playerAbilityManager.EnableAbility(abilityUnlocked);
+                    playerAbilityManager.EnableAbility(playerAbility);
                 }
             }
         }

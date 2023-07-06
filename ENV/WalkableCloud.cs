@@ -42,12 +42,15 @@ public class WalkableCloud : MonoBehaviour
     {
         if (collision.CompareTag(EditorConstants.TAG_PLAYER) && spriteRenderer.enabled)
         {
-            // TODO: Add check if player has cloud-walk ability.
+            PlayerAbilityManager playerAbilityManager = collision.GetComponent<PlayerAbilityManager>();
+            if (!playerAbilityManager) { return; }
+            if (!playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.CloudWalk))  { return; }
 
             Rigidbody2D rigidbody2D = collision.GetComponent<Rigidbody2D>();
             if (!rigidbody2D) { return; }
             if (rigidbody2D.velocity.y >= 0) { return; }
 
+            gameObject.layer = LayerMask.NameToLayer(EditorConstants.LAYER_GROUND);
             boxCollider2D.isTrigger = false;
             StartCoroutine(Break());
         }

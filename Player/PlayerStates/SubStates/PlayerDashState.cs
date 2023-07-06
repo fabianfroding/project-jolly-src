@@ -39,6 +39,10 @@ public class PlayerDashState : PlayerAbilityState
         {
             Movement.SetVelocityY(Movement.CurrentVelocity.y * playerStateData.dashEndYMultiplier);
         }
+
+        Movement.SetDrag(0f);
+        isAbilityDone = true;
+        lastDashTime = Time.time;
     }
 
     public override void LogicUpdate()

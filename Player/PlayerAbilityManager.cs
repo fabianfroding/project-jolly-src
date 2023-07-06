@@ -3,6 +3,17 @@ using UnityEngine;
 
 public class PlayerAbilityManager : MonoBehaviour
 {
+    public enum PlayerAbility
+    {
+        AirGlide,
+        Bow,
+        CloudWalk,
+        Dash,
+        DoubleJump,
+        Thunder,
+        Warp
+    }
+
     public List<string> enabledAbilities;
 
     private void Start()
@@ -17,20 +28,20 @@ public class PlayerAbilityManager : MonoBehaviour
         }
     }
 
-    public void EnableAbility(string abilityName)
+    public void EnableAbility(PlayerAbility playerAbility)
     {
-        enabledAbilities.Add(abilityName);
+        enabledAbilities.Add(playerAbility.ToString());
         PlayerRepository.SaveEnabledAbilities(enabledAbilities);
     }
 
-    public void DisableAbility(string abilityName)
+    public void DisableAbility(PlayerAbility playerAbility)
     {
-        enabledAbilities.Remove(abilityName);
+        enabledAbilities.Remove(playerAbility.ToString());
         PlayerRepository.SaveEnabledAbilities(enabledAbilities);
     }
 
-    public bool IsAbilityEnabled(string abilityName)
+    public bool IsAbilityEnabled(PlayerAbility playerAbility)
     {
-        return enabledAbilities.Contains(abilityName);
+        return enabledAbilities.Contains(playerAbility.ToString());
     }
 }
