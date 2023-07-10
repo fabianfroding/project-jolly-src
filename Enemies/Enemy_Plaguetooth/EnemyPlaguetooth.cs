@@ -47,9 +47,9 @@ public class EnemyPlaguetooth : Enemy
     // No need to call base.Parried() since it does nothing in Enemy.cs.
     public override void Parried() => StateMachine.ChangeState(StunState);
 
-    protected override bool CanBeParried(GameObject source, GameObject damagingObject)
+    protected override bool CanBeParried(Types.DamageData damageData)
     {
-        if (base.CanBeParried(source, damagingObject))
+        if (base.CanBeParried(damageData))
         {
             StateMachine.ChangeState(StunState);
             return true;

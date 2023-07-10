@@ -68,13 +68,13 @@ public class RevivePoint : MonoBehaviour, IDamageable
     #endregion
 
     #region Other Functions
-    public void TakeDamage(GameObject source, Damage damage, GameObject damagingObject = null)
+    public void TakeDamage(Types.DamageData damageData)
     {
         GameObject hitSound = Instantiate(hitSoundPrefab);
         hitSound.transform.position = new Vector2(transform.position.x, transform.position.y);
         hitSound.transform.parent = null;
 
-        Stats stats = source.GetComponent<Player>().Core.GetCoreComponent<Stats>();
+        Stats stats = damageData.source.GetComponent<Player>().Core.GetCoreComponent<Stats>();
         stats.IncreaseHealth(stats.GetMaxHealth());
 
         OnRevivePointSave?.Invoke();
@@ -90,7 +90,9 @@ public class RevivePoint : MonoBehaviour, IDamageable
             !damagingObject.IsProjectile() &&
             damagingObject.Source.CompareTag(EditorConstants.TAG_PLAYER))
         {
-            TakeDamage(damagingObject.Source, damagingObject.GetDamage(), damagingObject.gameObject);
+            Types.DamageData damageData = damagingObject.GetDamageData();
+            damageData.source = damagingObject.Source;
+            TakeDamage(damageData);
         }
     }
 

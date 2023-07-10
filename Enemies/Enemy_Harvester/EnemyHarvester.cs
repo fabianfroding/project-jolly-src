@@ -51,9 +51,9 @@ public class EnemyHarvester : Enemy
         Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.attackRadius);
     }
 
-    public override void TakeDamage(GameObject source, Damage dmg, GameObject dmgObject = null)
+    public override void TakeDamage(Types.DamageData damageData)
     {
-        base.TakeDamage(source, dmg, dmgObject);
+        base.TakeDamage(damageData);
         if (Combat.IsStunned && StateMachine.currentState != StunState)
         {
             StateMachine.ChangeState(StunState);

@@ -11,6 +11,7 @@ public class PlayerAbilityManager : MonoBehaviour
         Dash,
         DoubleJump,
         Thunder,
+        WallJump,
         Warp
     }
 

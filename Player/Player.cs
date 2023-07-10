@@ -39,7 +39,7 @@ public class Player : Entity
     [SerializeField] private float invulnerabilityDuration = 1.5f;
     [SerializeField] private Player_StateData playerStateData;
     [SerializeField] private Transform fireArrowSpawnTransform;
-    [SerializeField] private Damage enemyCollisionDamage;
+    [SerializeField] private Types.DamageData enemyCollisionDamage;
     #endregion
 
     #region Events
@@ -101,7 +101,9 @@ public class Player : Entity
     {
         if (collision.gameObject.CompareTag(EditorConstants.TAG_ENEMY))
         {
-            TakeDamage(collision.gameObject, enemyCollisionDamage);
+            enemyCollisionDamage.source = collision.gameObject;
+            enemyCollisionDamage.target = gameObject;
+            TakeDamage(enemyCollisionDamage);
             Combat.Knockback(enemyCollisionDamage.knockbackAngle, enemyCollisionDamage.knockbackStrength, Movement.FacingDirection);
         }
     }
@@ -116,11 +118,11 @@ public class Player : Entity
     #endregion
 
     #region Other Functions
-    public override void TakeDamage(GameObject source, Damage damage, GameObject damagingObject = null)
+    public override void TakeDamage(Types.DamageData damageData)
     {
         if (!Invulnerable)
         {
-            base.TakeDamage(source, damage, damagingObject);
+            base.TakeDamage(damageData);
 
             if (Stats.currentHealth > 0)
             {
@@ -129,7 +131,7 @@ public class Player : Entity
                 timestop.StopTime(0.05f, 10, 0.1f);
 
                 // Check so that player is not dead to avoid respawning when reviving.
-                if (damage.damageType == Damage.DAMAGE_TYPE.ENVIRONMENT)
+                if (damageData.damageType == Types.DamageType.ENVIRONMENT)
                 {
                     if (StateMachine.CurrentState != DyingState && StateMachine.CurrentState != DeadState)
                     {
@@ -140,7 +142,7 @@ public class Player : Entity
                 {
                     if (StateMachine.CurrentState != DyingState && StateMachine.CurrentState != DeadState)
                     {
-                        Vector2 dir = TrigonometryUtils.GetDirectionFromAngle(TrigonometryUtils.GetAngleBetweenObjects(source, gameObject));
+                        Vector2 dir = TrigonometryUtils.GetDirectionFromAngle(TrigonometryUtils.GetAngleBetweenObjects(damageData.source, gameObject));
                         Combat.Knockback(Vector2.zero, 0f, dir.x < 0f ? -1 : 1);
                     } 
                 }
@@ -149,6 +151,9 @@ public class Player : Entity
                 {
                     invulnerabilityIndication.StartFlash();
                 }
+
+                StatsPlayer playerStats = (StatsPlayer)stats;
+                playerStats.IncreaseMana(playerStats.GetManaRegenPerDamageTaken());
 
                 StopCoroutine(ResetInvulnerability());
                 StartCoroutine(ResetInvulnerability());

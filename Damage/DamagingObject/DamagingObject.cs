@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DamagingObject : MonoBehaviour
 {
-    [SerializeField] protected Damage damage;
+    [SerializeField] protected Types.DamageData damageData;
 
     [Tooltip("Determines how long before the object should die if not hitting anything.")]
     [SerializeField] protected float lifetime = 0.15f;
@@ -46,9 +46,10 @@ public class DamagingObject : MonoBehaviour
     #endregion
 
     #region Other Functions
-    public Damage GetDamage() => damage;
+    public Types.DamageData GetDamageData() => damageData;
     public float GetLifetime() => lifetime;
     public void SetSource(GameObject source) => Source = source;
+    public void SetDamageData(Types.DamageData newDamageData) => damageData = newDamageData;
     public bool IsProjectile() => GetType() == typeof(Projectile);
 
     protected virtual void ProcessCollision(GameObject other)
@@ -64,7 +65,17 @@ public class DamagingObject : MonoBehaviour
             Entity entity = other.GetComponent<Entity>();
             if (entity != null)
             {
-                entity.TakeDamage(Source, damage, gameObject);
+                damageData.source = Source;
+                damageData.target = other;
+                entity.TakeDamage(damageData);
+            }
+
+            IDamageable damageable = other.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageData.source = Source;
+                damageData.target = other;
+                damageable.TakeDamage(damageData);
             }
 
             StopCoroutine(DestroySelf(0f));

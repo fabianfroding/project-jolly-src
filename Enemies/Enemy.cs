@@ -158,16 +158,16 @@ public class Enemy : Entity, IParriable
     #endregion
 
     #region Other Functions
-    public override void TakeDamage(GameObject source, Damage damage, GameObject damagingObject = null)
+    public override void TakeDamage(Types.DamageData damageData)
     {
-        if (CanBeParried(source, damagingObject)) return;
+        if (CanBeParried(damageData)) return;
 
-        base.TakeDamage(source, damage, damagingObject);
+        base.TakeDamage(damageData);
 
         // Check if attack came from the right (-1) or left (1).
-        LastDamageDirection = damage.direction.x > transform.position.x ? -1 : 1;
+        LastDamageDirection = damageData.direction.x > transform.position.x ? -1 : 1;
 
-        Combat.ApplyStunDamage(damage.stunDamageAmount);
+        Combat.ApplyStunDamage(damageData.stunDamageAmount);
         //DamageHop(enemyData.damageHopSpeed); // Enable if we want enemies to "hop" slightly when damaged.
     }
 
@@ -187,22 +187,8 @@ public class Enemy : Entity, IParriable
         Target = null;
     }
 
-    protected virtual bool CanBeParried(GameObject source, GameObject damagingObject) 
+    protected virtual bool CanBeParried(Types.DamageData damageData) 
     {
-        if (!damagingObject)
-            return false;
-
-        Entity entity = source.GetComponent<Entity>();
-        if (entity != null)
-        {
-            DamagingObject dmgObject = damagingObject.GetComponent<DamagingObject>();
-            if (dmgObject != null && !dmgObject.IsProjectile())
-            {
-                if (entity.Core.GetCoreComponent<Movement>().FacingDirection != Movement.FacingDirection)
-                    return Combat.CanBeParried();
-            }
-            return false;
-        }
         return Combat.CanBeParried();
     }
 

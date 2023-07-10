@@ -37,7 +37,10 @@ public class MeleeAttackState : AttackState
             IDamageable damageable = collider.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(enemy.gameObject, stateData.damage);
+                Types.DamageData damageData = stateData.damageData;
+                damageData.source = enemy.gameObject;
+                damageData.target = collider.gameObject;
+                damageable.TakeDamage(damageData);
             }
         }
     }

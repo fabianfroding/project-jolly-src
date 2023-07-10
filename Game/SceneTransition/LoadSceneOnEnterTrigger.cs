@@ -7,14 +7,14 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
     [Tooltip("Name of the scene to load.")]
     [SerializeField] private string sceneToLoad;
 
-    [Tooltip("Name of the game object where the player should spawn in the loaded scene.")]
-    [SerializeField] private string spawnPointName;
+    [Tooltip("The point which the player should spawn in the loaded scene.")]
+    [SerializeField] private Types.SceneTransitionPoint sceneTransitionSpawnPoint;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (sceneToLoad == null || sceneToLoad == "" || spawnPointName == null || spawnPointName == "")
+        if (sceneToLoad == null || sceneToLoad == "")
         {
-            Debug.Log(gameObject.name + " is missing SceneToLoad or SpawnPointName.");
+            Debug.Log(gameObject.name + " is missing SceneToLoad.");
             return;
         }
 
@@ -50,7 +50,7 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
             SceneTransitionDataHolder.playerMaxHealth = player.Core.GetCoreComponent<Stats>().GetMaxHealth();
             SceneTransitionDataHolder.playerFacingDirection = player.Core.GetCoreComponent<Movement>().FacingDirection;
         }
-        SceneTransitionDataHolder.loadSceneSpawnPointName = spawnPointName;
+        SceneTransitionDataHolder.spawnPoint = sceneTransitionSpawnPoint;
     }
 
     private void LoadScene(string sceneToLoad) => SceneManager.LoadScene(sceneToLoad);

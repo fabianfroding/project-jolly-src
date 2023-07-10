@@ -37,7 +37,7 @@ public class PlayerAscendState : PlayerAbilityState
     {
         base.LogicUpdate();
 
-        player.transform.position = player.transform.position + direction * (isAscending ? 0.08f : 0.15f);
+        player.transform.position = player.transform.position + direction * (isAscending ? playerStateData.warpInGroundSpeed : playerStateData.warpInAirSpeed);
         bool collisionSensesDirectionCheck = false;
         if (direction == Vector3.up)
         {

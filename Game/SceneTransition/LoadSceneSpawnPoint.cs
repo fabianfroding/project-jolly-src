@@ -4,6 +4,10 @@ using UnityEngine;
 public class LoadSceneSpawnPoint : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
+
+    [Tooltip("The point at which the player spawns from the previous scene.")]
+    [SerializeField] private Types.SceneTransitionPoint sceneTransitionSpawnPoint;
+
     public static event Action OnPlayerEnterScene;
     private GameObject newPlayer;
 
@@ -24,7 +28,7 @@ public class LoadSceneSpawnPoint : MonoBehaviour
         {
             // Load player data in Start to ensure it overrides potential values set in Awake in Stats.
             LoadSceneTransitionData(newPlayer.GetComponent<Player>());
-            SceneTransitionDataHolder.loadSceneSpawnPointName = null;
+            sceneTransitionSpawnPoint = Types.SceneTransitionPoint.NONE;
 
             ScreenFade screenFade = FindObjectOfType<ScreenFade>();
             if (screenFade != null)
@@ -44,8 +48,8 @@ public class LoadSceneSpawnPoint : MonoBehaviour
 
     private bool ShouldLoad()
     {
-        return SceneTransitionDataHolder.loadSceneSpawnPointName != null &&
-            name == SceneTransitionDataHolder.loadSceneSpawnPointName;
+        return sceneTransitionSpawnPoint != Types.SceneTransitionPoint.NONE &&
+            sceneTransitionSpawnPoint == SceneTransitionDataHolder.spawnPoint;
     }
 
     private void LoadSceneTransitionData(Player player)

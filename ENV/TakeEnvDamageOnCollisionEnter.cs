@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class TakeEnvDamageOnCollisionEnter : MonoBehaviour
 {
-    [SerializeField] private Damage damage;
+    [SerializeField] private Types.DamageData damageData;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Entity damagedEntity = collision.gameObject.GetComponent<Entity>();
         if (damagedEntity != null)
         {
-            damagedEntity.TakeDamage(gameObject, damage);
+            damagedEntity.TakeDamage(damageData);
         }
     }
 }

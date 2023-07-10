@@ -1,6 +1,7 @@
 ﻿public static class EditorConstants
 {
     //==================== LAYERS ====================//
+    public static readonly string LAYER_BREAKABLE = "Breakable";
     public static readonly string LAYER_ENEMY = "Enemy";
     public static readonly string LAYER_GROUND = "Ground";
     public static readonly string LAYER_NPC = "NPC";

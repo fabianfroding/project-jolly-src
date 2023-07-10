@@ -26,8 +26,16 @@ public class PlayerInAirState : PlayerState
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
+    private PlayerAbilityManager playerAbilityManager;
+
     public PlayerInAirState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
+
+    public override void Enter()
+    {
+        base.Enter();
+        playerAbilityManager = player.gameObject.GetComponent<PlayerAbilityManager>();
+    }
 
     public override void DoChecks()
     {
@@ -75,7 +83,8 @@ public class PlayerInAirState : PlayerState
             stateMachine.ChangeState(player.LandState);
         }
         // wall jumping
-        else if (jumpInput && (isTouchingWall || isTouchingWallBack || wallJumpCoyoteTime))
+        else if (jumpInput && (isTouchingWall || isTouchingWallBack || wallJumpCoyoteTime) &&
+            playerAbilityManager && playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.WallJump))
         {
             StopWallJumpCoyoteTime();
             isTouchingWall = CollisionSenses.WallFront;
@@ -86,7 +95,8 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.JumpState);
         }
-        else if (isTouchingWall && xInput == Movement.FacingDirection && Movement.CurrentVelocity.y <= 0)
+        else if (isTouchingWall && xInput == Movement.FacingDirection && Movement.CurrentVelocity.y <= 0 &&
+            playerAbilityManager && playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.WallJump))
         {
             stateMachine.ChangeState(player.WallSlideState);
         }

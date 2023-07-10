@@ -41,20 +41,20 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 
     public override void LogicUpdate() => CheckKnockback();
 
-    public void TakeDamage(GameObject source, Damage damage, GameObject damagingObject = null)
+    public void TakeDamage(Types.DamageData damageData)
     {
         if (Stats.currentHealth > 0)
         {
-            Stats.DecreaseHealth(damage.damageAmount);
-            InstantiateTakeDamageVisuals(damage);
-            ApplyKnockback(source, damage, damagingObject);
+            Stats.DecreaseHealth(damageData.damageAmount);
+            InstantiateTakeDamageVisuals(damageData);
+            ApplyKnockback(damageData);
             //Debug.Log(gameObject.name + " took " + damage.amount + " damage from " + source.name);
         }
     }
 
-    protected void InstantiateTakeDamageVisuals(Damage damage)
+    protected void InstantiateTakeDamageVisuals(Types.DamageData damageData)
     {
-        if (takeDmgSoundPrefab != null && damage.damageRange != Damage.DAMAGE_RANGE.RANGED)
+        if (takeDmgSoundPrefab != null && !damageData.ranged)
         {
             GameObject takeDmgSound = Instantiate(takeDmgSoundPrefab, transform.position, Quaternion.identity);
             Destroy(takeDmgSound, takeDmgSound.GetComponent<AudioSource>() != null ? takeDmgSound.GetComponent<AudioSource>().clip.length : 0f);
@@ -75,26 +75,28 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         return enemy != null && enemy.enemyData.isFlying;
     }
 
-    protected void ApplyKnockback(GameObject source, Damage damage, GameObject sourceObject)
+    protected void ApplyKnockback(Types.DamageData damageData)
     {
-        if (sourceObject != null)
+        if (damageData.knockbackStrength <= 0f) { return; }
+
+        if (damageData.source != null)
         {
-            DamagingObject damagingObject = sourceObject.GetComponent<DamagingObject>();
-            if (damagingObject.IsProjectile())
+            DamagingObject damagingObject = damageData.source.GetComponent<DamagingObject>();
+            if (damageData.ranged)
             {
                 Vector2 dir = TrigonometryUtils.GetDirectionBetweenPositions(damagingObject.transform, transform);
-                Knockback(damage.knockbackAngle, damage.knockbackStrength, dir.x >= 0 ? 1 : -1);
+                Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
             }
             else
             {
-                Vector2 dir = TrigonometryUtils.GetDirectionBetweenPositions(source.transform, transform);
-                Knockback(damage.knockbackAngle, damage.knockbackStrength, dir.x >= 0 ? 1 : -1);
+                Vector2 dir = TrigonometryUtils.GetDirectionBetweenPositions(damageData.source.transform, transform);
+                Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
             }
         }
         else
         {
-            Vector2 dir = TrigonometryUtils.GetDirectionBetweenPositions(source.transform, transform);
-            Knockback(damage.knockbackAngle, damage.knockbackStrength, dir.x >= 0 ? 1 : -1);
+            Vector2 dir = TrigonometryUtils.GetDirectionBetweenPositions(damageData.source.transform, transform);
+            Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
         }
     }
 

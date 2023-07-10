@@ -14,6 +14,8 @@ public class Stats : CoreComponent
         currentHealth = maxHealth;
     }
 
+    public virtual void OnDealtDamage() {}
+
     public virtual void DecreaseHealth(int amount)
     {
         currentHealth -= amount;

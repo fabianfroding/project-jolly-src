@@ -31,14 +31,14 @@ public class EnemyMasterHarvester : Enemy
         //SetTarget(triggeringObject);
     }
 
-    public override void TakeDamage(GameObject source, Damage dmg, GameObject dmgObject = null)
+    public override void TakeDamage(Types.DamageData damageData)
     {
         if (/*CanSeePlayer() &&*/
             /*!dmg.isAoE && */
-            dmg.damageType != Damage.DAMAGE_TYPE.MAGICAL &&
+            damageData.damageType != Types.DamageType.MAGICAL &&
             !darkSpheres.IsActive())
         {
-            if (dodge.StartDodge(source))
+            if (dodge.StartDodge(damageData.source))
             {
                 GameObject laughSound = Instantiate(laughSoundPrefab, transform.position, Quaternion.identity);
                 Destroy(laughSound, laughSound.GetComponent<AudioSource>().clip.length);
@@ -52,7 +52,7 @@ public class EnemyMasterHarvester : Enemy
                 GameObject hitSoundExtra = Instantiate(hitSoundExtraPrefab, transform.position, Quaternion.identity);
                 Destroy(hitSoundExtra, hitSoundExtra.GetComponent<AudioSource>().clip.length);
             }
-            base.TakeDamage(source, dmg);
+            base.TakeDamage(damageData);
             damageCount++;
             if (damageCount > 2)
             {

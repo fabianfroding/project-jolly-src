@@ -69,11 +69,16 @@ public class PlayerFireArrowState : PlayerAbilityState
         }
 
         GameObject arrow = GameObject.Instantiate(playerStateData.arrowPrefab, spawnPos, Quaternion.identity);
+        Projectile projectile = arrow.GetComponent<Projectile>();
+
+        Types.DamageData damageData = projectile.GetDamageData();
+        damageData.source = player.gameObject;
+        projectile.SetDamageData(damageData);
 
         if (verticalInput != 0)
         {
-            arrow.GetComponent<Projectile>().SetRotation(new Vector3(0, 0, 90));
+            projectile.SetRotation(new Vector3(0, 0, 90));
         }
-        arrow.GetComponent<Projectile>().Init(player.gameObject, inputDir);
+        projectile.Init(player.gameObject, inputDir);
     }
 }

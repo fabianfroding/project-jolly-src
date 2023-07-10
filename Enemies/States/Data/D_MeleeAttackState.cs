@@ -4,7 +4,7 @@ using UnityEngine;
 public class D_MeleeAttackState : ScriptableObject
 {
     public float attackRadius = 0.5f;
-    public Damage damage;
+    public Types.DamageData damageData;
     public Vector2 knockbackAngle = Vector2.one;
     public float knockbackStrength = 5f;
 

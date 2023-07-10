@@ -61,6 +61,8 @@ public class Player_StateData : ScriptableObject
     [Header("Warp State")]
     public float ascendRayDistance = 20f;
     public float ascendDiveInRayDistance = 5f;
+    public float warpInAirSpeed = 0.14f;
+    public float warpInGroundSpeed = 0.07f;
     public GameObject ascendDiveInVFX;
     public GameObject ascendEmergeVFX;
     public GameObject ascendDiveInSFX;
@@ -72,7 +74,7 @@ public class Player_StateData : ScriptableObject
     public float thunderDelay = 0.25f;
     public float thunderRadius = 7f;
     public float thunderCooldown = 1f;
-    public Damage thunderDamage;
+    public Types.DamageData thunderDamage;
     public GameObject thunderSFX;
     public GameObject thunderVFX;
 

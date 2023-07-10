@@ -39,15 +39,25 @@ public class Entity : MonoBehaviour
     #endregion
 
     #region Other Functions
-    public virtual void TakeDamage(GameObject source, Damage damage, GameObject damagingObject = null)
+    public virtual void TakeDamage(Types.DamageData damageData)
     {
         if (Stats.currentHealth > 0)
         {
             StartCoroutine(FlashWhiteMaterial(0.1f));
-            Combat.TakeDamage(source, damage, damagingObject);
+            Combat.TakeDamage(damageData);
             if (stats.currentHealth <= 0)
             {
                 Death();
+                return;
+            }
+
+            if (damageData.source.CompareTag(EditorConstants.TAG_PLAYER) && !gameObject.CompareTag(EditorConstants.TAG_PLAYER))
+            {
+                Entity entity = damageData.source.GetComponent<Entity>();
+                if (entity)
+                {
+                    entity.Stats.OnDealtDamage();
+                }
             }
         }
     }

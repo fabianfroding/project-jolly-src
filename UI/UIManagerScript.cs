@@ -7,6 +7,7 @@ public class UIManagerScript : MonoBehaviour
     [SerializeField] private GameObject uiInGameMenusPrefab;
     [SerializeField] private GameObject uiNPCNotebookNewEntryPrefab;
     [SerializeField] private GameObject uiPlayerHealthPrefab;
+    [SerializeField] private GameObject uiPlayerManaPrefab;
     [SerializeField] private GameObject uiPowerupObtainedPrefab;
     [SerializeField] private GameObject uiSaveGamePrefab;
 
@@ -35,6 +36,8 @@ public class UIManagerScript : MonoBehaviour
 
         GameObject uiPlayerHealth = Instantiate(uiPlayerHealthPrefab);
         uiPlayerHealth.transform.SetParent(transform);
+        GameObject uiPlayerMana = Instantiate(uiPlayerManaPrefab);
+        uiPlayerMana.transform.SetParent(transform);
     }
 
     private void OnDestroy()

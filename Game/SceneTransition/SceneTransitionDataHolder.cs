@@ -6,5 +6,5 @@ public class SceneTransitionDataHolder
     public static int playerMaxHealth;
     public static int playerFacingDirection;
 
-    public static string loadSceneSpawnPointName;
+    public static Types.SceneTransitionPoint spawnPoint = Types.SceneTransitionPoint.NONE;
 }
