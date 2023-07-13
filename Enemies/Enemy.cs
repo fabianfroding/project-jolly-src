@@ -158,7 +158,7 @@ public class Enemy : Entity, IParriable
     #endregion
 
     #region Other Functions
-    public override void TakeDamage(Types.DamageData damageData)
+    /*public override void TakeDamage(Types.DamageData damageData)
     {
         if (CanBeParried(damageData)) return;
 
@@ -169,7 +169,7 @@ public class Enemy : Entity, IParriable
 
         Combat.ApplyStunDamage(damageData.stunDamageAmount);
         //DamageHop(enemyData.damageHopSpeed); // Enable if we want enemies to "hop" slightly when damaged.
-    }
+    }*/
 
     protected override void Death()
     {

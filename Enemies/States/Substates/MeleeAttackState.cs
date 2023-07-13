@@ -30,7 +30,7 @@ public class MeleeAttackState : AttackState
         Combat.IsInTriggeredParriedAnimationFrames = false;
 
         // Check if player is within circle.
-        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackPosition.position, stateData.attackRadius, stateData.playerLayer);
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackPosition.position, stateData.damageData.damageRadius);
 
         foreach (Collider2D collider in detectedObjects)
         {

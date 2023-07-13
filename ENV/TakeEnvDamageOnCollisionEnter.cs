@@ -9,7 +9,7 @@ public class TakeEnvDamageOnCollisionEnter : MonoBehaviour
         Entity damagedEntity = collision.gameObject.GetComponent<Entity>();
         if (damagedEntity != null)
         {
-            damagedEntity.TakeDamage(damageData);
+            //damagedEntity.TakeDamage(damageData);
         }
     }
 }

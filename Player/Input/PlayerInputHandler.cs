@@ -237,6 +237,15 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+    public void OnToggleDebugMenu(InputAction.CallbackContext context)
+    {
+        if (context.started && AllowInGameMenusToggle())
+        {
+            TogglePlayerLockedState();
+            UIManagerScript.Instance.ToggleDebugMenu();
+        }
+    }
+
     public void OnInGameMenuSelect(InputAction.CallbackContext context)
     {
         if (context.started && InGameMenuManager.Instance != null)

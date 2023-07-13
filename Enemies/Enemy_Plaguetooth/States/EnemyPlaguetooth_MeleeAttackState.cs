@@ -4,7 +4,8 @@ public class EnemyPlaguetooth_MeleeAttackState : MeleeAttackState
 {
     private EnemyPlaguetooth plaguetooth;
     
-    public EnemyPlaguetooth_MeleeAttackState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_MeleeAttackState stateData, EnemyPlaguetooth plaguetooth) : base(enemy, stateMachine, animBoolName, attackPosition, stateData)
+    public EnemyPlaguetooth_MeleeAttackState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_MeleeAttackState stateData, EnemyPlaguetooth plaguetooth) 
+        : base(enemy, stateMachine, animBoolName, attackPosition, stateData)
     {
         this.plaguetooth = plaguetooth;
         this.stateData = stateData;
@@ -32,7 +33,6 @@ public class EnemyPlaguetooth_MeleeAttackState : MeleeAttackState
         base.TriggerAttack();
         CreateSlash();
     }
-
 
     private void CreateSlash()
     {

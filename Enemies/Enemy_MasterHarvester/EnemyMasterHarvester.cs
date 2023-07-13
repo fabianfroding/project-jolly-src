@@ -31,10 +31,10 @@ public class EnemyMasterHarvester : Enemy
         //SetTarget(triggeringObject);
     }
 
-    public override void TakeDamage(Types.DamageData damageData)
+    /*public override void TakeDamage(Types.DamageData damageData)
     {
-        if (/*CanSeePlayer() &&*/
-            /*!dmg.isAoE && */
+        if (/*CanSeePlayer() &&
+            /*!dmg.isAoE && 
             damageData.damageType != Types.DamageType.MAGICAL &&
             !darkSpheres.IsActive())
         {
@@ -60,7 +60,7 @@ public class EnemyMasterHarvester : Enemy
                 damageCount = 0;
             } 
         }
-    }
+    }*/
 
     public AbilityDarkSpheres GetDarkSpheresAbility()
     {

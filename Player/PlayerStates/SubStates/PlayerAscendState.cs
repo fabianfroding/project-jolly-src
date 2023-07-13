@@ -7,6 +7,7 @@ public class PlayerAscendState : PlayerAbilityState
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rigidBody2D;
     private Vector3 direction = Vector3.up;
+    private GameObject warpActiveSFX;
 
     public PlayerAscendState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
@@ -31,6 +32,15 @@ public class PlayerAscendState : PlayerAbilityState
 
         isAscending = false;
         player.Animator.SetBool(AnimationConstants.ANIM_PARAM_ASCEND, true);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        if (warpActiveSFX)
+        {
+            GameObject.Destroy(warpActiveSFX);
+        }
     }
 
     public override void LogicUpdate()
@@ -60,6 +70,9 @@ public class PlayerAscendState : PlayerAbilityState
 
             tempGO = GameObject.Instantiate(playerStateData.ascendDiveInSFX);
             tempGO.transform.position = player.transform.position;
+
+            warpActiveSFX = GameObject.Instantiate(playerStateData.warpActiveSFX);
+            warpActiveSFX.transform.SetParent(player.transform);
         }
 
         if (isAscending)

@@ -67,6 +67,7 @@ public class Player_StateData : ScriptableObject
     public GameObject ascendEmergeVFX;
     public GameObject ascendDiveInSFX;
     public GameObject ascendEmergeSFX;
+    public GameObject warpActiveSFX;
     public GameObject warpCeilingCheck;
 
     [Header("Thunder State")]

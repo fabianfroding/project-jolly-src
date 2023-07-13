@@ -12,6 +12,7 @@ public class PlayerChargeArrowState : PlayerAbilityState
     {
         base.Enter();
         isCharging = true;
+        player.hasCatchedBoomerang = false;
         startTime = Time.time;
         player.InputHandler.UseChargeBowInput();
         player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, true);
@@ -52,6 +53,7 @@ public class PlayerChargeArrowState : PlayerAbilityState
 
     public bool CheckIfCanChargeArrow()
     {
-        return Time.time < playerStateData.chargeArrowCooldown || Time.time >= lastChargeArrowTime + playerStateData.chargeArrowCooldown;
+        return player.hasCatchedBoomerang || 
+            Time.time < playerStateData.chargeArrowCooldown || Time.time >= lastChargeArrowTime + playerStateData.chargeArrowCooldown;
     }
 }

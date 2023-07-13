@@ -36,6 +36,7 @@ public class Player : Entity
 
     #region Other Variables
     public bool Invulnerable { get; private set; }
+    public bool hasCatchedBoomerang = false;
     [SerializeField] private float invulnerabilityDuration = 1.5f;
     [SerializeField] private Player_StateData playerStateData;
     [SerializeField] private Transform fireArrowSpawnTransform;
@@ -118,12 +119,10 @@ public class Player : Entity
     #endregion
 
     #region Other Functions
-    public override void TakeDamage(Types.DamageData damageData)
+    public void TakeDamage(Types.DamageData damageData)
     {
         if (!Invulnerable)
         {
-            base.TakeDamage(damageData);
-
             if (Stats.currentHealth > 0)
             {
                 Invulnerable = true;
@@ -212,6 +211,11 @@ public class Player : Entity
     public void TriggerOnPlayerExitAirGlideState() => OnPlayerExitAirGlideState();
 
     public Player_StateData GetPlayerStateData() => playerStateData;
+
+    public void InvokeOnPlayerCatchBoomerang()
+    {
+        hasCatchedBoomerang = true;
+    }
 
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
 

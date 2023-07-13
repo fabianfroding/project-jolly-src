@@ -112,7 +112,7 @@ public class PlayerThunderState : PlayerAbilityState
             if (enemyComponent && !damagedEnemies.Contains(enemyComponent.gameObject))
             {
                 damagedEnemies.Add(enemyComponent.gameObject);
-                enemyComponent.TakeDamage(playerStateData.thunderDamage);
+                //enemyComponent.TakeDamage(playerStateData.thunderDamage);
             }
         }
     }
@@ -126,7 +126,7 @@ public class PlayerThunderState : PlayerAbilityState
             if (enemyComponent != null && !damagedEnemies.Contains(enemyComponent.gameObject))
             {
                 damagedEnemies.Add(enemyComponent.gameObject);
-                enemyComponent.TakeDamage(playerStateData.thunderDamage);
+                //enemyComponent.TakeDamage(playerStateData.thunderDamage);
             }
 
             if (collider.CompareTag(EditorConstants.TAG_BREAKABLE_GROUND))

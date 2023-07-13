@@ -11,11 +11,11 @@ public class Entity : MonoBehaviour
     protected Material matDefault;
     protected Material matWhite;
 
-    protected Combat Combat { get => combat ?? Core.GetCoreComponent(ref combat); }
+    protected Combat Combat => combat ? combat : Core.GetCoreComponent(ref combat);
     protected Combat combat;
-    protected Movement Movement { get => movement ?? Core.GetCoreComponent(ref movement); }
+    protected Movement Movement => movement ? movement : Core.GetCoreComponent(ref movement);
     protected Movement movement;
-    protected Stats Stats { get => stats ?? Core.GetCoreComponent(ref stats); }
+    public Stats Stats => stats ? stats : Core.GetCoreComponent(ref stats);
     protected Stats stats;
 
     #region Unity Callback Functions
@@ -25,6 +25,16 @@ public class Entity : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         Animator = GetComponent<Animator>();
         matWhite = Resources.Load(EditorConstants.RESOURCE_WHITE_FLASH, typeof(Material)) as Material;
+    }
+
+    private void OnEnable()
+    {
+        Combat.OnDamaged += OnTakeDamage;
+    }
+
+    private void OnDisable()
+    {
+        Combat.OnDamaged -= OnTakeDamage;
     }
 
     protected virtual void Start()
@@ -39,27 +49,10 @@ public class Entity : MonoBehaviour
     #endregion
 
     #region Other Functions
-    public virtual void TakeDamage(Types.DamageData damageData)
-    {
-        if (Stats.currentHealth > 0)
-        {
-            StartCoroutine(FlashWhiteMaterial(0.1f));
-            Combat.TakeDamage(damageData);
-            if (stats.currentHealth <= 0)
-            {
-                Death();
-                return;
-            }
 
-            if (damageData.source.CompareTag(EditorConstants.TAG_PLAYER) && !gameObject.CompareTag(EditorConstants.TAG_PLAYER))
-            {
-                Entity entity = damageData.source.GetComponent<Entity>();
-                if (entity)
-                {
-                    entity.Stats.OnDealtDamage();
-                }
-            }
-        }
+    private void OnTakeDamage()
+    {
+        StartCoroutine(FlashWhiteMaterial(0.1f));
     }
 
     protected virtual void Death() {}

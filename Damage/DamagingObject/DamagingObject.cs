@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,9 +12,12 @@ public class DamagingObject : MonoBehaviour
     [SerializeField] protected GameObject birthSoundPrefab;
     [SerializeField] protected GameObject deathSoundPrefab;
     [SerializeField] protected GameObject deathSFXPrefab;
+    [SerializeField] protected bool destroyOnImpact = true;
 
     public GameObject Source { get; protected set; }
     protected SpriteRenderer spriteRenderer;
+
+    public static event Action OnHit;
 
     #region Unity Callback Functions
     protected virtual void Awake()
@@ -67,7 +71,7 @@ public class DamagingObject : MonoBehaviour
             {
                 damageData.source = Source;
                 damageData.target = other;
-                entity.TakeDamage(damageData);
+                //entity.TakeDamage(damageData);
             }
 
             IDamageable damageable = other.GetComponent<IDamageable>();
@@ -78,8 +82,13 @@ public class DamagingObject : MonoBehaviour
                 damageable.TakeDamage(damageData);
             }
 
-            StopCoroutine(DestroySelf(0f));
-            StartCoroutine(DestroySelf(0f));
+            if (destroyOnImpact)
+            {
+                StopCoroutine(DestroySelf(0f));
+                StartCoroutine(DestroySelf(0f));
+            }
+
+            OnHit?.Invoke();
         }
 
         // Duct tape solution.

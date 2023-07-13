@@ -10,10 +10,14 @@ public class UIManagerScript : MonoBehaviour
     [SerializeField] private GameObject uiPlayerManaPrefab;
     [SerializeField] private GameObject uiPowerupObtainedPrefab;
     [SerializeField] private GameObject uiSaveGamePrefab;
+    [SerializeField] private GameObject widgetDebugMenuPrefab;
 
     private GameObject inGameMenusUI;
     private bool isInGameMenusUIActive = false;
     UIIngameWidget[] inGameUIWidgets;
+
+    private GameObject widgetDebugMenu;
+    private bool widgetDebugMenuActive = false;
 
     private static UIManagerScript instance;
     public static UIManagerScript Instance
@@ -97,6 +101,24 @@ public class UIManagerScript : MonoBehaviour
         for (int i = 0; i < inGameUIWidgets.Length; i++)
         {
             inGameUIWidgets[i].gameObject.SetActive(show);
+        }
+    }
+
+    public void ToggleDebugMenu()
+    {
+        if (widgetDebugMenu == null && !widgetDebugMenuActive)
+        {
+            widgetDebugMenuActive = true;
+            widgetDebugMenu = Instantiate(widgetDebugMenuPrefab);
+            ShowInGameUIWidgets(false);
+        }
+        else if (widgetDebugMenuActive)
+        {
+            widgetDebugMenu.SetActive(false);
+            Destroy(widgetDebugMenu);
+            widgetDebugMenu = null;
+            widgetDebugMenuActive = false;
+            ShowInGameUIWidgets(true);
         }
     }
     #endregion

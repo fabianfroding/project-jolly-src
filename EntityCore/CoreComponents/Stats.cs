@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Stats : CoreComponent
@@ -7,6 +8,8 @@ public class Stats : CoreComponent
 
     [Tooltip("The amount of hits/damage before the entity can get stunned.")]
     [SerializeField] protected int stunResistance = 3;
+
+    public event Action OnHealthDepleted;
 
     protected override void Awake()
     {
@@ -23,6 +26,7 @@ public class Stats : CoreComponent
         if (currentHealth <= 0)
         {
             currentHealth = 0;
+            OnHealthDepleted?.Invoke();
         }
     }
 

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,8 +8,7 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
     [Tooltip("Name of the scene to load.")]
     [SerializeField] private string sceneToLoad;
 
-    [Tooltip("The point which the player should spawn in the loaded scene.")]
-    [SerializeField] private Types.SceneTransitionPoint sceneTransitionSpawnPoint;
+    [SerializeField] private WorldData worldData;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,6 +16,32 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
         {
             Debug.Log(gameObject.name + " is missing SceneToLoad.");
             return;
+        }
+
+        if (worldData && worldData.world != Types.World.NONE)
+        {
+            if (PlayerRepository.WorldTokens >= worldData.numWorldTokensRequired)
+            {
+                List<string> unlockedWorlds = PlayerRepository.GetUnlockedWorlds();
+                if (!unlockedWorlds.Contains(worldData.world.ToString()))
+                {
+                    unlockedWorlds.Add(worldData.world.ToString());
+                    PlayerRepository.SaveUnlockedWorlds(unlockedWorlds);
+                    PlayerRepository.WorldTokens -= worldData.numWorldTokensRequired;
+                    Debug.Log("LoadSceneOnEnterTrigger:OnTriggerEnter2D: " +
+                        "Unlocked " + worldData.world.ToString() + ". World Tokens: " + PlayerRepository.WorldTokens);
+                }
+            }
+            else
+            {
+                Debug.Log("LoadSceneOnEnterTrigger:OnTriggerEnter2D: Not enough world tokens to enter this world!");
+                return;
+            }
+        }
+
+        if (worldData && worldData.ambienceAudioClip)
+        {
+            AmbiencePlayer.ChangeAmbience(worldData.ambienceAudioClip);
         }
 
         if (collision.CompareTag(EditorConstants.TAG_PLAYER))
@@ -50,7 +76,7 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
             SceneTransitionDataHolder.playerMaxHealth = player.Core.GetCoreComponent<Stats>().GetMaxHealth();
             SceneTransitionDataHolder.playerFacingDirection = player.Core.GetCoreComponent<Movement>().FacingDirection;
         }
-        SceneTransitionDataHolder.spawnPoint = sceneTransitionSpawnPoint;
+        SceneTransitionDataHolder.spawnPointName = SceneManager.GetActiveScene().name;
     }
 
     private void LoadScene(string sceneToLoad) => SceneManager.LoadScene(sceneToLoad);

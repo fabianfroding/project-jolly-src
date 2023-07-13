@@ -5,8 +5,8 @@ public class LoadSceneSpawnPoint : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
 
-    [Tooltip("The point at which the player spawns from the previous scene.")]
-    [SerializeField] private Types.SceneTransitionPoint sceneTransitionSpawnPoint;
+    [Tooltip("The point at which the player will spawn when transitioning from the scene with this name.")]
+    [SerializeField] private string fromSceneName;
 
     public static event Action OnPlayerEnterScene;
     private GameObject newPlayer;
@@ -28,7 +28,7 @@ public class LoadSceneSpawnPoint : MonoBehaviour
         {
             // Load player data in Start to ensure it overrides potential values set in Awake in Stats.
             LoadSceneTransitionData(newPlayer.GetComponent<Player>());
-            sceneTransitionSpawnPoint = Types.SceneTransitionPoint.NONE;
+            SceneTransitionDataHolder.spawnPointName = null;
 
             ScreenFade screenFade = FindObjectOfType<ScreenFade>();
             if (screenFade != null)
@@ -48,8 +48,9 @@ public class LoadSceneSpawnPoint : MonoBehaviour
 
     private bool ShouldLoad()
     {
-        return sceneTransitionSpawnPoint != Types.SceneTransitionPoint.NONE &&
-            sceneTransitionSpawnPoint == SceneTransitionDataHolder.spawnPoint;
+        return SceneTransitionDataHolder.spawnPointName != null && 
+            SceneTransitionDataHolder.spawnPointName != "" &&
+            fromSceneName == SceneTransitionDataHolder.spawnPointName;
     }
 
     private void LoadSceneTransitionData(Player player)

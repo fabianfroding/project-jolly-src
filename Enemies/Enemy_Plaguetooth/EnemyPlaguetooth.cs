@@ -9,14 +9,13 @@ public class EnemyPlaguetooth : Enemy
     public EnemyPlaguetooth_PlayerDetectedState PlayerDetectedState { get; private set; }
     public EnemyPlaguetooth_StunState StunState { get; private set; }
 
-    [SerializeField] private D_DeadState deadStateData;
     [SerializeField] private D_IdleState idleStateData;
+    [SerializeField] private D_DeadState deadStateData;
     [SerializeField] private D_MeleeAttackState meleeAttackStateData;
     [SerializeField] private D_MoveState moveStateData;
     [SerializeField] private D_PlayerDetectedState playerDetectedStateData;
     [SerializeField] private D_StunState stunStateData;
     [SerializeField] private Transform meleeAttackPosition;
-
 
     protected override void Start()
     {
@@ -35,7 +34,7 @@ public class EnemyPlaguetooth : Enemy
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.attackRadius);
+        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.damageData.damageRadius);
     }
 
     protected override void Death()

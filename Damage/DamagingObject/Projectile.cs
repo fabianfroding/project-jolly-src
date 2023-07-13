@@ -79,6 +79,6 @@ public class Projectile : DamagingObject
     public void SetRotation(Vector3 rotation) => transform.Rotate(rotation);
 
     public void InvertDirection() => 
-        rb.velocity = new Vector2(-rb.velocity.x * 1.2f, -rb.velocity.y * 1.2f);
+        rb.velocity = new Vector2(-rb.velocity.x, -rb.velocity.y);
     #endregion
 }

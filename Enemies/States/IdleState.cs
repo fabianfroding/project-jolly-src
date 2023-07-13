@@ -24,16 +24,6 @@ public class IdleState : State
         SetRandomIdleTime();
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-
-        if (flipAfterIdle)
-        {
-            Movement.Flip();
-        }
-    }
-
     public override void DoChecks()
     {
         base.DoChecks();

@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Combat : CoreComponent, IDamageable, IKnockbackable
 {
+    [SerializeField] private GameObject damagedParticles;
+
     [Header("Knockback Settings")]
     [SerializeField] protected float maxKnockbackTime = 0.2f;
     protected bool isKnockbackActive = false;
@@ -19,6 +23,11 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         "which represents the time-window that the enemy can be parried.")]
     [SerializeField] protected bool canBeParried = false;
 
+    [Header("Block Settings")]
+    [SerializeField] public bool canBlock = false;
+    [SerializeField] public List<Types.BlockData> blockData;
+    public bool blockingEnabled = false;
+
     // Time-window between the attacking-part of a melee attack animation.
     public bool IsInTriggeredParriedAnimationFrames { get; set; }
 
@@ -34,21 +43,48 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     protected Stats Stats { get => stats ?? core.GetCoreComponent(ref stats); }
     protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
 
     protected Stats stats;
     protected CollisionSenses collisionSenses;
     protected Movement movement;
+    protected ParticleManager particleManager;
+
+    public event Action OnDamaged;
+    public event Action OnAttackBlocked;
 
     public override void LogicUpdate() => CheckKnockback();
 
     public void TakeDamage(Types.DamageData damageData)
     {
-        if (Stats.currentHealth > 0)
+        Debug.Log(damageData.target.name + " taking damage from " + damageData.source.name);
+        if (blockingEnabled)
+        {
+            // TODO: Add angle checks here
+            Debug.Log(damageData.target.name + " blocked attack from " + damageData.source.name);
+            OnAttackBlocked?.Invoke();
+            return;
+        }
+        else if (Stats.currentHealth > 0)
         {
             Stats.DecreaseHealth(damageData.damageAmount);
-            InstantiateTakeDamageVisuals(damageData);
+            OnDamaged?.Invoke();
+
+            ParticleManager.StartParticlesWithRandomRotation(damagedParticles);
+            InstantiateTakeDamageVisuals(damageData); // TODO: Deprecate this.
+
+            // Not sure but I think this is solely used for players rage bar mechanic. Should be moved elsewhere.
+            if (damageData.source.CompareTag(EditorConstants.TAG_PLAYER) && !gameObject.CompareTag(EditorConstants.TAG_PLAYER))
+            {
+                Stats sourceStats = damageData.source.GetComponentInChildren<Stats>();
+                if (sourceStats != null)
+                {
+                    sourceStats.OnDealtDamage();
+                }
+            }
+
             ApplyKnockback(damageData);
-            //Debug.Log(gameObject.name + " took " + damage.amount + " damage from " + source.name);
+            Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
         }
     }
 

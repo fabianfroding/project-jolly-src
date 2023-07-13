@@ -48,10 +48,10 @@ public class EnemyHarvester : Enemy
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.attackRadius);
+        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.damageData.damageRadius);
     }
 
-    public override void TakeDamage(Types.DamageData damageData)
+    /*public override void TakeDamage(Types.DamageData damageData)
     {
         base.TakeDamage(damageData);
         if (Combat.IsStunned && StateMachine.currentState != StunState)
@@ -68,8 +68,8 @@ public class EnemyHarvester : Enemy
         {
             lookForPlayerState.SetTurnImmediately(true);
             stateMachine.ChangeState(lookForPlayerState);
-        }*/
-    }
+        }
+    }*/
 
     protected override void Death()
     {

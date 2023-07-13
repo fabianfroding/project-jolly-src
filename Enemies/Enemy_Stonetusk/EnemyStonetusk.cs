@@ -9,8 +9,8 @@ public class EnemyStonetusk : Enemy
     public EnemyStonetusk_LookForPlayerState LookForPlayerState { get; private set; }
     public EnemyStonetusk_ChargeState ChargeState { get; private set; }
 
-    [SerializeField] private D_DeadState deadStateData;
     [SerializeField] private D_IdleState idleStateData;
+    [SerializeField] private D_DeadState deadStateData;
     [SerializeField] private D_MoveState moveStateData;
     [SerializeField] private D_PlayerDetectedState playerDetectedStateData;
     [SerializeField] private D_LookForPlayerState lookForPlayerStateData;

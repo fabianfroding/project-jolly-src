@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EntityCore : MonoBehaviour
 {
-    public readonly List<CoreComponent> CoreComponents = new List<CoreComponent>();
+    public readonly List<CoreComponent> CoreComponents = new();
 
     public void LogicUpdate()
     {
@@ -18,17 +18,15 @@ public class EntityCore : MonoBehaviour
     public T GetCoreComponent<T>() where T : CoreComponent
     {
         // Search list for the desired component.
-        var comp = CoreComponents
-            .OfType<T>()
-            .FirstOrDefault();
+        var comp = CoreComponents.OfType<T>().FirstOrDefault();
+        if (comp) { return comp; }
 
-        // Check if component was found. Log warning if not.
-        if (comp == null)
-        {
-            Debug.LogWarning($"{typeof(T)} not found on {transform.parent.name}");
-        }
+        // Potential sequencing issue fix.
+        // Death OnEnable might be called before Stats Awake, causing the event subscribtion to fail and produce an error.
+        comp = GetComponentInChildren<T>();
+        if (comp) { return comp; }
 
-        // Return the component.
+        Debug.LogWarning($"{typeof(T)} not found on {transform.parent.name}");
         return comp;
     }
 
