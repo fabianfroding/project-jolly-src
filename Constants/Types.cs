@@ -38,5 +38,6 @@ public static class Types
         public float damageRadius, stunDamageAmount, knockbackStrength;
         public Vector2 knockbackAngle, direction;
         public DamageType damageType;
+        public GameObject sfxPrefab;
     }
 }

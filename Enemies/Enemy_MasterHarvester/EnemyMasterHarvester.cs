@@ -13,7 +13,7 @@ public class EnemyMasterHarvester : Enemy
     private HarvesterDodge dodge;
     private AbilityDarkSpheres darkSpheres;
     private GameObject teleportIndicatorInstance;
-    private int damageCount = 0;
+    //private int damageCount = 0;
     //private State state = State.Idle;
 
     private enum State
@@ -145,7 +145,7 @@ public class EnemyMasterHarvester : Enemy
                     {
                         if (darkSpheres.Initialize(gameObject))
                         {
-                            damageCount = 0;
+                            //damageCount = 0;
                         }
                     }
                 }

@@ -5,8 +5,9 @@ public class AttackState : State
     protected Transform attackPosition;
     protected bool isAnimationFinished;
     protected bool isPlayerInMinAggroRange;
+    protected float lastAttackTime;
 
-    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
     protected Movement movement;
 
     public AttackState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition) : base(enemy, stateMachine, animBoolName)
@@ -20,6 +21,12 @@ public class AttackState : State
         isAnimationFinished = false;
         enemy.ATSM.attackState = this;
         Movement.SetVelocityX(0f);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        lastAttackTime = Time.time;
     }
 
     public override void DoChecks()

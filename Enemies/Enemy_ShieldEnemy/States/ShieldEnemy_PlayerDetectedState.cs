@@ -14,7 +14,7 @@ public class ShieldEnemy_PlayerDetectedState : PlayerDetectedState
 
         if (performCloseRangeAction)
         {
-            stateMachine.ChangeState(shieldEnemy.MeleeAttackState);
+            stateMachine.ChangeState(shieldEnemy.ShieldState);
         }
         else if (!isDetectingLedge)
         {

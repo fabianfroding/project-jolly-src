@@ -42,6 +42,9 @@ public class Player_StateData : ScriptableObject
     public GameObject arrowPrefab;
 
     [Header("Attack State")]
+    public Types.DamageData attackDamageData;
+    public GameObject vfxPrefabHorizontal;
+    public GameObject vfxPrefabVertical;
     public GameObject attackSlashPrefabHorizontal;
     public GameObject attackSlashPrefabVertical;
 

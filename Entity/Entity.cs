@@ -29,12 +29,12 @@ public class Entity : MonoBehaviour
 
     private void OnEnable()
     {
-        Combat.OnDamaged += OnTakeDamage;
+        if (combat) { Combat.OnDamaged += OnEntityTakeDamage; }
     }
 
     private void OnDisable()
     {
-        Combat.OnDamaged -= OnTakeDamage;
+        if (combat) { Combat.OnDamaged -= OnEntityTakeDamage; }
     }
 
     protected virtual void Start()
@@ -50,7 +50,7 @@ public class Entity : MonoBehaviour
 
     #region Other Functions
 
-    private void OnTakeDamage()
+    protected virtual void OnEntityTakeDamage()
     {
         StartCoroutine(FlashWhiteMaterial(0.1f));
     }

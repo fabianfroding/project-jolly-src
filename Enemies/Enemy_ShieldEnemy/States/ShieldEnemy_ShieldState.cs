@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class ShieldEnemy_ShieldState : State
 {
     private ShieldEnemy shieldEnemy;
@@ -29,9 +31,16 @@ public class ShieldEnemy_ShieldState : State
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (!isPlayerInMinAggroRange)
+        if (isPlayerInMinAggroRange)
         {
-            stateMachine.ChangeState(shieldEnemy.ShieldState);
+            if (shieldEnemy.MeleeAttackState.IsMeleeAttackReady() && Time.time >= StartTime + 1f)
+            {
+                stateMachine.ChangeState(shieldEnemy.MeleeAttackState);
+            }
+        }
+        else
+        {
+            stateMachine.ChangeState(shieldEnemy.IdleState);
         }
     }
 
@@ -43,6 +52,7 @@ public class ShieldEnemy_ShieldState : State
 
     private void AttackBlocked()
     {
+        // TODO: Can add some randomness here to prevent every single block from triggering a counter-attack.
         stateMachine.ChangeState(shieldEnemy.MeleeAttackState);
     }
 }

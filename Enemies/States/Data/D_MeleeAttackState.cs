@@ -4,6 +4,7 @@ using UnityEngine;
 public class D_MeleeAttackState : ScriptableObject
 {
     public Types.DamageData damageData;
+    public float meleeAttackCooldown = 1f;
 
     public GameObject slashHorizontalPrefab;
     [Tooltip("How far the slash should spawn horizontally from the spawn position.")]

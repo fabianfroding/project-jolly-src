@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class CombatPlayer : Combat
 {
+    public GameObject attackImpactPosition;
+    public GameObject attackImpactPositionDown;
+    public GameObject attackImpactPositionUp;
+
     public override void Knockback(Vector2 angle, float strength, int direction)
     {
         if (!isKnockbackActive && Stats.currentHealth > 0)
