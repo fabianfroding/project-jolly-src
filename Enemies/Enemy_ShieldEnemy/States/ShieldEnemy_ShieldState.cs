@@ -1,15 +1,11 @@
 using UnityEngine;
 
-public class ShieldEnemy_ShieldState : State
+public class ShieldEnemy_ShieldState : BlockState
 {
-    private ShieldEnemy shieldEnemy;
-    private bool isPlayerInMinAggroRange = false;
+    private readonly ShieldEnemy shieldEnemy;
 
-    protected Combat Combat { get => combat ?? core.GetCoreComponent(ref combat); }
-    protected Combat combat;
-
-    public ShieldEnemy_ShieldState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, ShieldEnemy shieldEnemy)
-        : base(enemy, stateMachine, animBoolName)
+    public ShieldEnemy_ShieldState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_BlockState stateData, ShieldEnemy shieldEnemy)
+        : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.shieldEnemy = shieldEnemy;
     }
@@ -18,12 +14,10 @@ public class ShieldEnemy_ShieldState : State
     {
         base.Enter();
         Combat.OnAttackBlocked += AttackBlocked;
-        Combat.blockingEnabled = true;
     }
 
     public override void Exit()
     {
-        Combat.blockingEnabled = false;
         Combat.OnAttackBlocked -= AttackBlocked;
         base.Exit();
     }
@@ -44,15 +38,12 @@ public class ShieldEnemy_ShieldState : State
         }
     }
 
-    public override void DoChecks()
+    protected override void AttackBlocked()
     {
-        base.DoChecks();
-        isPlayerInMinAggroRange = enemy.CheckPlayerInMinAggroRange();
-    }
-
-    private void AttackBlocked()
-    {
-        // TODO: Can add some randomness here to prevent every single block from triggering a counter-attack.
-        stateMachine.ChangeState(shieldEnemy.MeleeAttackState);
+        base.AttackBlocked();
+        if (stateData.chanceToCounterOnBlock > Random.Range(0f, 1f))
+        {
+            stateMachine.ChangeState(shieldEnemy.MeleeAttackState);
+        }
     }
 }

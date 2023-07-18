@@ -26,7 +26,8 @@ public static class Types
     [System.Serializable]
     public struct BlockData
     {
-        public float minBlockAngle, maxBlockAngle;
+        [Range(-180f, 180f)] public float minAngle;
+        [Range(-180f, 180f)] public float maxAngle;
     }
 
     [System.Serializable]

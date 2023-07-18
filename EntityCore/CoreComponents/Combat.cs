@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Combat : CoreComponent, IDamageable, IKnockbackable
@@ -26,6 +27,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     [Header("Block Settings")]
     [SerializeField] public bool canBlock = false;
     [SerializeField] public List<Types.BlockData> blockData;
+    public GameObject blockOriginPosition;
     public bool blockingEnabled = false;
 
     // Time-window between the attacking-part of a melee attack animation.
@@ -40,9 +42,9 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     [SerializeField] protected GameObject takeDmgSFXPrefab;
     [SerializeField] protected GameObject takeDmgSoundPrefab;
 
-    protected Stats Stats { get => stats ?? core.GetCoreComponent(ref stats); }
-    protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
-    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected Stats Stats => stats ? stats : core.GetCoreComponent(ref stats);
+    protected CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : core.GetCoreComponent(ref collisionSenses);
+    protected Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
     protected ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
 
     protected Stats stats;
@@ -53,20 +55,20 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     public event Action OnDamaged;
     public event Action OnAttackBlocked;
 
-    public override void LogicUpdate() => CheckKnockback();
+    public override void LogicUpdate() { CheckKnockback(); }
 
     public void TakeDamage(Types.DamageData damageData)
     {
-        Debug.Log(damageData.target.name + " taking damage from " + damageData.source.name);
-        if (blockingEnabled)
+        if (CheckBlock(damageData.source, damageData.target))
         {
-            // TODO: Add angle checks here
             Debug.Log(damageData.target.name + " blocked attack from " + damageData.source.name);
             OnAttackBlocked?.Invoke();
             return;
         }
-        else if (Stats.currentHealth > 0)
+        
+        if (Stats.currentHealth > 0)
         {
+            Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
             Stats.DecreaseHealth(damageData.damageAmount);
             OnDamaged?.Invoke();
 
@@ -84,7 +86,6 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             }
 
             ApplyKnockback(damageData);
-            Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
         }
     }
 
@@ -208,4 +209,33 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 
         // TODO: Instantiate parrySFXPrefab.
     }
+
+    protected bool CheckBlock(GameObject source, GameObject target)
+    {
+        if (!blockingEnabled) { return false; }
+
+        float angle = Vector2.SignedAngle(transform.right, 
+            source.transform.position - (blockOriginPosition ? blockOriginPosition.transform.position : target.transform.position));
+        
+        foreach (Types.BlockData block in blockData)
+        {
+            // Check if the angle is within the defined blocking zone.
+            if (angle >= block.minAngle && angle <= block.maxAngle) { return true; }
+        }
+
+        return false;
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Vector2 forwardDirection = transform.right;
+        Vector2 blockOriginPos = blockOriginPosition ? blockOriginPosition.transform.position : transform.position;
+        Handles.color = new Color(0.15f, 0.15f, 1f, 0.35f);
+        foreach (Types.BlockData block in blockData)
+        {
+            Handles.DrawSolidArc(blockOriginPos, Vector3.forward, Quaternion.Euler(0f, 0f, block.minAngle) * forwardDirection, block.maxAngle - block.minAngle, 1.5f);
+        }
+    }
+#endif
 }

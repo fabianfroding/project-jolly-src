@@ -11,6 +11,7 @@ public class ShieldEnemy : Enemy
     public ShieldEnemy_StunState StunState { get; private set; }
     public ShieldEnemy_TurnState TurnState { get; private set; }
 
+    [SerializeField] private D_BlockState blockStateData;
     [SerializeField] private D_DeadState deadStateData;
     [SerializeField] private D_IdleState idleStateData;
     [SerializeField] private D_MeleeAttackState meleeAttackStateData;
@@ -27,7 +28,7 @@ public class ShieldEnemy : Enemy
         MeleeAttackState = new ShieldEnemy_MeleeAttackState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK, meleeAttackImpactPosition, meleeAttackStateData, this);
         MoveState = new ShieldEnemy_MoveState(this, StateMachine, AnimationConstants.ANIM_PARAM_MOVE, moveStateData, this);
         PlayerDetectedState = new ShieldEnemy_PlayerDetectedState(this, StateMachine, AnimationConstants.ANIM_PARAM_PLAYER_DETECTED, playerDetectedStateData, this);
-        ShieldState = new ShieldEnemy_ShieldState(this, StateMachine, AnimationConstants.ANIM_PARAM_SHIELD, this);
+        ShieldState = new ShieldEnemy_ShieldState(this, StateMachine, AnimationConstants.ANIM_PARAM_SHIELD, blockStateData, this);
         StunState = new ShieldEnemy_StunState(this, StateMachine, AnimationConstants.ANIM_PARAM_STUN, stunStateData, this);
         TurnState = new ShieldEnemy_TurnState(this, StateMachine, AnimationConstants.ANIM_PARAM_TURN, idleStateData);
 
