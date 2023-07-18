@@ -27,6 +27,9 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     [Header("Block Settings")]
     [SerializeField] public bool canBlock = false;
     [SerializeField] public List<Types.BlockData> blockData;
+    [Tooltip("Alternative block data that is disabled by default but can be toggled in various circumstances such as top or behind.")]
+    [SerializeField] public List<Types.BlockData> blockDataAlt;
+    public bool useAltBlockData = false;
     public GameObject blockOriginPosition;
     public bool blockingEnabled = false;
 
@@ -217,7 +220,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         float angle = Vector2.SignedAngle(transform.right, 
             source.transform.position - (blockOriginPosition ? blockOriginPosition.transform.position : target.transform.position));
         
-        foreach (Types.BlockData block in blockData)
+        foreach (Types.BlockData block in useAltBlockData ? blockDataAlt : blockData)
         {
             // Check if the angle is within the defined blocking zone.
             if (angle >= block.minAngle && angle <= block.maxAngle) { return true; }
@@ -234,6 +237,13 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         Handles.color = new Color(0.15f, 0.15f, 1f, 0.35f);
         foreach (Types.BlockData block in blockData)
         {
+            if (!block.showDebugVisuals) { continue; }
+            Handles.DrawSolidArc(blockOriginPos, Vector3.forward, Quaternion.Euler(0f, 0f, block.minAngle) * forwardDirection, block.maxAngle - block.minAngle, 1.5f);
+        }
+        Handles.color = new Color(0.15f, 0.85f, 1f, 0.35f);
+        foreach (Types.BlockData block in blockDataAlt)
+        {
+            if (!block.showDebugVisuals) { continue; }
             Handles.DrawSolidArc(blockOriginPos, Vector3.forward, Quaternion.Euler(0f, 0f, block.minAngle) * forwardDirection, block.maxAngle - block.minAngle, 1.5f);
         }
     }

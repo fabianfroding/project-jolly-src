@@ -7,17 +7,21 @@ public class FieldOfView : MonoBehaviour
     [SerializeField] private float viewRadius;
     [Range(1, 360)]
     [SerializeField] private float viewWidth;
+    [Tooltip("For how long the enemy should remember the target before defaulting back to its previous state.")]
+    [SerializeField] private float holdTargetTime = 0f;
+    [SerializeField] private bool flipIfTargetIsBehind = true;
 
     [Tooltip("Horizontal view direction automatically adjust to facing direction.")]
     [SerializeField] private VIEW_DIRECTION viewDirection;
 
     [SerializeField] private Transform fovOrigin;
     [SerializeField] private LayerMask targetLayer;
-    [SerializeField] private LayerMask obstructionLayer;
+    [SerializeField] private LayerMask obstructionLayer; 
 
     public enum VIEW_DIRECTION { HORIZONTAL, UP, DOWN }
     private Vector2 viewDirectionVector;
     private readonly float tickInterval = 0.2f;
+    private bool holdingTarget = false;
 
     public bool CanSeeTarget { get; private set; }
     public GameObject Target { get; private set; }
@@ -129,12 +133,44 @@ public class FieldOfView : MonoBehaviour
         {
             ResetTarget();
         }
+
+        FlipIfTargetIsBehind();
     }
 
     private void ResetTarget()
     {
         CanSeeTarget = false;
+        if (!holdingTarget)
+        {
+            StartCoroutine(ResetTargetDelay());
+        }
+    }
+
+    private IEnumerator ResetTargetDelay()
+    {
+        holdingTarget = true;
+        yield return new WaitForSeconds(holdTargetTime);
+        holdingTarget = false;
         Target = null;
+    }
+
+    private void FlipIfTargetIsBehind()
+    {
+        if (!flipIfTargetIsBehind) { return; }
+        if (CanSeeTarget) { return; };
+        if (!Target) { return; }
+        // Check if target is somewhat on the same y-plane as the enemy. (If the player is standing on a ledge above the enemy we don't want the enemy to flip).
+        if (Target.transform.position.y > transform.position.y * 1.1f || Target.transform.position.y < transform.position.y * 1.1f) { return; }
+
+        Movement movement = GetComponentInChildren<Movement>();
+        if (!movement) { return; }
+
+        float dot = Vector2.Dot(viewDirectionVector.normalized, (Target.transform.position - transform.position).normalized);
+        if ((movement.FacingDirection > 0 && dot > 0f) || (movement.FacingDirection < 0 && dot < 0f))
+        {
+            movement.Flip();
+            Target = null;
+        }
     }
     #endregion
 }

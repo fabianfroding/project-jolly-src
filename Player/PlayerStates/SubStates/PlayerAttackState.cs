@@ -112,6 +112,7 @@ public class PlayerAttackState : PlayerAbilityState
     private void SetVFXInstancePositionAndDestroy(GameObject vfxInstance, Vector2 position)
     {
         vfxInstance.transform.position = position;
+        vfxInstance.transform.parent = player.transform;
         GameObject.Destroy(vfxInstance, 0.15f);
     }
 

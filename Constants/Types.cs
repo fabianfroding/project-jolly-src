@@ -28,6 +28,7 @@ public static class Types
     {
         [Range(-180f, 180f)] public float minAngle;
         [Range(-180f, 180f)] public float maxAngle;
+        public bool showDebugVisuals;
     }
 
     [System.Serializable]
