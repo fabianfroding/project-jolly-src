@@ -62,6 +62,8 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 
     public void TakeDamage(Types.DamageData damageData)
     {
+        if (damageData.source == damageData.target) { return; }
+
         if (CheckBlock(damageData.source, damageData.target))
         {
             Debug.Log(damageData.target.name + " blocked attack from " + damageData.source.name);
