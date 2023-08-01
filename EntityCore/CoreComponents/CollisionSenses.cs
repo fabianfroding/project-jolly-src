@@ -36,6 +36,7 @@ public class CollisionSenses : CoreComponent
     [SerializeField] private Transform ledgeCheck;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private Transform ceilingCheck;
+    [SerializeField] private Transform chestTransform;
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float ledgeCheckDistance;
@@ -52,6 +53,7 @@ public class CollisionSenses : CoreComponent
     private Movement movement;
 
     public Transform GetCeilingCheck() {  return ceilingCheck; }
+    public Transform GetChestTransform() { return chestTransform; }
     public Transform GetWallCheckTransform() => wallCheck;
 
     public bool Ground

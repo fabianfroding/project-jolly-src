@@ -10,7 +10,7 @@ public class RespawnPoint : MonoBehaviour
     #region Unity Callback Functions
     private void Awake()
     {
-        Player.OnPlayerTakeDamageFromENV += RespawnPlayerDelayed;
+        CombatPlayer.OnPlayerTakeDamageFromENV += RespawnPlayerDelayed;
     }
 
     private void Start()

@@ -3,12 +3,8 @@ using UnityEngine;
 public class PlayerDashState : PlayerAbilityState
 {
     public bool CanDash { get; private set; }
-    private bool isHolding; 
-    private bool dashInputStop;
     private float lastDashTime;
-    private Vector2 dashDirection;
-    private Vector2 dashDirectionInput;
-    private GameObject timeSlowSFX;
+    private Vector2 destination;
     
     public PlayerDashState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
@@ -16,33 +12,32 @@ public class PlayerDashState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
-
         CanDash = false;
         player.InputHandler.UseDashInput();
+        startTime = Time.time;
 
-        isHolding = true;
-        dashDirection = Vector2.right * Movement.FacingDirection;
+        Vector2 chestPos = CollisionSenses.GetChestTransform().position;
+        GameObject tempGO = GameObject.Instantiate(playerStateData.dashVFXPrefab);
+        tempGO.transform.position = chestPos;
+        tempGO = GameObject.Instantiate(playerStateData.dashSFXPrefab);
+        tempGO.transform.position = player.transform.position;
 
-        Time.timeScale = playerStateData.holdTimeScale;
-        startTime = Time.unscaledTime;
-
-        timeSlowSFX = GameObject.Instantiate(playerStateData.dashTimeSlowSFX);
-        timeSlowSFX.transform.position = player.transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(chestPos, Vector2.right * Movement.FacingDirection, playerStateData.dashDistance, playerStateData.groundLayer);
+        if (hit.collider && !hit.collider.GetComponent<WalkableCloud>())
+        {
+            destination = new Vector2(hit.point.x, hit.point.y - (CollisionSenses.GetChestTransform().position.y - player.transform.position.y));
+        }
+        else
+        {
+            Vector3 newPos = player.transform.position + (Vector3)(Movement.FacingDirection * playerStateData.dashDistance * Vector2.right);
+            destination = new Vector3(newPos.x, player.transform.position.y, player.transform.position.z);
+        }
     }
 
     public override void Exit()
     {
         base.Exit();
-        
-        // Don't want to decrease when dashing down
-        if (Movement.CurrentVelocity.y > 0)
-        {
-            Movement.SetVelocityY(Movement.CurrentVelocity.y * playerStateData.dashEndYMultiplier);
-        }
-
-        Movement.SetDrag(0f);
         isAbilityDone = true;
-        lastDashTime = Time.time;
     }
 
     public override void LogicUpdate()
@@ -51,45 +46,14 @@ public class PlayerDashState : PlayerAbilityState
 
         if (!isExitingState)
         {
-            if (isHolding)
+            if (Time.time >= startTime + playerStateData.dashDelay)
             {
-                // Holding
-                dashDirectionInput = player.InputHandler.DashDirectionInput;
-                dashInputStop = player.InputHandler.DashInputStop;
-                
-                if (dashDirectionInput != Vector2.zero)
-                {
-                    dashDirection = dashDirectionInput;
-                    dashDirection.Normalize();
-                }
-
-                // Put indicator in right direction
-                //float angle = Vector2.SignedAngle(Vector2.right, dashDirection);
-
-                if (dashInputStop || Time.unscaledTime >= startTime + playerStateData.maxHoldTime)
-                {
-                    isHolding = false;
-                    Time.timeScale = 1f;
-                    startTime = Time.time;
-
-                    Movement.CheckIfShouldFlip(Mathf.RoundToInt(dashDirection.x));
-                    Movement.SetDrag(playerStateData.drag);
-                    Movement.SetVelocity(playerStateData.dashVelocity, dashDirection);
-
-                    if (timeSlowSFX) GameObject.Destroy(timeSlowSFX);
-                    GameObject tempGO = GameObject.Instantiate(playerStateData.dashSFX);
-                    tempGO.transform.position = player.transform.position;
-                }
-            }
-            else {
-                // Dashing
-                Movement.SetVelocity(playerStateData.dashVelocity, dashDirection);
-                if (Time.time >= startTime + playerStateData.dashTime)
-                {
-                    Movement.SetDrag(0f);
-                    isAbilityDone = true;
-                    lastDashTime = Time.time;
-                }
+                player.transform.position = destination;
+                GameObject tempGO = GameObject.Instantiate(playerStateData.dashVFXPrefab);
+                tempGO.transform.position = CollisionSenses.GetChestTransform().position;
+                lastDashTime = Time.time;
+                isAbilityDone = true;
+                stateMachine.ChangeState(player.IdleState);
             }
         }
     }

@@ -30,21 +30,16 @@ public class Player : Entity
 
     #region Components
     public PlayerInputHandler InputHandler { get; private set; }
-    private Timestop timestop;
-    private InvulnerabilityIndication invulnerabilityIndication;
     #endregion
 
     #region Other Variables
-    public bool Invulnerable { get; private set; }
     public bool hasCatchedBoomerang = false;
-    [SerializeField] private float invulnerabilityDuration = 1.5f;
     [SerializeField] private Player_StateData playerStateData;
     [SerializeField] private Transform fireArrowSpawnTransform;
     [SerializeField] private Types.DamageData enemyCollisionDamage;
     #endregion
 
     #region Events
-    public static event Action OnPlayerTakeDamageFromENV;
     public static event Action OnPlayerEnterAirGlideState;
     public static event Action OnPlayerExitAirGlideState;
     #endregion
@@ -76,8 +71,6 @@ public class Player : Entity
         FloatingBubbleState = new PlayerFloatingBubbleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
 
         InputHandler = GetComponent<PlayerInputHandler>();
-        timestop = GetComponent<Timestop>();
-        invulnerabilityIndication = GetComponent<InvulnerabilityIndication>();
     }
 
     protected override void Start()
@@ -104,7 +97,7 @@ public class Player : Entity
         {
             enemyCollisionDamage.source = collision.gameObject;
             enemyCollisionDamage.target = gameObject;
-            TakeDamage(enemyCollisionDamage);
+            Combat.TakeDamage(enemyCollisionDamage);
             Combat.Knockback(enemyCollisionDamage.knockbackAngle, enemyCollisionDamage.knockbackStrength, Movement.FacingDirection);
         }
     }
@@ -119,47 +112,6 @@ public class Player : Entity
     #endregion
 
     #region Other Functions
-    public void TakeDamage(Types.DamageData damageData)
-    {
-        if (!Invulnerable)
-        {
-            if (Stats.currentHealth > 0)
-            {
-                Invulnerable = true;
-
-                timestop.StopTime(0.05f, 10, 0.1f);
-
-                // Check so that player is not dead to avoid respawning when reviving.
-                if (damageData.damageType == Types.DamageType.ENVIRONMENT)
-                {
-                    if (StateMachine.CurrentState != DyingState && StateMachine.CurrentState != DeadState)
-                    {
-                        OnPlayerTakeDamageFromENV?.Invoke();
-                    }
-                }
-                else
-                {
-                    if (StateMachine.CurrentState != DyingState && StateMachine.CurrentState != DeadState)
-                    {
-                        Vector2 dir = TrigonometryUtils.GetDirectionFromAngle(TrigonometryUtils.GetAngleBetweenObjects(damageData.source, gameObject));
-                        Combat.Knockback(Vector2.zero, 0f, dir.x < 0f ? -1 : 1);
-                    } 
-                }
-
-                if (StateMachine.CurrentState != DyingState && StateMachine.CurrentState != DeadState)
-                {
-                    invulnerabilityIndication.StartFlash();
-                }
-
-                StatsPlayer playerStats = (StatsPlayer)stats;
-                playerStats.IncreaseMana(playerStats.GetManaRegenPerDamageTaken());
-
-                StopCoroutine(ResetInvulnerability());
-                StartCoroutine(ResetInvulnerability());
-            }
-        }
-    }
-
     protected override void Death()
     {
         base.Death();
@@ -195,13 +147,6 @@ public class Player : Entity
     public bool InLockedState() => StateMachine.CurrentState == LockedState;
 
     public void ResetState() => StateMachine.ChangeState(IdleState);
-
-    private IEnumerator ResetInvulnerability()
-    {
-        yield return new WaitForSeconds(invulnerabilityDuration);
-        invulnerabilityIndication.EndFlash();
-        Invulnerable = false;
-    }
 
     public bool HasXMovementInput() =>  InputHandler.NormInputX != 0;
 

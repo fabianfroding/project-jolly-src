@@ -3,26 +3,23 @@ using UnityEngine;
 
 public class EnemyMasterHarvester : Enemy
 {
-    //[SerializeField] private string animNameCast = "MasterHarvester_Cast";
-    //[SerializeField] private GameObject harvesterOrbRef;
     [SerializeField] private BoxCollider2D tpArea;
     [SerializeField] private GameObject teleportIndicatorPrefab;
     [SerializeField] private GameObject laughSoundPrefab;
     [SerializeField] private GameObject hitSoundExtraPrefab;
 
+    [SerializeField] private D_IdleState idleStateData;
+
+    public EnemyMasterHarvester_IdleState IdleState { get; private set; }
+
     private HarvesterDodge dodge;
     private AbilityDarkSpheres darkSpheres;
     private GameObject teleportIndicatorInstance;
-    //private int damageCount = 0;
-    //private State state = State.Idle;
 
-    private enum State
+    protected override void Start()
     {
-        Idle,
-        CastingDarkSpheres,
-        CastingOrb,
-        Teleporting,
-        Dodging,
+        base.Start();
+        IdleState = new EnemyMasterHarvester_IdleState(this, StateMachine, AnimationConstants.ANIM_PARAM_IDLE, idleStateData);
     }
 
     //==================== PUBLIC ====================//
@@ -67,19 +64,11 @@ public class EnemyMasterHarvester : Enemy
         return darkSpheres;
     }
 
-    //==================== PROTECTED ====================//
     protected override void Awake()
     {
         base.Awake();
         dodge = GetComponent<HarvesterDodge>();
         darkSpheres = GetComponent<AbilityDarkSpheres>();
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-        //state = State.Idle;
-        StartCoroutine(Tick());
     }
 
     /*protected override bool Attack()
@@ -97,7 +86,6 @@ public class EnemyMasterHarvester : Enemy
         return false;
     }*/
 
-    //==================== PRIVATE ====================//
     private void Teleport()
     {
         if (tpArea != null)

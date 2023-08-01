@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class EnemyHarvester_MoveState : MoveState
 {
     private EnemyHarvester harvester;
@@ -19,6 +21,7 @@ public class EnemyHarvester_MoveState : MoveState
         {
             harvester.IdleState.SetFlipAfterIdle(true);
             stateMachine.ChangeState(harvester.IdleState);
+            Debug.Log("detect wall or not ledge");
         }
     }
 }

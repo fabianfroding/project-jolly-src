@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 public class Combat : CoreComponent, IDamageable, IKnockbackable
 {
     [SerializeField] private GameObject damagedParticles;
+    [SerializeField] private GameObject damagedSFX;
+    [SerializeField] private float invulnerabilityDuration = 1.5f;
 
     [Header("Knockback Settings")]
     [SerializeField] protected float maxKnockbackTime = 0.2f;
@@ -40,10 +43,11 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     public float LastStunDamageTime { get; protected set; }
     protected float currentStunResistance;
 
+    public bool Invulnerable { get; protected set; }
+    protected InvulnerabilityIndication invulnerabilityIndication;
+
     [Header("Spawned Objects")]
     public GameObject parriedSoundPrefab;
-    [SerializeField] protected GameObject takeDmgSFXPrefab;
-    [SerializeField] protected GameObject takeDmgSoundPrefab;
 
     protected Stats Stats => stats ? stats : core.GetCoreComponent(ref stats);
     protected CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : core.GetCoreComponent(ref collisionSenses);
@@ -58,10 +62,17 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     public event Action OnDamaged;
     public event Action OnAttackBlocked;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        invulnerabilityIndication = GetComponent<InvulnerabilityIndication>();
+    }
+
     public override void LogicUpdate() { CheckKnockback(); }
 
-    public void TakeDamage(Types.DamageData damageData)
+    public virtual void TakeDamage(Types.DamageData damageData)
     {
+        if (Invulnerable) { return; }
         if (damageData.source == damageData.target) { return; }
 
         if (CheckBlock(damageData.source, damageData.target))
@@ -77,8 +88,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             Stats.DecreaseHealth(damageData.damageAmount);
             OnDamaged?.Invoke();
 
-            ParticleManager.StartParticlesWithRandomRotation(damagedParticles);
-            InstantiateTakeDamageVisuals(damageData); // TODO: Deprecate this.
+            InstantiateTakeDamageVisuals();
 
             // Not sure but I think this is solely used for players rage bar mechanic. Should be moved elsewhere.
             if (damageData.source.CompareTag(EditorConstants.TAG_PLAYER) && !gameObject.CompareTag(EditorConstants.TAG_PLAYER))
@@ -94,20 +104,27 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         }
     }
 
-    protected void InstantiateTakeDamageVisuals(Types.DamageData damageData)
+    protected IEnumerator ResetInvulnerability()
     {
-        if (takeDmgSoundPrefab != null && !damageData.ranged)
+        yield return new WaitForSeconds(invulnerabilityDuration);
+        if (invulnerabilityIndication)
         {
-            GameObject takeDmgSound = Instantiate(takeDmgSoundPrefab, transform.position, Quaternion.identity);
-            Destroy(takeDmgSound, takeDmgSound.GetComponent<AudioSource>() != null ? takeDmgSound.GetComponent<AudioSource>().clip.length : 0f);
+            invulnerabilityIndication.EndFlash();
+        }
+        Invulnerable = false;
+    }
+
+    protected void InstantiateTakeDamageVisuals()
+    {
+        if (damagedParticles)
+        {
+            ParticleManager.StartParticlesWithRandomRotation(damagedParticles);
         }
 
-        if (takeDmgSFXPrefab != null)
+        if (damagedSFX)
         {
-            GameObject takeDmgSFX = Instantiate(takeDmgSFXPrefab);
-            takeDmgSFX.transform.position = transform.position;
-            takeDmgSFX.transform.Rotate(0, 0, 90);
-            Destroy(takeDmgSFX, takeDmgSFX.GetComponent<ParticleSystem>() != null ? takeDmgSFX.GetComponent<ParticleSystem>().main.duration : 0f);
+            GameObject damagedSFXInstance = Instantiate(damagedSFX);
+            damagedSFXInstance.transform.position = transform.position;
         }
     }
 

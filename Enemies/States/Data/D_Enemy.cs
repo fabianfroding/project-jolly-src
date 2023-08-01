@@ -24,8 +24,6 @@ public class D_Enemy : ScriptableObject
         "Setting the value to 0 means that it will reset directly upon leaving the detection range.")]
     public float targetLockDuration;
 
-    public GameObject hitParticle;
-
     public LayerMask groundLayer;
     public LayerMask playerLayer;
 

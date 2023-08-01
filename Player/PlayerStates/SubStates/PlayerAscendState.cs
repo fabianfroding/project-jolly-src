@@ -4,6 +4,7 @@ public class PlayerAscendState : PlayerAbilityState
 {
     private bool isAscending;
     private CapsuleCollider2D capsuleCollider2D;
+    private BoxCollider2D boxCollider2D;
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rigidBody2D;
     private Vector3 direction = Vector3.up;
@@ -17,6 +18,7 @@ public class PlayerAscendState : PlayerAbilityState
         base.Enter();
 
         capsuleCollider2D = player.GetComponent<CapsuleCollider2D>();
+        boxCollider2D = player.GetComponent<BoxCollider2D>();
         spriteRenderer = player.GetComponent<SpriteRenderer>();
         rigidBody2D = player.GetComponent<Rigidbody2D>();
 
@@ -62,6 +64,7 @@ public class PlayerAscendState : PlayerAbilityState
         {
             isAscending = true;
             capsuleCollider2D.enabled = false;
+            boxCollider2D.enabled = false;
             spriteRenderer.enabled = false;
             rigidBody2D.Sleep();
 
@@ -95,6 +98,7 @@ public class PlayerAscendState : PlayerAbilityState
                 isAscending = false;
                 isAbilityDone = true;
                 capsuleCollider2D.enabled = true;
+                boxCollider2D.enabled = true;
                 spriteRenderer.enabled = true;
                 rigidBody2D.WakeUp();
                 player.Animator.SetBool(AnimationConstants.ANIM_PARAM_ASCEND, false);
