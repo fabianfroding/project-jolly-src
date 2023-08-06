@@ -47,9 +47,14 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
         if (collision.CompareTag(EditorConstants.TAG_PLAYER))
         {
             Player player = collision.GetComponent<Player>();
-
-            if (player != null)
+            if (player)
             {
+                Rigidbody2D rigidbody2D = collision.GetComponent<Rigidbody2D>();
+                if (rigidbody2D)
+                {
+                    rigidbody2D.gravityScale = 0f;
+                }
+
                 SetSceneTransitionData(player);
                 player.ToggleLockState();
 

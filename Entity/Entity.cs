@@ -8,8 +8,6 @@ public class Entity : MonoBehaviour
 
     protected SpriteRenderer spriteRenderer;
     protected Vector2 velocityWorkspace;
-    protected Material matDefault;
-    protected Material matWhite;
 
     protected Combat Combat => combat ? combat : Core.GetCoreComponent(ref combat);
     protected Combat combat;
@@ -24,23 +22,9 @@ public class Entity : MonoBehaviour
         Core = GetComponentInChildren<EntityCore>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         Animator = GetComponent<Animator>();
-        matWhite = Resources.Load(EditorConstants.RESOURCE_WHITE_FLASH, typeof(Material)) as Material;
     }
 
-    private void OnEnable()
-    {
-        if (combat) { Combat.OnDamaged += OnEntityTakeDamage; }
-    }
-
-    private void OnDisable()
-    {
-        if (combat) { Combat.OnDamaged -= OnEntityTakeDamage; }
-    }
-
-    protected virtual void Start()
-    {
-        matDefault = spriteRenderer.material;
-    }
+    protected virtual void Start() {}
 
     protected virtual void Update()
     {
@@ -50,22 +34,10 @@ public class Entity : MonoBehaviour
 
     #region Other Functions
 
-    protected virtual void OnEntityTakeDamage()
-    {
-        StartCoroutine(FlashWhiteMaterial(0.1f));
-    }
-
     protected virtual void Death() {}
 
     public virtual void Revive() {}
 
     public int GetFacingDirection() => Movement.FacingDirection;
-
-    protected virtual IEnumerator FlashWhiteMaterial(float delay = 0f)
-    {
-        spriteRenderer.material = matWhite;
-        yield return new WaitForSeconds(delay);
-        spriteRenderer.material = matDefault;
-    }
     #endregion
 }

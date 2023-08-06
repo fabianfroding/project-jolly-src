@@ -9,9 +9,13 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     [SerializeField] private GameObject damagedParticles;
     [SerializeField] private GameObject damagedSFX;
     [SerializeField] private float invulnerabilityDuration = 1.5f;
+    protected Material matDefault;
+    protected Material matWhite;
+    protected SpriteRenderer spriteRenderer;
 
     [Header("Knockback Settings")]
     [SerializeField] protected float maxKnockbackTime = 0.2f;
+    [SerializeField] [Range(0f, 1f)] protected float knockbackResistance = 0f; // This slider is buggy. Manually input values in the text box instead of dragging the slider.
     protected bool isKnockbackActive = false;
     protected float knockbackStartTime;
 
@@ -66,6 +70,10 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     {
         base.Awake();
         invulnerabilityIndication = GetComponent<InvulnerabilityIndication>();
+        matWhite = Resources.Load(EditorConstants.RESOURCE_WHITE_FLASH, typeof(Material)) as Material;
+        spriteRenderer = GetComponentInParent<SpriteRenderer>();
+        if (!spriteRenderer) { Debug.LogError("Combat::Awake: Could not find SpriteRenderer component."); }
+        matDefault = spriteRenderer.material;
     }
 
     public override void LogicUpdate() { CheckKnockback(); }
@@ -100,6 +108,12 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
                 }
             }
 
+            if (isActiveAndEnabled)
+            {
+                StopCoroutine(FlashWhiteMaterial());
+                StartCoroutine(FlashWhiteMaterial(0.1f));
+            }
+            
             ApplyKnockback(damageData);
         }
     }
@@ -114,9 +128,9 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         Invulnerable = false;
     }
 
-    protected void InstantiateTakeDamageVisuals()
+    protected virtual void InstantiateTakeDamageVisuals()
     {
-        if (damagedParticles)
+        if (ParticleManager && damagedParticles)
         {
             ParticleManager.StartParticlesWithRandomRotation(damagedParticles);
         }
@@ -161,7 +175,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 
     public virtual void Knockback(Vector2 angle, float strength, int direction)
     {
-        Movement.SetVelocity(strength, angle, direction);
+        Movement.SetVelocity(strength * (1f - knockbackResistance), angle, direction);
         Movement.CanSetVelocity = false;
         isKnockbackActive = true;
         knockbackStartTime = Time.time;
@@ -246,6 +260,13 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         }
 
         return false;
+    }
+
+    protected virtual IEnumerator FlashWhiteMaterial(float delay = 0f)
+    {
+        spriteRenderer.material = matWhite;
+        yield return new WaitForSeconds(delay);
+        spriteRenderer.material = matDefault;
     }
 
 #if UNITY_EDITOR

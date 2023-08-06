@@ -31,7 +31,7 @@ public class LoadSceneSpawnPoint : MonoBehaviour
             SceneTransitionDataHolder.spawnPointName = null;
 
             ScreenFade screenFade = FindObjectOfType<ScreenFade>();
-            if (screenFade != null)
+            if (screenFade)
             {
                 screenFade.FadeIn();
             }
@@ -55,7 +55,7 @@ public class LoadSceneSpawnPoint : MonoBehaviour
 
     private void LoadSceneTransitionData(Player player)
     {
-        if (player != null)
+        if (player)
         {
             player.Core.GetCoreComponent<Stats>().SetHealth(SceneTransitionDataHolder.playerCurrentHealth);
             player.Core.GetCoreComponent<Stats>().SetMaxHealth(SceneTransitionDataHolder.playerMaxHealth);

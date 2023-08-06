@@ -49,7 +49,7 @@ public class CollisionSenses : CoreComponent
     [Tooltip("Intended primarily for flying entities.")]
     [SerializeField] private float wallDownCheckDistance;
 
-    private Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    private Movement Movement => movement ? movement : core.GetCoreComponent(ref movement); 
     private Movement movement;
 
     public Transform GetCeilingCheck() {  return ceilingCheck; }

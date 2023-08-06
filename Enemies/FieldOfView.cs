@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
@@ -25,6 +26,8 @@ public class FieldOfView : MonoBehaviour
 
     public bool CanSeeTarget { get; private set; }
     public GameObject Target { get; private set; }
+
+    public event Action OnAggro;
 
     #region Unity Callback Functions
     private void Start()
@@ -117,6 +120,10 @@ public class FieldOfView : MonoBehaviour
                 float distToTarget = Vector2.Distance(transform.position, Target.transform.position);
                 if (!Physics2D.Raycast(fovOrigin.position, dirToTarget, distToTarget, obstructionLayer))
                 {
+                    if (!CanSeeTarget)
+                    {
+                        OnAggro?.Invoke();
+                    }
                     CanSeeTarget = true;
                 }
                 else
