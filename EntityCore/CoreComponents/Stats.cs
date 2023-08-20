@@ -1,75 +1,82 @@
 using System;
+using System.Linq;
 using UnityEngine;
+using static Types;
 
 public class Stats : CoreComponent
 {
     [SerializeField] protected int maxHealth;
-    public int currentHealth { get; protected set; }
+    public HealthState[] health;
 
     [Tooltip("The amount of hits/damage before the entity can get stunned.")]
     [SerializeField] protected int stunResistance = 3;
 
     public event Action OnHealthDepleted;
+    public event Action OnHealthChanged;
 
     protected override void Awake()
     {
         base.Awake();
-        currentHealth = maxHealth;
+        health = new HealthState[maxHealth];
     }
 
     public virtual void OnDealtDamage() {}
 
+    public virtual bool IsAlive()
+    {
+        if (health.Any(state => state == HealthState.FILLED)) return true;
+        return false;
+    }
+
     public virtual void DecreaseHealth(int amount)
     {
-        currentHealth -= amount;
-
-        if (currentHealth <= 0)
+        int lastFilledIndex = -1;
+        for (int i = health.Length - 1; i >= 0; i--)
         {
-            currentHealth = 0;
-            OnHealthDepleted?.Invoke();
+            if (health[i] == HealthState.FILLED)
+            {
+                lastFilledIndex = i;
+                break;
+            }
         }
+
+        if (lastFilledIndex != -1)
+        {
+            for (int i = lastFilledIndex; i >= Mathf.Max(0, lastFilledIndex - amount + 1); i--)
+            {
+                health[i] = HealthState.EMPTY;
+                OnHealthChanged?.Invoke();
+            }
+        }
+
+        if (health.All(state => state == HealthState.EMPTY)) { OnHealthDepleted?.Invoke(); }
     }
 
     public virtual void IncreaseHealth(int amount)
     {
-        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-    }
-
-    public virtual void SetHealth(int value)
-    {
-        if (value > maxHealth)
+        for (int i = 0; i < health.Length && amount > 0; i++)
         {
-            currentHealth = maxHealth;
-        }
-        else if (value < 0)
-        {
-            currentHealth = 0;
-        }
-        else
-        {
-            currentHealth = value;
+            if (health[i] == HealthState.EMPTY)
+            {
+                health[i] = HealthState.FILLED;
+                amount--;
+                OnHealthChanged?.Invoke();
+            }
         }
     }
 
-    public virtual int GetMaxHealth()
-    {
-        return maxHealth;
-    }
+    public virtual void SetHealth(HealthState[] value) { health = value; }
+
+    public virtual int GetMaxHealth() { return maxHealth; }
 
     public virtual void SetMaxHealth(int value)
     {
-        if (maxHealth <= 0)
+        health = new HealthState[value];
+        for (int i = 0; i < health.Length; i++)
         {
-            maxHealth = 1;
-        }
-        else
-        {
-            maxHealth = value;
+            health[i] = HealthState.FILLED;
         }
     }
 
-    public virtual int GetStunResistance()
-    {
-        return stunResistance;
-    }
+    public virtual int GetStunResistance() { return stunResistance; }
 }

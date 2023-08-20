@@ -57,8 +57,7 @@ public class LoadSceneSpawnPoint : MonoBehaviour
     {
         if (player)
         {
-            player.Core.GetCoreComponent<Stats>().SetHealth(SceneTransitionDataHolder.playerCurrentHealth);
-            player.Core.GetCoreComponent<Stats>().SetMaxHealth(SceneTransitionDataHolder.playerMaxHealth);
+            player.Core.GetCoreComponent<Stats>().SetHealth(SceneTransitionDataHolder.health);
             Movement playerMovement = player.Core.GetCoreComponent<Movement>();
             if (playerMovement.FacingDirection != SceneTransitionDataHolder.playerFacingDirection)
             {

@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerDashState : PlayerAbilityState
 {
-    public bool CanDash { get; private set; }
-    private float lastDashTime;
-    private Vector2 destination;
+    public bool CanDash { get; protected set; }
+    protected float lastDashTime;
+    protected Vector2 destination;
     
     public PlayerDashState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
@@ -58,10 +58,10 @@ public class PlayerDashState : PlayerAbilityState
         }
     }
 
-    public bool CheckIfCanDash()
+    public virtual bool CheckIfCanDash()
     {
         return CanDash && Time.time >= lastDashTime + playerStateData.dashCooldown;
     }
 
-    public void ResetCanDash() => CanDash = true;
+    public virtual void ResetCanDash() => CanDash = true;
 }

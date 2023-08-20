@@ -55,7 +55,7 @@ public class ShinyEnemyRandomizer : MonoBehaviour
 
     private void SetShinyStats()
     {
-        Stats.SetMaxHealth((int)(Stats.currentHealth * 1.5f));
+        Stats.SetMaxHealth((int)(Stats.GetMaxHealth() * 1.5f));
         Stats.IncreaseHealth(Stats.GetMaxHealth());
 
         // TODO: Find a way to decrease interval between attacks/abilities.

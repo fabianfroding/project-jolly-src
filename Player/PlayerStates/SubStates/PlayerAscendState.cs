@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class PlayerAscendState : PlayerAbilityState
 {
@@ -39,10 +40,13 @@ public class PlayerAscendState : PlayerAbilityState
     public override void Exit()
     {
         base.Exit();
+
         if (warpActiveSFX)
         {
             GameObject.Destroy(warpActiveSFX);
         }
+
+        EndWarp();
     }
 
     public override void LogicUpdate()
@@ -95,14 +99,19 @@ public class PlayerAscendState : PlayerAbilityState
                 tempGO = GameObject.Instantiate(playerStateData.ascendEmergeSFX);
                 tempGO.transform.position = player.transform.position;
 
-                isAscending = false;
-                isAbilityDone = true;
-                capsuleCollider2D.enabled = true;
-                boxCollider2D.enabled = true;
-                spriteRenderer.enabled = true;
-                rigidBody2D.WakeUp();
-                player.Animator.SetBool(AnimationConstants.ANIM_PARAM_ASCEND, false);
+                EndWarp();
             }
         }
+    }
+
+    private void EndWarp()
+    {
+        isAscending = false;
+        isAbilityDone = true;
+        capsuleCollider2D.enabled = true;
+        boxCollider2D.enabled = true;
+        spriteRenderer.enabled = true;
+        rigidBody2D.WakeUp();
+        player.Animator.SetBool(AnimationConstants.ANIM_PARAM_ASCEND, false);
     }
 }

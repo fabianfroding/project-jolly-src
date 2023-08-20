@@ -47,12 +47,6 @@ public class StatsPlayer : Stats
         InvokeOnPlayerHealthChangeEvent();
     }
 
-    public override void SetHealth(int value)
-    {
-        base.SetHealth(value);
-        InvokeOnPlayerHealthChangeEvent();
-    }
-
     public override void SetMaxHealth(int value)
     {
         base.SetMaxHealth(value);

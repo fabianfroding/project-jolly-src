@@ -9,6 +9,14 @@ public static class Types
         MAGICAL
     }
 
+    public enum HealthState
+    {
+        FILLED,
+        EMPTY,
+        BROKEN,
+        BREAKING
+    }
+
     public enum World
     {
         TROLL_WORLD,

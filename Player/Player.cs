@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class Player : Entity
@@ -26,6 +25,7 @@ public class Player : Entity
     public PlayerThunderState ThunderState { get; private set; }
     public PlayerAirGlideState AirGlideState { get; private set; }
     public PlayerFloatingBubbleState FloatingBubbleState { get; private set; }
+    public PlayerWarpDashState WarpDashState { get; private set; }
     #endregion
 
     #region Components
@@ -69,6 +69,7 @@ public class Player : Entity
         ThunderState = new PlayerThunderState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_THUNDER);
         AirGlideState = new PlayerAirGlideState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_AIR_GLIDE);
         FloatingBubbleState = new PlayerFloatingBubbleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
+        WarpDashState = new PlayerWarpDashState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
 
         InputHandler = GetComponent<PlayerInputHandler>();
     }

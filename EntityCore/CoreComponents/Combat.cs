@@ -90,7 +90,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             return;
         }
         
-        if (Stats.currentHealth > 0)
+        if (Stats.IsAlive())
         {
             Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
             Stats.DecreaseHealth(damageData.damageAmount);
