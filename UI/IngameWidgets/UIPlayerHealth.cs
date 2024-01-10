@@ -6,17 +6,12 @@ public class UIPlayerHealth : UIIngameWidget
     [SerializeField] private Image[] images;
     [SerializeField] private Sprite spriteFilled; 
     [SerializeField] private Sprite spriteEmpty;
+    [SerializeField] private Sprite spriteBroken;
     private StatsPlayer statsPlayer;
 
     private void Awake()
     {
         statsPlayer = FindObjectOfType<StatsPlayer>();
-        if (!statsPlayer)
-        {
-            Debug.LogError("UIPlayerHealth:Awake: Could not find object of type StatsPlayer.");
-            return;
-        }
-
         StatsPlayer.OnPlayerHealthChange += UpdateUI;
     }
 
@@ -32,23 +27,24 @@ public class UIPlayerHealth : UIIngameWidget
 
     private void UpdateUI()
     {
-        if (statsPlayer) { UpdateUI(statsPlayer.health); }
+        if (!statsPlayer) 
+        {
+            statsPlayer = FindObjectOfType<StatsPlayer>();
+        }
+        UpdateUI(statsPlayer.CurrentHealth, statsPlayer.GetMaxHealth(), statsPlayer.BrokenHealth);
     }
 
-    public void UpdateUI(Types.HealthState[] health)
+    public void UpdateUI(int currentHealth, int maxHealth, int brokenHealth)
     {
-        for (int i  = 0; i < health.Length; i++)
+        for (int i = 0; i < images.Length; i++)
         {
-            if (!images[i].enabled) { images[i].enabled = true; }
-            switch (health[i])
-            {
-                case Types.HealthState.FILLED:
-                    images[i].sprite = spriteFilled;
-                    break;
-                case Types.HealthState.EMPTY:
-                    images[i].sprite = spriteEmpty;
-                    break;
-            }
+            images[i].enabled = i <= maxHealth;
+            images[i].sprite = i <= currentHealth ? spriteFilled : spriteEmpty;
+        }
+
+        for (int i = maxHealth; brokenHealth > 0; i--)
+        {
+
         }
     }
 }

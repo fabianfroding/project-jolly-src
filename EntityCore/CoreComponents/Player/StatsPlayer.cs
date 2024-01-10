@@ -11,6 +11,7 @@ public class StatsPlayer : Stats
     [SerializeField] protected float manaRegenPerAttack = 8f;
     [SerializeField] protected float manaRegenPerDamageTaken = 12f;
     public float currentMana { get; protected set; }
+    public int BrokenHealth { get; protected set; }
 
     public static event Action OnPlayerHealthChange;
     public static event Action<float> OnPlayerManaChange;
@@ -35,9 +36,9 @@ public class StatsPlayer : Stats
         IncreaseMana(manaRegenPerAttack);
     }
 
-    public override void DecreaseHealth(int amount)
+    public override void DecreaseHealth(int damageAmount)
     {
-        base.DecreaseHealth(amount);
+        base.DecreaseHealth(damageAmount);
         InvokeOnPlayerHealthChangeEvent();
     }
 

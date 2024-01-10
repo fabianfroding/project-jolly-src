@@ -100,6 +100,8 @@ public class Player : Entity
             enemyCollisionDamage.target = gameObject;
             Combat.TakeDamage(enemyCollisionDamage);
             Combat.Knockback(enemyCollisionDamage.knockbackAngle, enemyCollisionDamage.knockbackStrength, Movement.FacingDirection);
+
+            // TODO: Need move this to individual enemies somehow so that some enemies break player health on collision.
         }
     }
 

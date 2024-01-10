@@ -14,7 +14,7 @@ public class Enemy : Entity, IParriable
 
     [SerializeField] protected Transform playerCheck;
 
-    protected CollisionSenses CollisionSenses { get => collisionSenses ?? Core.GetCoreComponent(ref collisionSenses); }
+    protected CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : Core.GetCoreComponent(ref collisionSenses);
     protected CollisionSenses collisionSenses;
 
     #region Unity Callback Functions
@@ -158,19 +158,6 @@ public class Enemy : Entity, IParriable
     #endregion
 
     #region Other Functions
-    /*public override void TakeDamage(Types.DamageData damageData)
-    {
-        if (CanBeParried(damageData)) return;
-
-        base.TakeDamage(damageData);
-
-        // Check if attack came from the right (-1) or left (1).
-        LastDamageDirection = damageData.direction.x > transform.position.x ? -1 : 1;
-
-        Combat.ApplyStunDamage(damageData.stunDamageAmount);
-        //DamageHop(enemyData.damageHopSpeed); // Enable if we want enemies to "hop" slightly when damaged.
-    }*/
-
     protected override void Death()
     {
         AddToKilledEnemies();
