@@ -7,12 +7,20 @@ public class ParticleManager : CoreComponent
     protected override void Awake()
     {
         base.Awake();
-        particleContainer = GameObject.FindGameObjectWithTag(EditorConstants.TAG_PARTICLE_CONTAINER).transform;
+        GameObject particleContainerGO = GameObject.FindGameObjectWithTag(EditorConstants.TAG_PARTICLE_CONTAINER);
+        if (particleContainerGO)
+            particleContainer = particleContainerGO.transform;
+        else
+            Debug.LogWarning("ParticleManager:Awake: Could not find particle container with tag " + EditorConstants.TAG_PARTICLE_CONTAINER + " on " + gameObject.name + ".");
     }
 
     public GameObject StartParticles(GameObject particlePrefab, Vector2 position, Quaternion rotation)
     {
-        return Instantiate(particlePrefab, position, rotation, particleContainer);
+        if (particleContainer)
+            return Instantiate(particlePrefab, position, rotation, particleContainer);
+        else
+            Debug.LogWarning("ParticleManager:StartParticles: Invalid particle container.");
+        return null;
     }
 
     public GameObject StartParticles(GameObject particlePrefab)

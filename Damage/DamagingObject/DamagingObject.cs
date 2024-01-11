@@ -58,16 +58,11 @@ public class DamagingObject : MonoBehaviour
 
     protected virtual void ProcessCollision(GameObject other)
     {
-        Debug.Log("1");
         if (!other.GetComponent<Collider2D>().isTrigger && Source != other)
         {
-            Debug.Log("2");
             // Prevent player damage-objects from colliding with NPCs.
             if (Source != null && Source.CompareTag(EditorConstants.TAG_PLAYER) && other.CompareTag(EditorConstants.TAG_NPC))
-            {
-                Debug.Log("3");
                 return;
-            }
 
             Entity entity = other.GetComponent<Entity>();
             if (entity != null)
@@ -77,17 +72,13 @@ public class DamagingObject : MonoBehaviour
                 //entity.TakeDamage(damageData);
             }
 
-            
-
             IDamageable damageable = other.GetComponentInChildren<IDamageable>();
             if (damageable != null)
             {
                 damageData.source = Source;
                 damageData.target = other;
                 damageable.TakeDamage(damageData);
-                Debug.Log(other.name + " took dmg");
             }
-            Debug.Log("4");
 
             if (destroyOnImpact)
             {
@@ -100,9 +91,7 @@ public class DamagingObject : MonoBehaviour
 
         // Duct tape solution.
         if (Source != other)
-        {
             InstantiateDeathSFX(other);
-        }
     }
 
     protected IEnumerator DestroySelf(float delay = 0f)
