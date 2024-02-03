@@ -113,5 +113,6 @@ public class PlayerAscendState : PlayerAbilityState
         spriteRenderer.enabled = true;
         rigidBody2D.WakeUp();
         player.Animator.SetBool(AnimationConstants.ANIM_PARAM_ASCEND, false);
+        rigidBody2D.velocity = new Vector2(0f, 10f); // TODO: Make to a design variable and make it negative if traveling downwards.
     }
 }

@@ -64,7 +64,8 @@ public class InteractionIndicator : MonoBehaviour
                 fungusFlowChart.SetActive(false);
             }
 
-            animator.Play("Hide");
+            if (gameObject.activeSelf)
+                animator.Play("Hide");
         }
     }
 

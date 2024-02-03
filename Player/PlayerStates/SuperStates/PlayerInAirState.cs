@@ -16,6 +16,7 @@ public class PlayerInAirState : PlayerState
     private bool isJumping;
     private bool isTouchingWall;
     private bool isTouchingWallBack;
+    private bool holdAscendState;
     private bool wallJumpCoyoteTime;
     private float startWallJumpCoyoteTime;
     private bool oldIsTouchingWall;
@@ -67,6 +68,7 @@ public class PlayerInAirState : PlayerState
         chargeBowInput = player.InputHandler.ChargeBowInput;
         dashInput = player.InputHandler.DashInput;
         airGlideInput = player.InputHandler.AirGlideInput;
+        holdAscendState = player.InputHandler.HoldWarpInput;
 
         CheckJumpMultiplier();
 
@@ -107,6 +109,10 @@ public class PlayerInAirState : PlayerState
         else if (dashInput && player.DashState.CheckIfCanDash())
         {
             stateMachine.ChangeState(player.DashState);
+        }
+        else if (holdAscendState)
+        {
+            stateMachine.ChangeState(player.HoldAscendState);
         }
         else
         {

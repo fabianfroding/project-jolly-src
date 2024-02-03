@@ -9,7 +9,6 @@ public class Stats : CoreComponent
     [Tooltip("The amount of hits/damage before the entity can get stunned.")]
     [SerializeField] protected int stunResistance = 3;
 
-    public event Action OnHealthChanged;
     public event Action OnHealthDepleted;
     
     public virtual void OnDealtDamage() {} // Why isnt this a delegate?

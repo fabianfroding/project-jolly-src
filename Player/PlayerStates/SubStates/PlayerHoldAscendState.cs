@@ -42,6 +42,7 @@ public class PlayerHoldAscendState : PlayerAbilityState
             if (isHolding && lineRenderer)
             {
                 lineRenderer.enabled = true;
+                lineRenderer.SetPosition(0, CollisionSenses.GetWallCheckTransform().position);
 
                 Vector3 direction = Vector3.up;
                 if (player.InputHandler.RawWarpDirectionInput.y > 0)
