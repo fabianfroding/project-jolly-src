@@ -1,5 +1,4 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
+ using UnityEngine;
 
 /* This class is used for detecting when the player comes within range of an NPC to allow dialog.
  * It should be attached to a child game object of the NPC since the layer collision between the player and NPCs are disabled.
@@ -8,13 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class InteractionIndicator : MonoBehaviour
 {
-    [Tooltip("For Enter-type interaction indicators only. Set the field to the scene to load.")]
-    [SerializeField] private string sceneToLoad;
-    [SerializeField] private GameObject fungusFlowChart;
-
     private SpriteRenderer spriteRenderer;
     private Animator animator;
-    private bool playerInRange = false;
 
     private void Start()
     {
@@ -23,33 +17,13 @@ public class InteractionIndicator : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void Update()
-    {
-        if (playerInRange)
-        {
-            if (sceneToLoad != "" && sceneToLoad != null)
-            {
-                /*if (InputManager.InteractPressed() && PlayerManager.IsGrounded())
-                {
-                    SceneManager.LoadScene(sceneToLoad);
-                }*/
-            }
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag(EditorConstants.TAG_PLAYER))
         {
-            playerInRange = true;
             spriteRenderer.enabled = true;
-
-            if (fungusFlowChart)
-            {
-                fungusFlowChart.SetActive(true);
-            }
-
             animator.Play("Show");
+            SetInteractableComponentForPlayer(other);
         }
     }
 
@@ -57,16 +31,21 @@ public class InteractionIndicator : MonoBehaviour
     {
         if (other.gameObject.CompareTag(EditorConstants.TAG_PLAYER))
         {
-            playerInRange = false;
-
-            if (fungusFlowChart)
-            {
-                fungusFlowChart.SetActive(false);
-            }
-
             if (gameObject.activeSelf)
                 animator.Play("Hide");
+            SetInteractableComponentForPlayer(null);
         }
+    }
+
+    private void SetInteractableComponentForPlayer(Collider2D other)
+    {
+        if (!other) return;
+        if (!other.TryGetComponent(out Player player)) return;
+
+        IInteractable InteractableComponent = GetComponentInParent<IInteractable>();
+        if (InteractableComponent == null) return;
+
+        player.currentInteractionTarget = InteractableComponent;
     }
 
     public bool IsActive() => spriteRenderer.enabled;

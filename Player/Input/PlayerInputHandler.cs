@@ -26,6 +26,8 @@ public class PlayerInputHandler : MonoBehaviour
     public bool HoldWarpInputStop { get; private set; }
     public bool ThunderInput { get; private set; }
     public bool AirGlideInput { get; private set; }
+    public bool InteractInput { get; private set; }
+    public bool AdvanceInteractionInput {  get; private set; }
 
     public static event Action OnTriggerFungusDialog;
 
@@ -59,7 +61,7 @@ public class PlayerInputHandler : MonoBehaviour
     private void Start()
     {
         playerInput.actions.FindActionMap(InGameMenusActionMapName).Enable();
-        playerInput.actions.FindActionMap(FungusActionMapName).Enable();
+        //playerInput.actions.FindActionMap(FungusActionMapName).Enable();
     }
 
     private void Update()
@@ -198,6 +200,22 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            InteractInput = true;
+        if (context.canceled)
+            InteractInput = false;
+    }
+
+    public void OnAdvanceInteractionInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            AdvanceInteractionInput = true;
+        if (context.canceled)
+            AdvanceInteractionInput = false;
+    }
+
     public void UseJumpInput() => JumpInput = false;
 
     public void UseChargeBowInput() => ChargeBowInput = false;
@@ -209,6 +227,9 @@ public class PlayerInputHandler : MonoBehaviour
     public void UseHoldWarpInput() => HoldWarpInput = false;
 
     public void UseThunderInput() => ThunderInput = false;
+
+    public void UseInteractInput() => InteractInput = false;
+    public void UseAdvanceInteractionInput() => AdvanceInteractionInput = false;
 
     private void CheckJumpInputHoldTime()
     {

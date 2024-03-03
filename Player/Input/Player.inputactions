@@ -94,6 +94,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "a5da4c54-048b-4ab4-a5f2-129fdc1d6705",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AdvanceInteraction",
+                    "type": "Button",
+                    "id": "593d8d34-4e53-4cf1-b456-34313c31a5de",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -448,6 +466,28 @@
                     "action": "BowCharge",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e97234e-3740-41a0-8dec-a6fa0aaba002",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fb171473-cfb3-48a7-9d88-f442c705746f",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "AdvanceInteraction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -728,7 +768,7 @@
             ]
         },
         {
-            "name": "Fungus",
+            "name": "Interact",
             "id": "880330db-1802-4047-87d4-2f5184937a03",
             "actions": [
                 {

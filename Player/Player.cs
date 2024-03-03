@@ -26,6 +26,7 @@ public class Player : Entity
     public PlayerAirGlideState AirGlideState { get; private set; }
     public PlayerFloatingBubbleState FloatingBubbleState { get; private set; }
     public PlayerWarpDashState WarpDashState { get; private set; }
+    public PlayerInteractState InteractState { get; private set; }
     #endregion
 
     #region Components
@@ -33,10 +34,10 @@ public class Player : Entity
     #endregion
 
     #region Other Variables
-    public bool hasCatchedBoomerang = false;
     [SerializeField] private Player_StateData playerStateData;
     [SerializeField] private Transform fireArrowSpawnTransform;
     [SerializeField] private Types.DamageData enemyCollisionDamage;
+    public IInteractable currentInteractionTarget;
     #endregion
 
     #region Events
@@ -70,6 +71,7 @@ public class Player : Entity
         AirGlideState = new PlayerAirGlideState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_AIR_GLIDE);
         FloatingBubbleState = new PlayerFloatingBubbleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
         WarpDashState = new PlayerWarpDashState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
+        InteractState = new PlayerInteractState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
 
         InputHandler = GetComponent<PlayerInputHandler>();
     }
@@ -132,7 +134,31 @@ public class Player : Entity
 
     public bool IsDead() => StateMachine.CurrentState == DeadState;
 
-    public void ChangeStateToInDialogue() => StateMachine.ChangeState(LockedState);
+    public bool Interact()
+    {
+        if (currentInteractionTarget != null)
+        {
+            currentInteractionTarget.Interact();
+            return true;
+        }
+        return false;
+    }
+
+    public bool AdvanceInteraction()
+    {
+        if (currentInteractionTarget == null)
+            return false;
+        if (currentInteractionTarget.AdvanceInteraction())
+            return true;
+        return false;
+    }
+
+    public void EndInteraction()
+    {
+        WidgetHUD widgetHUD = WidgetHUD.Instance;
+        if (widgetHUD != null)
+            WidgetHUD.Instance.ShowInteractionPanel(false);
+    }
 
     public void ToggleLockState()
     {
@@ -159,11 +185,6 @@ public class Player : Entity
     public void TriggerOnPlayerExitAirGlideState() => OnPlayerExitAirGlideState();
 
     public Player_StateData GetPlayerStateData() => playerStateData;
-
-    public void InvokeOnPlayerCatchBoomerang()
-    {
-        hasCatchedBoomerang = true;
-    }
 
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
 

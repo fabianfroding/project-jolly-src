@@ -50,6 +50,8 @@ public class CombatPlayer : Combat
                     Knockback(Vector2.zero, 0f, dir.x < 0f ? -1 : 1);
                 }
 
+
+
                 if (invulnerabilityIndication) { invulnerabilityIndication.StartFlash(); }
 
                 StopCoroutine(ResetInvulnerability());

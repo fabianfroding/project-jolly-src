@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public class MetaManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject uiManagerPrefab;
+    [SerializeField] private GameObject widgetHUD;
 
     private void Awake()
     {
         AddCurrencyManager();
+        AddDaytimeManager();
         AddEquipmentManager();
-        AddFungusEventHandler();
         AddInGameProfileManager();
         AddSaveManager();
-        AddUIManager();
+        AddWidgetHUD();
     }
 
     private void AddCurrencyManager()
@@ -20,16 +20,16 @@ public class MetaManager : MonoBehaviour
         tempGO.AddComponent<CurrencyManager>();
     }
 
+    private void AddDaytimeManager()
+    {
+        GameObject tempGO = AddChild("DaytimeManager");
+        tempGO.AddComponent<DaytimeManager>();
+    }
+
     private void AddEquipmentManager()
     {
         GameObject tempGO = AddChild("EquipmentManager");
         tempGO.AddComponent<EquipmentManager>();
-    }
-
-    private void AddFungusEventHandler()
-    {
-        GameObject tempGO = AddChild("FungusEventHandler");
-        tempGO.AddComponent<FungusEventHandler>();
     }
 
     private void AddInGameProfileManager()
@@ -44,10 +44,10 @@ public class MetaManager : MonoBehaviour
         tempGO.AddComponent<SaveManager>();
     }
 
-    private void AddUIManager()
+    private void AddWidgetHUD()
     {
-        GameObject tempGO = Instantiate(uiManagerPrefab);
-        tempGO.transform.parent = transform;
+        GameObject tempGO = Instantiate(widgetHUD);
+        tempGO.transform.SetParent(transform);
     }
 
     private GameObject AddChild(string name)
