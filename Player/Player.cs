@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Player : Entity
 {
@@ -37,6 +38,7 @@ public class Player : Entity
     [SerializeField] private Player_StateData playerStateData;
     [SerializeField] private Transform fireArrowSpawnTransform;
     [SerializeField] private Types.DamageData enemyCollisionDamage;
+    public Light2D light2D;
     public IInteractable currentInteractionTarget;
     #endregion
 
@@ -158,6 +160,12 @@ public class Player : Entity
         WidgetHUD widgetHUD = WidgetHUD.Instance;
         if (widgetHUD != null)
             WidgetHUD.Instance.ShowInteractionPanel(false);
+    }
+
+    public void SetVisibilityRadius(float radius)
+    {
+        if (light2D)
+            light2D.pointLightOuterRadius = radius;
     }
 
     public void ToggleLockState()
