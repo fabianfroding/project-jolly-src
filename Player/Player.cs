@@ -141,6 +141,7 @@ public class Player : Entity
         if (currentInteractionTarget != null)
         {
             currentInteractionTarget.Interact();
+            DaytimeManager.Instance.stopDaytime = true;
             return true;
         }
         return false;
@@ -160,6 +161,7 @@ public class Player : Entity
         WidgetHUD widgetHUD = WidgetHUD.Instance;
         if (widgetHUD != null)
             WidgetHUD.Instance.ShowInteractionPanel(false);
+        DaytimeManager.Instance.stopDaytime = false;
     }
 
     public void SetVisibilityRadius(float radius)

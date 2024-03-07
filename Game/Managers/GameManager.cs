@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         AddCurrencyManager();
-        AddDaytimeManager();
         AddEquipmentManager();
         AddInGameProfileManager();
         AddSaveManager();
@@ -18,12 +17,6 @@ public class GameManager : MonoBehaviour
     {
         GameObject tempGO = AddChild("CurrencyManager");
         tempGO.AddComponent<CurrencyManager>();
-    }
-
-    private void AddDaytimeManager()
-    {
-        GameObject tempGO = AddChild("DaytimeManager");
-        tempGO.AddComponent<DaytimeManager>();
     }
 
     private void AddEquipmentManager()

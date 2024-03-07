@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class DaytimeManager : MonoBehaviour
 {
-    [SerializeField] private float realMinutesPerDay = 0.04f;
+    [SerializeField] private float realMinutesPerDay = 18f;
     [SerializeField] private float playerMaxVisibilityRadius = 48f;
     [SerializeField] private float playerMinVisibilityRadius = 12f;
+    [SerializeField] private int currentHour = 6;
 
     private float gameHourInterval;
-    private int currentHour = 6;
+    private float gameMinuteInterval;
+    private float timeAtLastHour = 0f;
     private Player player;
+
+    public bool stopDaytime = false;
 
     public static event Action<int> OnHourChange;
 
@@ -27,7 +31,8 @@ public class DaytimeManager : MonoBehaviour
     void Start()
     {
         gameHourInterval = realMinutesPerDay / 24.0f * 60.0f;
-        Debug.Log(gameHourInterval);
+        gameMinuteInterval = gameHourInterval / 60f;
+        timeAtLastHour = Time.time;
 
         OnHourChange?.Invoke(currentHour);
         UpdatePlayerVisibilityRadius(currentHour);
@@ -39,19 +44,29 @@ public class DaytimeManager : MonoBehaviour
     {
         while (true)
         {
-            // TODO: Change this back to update in game-minutes to make the player visibility radius smoother.
-            // TODO: Pause the coroutine while player is interacting.
-            yield return new WaitForSeconds(gameHourInterval);
-            currentHour++;
-            if (currentHour >= 24)
-                currentHour = 0;
-            OnHourChange?.Invoke(currentHour);
+            if (!stopDaytime)
+            {
+                yield return new WaitForSeconds(gameMinuteInterval);
 
-            UpdatePlayerVisibilityRadius(currentHour);
+                if (Time.time >= timeAtLastHour + gameHourInterval)
+                {   
+                    currentHour++;
+                    timeAtLastHour = Time.time;
+                    if (currentHour >= 24)
+                        currentHour = 0;
+                    OnHourChange?.Invoke(currentHour);
+                }
+
+                UpdatePlayerVisibilityRadius(currentHour + ((Time.time - timeAtLastHour) / gameHourInterval));
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 
-    private void UpdatePlayerVisibilityRadius(int hour)
+    private void UpdatePlayerVisibilityRadius(float time)
     {
         if (!player)
             player = FindObjectOfType<Player>();
@@ -62,7 +77,7 @@ public class DaytimeManager : MonoBehaviour
             return;
         }
 
-        float hoursAwayFromMidday = Mathf.Abs(hour - 12);
+        float hoursAwayFromMidday = Mathf.Abs(time - 12);
         player.SetVisibilityRadius(playerMaxVisibilityRadius - (hoursAwayFromMidday * ((playerMaxVisibilityRadius - playerMinVisibilityRadius) / 12)));
     }
 }
