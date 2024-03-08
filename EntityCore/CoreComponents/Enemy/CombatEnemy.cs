@@ -9,8 +9,9 @@ public class CombatEnemy : Combat
     private FieldOfView FieldOfView => fieldOfView ? fieldOfView : fieldOfView = GetComponentInParent<FieldOfView>();
     private FieldOfView fieldOfView; 
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         fieldOfView = GetComponentInParent<FieldOfView>();
         if (!fieldOfView) { Debug.LogError("CombatEnemy::Start: Could not find FieldOfView component in parent."); }
     }

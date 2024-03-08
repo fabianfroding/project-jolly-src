@@ -253,8 +253,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started && AllowInGameMenusToggle())
         {
-            TogglePlayerLockedState();
-            UIManagerScript.Instance.ToggleInGameMenusUI();
+            //TogglePlayerLockedState();
         }
     }
 
@@ -262,8 +261,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started && AllowInGameMenusToggle())
         {
-            TogglePlayerLockedState();
-            UIManagerScript.Instance.ToggleDebugMenu();
+            //TogglePlayerLockedState();
         }
     }
 

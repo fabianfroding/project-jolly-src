@@ -12,5 +12,7 @@ public class CoreComponent : MonoBehaviour, ILogicUpdate
         core.AddComponent(this); // Add the component to the list.
     }
 
+    protected virtual void Start() {}
+
     public virtual void LogicUpdate() {}
 }
