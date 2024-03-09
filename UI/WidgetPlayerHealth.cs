@@ -27,7 +27,7 @@ public class WidgetPlayerHealth : MonoBehaviour
     {
         for (int i = 1; i <= widgetPlayerHealthIcons.Count; i++)
         {
-            WidgetPlayerHealthIcon widgetPlayerHealthIcon = widgetPlayerHealthIcons[i].GetComponent<WidgetPlayerHealthIcon>();
+            WidgetPlayerHealthIcon widgetPlayerHealthIcon = widgetPlayerHealthIcons[i - 1].GetComponent<WidgetPlayerHealthIcon>();
             if (!widgetPlayerHealthIcon)
                 continue;
 

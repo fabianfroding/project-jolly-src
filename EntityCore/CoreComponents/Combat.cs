@@ -80,8 +80,10 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 
     public virtual void TakeDamage(Types.DamageData damageData)
     {
-        if (Invulnerable) { return; }
-        if (damageData.source == damageData.target) { return; }
+        if (Invulnerable)
+            return;
+        if (damageData.source == damageData.target)
+            return;
 
         if (CheckBlock(damageData.source, damageData.target))
         {

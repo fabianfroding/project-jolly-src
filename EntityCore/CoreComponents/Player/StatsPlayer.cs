@@ -8,6 +8,7 @@ public class StatsPlayer : Stats
     protected override void Start()
     {
         InvokeOnPlayerMaxHealthChangeEvent();
+        SetHealth(maxHealth); // TODO: Get from save data.
     }
 
     public override void DecreaseHealth(int damageAmount)
@@ -19,6 +20,12 @@ public class StatsPlayer : Stats
     public override void IncreaseHealth(int amount)
     {
         base.IncreaseHealth(amount);
+        InvokeOnPlayerHealthChangeEvent();
+    }
+
+    public override void SetHealth(int value)
+    {
+        base.SetHealth(value);
         InvokeOnPlayerHealthChangeEvent();
     }
 

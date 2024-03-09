@@ -8,7 +8,7 @@ public class Stats : CoreComponent
     [Tooltip("The amount of hits/damage before the entity can get stunned.")]
     [SerializeField] protected int stunResistance = 3;
 
-    public int CurrentHealth { get; protected set; }
+    public int CurrentHealth { get; private set; }
 
     public event Action OnHealthDepleted;
     

@@ -22,7 +22,6 @@ public static class Types
     {
         public GameObject source, target;
         public bool ranged, canBeParried;
-        public bool breaksHealth; // Used to break player's health to prevent recovery.
         public int damageAmount;
         public float damageRadius, stunDamageAmount, knockbackStrength;
         public Vector2 knockbackAngle, direction;
