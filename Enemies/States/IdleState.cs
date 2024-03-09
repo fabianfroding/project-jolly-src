@@ -37,6 +37,11 @@ public class IdleState : State
         if (Time.time >= StartTime + idleTime)
         {
             isIdleTimeOver = true;
+            if (stateData.shouldFlipAfterIdle && flipAfterIdle)
+            {
+                flipAfterIdle = false;
+                Movement.Flip();
+            }
         }
     }
 

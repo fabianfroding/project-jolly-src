@@ -17,11 +17,6 @@ public class EnemyHarvester_IdleState : IdleState
         }
         else if (isIdleTimeOver)
         {
-            if (flipAfterIdle)
-            {
-                flipAfterIdle = false;
-                Movement.Flip();
-            }
             stateMachine.ChangeState(harvester.MoveState);
         }
     }

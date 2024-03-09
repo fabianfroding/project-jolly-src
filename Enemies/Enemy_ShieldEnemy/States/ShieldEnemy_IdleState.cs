@@ -17,15 +17,10 @@ public class ShieldEnemy_IdleState : IdleState
         }
         else if (isIdleTimeOver)
         {
-            if (flipAfterIdle)
-            {
-                stateMachine.ChangeState(shieldEnemy.TurnState);
-            }
-            else
+            if (!flipAfterIdle)
             {
                 stateMachine.ChangeState(shieldEnemy.MoveState);
             }
-            
         }
     }
 }

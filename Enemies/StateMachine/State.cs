@@ -17,7 +17,6 @@ public class State
         this.stateMachine = stateMachine;
         this.animBoolName = animBoolName;
         core = enemy.Core;
-
         EndTime = Time.time; 
     }
 
