@@ -492,7 +492,7 @@
             ]
         },
         {
-            "name": "InGameMenus",
+            "name": "UI",
             "id": "b95c8e61-772d-4d8d-94d9-7dafd0b64c29",
             "actions": [
                 {
@@ -762,45 +762,6 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "ToggleDebugMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Interact",
-            "id": "880330db-1802-4047-87d4-2f5184937a03",
-            "actions": [
-                {
-                    "name": "TriggerDialog",
-                    "type": "Button",
-                    "id": "bfd1111a-f49f-48ec-b429-e5e16fcff900",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "d6602aa8-d0e1-41cd-a961-174e5cd51d20",
-                    "path": "<Keyboard>/w",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "TriggerDialog",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "064f4a0e-ff82-4f0e-b210-70f5794c7c34",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "TriggerDialog",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

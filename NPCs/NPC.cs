@@ -22,16 +22,6 @@ public class NPC : Entity, IInteractable
     #endregion
 
     #region Other Functions
-    protected void ExitDialogue()
-    {
-        if (!NPCNotebookRepository.IsNPCRegisteredInNPCNotebook(name))
-        {
-            NPCNotebookRepository.SaveNPCToNPCNotebook(name);
-            StopCoroutine(InvokeOnNPCRegisterToNPCNotebook());
-            StartCoroutine(InvokeOnNPCRegisterToNPCNotebook());
-        }
-    }
-
     protected IEnumerator InvokeOnNPCRegisterToNPCNotebook()
     {
         yield return new WaitForSeconds(1.5f);

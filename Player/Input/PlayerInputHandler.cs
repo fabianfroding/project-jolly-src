@@ -29,13 +29,9 @@ public class PlayerInputHandler : MonoBehaviour
     public bool InteractInput { get; private set; }
     public bool AdvanceInteractionInput {  get; private set; }
 
-    public static event Action OnTriggerFungusDialog;
-
     [Header("Action Map Names")]
     [Tooltip("Name of the action map for toggling ingame menus.")]
     [SerializeField] private string InGameMenusActionMapName;
-    [Tooltip("Name of the action map for Fungus input.")]
-    [SerializeField] private string FungusActionMapName;
 
     [Header("Gameplay Input Settings")]
     [SerializeField] private float jumpInputHoldTime = 0.2f;
@@ -61,7 +57,6 @@ public class PlayerInputHandler : MonoBehaviour
     private void Start()
     {
         playerInput.actions.FindActionMap(InGameMenusActionMapName).Enable();
-        //playerInput.actions.FindActionMap(FungusActionMapName).Enable();
     }
 
     private void Update()
@@ -307,8 +302,6 @@ public class PlayerInputHandler : MonoBehaviour
             InGameMenuManager.Instance.MoveInGameMenuSelectionRight();
     }
     #endregion
-
-    public void OnTriggerFungusDialogInput() => OnTriggerFungusDialog?.Invoke();
 
     private void TogglePlayerLockedState()
     {
