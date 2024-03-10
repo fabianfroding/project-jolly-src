@@ -76,8 +76,8 @@ public class FieldOfView : MonoBehaviour
         {
             transformDir = transform.rotation.y >= 0 ? 0f : 180f;
         }
-        Vector3 angle1 = TrigonometryUtils.GetDirectionFromAngle(-viewWidth / 2 + transformDir);
-        Vector3 angle2 = TrigonometryUtils.GetDirectionFromAngle(viewWidth / 2 + transformDir);
+        Vector3 angle1 = GameFunctionLibrary.GetDirectionFromAngle(-viewWidth / 2 + transformDir);
+        Vector3 angle2 = GameFunctionLibrary.GetDirectionFromAngle(viewWidth / 2 + transformDir);
 
         Gizmos.color = Color.green;
         Gizmos.DrawLine(fovOrigin.position, fovOrigin.position + angle1 * viewRadius);
@@ -109,7 +109,7 @@ public class FieldOfView : MonoBehaviour
         if (rangeCheck.Length > 0)
         {
             Target = rangeCheck[0].gameObject;
-            Vector2 dirToTarget = TrigonometryUtils.GetDirectionBetweenPositions(transform, Target.transform);
+            Vector2 dirToTarget = GameFunctionLibrary.GetDirectionBetweenPositions(transform, Target.transform);
 
             float angle = viewDirectionVector.y != 0 ?
                 Vector2.Angle(-viewDirectionVector, dirToTarget) :

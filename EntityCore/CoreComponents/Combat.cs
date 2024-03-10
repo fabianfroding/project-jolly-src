@@ -159,18 +159,18 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             DamagingObject damagingObject = damageData.source.GetComponent<DamagingObject>();
             if (damageData.ranged)
             {
-                Vector2 dir = TrigonometryUtils.GetDirectionBetweenPositions(damagingObject.transform, transform);
+                Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damagingObject.transform, transform);
                 Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
             }
             else
             {
-                Vector2 dir = TrigonometryUtils.GetDirectionBetweenPositions(damageData.source.transform, transform);
+                Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damageData.source.transform, transform);
                 Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
             }
         }
         else
         {
-            Vector2 dir = TrigonometryUtils.GetDirectionBetweenPositions(damageData.source.transform, transform);
+            Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damageData.source.transform, transform);
             Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
         }
     }

@@ -46,7 +46,7 @@ public class CombatPlayer : Combat
                 }
                 else
                 {
-                    Vector2 dir = TrigonometryUtils.GetDirectionFromAngle(TrigonometryUtils.GetAngleBetweenObjects(damageData.source, gameObject));
+                    Vector2 dir = GameFunctionLibrary.GetDirectionFromAngle(GameFunctionLibrary.GetAngleBetweenObjects(damageData.source, gameObject));
                     Knockback(Vector2.zero, 0f, dir.x < 0f ? -1 : 1);
                 }
 

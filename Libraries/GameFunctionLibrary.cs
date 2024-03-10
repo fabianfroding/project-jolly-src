@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class TrigonometryUtils : MonoBehaviour
+public class GameFunctionLibrary : MonoBehaviour
 {
+    #region Math Functions
     public static float GetAngleBetweenObjects(GameObject source, GameObject target)
     {
         return 360f + Mathf.Rad2Deg * Mathf.Atan2(target.transform.position.y - source.transform.position.y, target.transform.position.x - source.transform.position.x);
@@ -24,4 +25,5 @@ public class TrigonometryUtils : MonoBehaviour
     {
         return (toPos.position - fromPos.position).normalized;
     }
+    #endregion
 }
