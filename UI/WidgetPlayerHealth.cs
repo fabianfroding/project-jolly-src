@@ -9,12 +9,8 @@ public class WidgetPlayerHealth : MonoBehaviour
     private void Awake()
     {
         widgetPlayerHealthIcons = new List<GameObject>();
-        StatsPlayer.OnPlayerMaxHealthChanged += OnPlayerMaxHealthChanged;
-    }
-
-    private void Start()
-    {
         StatsPlayer.OnPlayerHealthChange += OnPlayerHealthChanged;
+        StatsPlayer.OnPlayerMaxHealthChanged += OnPlayerMaxHealthChanged;
     }
 
     private void OnDestroy()
