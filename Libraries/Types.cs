@@ -5,8 +5,7 @@ public static class Types
     public enum DamageType
     {
         ENVIRONMENT,
-        PHYSICAL,
-        MAGICAL
+        PHYSICAL
     }
 
     [System.Serializable]
