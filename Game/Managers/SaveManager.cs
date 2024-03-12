@@ -30,8 +30,6 @@ public class SaveManager : MonoBehaviour
         Player player = FindObjectOfType<Player>();
         if (player != null) PlayerRepository.PlayerMaxHealth = player.Core.GetCoreComponent<Stats>().GetMaxHealth();
 
-        CurrencyManager.Instance.SaveCurrency();
-
         OnGameSave?.Invoke();
     }
 }

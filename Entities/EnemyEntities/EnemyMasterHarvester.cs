@@ -12,8 +12,6 @@ public class EnemyMasterHarvester : Enemy
 
     public EnemyMasterHarvester_IdleState IdleState { get; private set; }
 
-    private HarvesterDodge dodge;
-    private AbilityDarkSpheres darkSpheres;
     private GameObject teleportIndicatorInstance;
 
     protected override void Start()
@@ -59,16 +57,9 @@ public class EnemyMasterHarvester : Enemy
         }
     }*/
 
-    public AbilityDarkSpheres GetDarkSpheresAbility()
-    {
-        return darkSpheres;
-    }
-
     protected override void Awake()
     {
         base.Awake();
-        dodge = GetComponent<HarvesterDodge>();
-        darkSpheres = GetComponent<AbilityDarkSpheres>();
     }
 
     /*protected override bool Attack()
@@ -102,49 +93,5 @@ public class EnemyMasterHarvester : Enemy
         yield return new WaitForSeconds(delay);
         transform.position = teleportIndicatorInstance.transform.position;
         Destroy(teleportIndicatorInstance);
-    }
-
-    private IEnumerator Tick()
-    {
-        if (Target != null && !darkSpheres.IsActive())
-        {
-            if (true /*target.GetComponent<Unit>().GetHealth() > 0*/)
-            {
-                if (teleportIndicatorInstance == null)
-                {
-                    // Use abilities.
-                    int random = Random.Range(1, 6);
-                    // 1-2 TP
-                    // 3-4 Orb
-                    // 5-6 Dodge
-                    // 7-8 Glide
-                    // 9 Fake Dodge
-                    // 10 Multi Orbs
-
-                    if (random <= 2)
-                    {
-                        Teleport();
-                    }
-                    else if (random <= 4)
-                    {
-                        //Attack();
-                    }
-                    else if (random <= 5)
-                    {
-                        if (darkSpheres.Initialize(gameObject))
-                        {
-                            //damageCount = 0;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // Target is dead. Reset target var.
-                //target = null;
-            }
-        }
-        yield return new WaitForSeconds(1f /*globalCD*/);
-        StartCoroutine(Tick());
     }
 }

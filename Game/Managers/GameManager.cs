@@ -6,23 +6,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        AddCurrencyManager();
-        AddEquipmentManager();
         AddInGameProfileManager();
         AddSaveManager();
         AddWidgetHUD();
-    }
-
-    private void AddCurrencyManager()
-    {
-        GameObject tempGO = AddChild("CurrencyManager");
-        tempGO.AddComponent<CurrencyManager>();
-    }
-
-    private void AddEquipmentManager()
-    {
-        GameObject tempGO = AddChild("EquipmentManager");
-        tempGO.AddComponent<EquipmentManager>();
     }
 
     private void AddInGameProfileManager()
@@ -45,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     private GameObject AddChild(string name)
     {
-        GameObject tempGO = new GameObject(name);
+        GameObject tempGO = new(name);
         tempGO.transform.parent = transform;
         return tempGO;
     }

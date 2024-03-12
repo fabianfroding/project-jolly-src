@@ -9,6 +9,5 @@ public class Pickup_Currency : Pickup
     protected override void GetPickup()
     {
         base.GetPickup();
-        CurrencyManager.Instance.IncreaseCurrency(currencyAmount);
     }
 }

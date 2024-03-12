@@ -8,19 +8,9 @@ public class LoadGameSceneScript : MonoBehaviour
     private void Awake()
     {
         Debug.Log("Loading potential save data.");
-        LoadCurrencyData();
         StartGame();
     }
 
     public static void StartGame() =>
         ProfileManager.LoadSceneForCurrentProfile();
-
-    private void LoadCurrencyData()
-    {
-        GameObject tempGO = new GameObject("CurrencyManager");
-        tempGO.transform.parent = transform;
-        tempGO.AddComponent<CurrencyManager>();
-        CurrencyManager.Instance.LoadCurrency();
-        CurrencyManager.Instance.LoadCurrencyCap();
-    }
 }

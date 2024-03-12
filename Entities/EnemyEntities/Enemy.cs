@@ -161,7 +161,6 @@ public class Enemy : Entity, IParriable
     protected override void Death()
     {
         AddToKilledEnemies();
-        EnemyListRepository.AddEnemyListNumKilled(gameObject.name);
 
         base.Death();
         gameObject.SetActive(false);

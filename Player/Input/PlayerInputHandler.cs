@@ -259,48 +259,6 @@ public class PlayerInputHandler : MonoBehaviour
             //TogglePlayerLockedState();
         }
     }
-
-    public void OnInGameMenuSelect(InputAction.CallbackContext context)
-    {
-        if (context.started && InGameMenuManager.Instance != null)
-            InGameMenuManager.Instance.InGameMenuSelect();
-    }
-
-    public void OnInGameMenuShiftLeft(InputAction.CallbackContext context)
-    {
-        if (context.started && InGameMenuManager.Instance != null)
-            InGameMenuManager.Instance.ShiftLeft();
-    }
-
-    public void OnInGameMenuShiftRight(InputAction.CallbackContext context)
-    {
-        if (context.started && InGameMenuManager.Instance != null)
-            InGameMenuManager.Instance.ShiftRight();
-    }
-
-    public void OnMoveInGameMenuSelectionUp(InputAction.CallbackContext context)
-    {
-        if (context.started && InGameMenuManager.Instance != null)
-            InGameMenuManager.Instance.MoveInGameMenuSelectionUp();
-    }
-
-    public void OnMoveInGameMenuSelectionDown(InputAction.CallbackContext context)
-    {
-        if (context.started && InGameMenuManager.Instance != null)
-            InGameMenuManager.Instance.MoveInGameMenuSelectionDown();
-    }
-
-    public void OnMoveInGameMenuSelectionLeft(InputAction.CallbackContext context)
-    {
-        if (context.started && InGameMenuManager.Instance != null)
-            InGameMenuManager.Instance.MoveInGameMenuSelectionLeft();
-    }
-
-    public void OnMoveInGameMenuSelectionRight(InputAction.CallbackContext context)
-    {
-        if (context.started && InGameMenuManager.Instance != null)
-            InGameMenuManager.Instance.MoveInGameMenuSelectionRight();
-    }
     #endregion
 
     private void TogglePlayerLockedState()
