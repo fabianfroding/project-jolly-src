@@ -16,8 +16,9 @@ public class EnvironmentInteract : MonoBehaviour
     {
         if (GetComponent<Destructible>() != null && GetComponent<Destructible>().GetHealth() > 0)
         {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (collision.CompareTag(EditorConstants.TAG_PLAYER) ||
-                collision.CompareTag(EditorConstants.TAG_ENEMY) ||
+                enemy ||
                 collision.CompareTag(EditorConstants.TAG_NPC))
             {
                 if (collision.GetComponent<Entity>().Core.GetCoreComponent<Movement>().FacingDirection == 1)

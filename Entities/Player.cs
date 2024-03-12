@@ -98,7 +98,8 @@ public class Player : Entity
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(EditorConstants.TAG_ENEMY))
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        if (enemy)
         {
             enemyCollisionDamage.source = collision.gameObject;
             enemyCollisionDamage.target = gameObject;

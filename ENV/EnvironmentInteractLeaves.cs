@@ -12,8 +12,9 @@ public class EnvironmentInteractLeaves : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
         if (collision.CompareTag(EditorConstants.TAG_PLAYER) ||
-            collision.CompareTag(EditorConstants.TAG_ENEMY) ||
+            enemy ||
             collision.CompareTag(EditorConstants.TAG_NPC))
         {
             foreach (ParticleSystem ps in particleSystems)
@@ -26,8 +27,9 @@ public class EnvironmentInteractLeaves : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
         if (collision.CompareTag(EditorConstants.TAG_PLAYER) ||
-            collision.CompareTag(EditorConstants.TAG_ENEMY) ||
+           enemy ||
             collision.CompareTag(EditorConstants.TAG_NPC))
         {
             foreach (ParticleSystem ps in particleSystems)
