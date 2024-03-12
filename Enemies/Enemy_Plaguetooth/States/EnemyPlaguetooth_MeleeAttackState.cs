@@ -44,6 +44,7 @@ public class EnemyPlaguetooth_MeleeAttackState : MeleeAttackState
             DamagingObject damagingObject = slash.GetComponent<DamagingObject>();
             if (damagingObject)
                 damagingObject.SetSource(plaguetooth.gameObject);
+            GameObject.Destroy(slash, 0.04f);
         }
     }
 }
