@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Pickup_Powerup : Pickup
@@ -9,7 +8,6 @@ public class Pickup_Powerup : Pickup
     [SerializeField] private GameObject sfxObtainingPrefab;
     [Tooltip("The particle system prefab that is spawned when the player finishes obtaining the powerup.")]
     [SerializeField] private GameObject sfxObtainedPrefab;
-    [SerializeField] private List<PlayerAbilityManager.PlayerAbility> abilitiesGained;
 
     public static event Action<string> OnPickupPowerup;
 
@@ -40,18 +38,6 @@ public class Pickup_Powerup : Pickup
 
         InstantiateSFXObtained();
         OnPickupPowerup?.Invoke(gameObject.name);
-
-        if (player)
-        {
-            PlayerAbilityManager playerAbilityManager = player.GetComponent<PlayerAbilityManager>();
-            if (playerAbilityManager)
-            {
-                foreach (PlayerAbilityManager.PlayerAbility playerAbility in abilitiesGained)
-                {
-                    playerAbilityManager.EnableAbility(playerAbility);
-                }
-            }
-        }
 
         Destroy(gameObject);
     }

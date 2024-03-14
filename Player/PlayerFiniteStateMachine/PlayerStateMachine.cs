@@ -1,5 +1,3 @@
-using System;
-
 public class PlayerStateMachine
 {
     public PlayerState CurrentState { get; private set; }
@@ -12,11 +10,15 @@ public class PlayerStateMachine
 
     public void ChangeState(PlayerState newState)
     {
-        if (CurrentState != null)
+        if (newState != null)
         {
-            CurrentState.Exit();
+            CurrentState?.Exit();
+            CurrentState = newState;
+            CurrentState.Enter();
         }
-        CurrentState = newState;
-        CurrentState.Enter();
+        else
+        {
+            UnityEngine.Debug.Log("PlayerStateMachine::ChangeState: Attempted to change player state to an unknown state.");
+        }
     }
 }

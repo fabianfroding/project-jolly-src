@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,13 +19,8 @@ public class WidgetDebugMenu : MonoBehaviour
 
     private void UnlockAbilitiesButtonClicked()
     {
-        PlayerAbilityManager playerAbilityManager = FindAnyObjectByType<PlayerAbilityManager>();
-        if (playerAbilityManager)
-        {
-            foreach (PlayerAbilityManager.PlayerAbility ability in Enum.GetValues(typeof(PlayerAbilityManager.PlayerAbility)))
-            {
-                playerAbilityManager.EnableAbility(ability);
-            }
-        }
+        Player player = FindObjectOfType<Player>();
+        if (player)
+            player.EnableAllLockedStates();
     }
 }

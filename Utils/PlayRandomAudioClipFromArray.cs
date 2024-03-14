@@ -7,7 +7,7 @@ public class PlayRandomAudioClipFromArray : MonoBehaviour
 
     private void Start()
     {
-        if (CameraManager.IsGameObjectInCameraView(gameObject))
+        if (GameFunctionLibrary.IsGameObjectInCameraView(gameObject))
         {
             audioSource.clip = audioClip[Random.Range(0, audioClip.Length)];
             audioSource.Play();

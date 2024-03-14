@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-
+    // TODO: Save the C# class names in  a List of strings to keeop track of player enabled ability states.
 }

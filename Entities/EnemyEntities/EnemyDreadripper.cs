@@ -26,7 +26,7 @@ public class EnemyDreadripper : Enemy
     private void PlayIdleSound()
     {
         // Only play idle sound if the enemy has no target.
-        if (Target == null && CameraManager.IsGameObjectInCameraView(gameObject))
+        if (Target == null && GameFunctionLibrary.IsGameObjectInCameraView(gameObject))
         {
             // Check so that any idle sound is not already playing.
             for (int i = 0; i < idleSound.Length; i++)

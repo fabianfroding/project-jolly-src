@@ -1,11 +1,9 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerInput playerInput;
-    private PlayerAbilityManager playerAbilityManager;
 
     public Vector2 RawMovementInput { get; private set; }
     public Vector2 RawDashDirectionInput { get; private set; }
@@ -45,12 +43,6 @@ public class PlayerInputHandler : MonoBehaviour
         if (!playerInput)
         {
             Debug.LogError("PlayerInputHandler:Awake: Failed to get PlayerInput component.");
-        }
-
-        playerAbilityManager = GetComponent<PlayerAbilityManager>();
-        if (!playerAbilityManager)
-        {
-            Debug.LogError("PlayerInputHandler:Awake: Failed to get PlayerAbilityManager component.");
         }
     }
 
@@ -103,36 +95,30 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnChargeBowInput(InputAction.CallbackContext context)
     {
-        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.Bow))
+        if (context.started)
         {
-            if (context.started)
-            {
-                ChargeBowInput = true;
-                ChargeBowInputRelease = false;
-            }
-            else if (context.canceled)
-            {
-                ChargeBowInput = false;
-                ChargeBowInputRelease = true;
-            }
+            ChargeBowInput = true;
+            ChargeBowInputRelease = false;
+        }
+        else if (context.canceled)
+        {
+            ChargeBowInput = false;
+            ChargeBowInputRelease = true;
         }
     }
 
     public void OnDashInput(InputAction.CallbackContext context)
     {
-        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.Dash))
+        if (context.started)
         {
-            if (context.started)
-            {
-                DashInput = true;
-                DashInputStop = false;
-                dashInputStartTime = Time.time;
-            }
-            else if (context.canceled)
-            {
-                DashInput = false;
-                DashInputStop = true;
-            }
+            DashInput = true;
+            DashInputStop = false;
+            dashInputStartTime = Time.time;
+        }
+        else if (context.canceled)
+        {
+            DashInput = false;
+            DashInputStop = true;
         }
     }
 
@@ -144,18 +130,15 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnWarpInput(InputAction.CallbackContext context)
     {
-        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.Warp))
+        if (context.started)
         {
-            if (context.started)
-            {
-                HoldWarpInput = true;
-                HoldWarpInputStop = false;
-            }
-            else if (context.canceled)
-            {
-                HoldWarpInput = false;
-                HoldWarpInputStop = true;
-            }
+            HoldWarpInput = true;
+            HoldWarpInputStop = false;
+        }
+        else if (context.canceled)
+        {
+            HoldWarpInput = false;
+            HoldWarpInputStop = true;
         }
     }
 
@@ -167,31 +150,25 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnThunderInput(InputAction.CallbackContext context)
     {
-        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.Thunder))
+        if (context.started)
         {
-            if (context.started)
-            {
-                ThunderInput = true;
-            }
-            if (context.canceled)
-            {
-                ThunderInput = false;
-            }
+            ThunderInput = true;
+        }
+        if (context.canceled)
+        {
+            ThunderInput = false;
         }
     }
 
     public void OnAirGlideInput(InputAction.CallbackContext context)
     {
-        if (playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.AirGlide))
+        if (context.started)
         {
-            if (context.started)
-            {
-                AirGlideInput = true;
-            }
-            if (context.canceled)
-            {
-                AirGlideInput = false;
-            }
+            AirGlideInput = true;
+        }
+        if (context.canceled)
+        {
+            AirGlideInput = false;
         }
     }
 
@@ -248,15 +225,20 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started && AllowInGameMenusToggle())
         {
+
             //TogglePlayerLockedState();
         }
     }
 
     public void OnToggleDebugMenu(InputAction.CallbackContext context)
     {
-        if (context.started && AllowInGameMenusToggle())
+        if (context.started)
         {
-            //TogglePlayerLockedState();
+            Player player = FindObjectOfType<Player>();
+            if (player != null)
+            {
+                player.EnableAllLockedStates();
+            }
         }
     }
     #endregion

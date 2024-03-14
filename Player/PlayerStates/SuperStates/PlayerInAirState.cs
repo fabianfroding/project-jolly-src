@@ -27,15 +27,12 @@ public class PlayerInAirState : PlayerState
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    private PlayerAbilityManager playerAbilityManager;
-
     public PlayerInAirState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()
     {
         base.Enter();
-        playerAbilityManager = player.gameObject.GetComponent<PlayerAbilityManager>();
     }
 
     public override void DoChecks()
@@ -72,7 +69,7 @@ public class PlayerInAirState : PlayerState
 
         CheckJumpMultiplier();
 
-        if (airGlideInput)
+        if (airGlideInput && player.AirGlideState != null)
         {
             stateMachine.ChangeState(player.AirGlideState);
         }
@@ -85,8 +82,7 @@ public class PlayerInAirState : PlayerState
             stateMachine.ChangeState(player.LandState);
         }
         // wall jumping
-        else if (jumpInput && (isTouchingWall || isTouchingWallBack || wallJumpCoyoteTime) &&
-            playerAbilityManager && playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.WallJump))
+        else if (jumpInput && (isTouchingWall || isTouchingWallBack || wallJumpCoyoteTime) && player.WallJumpState != null)
         {
             StopWallJumpCoyoteTime();
             isTouchingWall = CollisionSenses.WallFront;
@@ -97,8 +93,7 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.JumpState);
         }
-        else if (isTouchingWall && xInput == Movement.FacingDirection && Movement.CurrentVelocity.y <= 0 &&
-            playerAbilityManager && playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.WallJump))
+        else if (isTouchingWall && xInput == Movement.FacingDirection && Movement.CurrentVelocity.y <= 0 && player.WallSlideState != null)
         {
             stateMachine.ChangeState(player.WallSlideState);
         }
@@ -106,11 +101,11 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.ChargeArrowState);
         }
-        else if (dashInput && player.DashState.CheckIfCanDash())
+        else if (dashInput && player.DashState != null && player.DashState.CheckIfCanDash())
         {
             stateMachine.ChangeState(player.DashState);
         }
-        else if (holdAscendState)
+        else if (holdAscendState && player.HoldAscendState != null)
         {
             stateMachine.ChangeState(player.HoldAscendState);
         }

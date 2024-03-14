@@ -42,9 +42,7 @@ public class WalkableCloud : MonoBehaviour
     {
         if (collision.CompareTag(EditorConstants.TAG_PLAYER) && spriteRenderer.enabled)
         {
-            PlayerAbilityManager playerAbilityManager = collision.GetComponent<PlayerAbilityManager>();
-            if (!playerAbilityManager) { return; }
-            if (!playerAbilityManager.IsAbilityEnabled(PlayerAbilityManager.PlayerAbility.CloudWalk))  { return; }
+            // TODO: Need to check if player cloud walk ability is enabled? Is it even going to be an ability?
 
             Rigidbody2D rigidbody2D = collision.GetComponent<Rigidbody2D>();
             if (!rigidbody2D) { return; }

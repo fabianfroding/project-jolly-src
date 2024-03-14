@@ -32,7 +32,7 @@ public class PlayerGroundedState : PlayerState
         base.Enter();
 
         player.JumpState.ResetAmountOfJumpsLeft();
-        player.DashState.ResetCanDash();
+        player.DashState?.ResetCanDash();
     }
 
     public override void Exit()
@@ -67,15 +67,15 @@ public class PlayerGroundedState : PlayerState
         {
             stateMachine.ChangeState(player.ChargeArrowState);
         }
-        else if (dashInput && player.DashState.CheckIfCanDash())
+        else if (dashInput && player.DashState != null && player.DashState.CheckIfCanDash())
         {
             stateMachine.ChangeState(player.DashState);
         }
-        else if (holdAscendState)
+        else if (holdAscendState && player.HoldAscendState != null)
         {
             stateMachine.ChangeState(player.HoldAscendState);
         }
-        else if (player.ThunderState.CheckIfCanuseThunder() && thunderInput)
+        else if (thunderInput && player.ThunderState != null && player.ThunderState.CheckIfCanuseThunder())
         {
             stateMachine.ChangeState(player.ThunderState);
         }

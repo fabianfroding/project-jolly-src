@@ -10,7 +10,7 @@ public class FloatingBubble : MonoBehaviour
     {
         bubbleRigidbody2D = GetComponent<Rigidbody2D>();
 
-        if (CameraManager.IsGameObjectInCameraView(gameObject))
+        if (GameFunctionLibrary.IsGameObjectInCameraView(gameObject))
         {
             AudioSource audioSource = GetComponent<AudioSource>();
             if (audioSource)
