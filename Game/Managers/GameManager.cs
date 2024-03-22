@@ -6,6 +6,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        GameManager[] gameManagers = GameObject.FindObjectsOfType<GameManager>();
+        if (gameManagers.Length > 1)
+            Destroy(gameObject);
+        DontDestroyOnLoad(gameObject);
+
         AddInGameProfileManager();
         AddSaveManager();
         AddWidgetHUD();

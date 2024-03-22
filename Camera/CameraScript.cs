@@ -7,6 +7,9 @@ public class CameraScript : MonoBehaviour
     [SerializeField] private Vector2 playerWalkOffset = new Vector2(3f, 1f);
     [SerializeField] private LayerMask groundMask;
 
+    [SerializeField] private Color backgroundColorMidday;
+    [SerializeField] private Color backgroundColorMidnight;
+
     private CameraState cameraState = CameraState.FollowPlayer;
     private CameraBehaviourZone.CameraBehaviour cameraBehaviour = CameraBehaviourZone.CameraBehaviour.HorizontalLane;
 
@@ -22,6 +25,8 @@ public class CameraScript : MonoBehaviour
     private bool hasEnteredVertRegion = false;
     private Vector2 defaultFST = new Vector2(0.4f, 0.1f);
     private Vector2 lerpFST = new Vector2(0.01f, 0.01f);
+
+    private Camera cachedCamera;
 
     private GameObject player;
     public GameObject Player
@@ -81,6 +86,10 @@ public class CameraScript : MonoBehaviour
         if (behaviourVerticalLane == null) behaviourVerticalLane = gameObject.AddComponent<CameraBehaviourVerticalLane>();
         if (behaviourCrossLane == null) behaviourCrossLane = gameObject.AddComponent<CameraBehaviourCrossLane>();
         if (behaviourPointOfInterest == null) behaviourPointOfInterest = gameObject.AddComponent<CameraBehaviourPointOfInterest>();
+
+        cachedCamera = GetComponent<Camera>();
+
+        DaytimeManager.OnDaytimeTick += UpdateBackgroundTint;
     }
 
     private void Start()
@@ -111,6 +120,11 @@ public class CameraScript : MonoBehaviour
     {
         CameraBehaviourZone.OnEnterCameraBehaviourZone -= SetCurrentBehaviourObj;
         CameraBehaviourZone.OnExitCameraBehaviourZone -= SetCurrentBehaviourObj;
+    }
+
+    private void OnDestroy()
+    {
+        DaytimeManager.OnDaytimeTick -= UpdateBackgroundTint;
     }
     #endregion
 
@@ -343,5 +357,13 @@ public class CameraScript : MonoBehaviour
     public Vector2 GetDefaultFST()
     {
         return defaultFST;
+    }
+
+    private void UpdateBackgroundTint(float daytimeTime)
+    {
+        if (!cachedCamera)
+            return;
+        float hoursAwayFromMidday = Mathf.Abs(daytimeTime - 12);
+        cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidday, backgroundColorMidnight, Mathf.Clamp01(hoursAwayFromMidday / 12f));
     }
 }

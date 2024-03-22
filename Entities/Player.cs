@@ -35,8 +35,12 @@ public class Player : Entity
 
     #region Other Variables
     [SerializeField] private Player_StateData playerStateData;
+    [SerializeField] private float playerMaxVisibilityRadius = 48f;
+    [SerializeField] private float playerMinVisibilityRadius = 12f;
+
     [SerializeField] private Transform fireArrowSpawnTransform;
     [SerializeField] private Types.DamageData enemyCollisionDamage;
+
     public Light2D light2D;
     public IInteractable currentInteractionTarget;
     #endregion
@@ -67,6 +71,8 @@ public class Player : Entity
         InteractState = new PlayerInteractState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
 
         InputHandler = GetComponent<PlayerInputHandler>();
+
+        DaytimeManager.OnDaytimeTick += UpdateDaytimeVisibilityRadius;
     }
 
     protected override void Start()
@@ -105,6 +111,11 @@ public class Player : Entity
         {
             StateMachine.ChangeState(PickupPowerupState);
         }
+    }
+
+    private void OnDestroy()
+    {
+        DaytimeManager.OnDaytimeTick -= UpdateDaytimeVisibilityRadius;
     }
     #endregion
 
@@ -192,10 +203,13 @@ public class Player : Entity
         DaytimeManager.Instance.stopDaytime = false;
     }
 
-    public void SetVisibilityRadius(float radius)
+    public void UpdateDaytimeVisibilityRadius(float daytimeTime)
     {
         if (light2D)
-            light2D.pointLightOuterRadius = radius;
+        {
+            float hoursAwayFromMidday = Mathf.Abs(daytimeTime - 12);
+            light2D.pointLightOuterRadius = playerMaxVisibilityRadius - (hoursAwayFromMidday * ((playerMaxVisibilityRadius - playerMinVisibilityRadius) / 12));
+        }
     }
 
     public void ToggleLockState()
