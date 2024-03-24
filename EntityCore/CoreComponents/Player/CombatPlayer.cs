@@ -40,7 +40,7 @@ public class CombatPlayer : Combat
             // Check so that player is not dead to avoid respawning when reviving.
             if (IsPlayerAlive())
             {
-                if (damageData.damageType == Types.DamageType.ENVIRONMENT)
+                if (!damageData.source.GetComponent<Entity>())
                 {
                     OnPlayerTakeDamageFromENV?.Invoke();
                 }
@@ -49,8 +49,6 @@ public class CombatPlayer : Combat
                     Vector2 dir = GameFunctionLibrary.GetDirectionFromAngle(GameFunctionLibrary.GetAngleBetweenObjects(damageData.source, gameObject));
                     Knockback(Vector2.zero, 0f, dir.x < 0f ? -1 : 1);
                 }
-
-
 
                 if (invulnerabilityIndication) { invulnerabilityIndication.StartFlash(); }
 

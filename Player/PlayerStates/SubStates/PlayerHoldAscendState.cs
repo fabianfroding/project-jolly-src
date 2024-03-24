@@ -56,10 +56,17 @@ public class PlayerHoldAscendState : PlayerAbilityState
 
                 RaycastHit2D hit = Physics2D.Raycast(player.transform.position, (Vector2)direction, playerStateData.ascendRayDistance, playerStateData.groundLayer);
 
-                if (hit.collider != null && !hit.collider.CompareTag(EditorConstants.TAG_WALKABLE_CLOUD))
+                if (hit.collider != null)
                 {
-                    ascendHit = true;
-                    lineRenderer.material.color = Color.green;
+                    if (hit.collider.gameObject.GetComponent<WarpableObject>())
+                    {
+                        ascendHit = true;
+                        lineRenderer.material.color = Color.green;
+                    }
+                    else
+                    {
+                        lineRenderer.material.color = Color.red;
+                    }
                     lineRenderer.SetPosition(1, hit.point);
                 }
                 else

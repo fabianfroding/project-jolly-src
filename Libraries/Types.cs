@@ -2,12 +2,6 @@ using UnityEngine;
 
 public static class Types
 {
-    public enum DamageType
-    {
-        ENVIRONMENT,
-        PHYSICAL
-    }
-
     [System.Serializable]
     public struct BlockData
     {
@@ -24,7 +18,6 @@ public static class Types
         public int damageAmount;
         public float damageRadius, stunDamageAmount, knockbackStrength;
         public Vector2 knockbackAngle, direction;
-        public DamageType damageType;
         public GameObject sfxPrefab;
     }
 }
