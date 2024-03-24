@@ -1,8 +1,5 @@
-using UnityEditor.Animations;
 using UnityEngine;
 
-[RequireComponent(typeof(Enemy))]
-[RequireComponent(typeof(Animator))]
 public class ShinyEnemyRandomizer : MonoBehaviour
 {
     public static readonly string SHINY_ENEMY_NAME_PREFIX = "Shiny";
@@ -10,7 +7,7 @@ public class ShinyEnemyRandomizer : MonoBehaviour
     [Range(0.0f, 100.0f)] [Tooltip("Percentage chance that the enemy will be shiny. Setting this value to 0 will prevent it from being shiny.")]
     [SerializeField] private float shinyChance;
     [SerializeField] private GameObject sfxShinySparklesPrefab;
-    [SerializeField] private AnimatorController shinyAnimationController;
+    //[SerializeField] private AnimatorController shinyAnimationController;
 
     protected Stats Stats { get => stats ?? enemy.Core.GetCoreComponent(ref stats); }
     protected Stats stats;
@@ -34,8 +31,7 @@ public class ShinyEnemyRandomizer : MonoBehaviour
     private void RandomizeShiny()
     {
         if (Random.Range(0.01f, 100.0f) <= shinyChance &&
-            sfxShinySparklesPrefab != null &&
-            shinyAnimationController != null)
+            sfxShinySparklesPrefab != null /*&& shinyAnimationController != null*/)
         {
             MakeShiny();
         }
@@ -50,8 +46,11 @@ public class ShinyEnemyRandomizer : MonoBehaviour
         IsShiny = true;
     }
 
-    private void ChangeToShinyAnimationController() => 
-        animator.runtimeAnimatorController = shinyAnimationController;
+    private void ChangeToShinyAnimationController()
+    {
+        // TODO: Find an alternate way to change animations, since AnimationController requires UnityEditor.
+        //animator.runtimeAnimatorController = shinyAnimationController;
+    }
 
     private void SetShinyStats()
     {

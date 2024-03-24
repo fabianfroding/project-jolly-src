@@ -59,7 +59,10 @@ public class FieldOfView : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
+
+#if UNITY_EDITOR
         UnityEditor.Handles.DrawWireDisc(fovOrigin.position, Vector3.forward, viewRadius);
+#endif
 
         // Instead of creating a coupling to Core (which won't even work in editor mode),
         // we can rely on transform.rotiation.y since that is the field that the core movement modifies.
