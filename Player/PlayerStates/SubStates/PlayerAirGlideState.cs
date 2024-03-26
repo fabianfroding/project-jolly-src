@@ -73,7 +73,7 @@ public class PlayerAirGlideState : PlayerAbilityState
         else
         {
             Movement.CheckIfShouldFlip(xInput);
-            Movement.SetVelocityX(playerStateData.movementVelocity * xInput);
+            Movement.SetVelocityX(Movement.movementSpeed.GetCurrentValue() * xInput);
             player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_X_VELOCITY, Mathf.Abs(Movement.CurrentVelocity.x));
             player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_VELOCITY, Movement.CurrentVelocity.y);
         }

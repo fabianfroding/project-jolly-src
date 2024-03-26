@@ -111,9 +111,8 @@ public class PlayerInAirState : PlayerState
         }
         else
         {
-            
             Movement.CheckIfShouldFlip(xInput);
-            Movement.SetVelocityX(playerStateData.movementVelocity * xInput);
+            Movement.SetVelocityX(Movement.movementSpeed.GetCurrentValue() * xInput);
 
             // if touching wall and travelling up quickly, slow player down so it doesnt look like ice  
             if (isTouchingWall && Movement.CurrentVelocity.y > 5f)

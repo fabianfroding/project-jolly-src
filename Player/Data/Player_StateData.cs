@@ -6,9 +6,6 @@ public class Player_StateData : ScriptableObject
     public LayerMask groundLayer;
     public float defaultGravityScale = 4f;
 
-    [Header("Move State")]
-    public float movementVelocity = 10f;
-
     [Header("Jump State")]
     public float jumpVelocity = 25f;
     public int amountOfJumps = 1;

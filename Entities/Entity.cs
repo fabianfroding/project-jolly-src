@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -16,12 +16,16 @@ public class Entity : MonoBehaviour
     public Stats Stats => stats ? stats : Core.GetCoreComponent(ref stats);
     protected Stats stats;
 
+    private List<StatusEffect> statusEffects;
+
     #region Unity Callback Functions
     protected virtual void Awake()
     {
         Core = GetComponentInChildren<EntityCore>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         Animator = GetComponent<Animator>();
+
+        statusEffects = new List<StatusEffect>();
     }
 
     protected virtual void Start() {}
@@ -39,5 +43,21 @@ public class Entity : MonoBehaviour
     public virtual void Revive() {}
 
     public int GetFacingDirection() => Movement.FacingDirection;
+
+    public void AddStatusEffect(GameObject statusEffectPrefab)
+    {
+        if (!statusEffectPrefab)
+            return;
+        StatusEffect statusEffect = GameObject.Instantiate(statusEffectPrefab).GetComponent<StatusEffect>();
+        statusEffects.Add(statusEffect);
+        statusEffect.OnStatusEffectEnded += RemoveStatusEffect;
+        statusEffect.Initialize(this);
+    }
+
+    private void RemoveStatusEffect(StatusEffect statusEffect)
+    {
+        statusEffect.OnStatusEffectEnded -= RemoveStatusEffect;
+        statusEffects.Remove(statusEffect);
+    }
     #endregion
 }

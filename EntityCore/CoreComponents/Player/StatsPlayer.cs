@@ -12,6 +12,8 @@ public class StatsPlayer : Stats
     public int CurrentMana { get; private set; }
     public int CurrentManaCharges { get;private set; }
 
+    public MutableFloat movementSpeedModifier;
+
     public static event Action<int> OnPlayerHealthChange;
     public static event Action<int> OnPlayerMaxHealthChanged;
     public static event Action<int> OnPlayerManaChange;
@@ -24,6 +26,8 @@ public class StatsPlayer : Stats
         OnPlayerMaxManaChargesChange?.Invoke(maxManaCharges);
         SetHealth(maxHealth);
         SetManaCharges(0);
+
+        movementSpeedModifier = new MutableFloat();
     }
 
     private void OnEnable()

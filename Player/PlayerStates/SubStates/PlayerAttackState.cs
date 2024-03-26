@@ -26,7 +26,7 @@ public class PlayerAttackState : PlayerAbilityState
         }
         else
         {
-            Movement.SetVelocityX(playerStateData.movementVelocity * 0.5f * xInput);
+            Movement.SetVelocityX(Movement.movementSpeed.GetCurrentValue() * 0.5f * xInput);
         }
     }
 

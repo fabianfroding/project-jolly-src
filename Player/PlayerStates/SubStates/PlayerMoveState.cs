@@ -1,5 +1,8 @@
 public class PlayerMoveState : PlayerGroundedState
 {
+    protected StatsPlayer StatsPlayer { get => statsPlayer != null ? statsPlayer : core.GetCoreComponent(ref statsPlayer); }
+    protected StatsPlayer statsPlayer;
+
     public PlayerMoveState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
@@ -9,7 +12,7 @@ public class PlayerMoveState : PlayerGroundedState
 
         Movement.CheckIfShouldFlip(xInput);
 
-        Movement.SetVelocityX(playerStateData.movementVelocity * xInput);
+        Movement.SetVelocityX(Movement.movementSpeed.GetCurrentValue() * xInput);
 
         if (xInput == 0 && !isExitingState)
         {

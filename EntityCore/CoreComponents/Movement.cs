@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Movement : CoreComponent
 {
+    public MutableFloat movementSpeed;
+
     public Rigidbody2D RB { get; private set; }
     public int FacingDirection { get; private set; }
     public bool CanSetVelocity { get; set; }

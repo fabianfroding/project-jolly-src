@@ -41,8 +41,8 @@ public class PlayerFloatingBubbleState : PlayerState
         yInput = player.InputHandler.NormInputY;
 
         Movement.CheckIfShouldFlip(xInput);
-        Movement.SetVelocityX(playerStateData.movementVelocity * 0.5f * xInput);
-        Movement.SetVelocityY(playerStateData.movementVelocity * 0.5f * yInput);
+        Movement.SetVelocityX(Movement.movementSpeed.GetCurrentValue() * 0.5f * xInput);
+        Movement.SetVelocityY(Movement.movementSpeed.GetCurrentValue() * 0.5f * yInput);
 
         player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_X_VELOCITY, Mathf.Abs(Movement.CurrentVelocity.x));
         player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_VELOCITY, Movement.CurrentVelocity.y);
