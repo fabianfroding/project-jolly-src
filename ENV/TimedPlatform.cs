@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class WalkableCloud : MonoBehaviour
+public class TimedPlatform : MonoBehaviour
 {
     [SerializeField] private float durationBeforeBreak = 1.5f;
     [SerializeField] private float resetDuration = 5f;
@@ -14,13 +14,13 @@ public class WalkableCloud : MonoBehaviour
         boxCollider2D = GetComponent<BoxCollider2D>();
         if (!boxCollider2D)
         {
-            Debug.LogError("WalkableCloud:Start: Failed to get BoxCollider2D component.");
+            Debug.LogError("TimedPlatform:Start: Failed to get BoxCollider2D component.");
         }
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (!spriteRenderer)
         {
-            Debug.LogError("WalkableCloud:Start: Failed to get SpriteRenderer component.");
+            Debug.LogError("TimedPlatform:Start: Failed to get SpriteRenderer component.");
         }
     }
 

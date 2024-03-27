@@ -18,5 +18,4 @@
     public static readonly string TAG_PICKUP_POWERUP = "PickupPowerup";
     public static readonly string TAG_PLAYER = "Player";
     public static readonly string TAG_NPC = "NPC";
-    public static readonly string TAG_WALKABLE_CLOUD = "WalkableCloud";
 }

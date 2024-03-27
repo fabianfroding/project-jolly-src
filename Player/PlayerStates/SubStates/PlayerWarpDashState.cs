@@ -21,7 +21,7 @@ public class PlayerWarpDashState : PlayerDashState
         tempGO.transform.position = player.transform.position;
 
         RaycastHit2D hit = Physics2D.Raycast(chestPos, Vector2.right * Movement.FacingDirection, playerStateData.dashDistance, playerStateData.groundLayer);
-        if (hit.collider && !hit.collider.GetComponent<WalkableCloud>())
+        if (hit.collider && !hit.collider.GetComponent<TimedPlatform>())
         {
             destination = new Vector2(hit.point.x, hit.point.y - (CollisionSenses.GetChestTransform().position.y - player.transform.position.y));
         }
@@ -78,7 +78,7 @@ public class PlayerWarpDashState : PlayerDashState
         Vector2 destination;
         Vector2 origin = chestPos + new Vector2(playerStateData.dashDistance * Movement.FacingDirection, player.transform.position.y);
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.left * Movement.FacingDirection, playerStateData.dashDistance, playerStateData.groundLayer);
-        if (hit.collider && !hit.collider.GetComponent<WalkableCloud>())
+        if (hit.collider && !hit.collider.GetComponent<TimedPlatform>())
         {
             destination = new Vector2(hit.point.x, hit.point.y - (CollisionSenses.GetChestTransform().position.y - player.transform.position.y));
             EndWarp();

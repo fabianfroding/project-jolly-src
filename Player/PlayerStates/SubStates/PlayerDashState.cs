@@ -23,7 +23,7 @@ public class PlayerDashState : PlayerAbilityState
         tempGO.transform.position = player.transform.position;
 
         RaycastHit2D hit = Physics2D.Raycast(chestPos, Vector2.right * Movement.FacingDirection, playerStateData.dashDistance, playerStateData.groundLayer);
-        if (hit.collider && !hit.collider.GetComponent<WalkableCloud>())
+        if (hit.collider && !hit.collider.GetComponent<TimedPlatform>())
         {
             destination = new Vector2(hit.point.x, hit.point.y - (CollisionSenses.GetChestTransform().position.y - player.transform.position.y));
         }
