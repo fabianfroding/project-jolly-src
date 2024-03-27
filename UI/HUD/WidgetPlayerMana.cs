@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,7 +27,7 @@ public class WidgetPlayerMana : MonoBehaviour
     private void OnPlayerManaChanged(int value)
     {
         if (widgetPlayerManaFill)
-            widgetPlayerManaFill.value = value;
+            StartCoroutine(SmoothSliderValueChange(value));
     }
 
     private void OnPlayerManaChargesChanged(int value)
@@ -51,5 +52,18 @@ public class WidgetPlayerMana : MonoBehaviour
             if (i >= widgetPlayerManaChargeIcons.Count)
                 widgetPlayerManaChargeIcons.Add(Instantiate(widgetPlayerManaChargeIconPrefab, transform));
         }
+    }
+
+    private IEnumerator SmoothSliderValueChange(float targetValue)
+    {
+        float currentValue = widgetPlayerManaFill.value;
+        float elapsedTime = 0f;
+        while (elapsedTime < 0.5f)
+        {
+            widgetPlayerManaFill.value = Mathf.Lerp(currentValue, targetValue, elapsedTime / 0.5f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        widgetPlayerManaFill.value = targetValue;
     }
 }
