@@ -22,6 +22,8 @@ public class PlayerInAirState : PlayerState
     private bool oldIsTouchingWall;
     private bool oldIsTouchingWallBack;
 
+    private float entryMoveXSpeed = 0f;
+
     protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
@@ -33,6 +35,7 @@ public class PlayerInAirState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        entryMoveXSpeed = Movement.movementSpeed.GetCurrentValue();
     }
 
     public override void DoChecks()
@@ -112,7 +115,7 @@ public class PlayerInAirState : PlayerState
         else
         {
             Movement.CheckIfShouldFlip(xInput);
-            Movement.SetVelocityX(Movement.movementSpeed.GetCurrentValue() * xInput);
+            Movement.SetVelocityX(entryMoveXSpeed * xInput);
 
             // if touching wall and travelling up quickly, slow player down so it doesnt look like ice  
             if (isTouchingWall && Movement.CurrentVelocity.y > 5f)
