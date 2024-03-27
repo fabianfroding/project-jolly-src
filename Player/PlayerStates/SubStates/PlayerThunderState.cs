@@ -129,7 +129,7 @@ public class PlayerThunderState : PlayerAbilityState
                 //enemyComponent.TakeDamage(playerStateData.thunderDamage);
             }
 
-            if (collider.CompareTag(EditorConstants.TAG_BREAKABLE_GROUND))
+            if (collider.gameObject.GetComponent<BreakableGround>())
             {
                 GameObject.Destroy(collider.gameObject);
             }

@@ -105,14 +105,6 @@ public class Player : Entity
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag(EditorConstants.TAG_PICKUP_POWERUP))
-        {
-            StateMachine.ChangeState(PickupPowerupState);
-        }
-    }
-
     private void OnDestroy()
     {
         DaytimeManager.OnDaytimeTick -= UpdateDaytimeVisibilityRadius;

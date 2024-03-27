@@ -11,11 +11,8 @@
     public static readonly string RESOURCE_WHITE_FLASH = "WhiteFlash";
 
     //==================== TAGS ====================//
-    public static readonly string TAG_BREAKABLE_GROUND = "BreakableGround";
     public static readonly string TAG_ENVIRONMENT = "Environment";
     public static readonly string TAG_GROUND = "Ground";
     public static readonly string TAG_PARTICLE_CONTAINER = "ParticleContainer";
-    public static readonly string TAG_PICKUP_POWERUP = "PickupPowerup";
     public static readonly string TAG_PLAYER = "Player";
-    public static readonly string TAG_NPC = "NPC";
 }
