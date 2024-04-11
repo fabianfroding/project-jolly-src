@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -36,10 +37,15 @@ public class Player : Entity
     #region Other Variables
     [SerializeField] private Player_StateData playerStateData;
 
-    [SerializeField] private float playerMaxVisibilityRadius = 48f;
-    [SerializeField] private float playerMinVisibilityRadius = 12f;
+    [Range(0, 100)]
+    [SerializeField] private float playerDaytimeVisibilityRadius = 0f;
+    [Range(0, 100)]
+    [SerializeField] private float playerNighttimeVisibilityRadius = 0f;
+    [Range(0, 100)]
+    [SerializeField] private float playerDawnAndDuskVisibility = 0f;
     [SerializeField] private Color playerDaytimeLightColor = Color.white;
     [SerializeField] private Color playerNighttimeLightColor = Color.blue;
+    [SerializeField] private Color playerDawnAndDuskLightColor = Color.yellow;
 
     [SerializeField] private Transform fireArrowSpawnTransform;
     [SerializeField] private Types.DamageData enemyCollisionDamage;
@@ -202,12 +208,49 @@ public class Player : Entity
     {
         if (light2D)
         {
-            float hoursAwayFromMidday = Mathf.Abs(timeOfDay - 12);
+            /*float hoursAwayFromMidday = Mathf.Abs(timeOfDay - 12);
             light2D.pointLightOuterRadius = playerMaxVisibilityRadius - (hoursAwayFromMidday * ((playerMaxVisibilityRadius - playerMinVisibilityRadius) / 12));
 
             float normalizedTime = Mathf.Abs(timeOfDay - 12) / 12f;
             Color lerpedColor = Color.Lerp(playerDaytimeLightColor, playerNighttimeLightColor, normalizedTime);
-            light2D.color = lerpedColor;
+            light2D.color = lerpedColor;*/
+
+            float dawnStart = DaytimeManager.Instance.GetDawnStartTime();
+            float dawnEnd = DaytimeManager.Instance.GetDawnEndTime();
+            float duskStart = DaytimeManager.Instance.GetDuskStartTime();
+            float duskEnd = DaytimeManager.Instance.GetDuskEndTime();
+            float dawnMid = dawnStart + ((dawnEnd - dawnStart) / 2f);
+            float duskMid = duskStart + ((duskEnd - duskStart) / 2f);
+
+            if (timeOfDay >= dawnStart && timeOfDay < dawnMid)
+            {
+                float lerpFactor = Mathf.Clamp01((timeOfDay - dawnStart) / (dawnMid - dawnStart));
+                light2D.pointLightOuterRadius = Mathf.Lerp(playerNighttimeVisibilityRadius, playerDawnAndDuskVisibility, lerpFactor);
+                light2D.color = Color.Lerp(playerNighttimeLightColor, playerDawnAndDuskLightColor, lerpFactor);
+            }
+            else if (timeOfDay >= dawnMid && timeOfDay < dawnEnd)
+            {
+                float lerpFactor = Mathf.Clamp01((timeOfDay - dawnMid) / (dawnEnd - dawnMid));
+                light2D.pointLightOuterRadius = Mathf.Lerp(playerDawnAndDuskVisibility, playerDaytimeVisibilityRadius, lerpFactor);
+                light2D.color = Color.Lerp(playerDawnAndDuskLightColor, playerDaytimeLightColor, lerpFactor);
+            }
+            else if (timeOfDay >= duskStart && timeOfDay < duskMid)
+            {
+                float lerpFactor = Mathf.Clamp01((timeOfDay - duskStart) / (duskMid - duskStart));
+                light2D.pointLightOuterRadius = Mathf.Lerp(playerDaytimeVisibilityRadius, playerDawnAndDuskVisibility, lerpFactor);
+                light2D.color = Color.Lerp(playerDaytimeLightColor, playerDawnAndDuskLightColor, lerpFactor);
+            }
+            else if (timeOfDay >= duskMid && timeOfDay < duskEnd)
+            {
+                float lerpFactor = Mathf.Clamp01((timeOfDay - duskMid) / (duskEnd - duskMid));
+                light2D.pointLightOuterRadius = Mathf.Lerp(playerDawnAndDuskVisibility, playerNighttimeVisibilityRadius, lerpFactor);
+                light2D.color = Color.Lerp(playerDawnAndDuskLightColor, playerNighttimeLightColor, lerpFactor);
+            }
+            else
+            {
+                light2D.pointLightOuterRadius = (timeOfDay < dawnStart || timeOfDay >= duskEnd) ? playerNighttimeVisibilityRadius : playerDaytimeVisibilityRadius;
+                light2D.color = (timeOfDay < dawnStart || timeOfDay >= duskEnd) ? playerNighttimeLightColor : playerDaytimeLightColor;
+            }
         }
     }
 
