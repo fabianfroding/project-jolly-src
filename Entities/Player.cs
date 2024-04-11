@@ -35,8 +35,11 @@ public class Player : Entity
 
     #region Other Variables
     [SerializeField] private Player_StateData playerStateData;
+
     [SerializeField] private float playerMaxVisibilityRadius = 48f;
     [SerializeField] private float playerMinVisibilityRadius = 12f;
+    [SerializeField] private Color playerDaytimeLightColor = Color.white;
+    [SerializeField] private Color playerNighttimeLightColor = Color.blue;
 
     [SerializeField] private Transform fireArrowSpawnTransform;
     [SerializeField] private Types.DamageData enemyCollisionDamage;
@@ -72,7 +75,7 @@ public class Player : Entity
 
         InputHandler = GetComponent<PlayerInputHandler>();
 
-        DaytimeManager.OnDaytimeTick += UpdateDaytimeVisibilityRadius;
+        DaytimeManager.OnDaytimeTick += UpdateDaytimeVisibility;
     }
 
     protected override void Start()
@@ -107,7 +110,7 @@ public class Player : Entity
 
     private void OnDestroy()
     {
-        DaytimeManager.OnDaytimeTick -= UpdateDaytimeVisibilityRadius;
+        DaytimeManager.OnDaytimeTick -= UpdateDaytimeVisibility;
     }
     #endregion
 
@@ -195,12 +198,16 @@ public class Player : Entity
         DaytimeManager.Instance.stopDaytime = false;
     }
 
-    public void UpdateDaytimeVisibilityRadius(float daytimeTime)
+    public void UpdateDaytimeVisibility(float timeOfDay)
     {
         if (light2D)
         {
-            float hoursAwayFromMidday = Mathf.Abs(daytimeTime - 12);
+            float hoursAwayFromMidday = Mathf.Abs(timeOfDay - 12);
             light2D.pointLightOuterRadius = playerMaxVisibilityRadius - (hoursAwayFromMidday * ((playerMaxVisibilityRadius - playerMinVisibilityRadius) / 12));
+
+            float normalizedTime = Mathf.Abs(timeOfDay - 12) / 12f;
+            Color lerpedColor = Color.Lerp(playerDaytimeLightColor, playerNighttimeLightColor, normalizedTime);
+            light2D.color = lerpedColor;
         }
     }
 

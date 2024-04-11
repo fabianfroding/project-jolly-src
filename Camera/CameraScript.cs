@@ -7,6 +7,7 @@ public class CameraScript : MonoBehaviour
     [SerializeField] private Vector2 playerWalkOffset = new Vector2(3f, 1f);
     [SerializeField] private LayerMask groundMask;
 
+    [SerializeField] private Color backgroundColorDawnAndDusk;
     [SerializeField] private Color backgroundColorMidday;
     [SerializeField] private Color backgroundColorMidnight;
 
@@ -359,11 +360,41 @@ public class CameraScript : MonoBehaviour
         return defaultFST;
     }
 
-    private void UpdateBackgroundTint(float daytimeTime)
+    private void UpdateBackgroundTint(float timeOfDay)
     {
         if (!cachedCamera)
             return;
-        float hoursAwayFromMidday = Mathf.Abs(daytimeTime - 12);
-        cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidday, backgroundColorMidnight, Mathf.Clamp01(hoursAwayFromMidday / 12f));
+
+        float dawnStart = DaytimeManager.Instance.GetDawnStartTime();
+        float dawnEnd = DaytimeManager.Instance.GetDawnEndTime();
+        float duskStart = DaytimeManager.Instance.GetDuskStartTime();
+        float duskEnd = DaytimeManager.Instance.GetDuskEndTime();
+        float dawnMid = dawnStart + ((dawnEnd - dawnStart) / 2f);
+        float duskMid = duskStart + ((duskEnd - duskStart) / 2f);
+
+        if (timeOfDay >= dawnStart && timeOfDay < dawnMid)
+        {
+            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnStart) / (dawnMid - dawnStart));
+            cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidnight, backgroundColorDawnAndDusk, lerpFactor);
+        }
+        else if (timeOfDay >= dawnMid && timeOfDay < dawnEnd)
+        {
+            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnMid) / (dawnEnd - dawnMid));
+            cachedCamera.backgroundColor = Color.Lerp(backgroundColorDawnAndDusk, backgroundColorMidday, lerpFactor);
+        }
+        else if (timeOfDay >= duskStart && timeOfDay < duskMid)
+        {
+            float lerpFactor = Mathf.Clamp01((timeOfDay - duskStart) / (duskMid - duskStart));
+            cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidday, backgroundColorDawnAndDusk, lerpFactor);
+        }
+        else if (timeOfDay >= duskMid && timeOfDay < duskEnd)
+        {
+            float lerpFactor = Mathf.Clamp01((timeOfDay - duskMid) / (duskEnd - duskMid));
+            cachedCamera.backgroundColor = Color.Lerp(backgroundColorDawnAndDusk, backgroundColorMidnight, lerpFactor);
+        }
+        else
+        {
+            cachedCamera.backgroundColor = (timeOfDay < dawnStart || timeOfDay >= duskEnd) ? backgroundColorMidnight : backgroundColorMidday;
+        }
     }
 }

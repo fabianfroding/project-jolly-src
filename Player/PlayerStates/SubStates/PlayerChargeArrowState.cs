@@ -45,7 +45,7 @@ public class PlayerChargeArrowState : PlayerAbilityState
             }
             if (CollisionSenses.Ground)
             {
-                Movement.SetVelocityX(0f);
+                //Movement.SetVelocityX(0f);
             }
         }
     }

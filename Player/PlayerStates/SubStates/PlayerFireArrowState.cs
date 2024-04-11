@@ -23,7 +23,7 @@ public class PlayerFireArrowState : PlayerAbilityState
         base.LogicUpdate();
         if (CollisionSenses.Ground)
         {
-            Movement.SetVelocityX(0);
+            //Movement.SetVelocityX(0);
         }
 
         player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, player.InputHandler.NormInputY);
@@ -51,11 +51,11 @@ public class PlayerFireArrowState : PlayerAbilityState
             // Apply upward velocity if firing arrow down.
             if (verticalInput < 0)
             {
-                Movement.SetVelocityY(+playerStateData.arrowUpwardVelocity);
+                //Movement.SetVelocityY(+playerStateData.arrowUpwardVelocity);
             }
             else if (verticalInput > 0)
             {
-                Movement.SetVelocityY(-playerStateData.arrowDownwardVelocity);
+                //Movement.SetVelocityY(-playerStateData.arrowDownwardVelocity);
             }
         }
         else
