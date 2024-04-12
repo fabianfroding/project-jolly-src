@@ -52,6 +52,9 @@ public class Player : Entity
 
     public Light2D light2D;
     public IInteractable currentInteractionTarget;
+
+    private float cachedDawnMid;
+    private float cachedDuskMid;
     #endregion
 
     #region Events
@@ -88,6 +91,9 @@ public class Player : Entity
     {
         base.Start();
         StateMachine.Initialize(IdleState);
+
+        cachedDawnMid = DaytimeManager.Instance.GetDawnMidTime();
+        cachedDuskMid = DaytimeManager.Instance.GetDuskMidTime();
     }
 
     protected override void Update()
@@ -208,41 +214,32 @@ public class Player : Entity
     {
         if (light2D)
         {
-            /*float hoursAwayFromMidday = Mathf.Abs(timeOfDay - 12);
-            light2D.pointLightOuterRadius = playerMaxVisibilityRadius - (hoursAwayFromMidday * ((playerMaxVisibilityRadius - playerMinVisibilityRadius) / 12));
-
-            float normalizedTime = Mathf.Abs(timeOfDay - 12) / 12f;
-            Color lerpedColor = Color.Lerp(playerDaytimeLightColor, playerNighttimeLightColor, normalizedTime);
-            light2D.color = lerpedColor;*/
-
             float dawnStart = DaytimeManager.Instance.GetDawnStartTime();
             float dawnEnd = DaytimeManager.Instance.GetDawnEndTime();
             float duskStart = DaytimeManager.Instance.GetDuskStartTime();
             float duskEnd = DaytimeManager.Instance.GetDuskEndTime();
-            float dawnMid = dawnStart + ((dawnEnd - dawnStart) / 2f);
-            float duskMid = duskStart + ((duskEnd - duskStart) / 2f);
 
-            if (timeOfDay >= dawnStart && timeOfDay < dawnMid)
+            if (timeOfDay >= dawnStart && timeOfDay < cachedDawnMid)
             {
-                float lerpFactor = Mathf.Clamp01((timeOfDay - dawnStart) / (dawnMid - dawnStart));
+                float lerpFactor = Mathf.Clamp01((timeOfDay - dawnStart) / (cachedDawnMid - dawnStart));
                 light2D.pointLightOuterRadius = Mathf.Lerp(playerNighttimeVisibilityRadius, playerDawnAndDuskVisibility, lerpFactor);
                 light2D.color = Color.Lerp(playerNighttimeLightColor, playerDawnAndDuskLightColor, lerpFactor);
             }
-            else if (timeOfDay >= dawnMid && timeOfDay < dawnEnd)
+            else if (timeOfDay >= cachedDawnMid && timeOfDay < dawnEnd)
             {
-                float lerpFactor = Mathf.Clamp01((timeOfDay - dawnMid) / (dawnEnd - dawnMid));
+                float lerpFactor = Mathf.Clamp01((timeOfDay - cachedDawnMid) / (dawnEnd - cachedDawnMid));
                 light2D.pointLightOuterRadius = Mathf.Lerp(playerDawnAndDuskVisibility, playerDaytimeVisibilityRadius, lerpFactor);
                 light2D.color = Color.Lerp(playerDawnAndDuskLightColor, playerDaytimeLightColor, lerpFactor);
             }
-            else if (timeOfDay >= duskStart && timeOfDay < duskMid)
+            else if (timeOfDay >= duskStart && timeOfDay < cachedDuskMid)
             {
-                float lerpFactor = Mathf.Clamp01((timeOfDay - duskStart) / (duskMid - duskStart));
+                float lerpFactor = Mathf.Clamp01((timeOfDay - duskStart) / (cachedDuskMid - duskStart));
                 light2D.pointLightOuterRadius = Mathf.Lerp(playerDaytimeVisibilityRadius, playerDawnAndDuskVisibility, lerpFactor);
                 light2D.color = Color.Lerp(playerDaytimeLightColor, playerDawnAndDuskLightColor, lerpFactor);
             }
-            else if (timeOfDay >= duskMid && timeOfDay < duskEnd)
+            else if (timeOfDay >= cachedDuskMid && timeOfDay < duskEnd)
             {
-                float lerpFactor = Mathf.Clamp01((timeOfDay - duskMid) / (duskEnd - duskMid));
+                float lerpFactor = Mathf.Clamp01((timeOfDay - cachedDuskMid) / (duskEnd - cachedDuskMid));
                 light2D.pointLightOuterRadius = Mathf.Lerp(playerDawnAndDuskVisibility, playerNighttimeVisibilityRadius, lerpFactor);
                 light2D.color = Color.Lerp(playerDawnAndDuskLightColor, playerNighttimeLightColor, lerpFactor);
             }

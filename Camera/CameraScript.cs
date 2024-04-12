@@ -28,6 +28,8 @@ public class CameraScript : MonoBehaviour
     private Vector2 lerpFST = new Vector2(0.01f, 0.01f);
 
     private Camera cachedCamera;
+    private float cachedDawnMid;
+    private float cachedDuskMid;
 
     private GameObject player;
     public GameObject Player
@@ -100,6 +102,9 @@ public class CameraScript : MonoBehaviour
             // Set distance on scene transition.
             transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, -zoomDistance);
         }
+
+        cachedDawnMid = DaytimeManager.Instance.GetDawnMidTime();
+        cachedDuskMid = DaytimeManager.Instance.GetDuskMidTime();
     }
 
     private void LateUpdate()
@@ -362,34 +367,31 @@ public class CameraScript : MonoBehaviour
 
     private void UpdateBackgroundTint(float timeOfDay)
     {
-        if (!cachedCamera)
-            return;
+        if (!cachedCamera) return;
 
         float dawnStart = DaytimeManager.Instance.GetDawnStartTime();
         float dawnEnd = DaytimeManager.Instance.GetDawnEndTime();
         float duskStart = DaytimeManager.Instance.GetDuskStartTime();
         float duskEnd = DaytimeManager.Instance.GetDuskEndTime();
-        float dawnMid = dawnStart + ((dawnEnd - dawnStart) / 2f);
-        float duskMid = duskStart + ((duskEnd - duskStart) / 2f);
 
-        if (timeOfDay >= dawnStart && timeOfDay < dawnMid)
+        if (timeOfDay >= dawnStart && timeOfDay < cachedDawnMid)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnStart) / (dawnMid - dawnStart));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnStart) / (cachedDawnMid - dawnStart));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidnight, backgroundColorDawnAndDusk, lerpFactor);
         }
-        else if (timeOfDay >= dawnMid && timeOfDay < dawnEnd)
+        else if (timeOfDay >= cachedDawnMid && timeOfDay < dawnEnd)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnMid) / (dawnEnd - dawnMid));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - cachedDawnMid) / (dawnEnd - cachedDawnMid));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorDawnAndDusk, backgroundColorMidday, lerpFactor);
         }
-        else if (timeOfDay >= duskStart && timeOfDay < duskMid)
+        else if (timeOfDay >= duskStart && timeOfDay < cachedDuskMid)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - duskStart) / (duskMid - duskStart));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - duskStart) / (cachedDuskMid - duskStart));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidday, backgroundColorDawnAndDusk, lerpFactor);
         }
-        else if (timeOfDay >= duskMid && timeOfDay < duskEnd)
+        else if (timeOfDay >= cachedDuskMid && timeOfDay < duskEnd)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - duskMid) / (duskEnd - duskMid));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - cachedDuskMid) / (duskEnd - cachedDuskMid));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorDawnAndDusk, backgroundColorMidnight, lerpFactor);
         }
         else

@@ -47,8 +47,10 @@ public class DaytimeManager : MonoBehaviour
     }
 
     public float GetDawnStartTime() => dawnStartTime;
+    public float GetDawnMidTime() => GetDawnStartTime() + ((GetDawnEndTime() - GetDawnStartTime()) / 2f);
     public float GetDawnEndTime() => dawnEndTime;
     public float GetDuskStartTime() => duskStartTime;
+    public float GetDuskMidTime() => GetDuskStartTime() + ((GetDuskEndTime() - GetDuskStartTime()) / 2f);
     public float GetDuskEndTime() => duskEndTime;
 
     private IEnumerator Tick()
