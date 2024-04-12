@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -10,6 +9,7 @@ public class Player : Entity
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
+    public PlayerDoubleJumpState DoubleJumpState { get; private set; }
     public PlayerInAirState InAirState { get; private set; }
     public PlayerLandState LandState { get; private set; }
     public PlayerWallSlideState WallSlideState { get; private set; }
@@ -129,12 +129,15 @@ public class Player : Entity
     #region Enable State Functions
     public void EnableAllLockedStates()
     {
+        EnableDoubleJumpState();
         EnableWallJumpAndSlideStates();
         EnableDashState();
         EnableAirGlideState();
         EnableWarpState();
         EnableThunderState();
     }
+
+    public void EnableDoubleJumpState() => DoubleJumpState = new PlayerDoubleJumpState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
 
     public void EnableWallJumpAndSlideStates()
     {

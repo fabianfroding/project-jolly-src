@@ -15,6 +15,9 @@ public class Player_StateData : ScriptableObject
     public GameObject landSoundPrefab;
     public GameObject doubleJumpSFX;
 
+    [Header("Double Jump State")]
+    public float doubleJumpVelocity = 20f;
+
     [Header("In Air State")]
     public float coyoteTime = 0.2f;
     public float variableJumpHeightMultiplier = 0.25f;

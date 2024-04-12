@@ -32,6 +32,7 @@ public class PlayerGroundedState : PlayerState
         base.Enter();
 
         player.JumpState.ResetAmountOfJumpsLeft();
+        player.DoubleJumpState?.ResetDoubleJump();
         player.DashState?.ResetCanDash();
     }
 

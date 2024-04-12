@@ -21,6 +21,16 @@ public class PlayerJumpState : PlayerAbilityState
         player.InAirState.SetIsJumping();
     }
 
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
+
+        if (player.InputHandler.JumpInput && player.DoubleJumpState != null && player.DoubleJumpState.CanDoubleJump())
+        {
+            stateMachine.ChangeState(player.DoubleJumpState);
+        }
+    }
+
     public bool CanJump() => amountOfJumpsLeft > 0;
 
     public void ResetAmountOfJumpsLeft() => amountOfJumpsLeft = playerStateData.amountOfJumps;

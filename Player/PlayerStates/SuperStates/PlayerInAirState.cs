@@ -100,6 +100,10 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.WallSlideState);
         }
+        else if (jumpInput && player.DoubleJumpState != null && player.DoubleJumpState.CanDoubleJump())
+        {
+            stateMachine.ChangeState(player.DoubleJumpState);
+        }
         else if (chargeBowInput && player.ChargeArrowState.CheckIfCanChargeArrow())
         {
             stateMachine.ChangeState(player.ChargeArrowState);
