@@ -47,6 +47,11 @@ public class Player_StateData : ScriptableObject
     public GameObject attackSlashPrefabHorizontal;
     public GameObject attackSlashPrefabVertical;
 
+    [Header("Take Damage State")]
+    public float takeDamageDuration = 1.5f;
+    [Range(0f, 1f)]
+    public float takeDamageTimeScale = 0.5f;
+
     [Header("Dash State")]
     public float dashCooldown = 0.7f;
     public float dashDelay = 0.05f;

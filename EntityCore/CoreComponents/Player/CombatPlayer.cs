@@ -33,7 +33,7 @@ public class CombatPlayer : Combat
     {
         base.TakeDamage(damageData);
 
-        if (stats.IsAlive())
+        if (stats.IsAlive() && player.StateMachine.CurrentState != player.TakeDamageState && !Invulnerable)
         {
             Invulnerable = true;
 
@@ -48,6 +48,7 @@ public class CombatPlayer : Combat
                 {
                     Vector2 dir = GameFunctionLibrary.GetDirectionFromAngle(GameFunctionLibrary.GetAngleBetweenObjects(damageData.source, gameObject));
                     Knockback(Vector2.zero, 0f, dir.x < 0f ? -1 : 1);
+                    player.StateMachine.ChangeState(player.TakeDamageState);
                 }
 
                 if (invulnerabilityIndication) { invulnerabilityIndication.StartFlash(); }
