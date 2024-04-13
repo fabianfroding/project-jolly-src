@@ -14,7 +14,6 @@ public class PlayerDoubleJumpState : PlayerAbilityState
 
         player.InputHandler.UseJumpInput();
         Movement.SetVelocityY(playerStateData.doubleJumpVelocity);
-        Movement.SetVelocityX(0f); // Experimental.
         isAbilityDone = true;
         ConsumeDoubleJump();
         player.InAirState.SetIsJumping();

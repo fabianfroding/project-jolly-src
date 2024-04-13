@@ -157,7 +157,7 @@ public class PlayerInAirState : PlayerState
         if (coyoteTime && Time.time > startTime + playerStateData.coyoteTime)
         {
             coyoteTime = false;
-            player.JumpState.DecreaseAmountOfJumpsLeft();
+            player.JumpState.ConsumeJump();
         }
     }
 

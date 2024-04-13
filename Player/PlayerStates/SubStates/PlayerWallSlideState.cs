@@ -6,7 +6,7 @@ public class PlayerWallSlideState : PlayerTouchingWallState
     public override void Enter()
     {
         base.Enter();
-        player.JumpState.ResetAmountOfJumpsLeft();
+        player.JumpState.ResetJump();
     }
 
     public override void LogicUpdate()

@@ -8,7 +8,6 @@ public class Player_StateData : ScriptableObject
 
     [Header("Jump State")]
     public float jumpVelocity = 25f;
-    public int amountOfJumps = 1;
     public GameObject jumpSFXPrefab;
     public GameObject jumpTrailSFXPrefab;
     public GameObject jumpSNDPrefab;
