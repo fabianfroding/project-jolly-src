@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class AmbiencePlayer : MonoBehaviour
 {
+    [SerializeField] private AudioSource daytimeAudioSource;
+    [SerializeField] private AudioSource nighttimeAudioSource;
     [SerializeField] private AudioClip currentDaytimeAmbience;
     [SerializeField] private AudioClip currentNighttimeAmbience;
 
-    private AudioSource cachedAudioSource;
-
     private float cachedDawnMid;
     private float cachedDuskMid;
+    private float duskMidOffset;
 
     private void Awake()
     {
-        cachedAudioSource = GetComponent<AudioSource>();
         DaytimeManager.OnDaytimeTick += UpdateAmbienceVolume;
     }
 
@@ -20,6 +20,7 @@ public class AmbiencePlayer : MonoBehaviour
     {
         cachedDawnMid = DaytimeManager.Instance.GetDawnMidTime();
         cachedDuskMid = DaytimeManager.Instance.GetDuskMidTime();
+        duskMidOffset = cachedDuskMid + (DaytimeManager.Instance.GetDuskEndTime() - DaytimeManager.Instance.GetDuskStartTime());
     }
 
     private void OnDestroy()
@@ -29,45 +30,32 @@ public class AmbiencePlayer : MonoBehaviour
 
     private void UpdateAmbienceVolume(float timeOfDay)
     {
-        if (!cachedAudioSource) return;
+        if (!daytimeAudioSource || !nighttimeAudioSource) return;
 
         float dawnStart = DaytimeManager.Instance.GetDawnStartTime();
-        float dawnEnd = DaytimeManager.Instance.GetDawnEndTime();
-        float duskStart = DaytimeManager.Instance.GetDuskStartTime();
-        float duskEnd = DaytimeManager.Instance.GetDuskEndTime();
 
         if (timeOfDay >= dawnStart && timeOfDay < cachedDawnMid)
         {
             float lerpFactor = Mathf.Clamp01((timeOfDay - dawnStart) / (cachedDawnMid - dawnStart));
-            cachedAudioSource.volume = Mathf.Lerp(1f, 0.1f, lerpFactor);
+            daytimeAudioSource.volume = Mathf.Lerp(0f, 1f, lerpFactor);
+            nighttimeAudioSource.volume = Mathf.Lerp(1f, 0f, lerpFactor);
         }
-        else if (timeOfDay >= cachedDawnMid && timeOfDay < dawnEnd)
+        else if (timeOfDay >= cachedDuskMid && timeOfDay < duskMidOffset)
         {
-            if (cachedAudioSource.clip != currentDaytimeAmbience)
-                ChangeAmbience(currentDaytimeAmbience);
-            float lerpFactor = Mathf.Clamp01((timeOfDay - cachedDawnMid) / (dawnEnd - cachedDawnMid));
-            cachedAudioSource.volume = Mathf.Lerp(0.1f, 1f, lerpFactor);
+            float lerpFactor = Mathf.Clamp01((timeOfDay - cachedDuskMid) / (duskMidOffset - cachedDuskMid));
+            daytimeAudioSource.volume = Mathf.Lerp(1f, 0f, lerpFactor);
+            nighttimeAudioSource.volume = Mathf.Lerp(0f, 1f, lerpFactor);
         }
-        else if (timeOfDay >= duskStart && timeOfDay < cachedDuskMid)
-        {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - duskStart) / (cachedDuskMid - duskStart));
-            cachedAudioSource.volume = Mathf.Lerp(1f, 0.1f, lerpFactor);
-        }
-        else if (timeOfDay >= cachedDuskMid && timeOfDay < duskEnd)
-        {
-            if (cachedAudioSource.clip != currentNighttimeAmbience)
-                ChangeAmbience(currentNighttimeAmbience);
-            float lerpFactor = Mathf.Clamp01((timeOfDay - cachedDuskMid) / (duskEnd - cachedDuskMid));
-            cachedAudioSource.volume = Mathf.Lerp(0.1f, 1f, lerpFactor);
-        }
+        PlayOrStopAmbienceBasedOnVolume(daytimeAudioSource, daytimeAudioSource.volume);
+        PlayOrStopAmbienceBasedOnVolume(nighttimeAudioSource, nighttimeAudioSource.volume);
     }
 
-    public void ChangeAmbience(AudioClip newAmbienceAudioClip)
+    private void PlayOrStopAmbienceBasedOnVolume(AudioSource ambienceAudioSource, float volume)
     {
-        if (!cachedAudioSource) return;
-        cachedAudioSource.Stop();
-        cachedAudioSource.clip = newAmbienceAudioClip;
-        cachedAudioSource.loop = true;
-        cachedAudioSource.Play();
+        if (!ambienceAudioSource) return;
+        if (volume <= 0f && ambienceAudioSource.isPlaying)
+            ambienceAudioSource.Stop();
+        else if (volume > 0f && !ambienceAudioSource.isPlaying)
+            ambienceAudioSource.Play();
     }
 }
