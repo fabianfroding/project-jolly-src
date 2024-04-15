@@ -6,6 +6,9 @@ public class Player_StateData : ScriptableObject
     public LayerMask groundLayer;
     public float defaultGravityScale = 4f;
 
+    [Header("Dead State State")]
+    public float deadStateDuration = 3f;
+
     [Header("Jump State")]
     public float jumpVelocity = 25f;
     public GameObject jumpSFXPrefab;

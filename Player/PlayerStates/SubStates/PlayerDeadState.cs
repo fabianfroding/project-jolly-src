@@ -1,16 +1,17 @@
-using System;
+using UnityEngine;
 
-public class PlayerDeadState : PlayerLockedState
+public class PlayerDeadState : PlayerState
 {
-    public static event Action OnPlayerBecomeDead;
+    protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
+    protected Movement movement;
 
     public PlayerDeadState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
-    public override void Enter()
+    public override void Exit()
     {
-        base.Enter();
-        OnPlayerBecomeDead?.Invoke();
+        base.Exit();
+        player.Revive();
     }
 
     public override void LogicUpdate()
@@ -18,5 +19,7 @@ public class PlayerDeadState : PlayerLockedState
         base.LogicUpdate();
         Movement.SetVelocityX(0f);
         Movement.SetVelocityY(0f);
+        if (Time.time > startTime + playerStateData.deadStateDuration)
+            player.StateMachine.ChangeState(player.IdleState);
     }
 }

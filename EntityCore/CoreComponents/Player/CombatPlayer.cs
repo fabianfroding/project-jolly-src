@@ -51,12 +51,20 @@ public class CombatPlayer : Combat
                     player.StateMachine.ChangeState(player.TakeDamageState);
                 }
 
-                if (invulnerabilityIndication) { invulnerabilityIndication.StartFlash(); }
+                if (invulnerabilityIndication)
+                    invulnerabilityIndication.StartFlash();
 
-                StopCoroutine(ResetInvulnerability());
-                StartCoroutine(ResetInvulnerability());
+                StopCoroutine(ResetInvulnerability(player.GetPlayerStateData().takeDamageDuration));
+                StartCoroutine(ResetInvulnerability(player.GetPlayerStateData().takeDamageDuration));
             }
         }
+    }
+
+    public override bool IsInvulnerable()
+    {
+        if (player.StateMachine.CurrentState == player.TakeDamageState)
+            return true;
+        return base.IsInvulnerable();
     }
 
     private bool IsPlayerAlive()

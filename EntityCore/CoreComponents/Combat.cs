@@ -11,7 +11,6 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 {
     [SerializeField] private GameObject damagedParticles;
     [SerializeField] private GameObject damagedSFX;
-    [SerializeField] private float invulnerabilityDuration = 1.5f;
     protected Material matDefault;
     protected Material matWhite;
     protected SpriteRenderer spriteRenderer;
@@ -50,7 +49,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     public float LastStunDamageTime { get; protected set; }
     protected float currentStunResistance;
 
-    public bool Invulnerable { get; protected set; }
+    protected bool Invulnerable;
     protected InvulnerabilityIndication invulnerabilityIndication;
 
     [Header("Spawned Objects")]
@@ -123,9 +122,9 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         }
     }
 
-    protected IEnumerator ResetInvulnerability()
+    protected IEnumerator ResetInvulnerability(float duration)
     {
-        yield return new WaitForSeconds(invulnerabilityDuration);
+        yield return new WaitForSeconds(duration);
         if (invulnerabilityIndication)
         {
             invulnerabilityIndication.EndFlash();
@@ -176,6 +175,11 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damageData.source.transform, transform);
             Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
         }
+    }
+
+    public virtual bool IsInvulnerable()
+    {
+        return Invulnerable;
     }
 
     public virtual void Knockback(Vector2 angle, float strength, int direction)

@@ -3,8 +3,9 @@ using UnityEngine;
 public class PlayerTakeDamageState : PlayerState
 {
     private float preTakeDamageTimeScale;
+    private float preTakeDamageGravityScale;
 
-    private Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    private Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     private Movement movement;
 
     public PlayerTakeDamageState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
@@ -16,11 +17,23 @@ public class PlayerTakeDamageState : PlayerState
         preTakeDamageTimeScale = Time.timeScale;
         Time.timeScale = playerStateData.takeDamageTimeScale;
         startTime = Time.unscaledTime;
+
+        Rigidbody2D rigidBody2D = player.GetComponent<Rigidbody2D>();
+        if (rigidBody2D)
+        {
+            preTakeDamageGravityScale = rigidBody2D.gravityScale;
+            rigidBody2D.gravityScale = 0f;
+        }
     }
 
     public override void Exit()
     {
         Time.timeScale = preTakeDamageTimeScale;
+
+        Rigidbody2D rigidBody2D = player.GetComponent<Rigidbody2D>();
+        if (rigidBody2D)
+            rigidBody2D.gravityScale = preTakeDamageGravityScale;
+
         base.Exit();
     }
 

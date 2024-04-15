@@ -8,6 +8,7 @@ public class RevivePoint : MonoBehaviour, IDamageable
     [SerializeField] private string inactiveAnimName;
     [SerializeField] private string activeAnimName;
     [SerializeField] private float reviveDelay = 2.5f;
+    [SerializeField] private bool isActivatedByDefault = false;
     [SerializeField] private GameObject activateSFXPrefab;
     [SerializeField] private GameObject hitSoundPrefab;
     [SerializeField] private GameObject playerPrefab;
@@ -33,27 +34,23 @@ public class RevivePoint : MonoBehaviour, IDamageable
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        PlayerDeadState.OnPlayerBecomeDead += RevivePlayerDelayed;
     }
 
     private void Start()
     {
-        if (IsCurrentRevivePointInActiveScene() &&
-            RevivePointRepository.CurrentRevivePointGOName == name)
+        if (IsCurrentRevivePointInActiveScene() && RevivePointRepository.CurrentRevivePointGOName == name)
         {
             Activate(false);
-
             if (revivePlayerInOtherScene || FindObjectOfType<Player>() == null)
             {
                 revivePlayerInOtherScene = false;
                 RevivePlayer();
             }
         }
-    }
-
-    private void OnDestroy()
-    {
-        PlayerDeadState.OnPlayerBecomeDead -= RevivePlayerDelayed;
+        else if (isActivatedByDefault)
+        {
+            Activate(false);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

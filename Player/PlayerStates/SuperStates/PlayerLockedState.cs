@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class PlayerLockedState : PlayerState
 {
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
