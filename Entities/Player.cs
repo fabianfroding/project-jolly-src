@@ -20,7 +20,7 @@ public class Player : Entity
     public PlayerTakeDamageState TakeDamageState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
-    public PlayerDyingState DyingState { get; private set; }
+    //public PlayerDyingState DyingState { get; private set; }
     public PlayerPickupPowerupState PickupPowerupState { get; private set; }
     public PlayerLockedState LockedState { get; private set; }
     public PlayerHoldAscendState HoldAscendState { get; private set; }
@@ -59,6 +59,7 @@ public class Player : Entity
     #endregion
 
     #region Events
+    public static event Action OnPlayerRevive;
     public static event Action OnPlayerEnterAirGlideState;
     public static event Action OnPlayerExitAirGlideState;
     #endregion
@@ -78,7 +79,7 @@ public class Player : Entity
         AttackState = new PlayerAttackState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ATTACK);
         TakeDamageState = new PlayerTakeDamageState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
         DeadState = new PlayerDeadState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_DEAD);
-        DyingState = new PlayerDyingState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_DYING);
+        //DyingState = new PlayerDyingState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_DYING);
         PickupPowerupState = new PlayerPickupPowerupState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_PICKUP_POWERUP);
         LockedState = new PlayerLockedState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
         FloatingBubbleState = new PlayerFloatingBubbleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
@@ -173,16 +174,22 @@ public class Player : Entity
     protected override void Death()
     {
         base.Death();
+        Debug.Log("Death");
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY));
-        StateMachine.ChangeState(DyingState);
+        //StateMachine.ChangeState(DyingState);
     }
 
     public override void Revive()
     {
         base.Revive();
+        OnPlayerRevive?.Invoke();
+    }
+
+    public void RevivePlayer()
+    {
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
-        Stats.IncreaseHealth(Stats.GetMaxHealth());
-        ResetState(); // TODO: Remove after dead state changes to idle with health check.
+        Stats.SetHealth(Stats.GetMaxHealth());
+        ResetState();
     }
 
     public bool IsDead() => StateMachine.CurrentState == DeadState;

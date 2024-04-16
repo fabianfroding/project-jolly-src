@@ -58,6 +58,10 @@ public class CombatPlayer : Combat
                 StartCoroutine(ResetInvulnerability(player.GetPlayerStateData().takeDamageDuration));
             }
         }
+        else if (!stats.IsAlive())
+        {
+            player.StateMachine.ChangeState(player.DeadState);
+        }
     }
 
     public override bool IsInvulnerable()
@@ -74,6 +78,6 @@ public class CombatPlayer : Combat
             Debug.LogError("CombatPlayer::IsPlayerDead: Missing Player component.");
             return false;
         }
-        return player.StateMachine.CurrentState != player.DyingState && player.StateMachine.CurrentState != player.DeadState;
+        return player.StateMachine.CurrentState != player.DeadState;
     }
 }

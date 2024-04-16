@@ -7,7 +7,6 @@ public class RevivePoint : MonoBehaviour, IDamageable
 {
     [SerializeField] private string inactiveAnimName;
     [SerializeField] private string activeAnimName;
-    [SerializeField] private float reviveDelay = 2.5f;
     [SerializeField] private bool isActivatedByDefault = false;
     [SerializeField] private GameObject activateSFXPrefab;
     [SerializeField] private GameObject hitSoundPrefab;
@@ -20,7 +19,6 @@ public class RevivePoint : MonoBehaviour, IDamageable
     private static bool revivePlayerInOtherScene = false;
     private static GameObject currentRevivePoint;
     private static GameObject lastRevivePoint;
-    private Coroutine revivePlayerCoroutine;
 
     #region Components
     private Animator animator;
@@ -34,6 +32,8 @@ public class RevivePoint : MonoBehaviour, IDamageable
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        Player.OnPlayerRevive += RevivePlayer;
     }
 
     private void Start()
@@ -51,6 +51,11 @@ public class RevivePoint : MonoBehaviour, IDamageable
         {
             Activate(false);
         }
+    }
+
+    private void OnDestroy()
+    {
+        Player.OnPlayerRevive -= RevivePlayer;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -136,21 +141,6 @@ public class RevivePoint : MonoBehaviour, IDamageable
         }
     }
 
-    public void RevivePlayerDelayed()
-    {
-        if (revivePlayerCoroutine != null)
-        {
-            StopCoroutine(revivePlayerCoroutine);
-        }
-        revivePlayerCoroutine = StartCoroutine(RevivePlayerCR());
-    }
-
-    private IEnumerator RevivePlayerCR()
-    {
-        yield return new WaitForSeconds(reviveDelay);
-        RevivePlayer();
-    }
-
     private void RevivePlayer()
     {
         if (IsCurrentRevivePoint())
@@ -163,14 +153,14 @@ public class RevivePoint : MonoBehaviour, IDamageable
                     player = Instantiate(playerPrefab).GetComponent<Player>();
                 }
 
-                RevivePointLoadPlayerData(player);
+                //RevivePointLoadPlayerData(player);
                 player.transform.position = GetCurrentRevivePointPosition();
-                player.Revive();
+                player.RevivePlayer();
             }
             else
             {
                 revivePlayerInOtherScene = true;
-                SceneManager.LoadScene(RevivePointRepository.CurrentRevivePointSceneName);
+                //SceneManager.LoadScene(RevivePointRepository.CurrentRevivePointSceneName);
             }
         }
     }
