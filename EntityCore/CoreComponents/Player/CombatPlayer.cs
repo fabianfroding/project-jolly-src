@@ -53,9 +53,6 @@ public class CombatPlayer : Combat
 
                 if (invulnerabilityIndication)
                     invulnerabilityIndication.StartFlash();
-
-                StopCoroutine(ResetInvulnerability(player.GetPlayerStateData().takeDamageDuration));
-                StartCoroutine(ResetInvulnerability(player.GetPlayerStateData().takeDamageDuration));
             }
         }
         else if (!stats.IsAlive())

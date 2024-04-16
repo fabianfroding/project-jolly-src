@@ -122,9 +122,8 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         }
     }
 
-    protected IEnumerator ResetInvulnerability(float duration)
+    public void ResetInvulnerability()
     {
-        yield return new WaitForSeconds(duration);
         if (invulnerabilityIndication)
         {
             invulnerabilityIndication.EndFlash();
