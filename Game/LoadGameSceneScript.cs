@@ -11,6 +11,5 @@ public class LoadGameSceneScript : MonoBehaviour
         StartGame();
     }
 
-    public static void StartGame() =>
-        ProfileManager.LoadSceneForCurrentProfile();
+    public static void StartGame() { }
 }

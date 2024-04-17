@@ -11,7 +11,7 @@ public class EnemyRepository : MonoBehaviour
     private static string ENEMY_KEY(string enemyName)
     {
         string sceneName = SceneManager.GetActiveScene().name;
-        string key = ProfileRepository.GetCurrentProfileKey() + sceneName + enemyName;
+        string key = ""; // ProfileRepository.GetCurrentProfileKey() + sceneName + enemyName;
         return key;
     }
 

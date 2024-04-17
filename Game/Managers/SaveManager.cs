@@ -28,7 +28,7 @@ public class SaveManager : MonoBehaviour
     private void SaveGame()
     {
         Player player = FindObjectOfType<Player>();
-        if (player != null) PlayerRepository.PlayerMaxHealth = player.Core.GetCoreComponent<Stats>().GetMaxHealth();
+        
 
         OnGameSave?.Invoke();
     }

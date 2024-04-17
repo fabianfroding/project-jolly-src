@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private void AddInGameProfileManager()
     {
         GameObject tempGO = AddChild("InGameProfileManager");
-        tempGO.AddComponent<InGameProfileManager>();
+        //tempGO.AddComponent<InGameProfileManager>();
     }
 
     private void AddSaveManager()

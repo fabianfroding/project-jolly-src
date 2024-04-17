@@ -165,14 +165,6 @@ public class RevivePoint : MonoBehaviour, IDamageable
         }
     }
 
-    private void RevivePointLoadPlayerData(Player player)
-    {
-        if (PlayerRepository.HasPlayerMaxHealth())
-        {
-            player.Core.GetCoreComponent<Stats>().SetMaxHealth(PlayerRepository.PlayerMaxHealth);
-        }
-    }
-
     private bool IsCurrentRevivePoint() => 
         GameObject.Find(RevivePointRepository.CurrentRevivePointGOName) == gameObject;
 

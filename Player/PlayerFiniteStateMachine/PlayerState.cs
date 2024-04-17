@@ -22,6 +22,8 @@ public class PlayerState
         core = player.Core;
     }
 
+    public PlayerState(PlayerPawn playerPawn, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) {}
+
     public virtual void DoChecks() {}
 
     public virtual void Enter()

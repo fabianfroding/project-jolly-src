@@ -7,7 +7,6 @@ public class Entity : MonoBehaviour
     public Animator Animator { get; private set; }
 
     protected SpriteRenderer spriteRenderer;
-    protected Vector2 velocityWorkspace;
 
     protected Combat Combat => combat ? combat : Core.GetCoreComponent(ref combat);
     protected Combat combat;

@@ -18,7 +18,7 @@ public class PlayerStateMachine
         }
         else
         {
-            UnityEngine.Debug.Log("PlayerStateMachine::ChangeState: Attempted to change player state to an unknown state.");
+            UnityEngine.Debug.LogWarning("PlayerStateMachine::ChangeState: Attempted to change player state to an unknown state.");
         }
     }
 }
