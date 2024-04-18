@@ -57,12 +57,12 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     [Header("Spawned Objects")]
     public GameObject parriedSoundPrefab;
 
-    protected Stats Stats => stats ? stats : core.GetCoreComponent(ref stats);
+    protected HealthComponent HealthComponent => healthComponent ? healthComponent : core.GetCoreComponent(ref healthComponent);
     protected CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : core.GetCoreComponent(ref collisionSenses);
     protected Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
     protected ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
 
-    protected Stats stats;
+    protected HealthComponent healthComponent;
     protected CollisionSenses collisionSenses;
     protected Movement movement;
     protected ParticleManager particleManager;
@@ -96,10 +96,10 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             return;
         }
         
-        if (Stats.IsAlive())
+        if (HealthComponent.IsAlive())
         {
             Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
-            Stats.DecreaseHealth(damageData.damageAmount);
+            HealthComponent.DecreaseHealth(damageData.damageAmount);
             OnDamaged?.Invoke();
 
             InstantiateTakeDamageVisuals();

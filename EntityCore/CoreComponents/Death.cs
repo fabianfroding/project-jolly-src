@@ -8,17 +8,17 @@ public class Death : CoreComponent
     private ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
     private ParticleManager particleManager;
 
-    private Stats Stats => stats ? stats : core.GetCoreComponent(ref stats);
-    private Stats stats;
+    private HealthComponent HealthComponent => healthComponent ? healthComponent : core.GetCoreComponent(ref healthComponent);
+    private HealthComponent healthComponent;
 
     private void OnEnable()
     {
-        Stats.OnHealthDepleted += Die;
+        HealthComponent.OnHealthDepleted += Die;
     }
 
     private void OnDisable()
     {
-        Stats.OnHealthDepleted -= Die; 
+        HealthComponent.OnHealthDepleted -= Die; 
     }
 
     public void Die()

@@ -9,8 +9,8 @@ public class ShinyEnemyRandomizer : MonoBehaviour
     [SerializeField] private GameObject sfxShinySparklesPrefab;
     //[SerializeField] private AnimatorController shinyAnimationController;
 
-    protected Stats Stats { get => stats ?? enemy.Core.GetCoreComponent(ref stats); }
-    protected Stats stats;
+    protected HealthComponent HealthComponent { get => healthComponent != null ? healthComponent : enemy.Core.GetCoreComponent(ref healthComponent); }
+    protected HealthComponent healthComponent;
 
     public bool IsShiny { get; private set; }
     private Enemy enemy;
@@ -54,8 +54,8 @@ public class ShinyEnemyRandomizer : MonoBehaviour
 
     private void SetShinyStats()
     {
-        Stats.SetMaxHealth((int)(Stats.GetMaxHealth() * 1.5f));
-        Stats.IncreaseHealth(Stats.GetMaxHealth());
+        HealthComponent.SetMaxHealth((int)(HealthComponent.GetMaxHealth() * 1.5f));
+        HealthComponent.IncreaseHealth(HealthComponent.GetMaxHealth());
 
         // TODO: Find a way to decrease interval between attacks/abilities.
 

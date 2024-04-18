@@ -14,8 +14,8 @@ public class WidgetPlayerHealth : MonoBehaviour
         owningPlayer = FindAnyObjectByType<Player>();
         if (owningPlayer)
         {
-            owningPlayer.Stats.OnMaxHealthChanged += OnPlayerMaxHealthChanged;
-            owningPlayer.Stats.OnHealthChange += OnPlayerHealthChanged;
+            owningPlayer.HealthComponent.OnMaxHealthChanged += OnPlayerMaxHealthChanged;
+            owningPlayer.HealthComponent.OnHealthChange += OnPlayerHealthChanged;
         }
         else
         {
@@ -28,8 +28,8 @@ public class WidgetPlayerHealth : MonoBehaviour
         Player.OnPlayerAwake -= UpdateOwningPlayer;
         if (owningPlayer)
         {
-            owningPlayer.Stats.OnMaxHealthChanged -= OnPlayerMaxHealthChanged;
-            owningPlayer.Stats.OnHealthChange -= OnPlayerHealthChanged;
+            owningPlayer.HealthComponent.OnMaxHealthChanged -= OnPlayerMaxHealthChanged;
+            owningPlayer.HealthComponent.OnHealthChange -= OnPlayerHealthChanged;
         }
     }
 
@@ -38,8 +38,8 @@ public class WidgetPlayerHealth : MonoBehaviour
         owningPlayer = player;
         if (owningPlayer)
         {
-            owningPlayer.Stats.OnMaxHealthChanged += OnPlayerMaxHealthChanged;
-            owningPlayer.Stats.OnHealthChange += OnPlayerHealthChanged;
+            owningPlayer.HealthComponent.OnMaxHealthChanged += OnPlayerMaxHealthChanged;
+            owningPlayer.HealthComponent.OnHealthChange += OnPlayerHealthChanged;
         }
     }
 

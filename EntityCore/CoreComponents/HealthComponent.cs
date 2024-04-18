@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Stats : CoreComponent
+public class HealthComponent : CoreComponent
 {
     [SerializeField] protected int maxHealth;
 

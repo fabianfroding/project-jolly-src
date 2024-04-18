@@ -49,7 +49,7 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
     {
         if (player != null)
         {
-            SceneTransitionDataHolder.playerHealth = player.Core.GetCoreComponent<Stats>().CurrentHealth;
+            SceneTransitionDataHolder.playerHealth = player.Core.GetCoreComponent<HealthComponent>().CurrentHealth;
             SceneTransitionDataHolder.playerFacingDirection = player.Core.GetCoreComponent<Movement>().FacingDirection;
         }
         SceneTransitionDataHolder.spawnPointName = SceneManager.GetActiveScene().name;

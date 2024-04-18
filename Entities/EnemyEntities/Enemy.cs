@@ -33,7 +33,7 @@ public class Enemy : Entity, IParriable
     {
         base.Start();
 
-        Stats.IncreaseHealth(Stats.GetMaxHealth());
+        HealthComponent.IncreaseHealth(HealthComponent.GetMaxHealth());
         Combat.SetCurrentStunResistance(Combat.GetStunResistance());
 
         InitialPosition = transform.position;

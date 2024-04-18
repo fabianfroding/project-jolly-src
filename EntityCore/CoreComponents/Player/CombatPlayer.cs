@@ -19,7 +19,7 @@ public class CombatPlayer : Combat
 
     public override void Knockback(Vector2 angle, float strength, int direction)
     {
-        if (!isKnockbackActive && Stats.IsAlive())
+        if (!isKnockbackActive && HealthComponent.IsAlive())
         {
             // Player should always have the same knockback force applied.
             Movement.SetVelocity(12.5f, new Vector2(1.2f, 1), direction);
@@ -33,7 +33,7 @@ public class CombatPlayer : Combat
     {
         base.TakeDamage(damageData);
 
-        if (stats.IsAlive() && player.StateMachine.CurrentState != player.TakeDamageState && !Invulnerable)
+        if (HealthComponent.IsAlive() && player.StateMachine.CurrentState != player.TakeDamageState && !Invulnerable)
         {
             Invulnerable = true;
 
@@ -55,7 +55,7 @@ public class CombatPlayer : Combat
                     invulnerabilityIndication.StartFlash();
             }
         }
-        else if (!stats.IsAlive())
+        else if (!HealthComponent.IsAlive())
         {
             player.StateMachine.ChangeState(player.DeadState);
         }

@@ -197,7 +197,7 @@ public class Player : Entity
     public void RevivePlayer()
     {
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
-        Stats.SetHealth(Stats.GetMaxHealth());
+        HealthComponent.SetHealth(HealthComponent.GetMaxHealth());
         ResetState();
     }
 

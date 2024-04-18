@@ -76,8 +76,8 @@ public class RevivePoint : MonoBehaviour, IDamageable
         hitSound.transform.position = new Vector2(transform.position.x, transform.position.y);
         hitSound.transform.parent = null;
 
-        Stats stats = damageData.source.GetComponent<Player>().Core.GetCoreComponent<Stats>();
-        stats.IncreaseHealth(stats.GetMaxHealth());
+        HealthComponent healthComponent = damageData.source.GetComponent<Player>().Core.GetCoreComponent<HealthComponent>();
+        healthComponent.IncreaseHealth(healthComponent.GetMaxHealth());
 
         OnRevivePointSave?.Invoke();
         EnemyRepository.ResetKilledEnemies();

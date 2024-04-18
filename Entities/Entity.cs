@@ -13,8 +13,8 @@ public class Entity : MonoBehaviour
     protected Combat combat;
     protected Movement Movement => movement ? movement : Core.GetCoreComponent(ref movement);
     protected Movement movement;
-    public Stats Stats => stats ? stats : Core.GetCoreComponent(ref stats);
-    protected Stats stats;
+    public HealthComponent HealthComponent => healthComponent ? healthComponent : Core.GetCoreComponent(ref healthComponent);
+    protected HealthComponent healthComponent;
 
     private List<StatusEffect> statusEffects;
 
@@ -44,7 +44,7 @@ public class Entity : MonoBehaviour
 
     public virtual void Revive() {}
 
-    public virtual bool IsAlive() => Stats.IsAlive();
+    public virtual bool IsAlive() => HealthComponent.IsAlive();
 
     public void BroadcastOnDealtDamage() => OnDealtDamage?.Invoke();
 

@@ -15,7 +15,7 @@ public class EnemyDreadripper_MoveState : FlyingMoveState
 
         if (enemy.Target != null)
         {
-            Stats targetStats = enemy.Target.GetComponentInChildren<Stats>();
+            HealthComponent targetStats = enemy.Target.GetComponentInChildren<HealthComponent>();
             if (targetStats != null && targetStats.IsAlive())
             {
                 if (isDetectingWall || isDetectingWallUp || isDetectingWallDown) enemy.ResetTarget();
