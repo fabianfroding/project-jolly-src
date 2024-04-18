@@ -59,10 +59,12 @@ public class Player : Entity
     #endregion
 
     #region Events
+    public static event Action<Player> OnPlayerAwake;
+    public static event Action OnPlayerDeath;
     public static event Action OnPlayerRevive;
+
     public static event Action OnPlayerEnterAirGlideState;
     public static event Action OnPlayerExitAirGlideState;
-    public static event Action OnPlayerDeath;
     #endregion
 
     #region Unity Callback Functions
@@ -89,6 +91,8 @@ public class Player : Entity
         InputHandler = GetComponent<PlayerInputHandler>();
 
         DaytimeManager.OnDaytimeTick += UpdateDaytimeVisibility;
+
+        OnPlayerAwake?.Invoke(this);
     }
 
     protected override void Start()

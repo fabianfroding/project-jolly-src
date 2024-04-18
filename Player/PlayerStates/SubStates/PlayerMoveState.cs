@@ -1,8 +1,5 @@
 public class PlayerMoveState : PlayerGroundedState
 {
-    protected StatsPlayer StatsPlayer { get => statsPlayer != null ? statsPlayer : core.GetCoreComponent(ref statsPlayer); }
-    protected StatsPlayer statsPlayer;
-
     public PlayerMoveState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 

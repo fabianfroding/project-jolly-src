@@ -107,10 +107,10 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             // Not sure but I think this is solely used for players rage bar mechanic. Should be moved elsewhere.
             if (damageData.source.CompareTag(EditorConstants.TAG_PLAYER) && !gameObject.CompareTag(EditorConstants.TAG_PLAYER))
             {
-                Stats sourceStats = damageData.source.GetComponentInChildren<Stats>();
-                if (sourceStats != null)
+                Entity source = damageData.source.GetComponent<Entity>();
+                if (source)
                 {
-                    sourceStats.OnDealtDamage();
+                    source.BroadcastOnDealtDamage();
                 }
             }
 
