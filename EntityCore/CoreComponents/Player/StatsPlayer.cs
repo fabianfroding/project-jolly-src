@@ -2,8 +2,6 @@ using System;
 
 public class StatsPlayer : Stats
 {
-    public MutableFloat movementSpeedModifier;
-
     public static event Action<int> OnPlayerHealthChange;
     public static event Action<int> OnPlayerMaxHealthChanged;
 
@@ -11,8 +9,6 @@ public class StatsPlayer : Stats
     {
         OnPlayerMaxHealthChanged?.Invoke(maxHealth);
         SetHealth(maxHealth);
-
-        movementSpeedModifier = new MutableFloat();
     }
 
     public override void DecreaseHealth(int damageAmount)

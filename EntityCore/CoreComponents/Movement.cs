@@ -16,7 +16,7 @@ public class Movement : CoreComponent
         FacingDirection = 1;
         CanSetVelocity = true;
         RB = GetComponentInParent<Rigidbody2D>();
-    }
+}
 
     #region Other Functions
     public override void LogicUpdate() => CurrentVelocity = RB.velocity;
