@@ -5,9 +5,6 @@ public class Stats : CoreComponent
 {
     [SerializeField] protected int maxHealth;
 
-    [Tooltip("The amount of hits/damage before the entity can get stunned.")]
-    [SerializeField] protected int stunResistance = 3;
-
     public int CurrentHealth { get; private set; }
 
     public event Action OnHealthDepleted;
@@ -32,6 +29,4 @@ public class Stats : CoreComponent
 
     public virtual int GetMaxHealth() => maxHealth;
     public virtual void SetMaxHealth(int value) => maxHealth = Mathf.Max(1, value);
-
-    public virtual int GetStunResistance() => stunResistance;
 }

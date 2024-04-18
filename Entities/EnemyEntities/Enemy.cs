@@ -34,7 +34,7 @@ public class Enemy : Entity, IParriable
         base.Start();
 
         Stats.IncreaseHealth(Stats.GetMaxHealth());
-        Combat.SetCurrentStunResistance(Stats.GetStunResistance());
+        Combat.SetCurrentStunResistance(Combat.GetStunResistance());
 
         InitialPosition = transform.position;
         InitialFacing = Core.GetCoreComponent<Movement>().FacingDirection == 1;

@@ -26,6 +26,8 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     [SerializeField] protected bool stunnable = false;
     [Tooltip("The time-window in which an enity can get stunned after it has become vulnerable to stun damage.")]
     [SerializeField] protected float stunTimeWindow = 2f;
+    [Tooltip("The amount of hits/damage before the entity can get stunned.")]
+    [SerializeField] protected int stunResistance = 3;
 
     [Header("Parry Settings")]
     [Tooltip("Check to allow an enemy to be parried. This field is for Enemies only. " +
@@ -213,11 +215,12 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             }
         }
     }
+    public virtual int GetStunResistance() => stunResistance;
 
     public void ResetStunResistance()
     {
         IsStunned = false;
-        currentStunResistance = Stats.GetStunResistance();
+        currentStunResistance = GetStunResistance();
     }
 
     public void CheckStunRecoveryTime()
