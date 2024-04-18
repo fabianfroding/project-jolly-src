@@ -8,7 +8,6 @@ public class StatusEffect : MonoBehaviour
     [SerializeField] protected float effectAmount = 0f;
     public string statusEffectName { get; protected set; }
     protected Entity target;
-    protected PawnBase targetPawn;
 
     public event Action<StatusEffect> OnStatusEffectEnded;
 
@@ -20,12 +19,6 @@ public class StatusEffect : MonoBehaviour
     public virtual void Initialize(Entity target)
     {
         this.target = target;
-        StartCoroutine(StartDuration());
-    }
-
-    public virtual void Initialize(PawnBase target)
-    {
-        this.targetPawn = target;
         StartCoroutine(StartDuration());
     }
 

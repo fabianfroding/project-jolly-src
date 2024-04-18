@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ public class Entity : MonoBehaviour
     protected Stats stats;
 
     private List<StatusEffect> statusEffects;
+
+    public event Action OnDealtDamage;
 
     #region Unity Callback Functions
     protected virtual void Awake()
@@ -40,6 +43,10 @@ public class Entity : MonoBehaviour
     protected virtual void Death() {}
 
     public virtual void Revive() {}
+
+    public virtual bool IsAlive() => Stats.IsAlive();
+
+    public void BroadcastOnDealtDamage() => OnDealtDamage?.Invoke();
 
     public int GetFacingDirection() => Movement.FacingDirection;
 

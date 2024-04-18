@@ -5,9 +5,6 @@ public class PlayerIdleState : PlayerGroundedState
     public PlayerIdleState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
-    public PlayerIdleState(PlayerPawn playerPawn, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(playerPawn, stateMachine, playerStateData, animBoolName)
-    {}
-
     public override void Enter()
     {
         base.Enter();

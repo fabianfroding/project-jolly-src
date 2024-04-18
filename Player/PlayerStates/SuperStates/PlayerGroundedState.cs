@@ -17,9 +17,6 @@ public class PlayerGroundedState : PlayerState
     public PlayerGroundedState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
-    public PlayerGroundedState(PlayerPawn playerPawn, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(playerPawn, stateMachine, playerStateData, animBoolName)
-    {}
-
     public override void DoChecks()
     {
         base.DoChecks();

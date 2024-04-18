@@ -12,16 +12,16 @@ public class WidgetPlayerMana : MonoBehaviour
     private void Awake()
     {
         widgetPlayerManaChargeIcons = new List<GameObject>();
-        StatsPlayer.OnPlayerManaChange += OnPlayerManaChanged;
-        StatsPlayer.OnPlayerManaChargesChange += OnPlayerManaChargesChanged;
-        StatsPlayer.OnPlayerMaxManaChargesChange += OnPlayerMaxManaChargesChanged;
+        PlayerManaComponent.OnPlayerManaChange += OnPlayerManaChanged;
+        PlayerManaComponent.OnPlayerManaChargesChange += OnPlayerManaChargesChanged;
+        PlayerManaComponent.OnPlayerMaxManaChargesChange += OnPlayerMaxManaChargesChanged;
     }
 
     private void OnDestroy()
     {
-        StatsPlayer.OnPlayerManaChange -= OnPlayerManaChanged;
-        StatsPlayer.OnPlayerManaChargesChange -= OnPlayerManaChargesChanged;
-        StatsPlayer.OnPlayerMaxManaChargesChange -= OnPlayerMaxManaChargesChanged;
+        PlayerManaComponent.OnPlayerManaChange -= OnPlayerManaChanged;
+        PlayerManaComponent.OnPlayerManaChargesChange -= OnPlayerManaChargesChanged;
+        PlayerManaComponent.OnPlayerMaxManaChargesChange -= OnPlayerMaxManaChargesChanged;
     }
 
     private void OnPlayerManaChanged(int value)

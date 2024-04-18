@@ -47,10 +47,7 @@ public class Enemy : Entity, IParriable
         base.Update();
 
         // Everytime Update is called on the Enemy, we call the LogicUpdate on the state.
-        if (StateMachine.currentState != null)
-        {
-            StateMachine.currentState.LogicUpdate();
-        }
+        StateMachine.currentState?.LogicUpdate();
 
         CheckFOVTarget();
         Combat.CheckStunRecoveryTime();

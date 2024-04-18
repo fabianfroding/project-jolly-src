@@ -12,7 +12,11 @@ public class Stats : CoreComponent
 
     public event Action OnHealthDepleted;
     
-    public virtual void OnDealtDamage() {} // Make this into a delegate?
+    public virtual void OnDealtDamage()
+    {
+        if (componentOwner)
+            componentOwner.BroadcastOnDealtDamage();
+    }
 
     public virtual bool IsAlive() => CurrentHealth > 0;
 
