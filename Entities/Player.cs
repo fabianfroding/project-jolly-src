@@ -62,6 +62,7 @@ public class Player : Entity
     public static event Action OnPlayerRevive;
     public static event Action OnPlayerEnterAirGlideState;
     public static event Action OnPlayerExitAirGlideState;
+    public static event Action OnPlayerDeath;
     #endregion
 
     #region Unity Callback Functions
@@ -176,7 +177,11 @@ public class Player : Entity
         base.Death();
         Debug.Log("Death");
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY));
-        //StateMachine.ChangeState(DyingState);
+    }
+
+    public void PlayerDeath()
+    {
+        OnPlayerDeath?.Invoke();
     }
 
     public override void Revive()

@@ -1,8 +1,13 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject widgetHUD;
+    [SerializeField] private float playerDeathToMainMenuDelay = 2.5f;
+    [SerializeField] private string mainMenuSceneName;
+
+    private float onPlayerDeathStartTime = 0f;
 
     private void Awake()
     {
@@ -11,21 +16,20 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
 
-        AddInGameProfileManager();
-        AddSaveManager();
         AddWidgetHUD();
+
+        Player.OnPlayerDeath += OnPlayerDeath;
     }
 
-    private void AddInGameProfileManager()
+    private void FixedUpdate()
     {
-        GameObject tempGO = AddChild("InGameProfileManager");
-        //tempGO.AddComponent<InGameProfileManager>();
+        if (onPlayerDeathStartTime > 0f && Time.time >= onPlayerDeathStartTime + playerDeathToMainMenuDelay)
+            GameOverToMainMenu();
     }
 
-    private void AddSaveManager()
+    private void OnDestroy()
     {
-        GameObject tempGO = AddChild("SaveManager");
-        tempGO.AddComponent<SaveManager>();
+        Player.OnPlayerDeath -= OnPlayerDeath;
     }
 
     private void AddWidgetHUD()
@@ -34,10 +38,15 @@ public class GameManager : MonoBehaviour
         tempGO.transform.SetParent(transform);
     }
 
-    private GameObject AddChild(string name)
+    private void OnPlayerDeath()
     {
-        GameObject tempGO = new(name);
-        tempGO.transform.parent = transform;
-        return tempGO;
+        onPlayerDeathStartTime = Time.time;
+    }
+
+    private void GameOverToMainMenu()
+    {
+        onPlayerDeathStartTime = 0f;
+        SceneManager.LoadScene(mainMenuSceneName);
+        Destroy(gameObject);
     }
 }
