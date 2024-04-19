@@ -42,7 +42,5 @@ public class PawnBase : MonoBehaviour
     public virtual bool IsAlive() => HealthComponent.IsAlive();
 
     public void BroadcastOnDealtDamage() => OnDealtDamage?.Invoke();
-
-    public int GetFacingDirection() => Movement.FacingDirection;
     #endregion
 }

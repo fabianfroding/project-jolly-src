@@ -298,6 +298,8 @@ public class PlayerPawn : PawnBase
 
     public Player_StateData GetPlayerStateData() => playerStateData;
 
+    public int GetFacingDirection() => Movement.FacingDirection;
+
     private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
 
     private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();

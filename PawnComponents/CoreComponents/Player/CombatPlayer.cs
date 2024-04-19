@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class CombatPlayer : Combat
 {
-    public GameObject attackImpactPosition;
-    public GameObject attackImpactPositionDown;
-    public GameObject attackImpactPositionUp;
+    public GameObject attackHorizontalDamageHitBox;
+    public GameObject attackUpDamageHitBox;
+    public GameObject attackDownDamageHitBox;
 
     private PlayerPawn player;
 
@@ -38,7 +38,7 @@ public class CombatPlayer : Combat
             HealthComponent.SetInvulnerable(true);
 
             // Check so that player is not dead to avoid respawning when reviving.
-            if (IsPlayerAlive())
+            if (HealthComponent.IsAlive())
             {
                 if (!damageData.source.GetComponent<PawnBase>())
                 {
@@ -56,15 +56,5 @@ public class CombatPlayer : Combat
         {
             player.StateMachine.ChangeState(player.DeadState);
         }
-    }
-
-    private bool IsPlayerAlive()
-    {
-        if (!player)
-        {
-            Debug.LogError("CombatPlayer::IsPlayerDead: Missing Player component.");
-            return false;
-        }
-        return player.StateMachine.CurrentState != player.DeadState;
     }
 }
