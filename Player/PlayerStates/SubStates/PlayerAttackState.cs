@@ -58,10 +58,8 @@ public class PlayerAttackState : PlayerAbilityState
         DisableHitBoxes();
     }
 
-    private void InstantiateSFXPrefab(Vector2 attackImpactPosition)
     private void DisableHitBoxes()
     {
-        }
         combatPlayer.attackHorizontalDamageHitBox.SetActive(false);
         combatPlayer.attackDownDamageHitBox.SetActive(false);
         combatPlayer.attackUpDamageHitBox.SetActive(false);
