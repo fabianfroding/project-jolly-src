@@ -13,7 +13,10 @@ public class Pickupable : MonoBehaviour
         Player player = collision.gameObject.GetComponent<Player>();
         if (player && statusEffectPrefab)
         {
-            player.AddStatusEffect(statusEffectPrefab);
+            Combat combatComponent = player.GetComponentInChildren<Combat>();
+            if (combatComponent)
+                combatComponent.AddStatusEffect(statusEffectPrefab);
+
             Destroy(gameObject);
         }
     }

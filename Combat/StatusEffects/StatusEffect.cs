@@ -6,19 +6,19 @@ public class StatusEffect : MonoBehaviour
 {
     [SerializeField] protected float duration = 5f;
     [SerializeField] protected float effectAmount = 0f;
-    public string statusEffectName { get; protected set; }
-    protected Entity target;
+    public string StatusEffectName { get; protected set; }
+    protected Combat owningCombatComponent;
 
     public event Action<StatusEffect> OnStatusEffectEnded;
 
     protected void Awake()
     {
-        statusEffectName = transform.name;
+        StatusEffectName = transform.name;
     }
 
-    public virtual void Initialize(Entity target)
+    public virtual void Initialize(Combat targetedCombatComponent)
     {
-        this.target = target;
+        this.owningCombatComponent = targetedCombatComponent;
         StartCoroutine(StartDuration());
     }
 

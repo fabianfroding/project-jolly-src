@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -16,8 +15,6 @@ public class Entity : MonoBehaviour
     public HealthComponent HealthComponent => healthComponent ? healthComponent : Core.GetCoreComponent(ref healthComponent);
     protected HealthComponent healthComponent;
 
-    private List<StatusEffect> statusEffects;
-
     public event Action OnDealtDamage;
 
     #region Unity Callback Functions
@@ -26,8 +23,6 @@ public class Entity : MonoBehaviour
         Core = GetComponentInChildren<EntityCore>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         Animator = GetComponent<Animator>();
-
-        statusEffects = new List<StatusEffect>();
     }
 
     protected virtual void Start() {}
@@ -49,21 +44,5 @@ public class Entity : MonoBehaviour
     public void BroadcastOnDealtDamage() => OnDealtDamage?.Invoke();
 
     public int GetFacingDirection() => Movement.FacingDirection;
-
-    public void AddStatusEffect(GameObject statusEffectPrefab)
-    {
-        if (!statusEffectPrefab)
-            return;
-        StatusEffect statusEffect = GameObject.Instantiate(statusEffectPrefab).GetComponent<StatusEffect>();
-        statusEffects.Add(statusEffect);
-        statusEffect.OnStatusEffectEnded += RemoveStatusEffect;
-        statusEffect.Initialize(this);
-    }
-
-    private void RemoveStatusEffect(StatusEffect statusEffect)
-    {
-        statusEffect.OnStatusEffectEnded -= RemoveStatusEffect;
-        statusEffects.Remove(statusEffect);
-    }
     #endregion
 }

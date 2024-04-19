@@ -56,7 +56,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 
     protected HealthComponent HealthComponent => healthComponent ? healthComponent : core.GetCoreComponent(ref healthComponent);
     protected CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : core.GetCoreComponent(ref collisionSenses);
-    protected Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
+    public Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
     protected ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
 
     protected HealthComponent healthComponent;
@@ -64,16 +64,21 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     protected Movement movement;
     protected ParticleManager particleManager;
 
+    private List<StatusEffect> statusEffects;
+
     public event Action OnDamaged;
     public event Action OnAttackBlocked;
 
     protected override void Awake()
     {
         base.Awake();
+
         matWhite = Resources.Load(EditorConstants.RESOURCE_WHITE_FLASH, typeof(Material)) as Material;
         spriteRenderer = GetComponentInParent<SpriteRenderer>();
         if (!spriteRenderer) { Debug.LogError("Combat::Awake: Could not find SpriteRenderer component."); }
         matDefault = spriteRenderer.material;
+
+        statusEffects = new List<StatusEffect>();
     }
 
     public override void LogicUpdate() { CheckKnockback(); }
@@ -260,6 +265,22 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         spriteRenderer.material = matWhite;
         yield return new WaitForSeconds(delay);
         spriteRenderer.material = matDefault;
+    }
+
+    public void AddStatusEffect(GameObject statusEffectPrefab)
+    {
+        if (!statusEffectPrefab)
+            return;
+        StatusEffect statusEffect = GameObject.Instantiate(statusEffectPrefab).GetComponent<StatusEffect>();
+        statusEffects.Add(statusEffect);
+        statusEffect.OnStatusEffectEnded += RemoveStatusEffect;
+        statusEffect.Initialize(this);
+    }
+
+    private void RemoveStatusEffect(StatusEffect statusEffect)
+    {
+        statusEffect.OnStatusEffectEnded -= RemoveStatusEffect;
+        statusEffects.Remove(statusEffect);
     }
 
 #if UNITY_EDITOR
