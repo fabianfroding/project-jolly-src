@@ -7,7 +7,7 @@ public class State
 
     protected FiniteStateMachine stateMachine;
     protected EnemyPawn enemy;
-    protected EntityCore core;
+    protected PawnCore core;
 
     protected int animBoolName;
 

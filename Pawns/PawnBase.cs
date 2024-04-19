@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PawnBase : MonoBehaviour
 {
-    public EntityCore Core { get; protected set; }
+    public PawnCore Core { get; protected set; }
     public Animator Animator { get; private set; }
 
     protected SpriteRenderer spriteRenderer;
@@ -20,7 +20,7 @@ public class PawnBase : MonoBehaviour
     #region Unity Callback Functions
     protected virtual void Awake()
     {
-        Core = GetComponentInChildren<EntityCore>();
+        Core = GetComponentInChildren<PawnCore>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         Animator = GetComponent<Animator>();
     }

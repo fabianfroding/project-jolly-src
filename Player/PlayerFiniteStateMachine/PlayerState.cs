@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerState
 {
-    protected EntityCore core;
+    protected PawnCore core;
 
     protected PlayerPawn player;
     protected PlayerStateMachine stateMachine;
