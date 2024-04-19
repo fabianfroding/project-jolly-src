@@ -10,9 +10,12 @@ public class WidgetPlayerHealth : MonoBehaviour
     private void Awake()
     {
         widgetPlayerHealthIcons = new List<GameObject>();
+    }
 
+    private void Start()
+    {
         owningPlayer = FindAnyObjectByType<PlayerPawn>();
-        if (owningPlayer)
+        if (owningPlayer && owningPlayer.HealthComponent)
         {
             owningPlayer.HealthComponent.OnMaxHealthChanged += OnPlayerMaxHealthChanged;
             owningPlayer.HealthComponent.OnHealthChange += OnPlayerHealthChanged;
@@ -26,7 +29,7 @@ public class WidgetPlayerHealth : MonoBehaviour
     private void OnDestroy()
     {
         PlayerPawn.OnPlayerAwake -= UpdateOwningPlayer;
-        if (owningPlayer)
+        if (owningPlayer && owningPlayer.HealthComponent)
         {
             owningPlayer.HealthComponent.OnMaxHealthChanged -= OnPlayerMaxHealthChanged;
             owningPlayer.HealthComponent.OnHealthChange -= OnPlayerHealthChanged;
@@ -36,7 +39,7 @@ public class WidgetPlayerHealth : MonoBehaviour
     private void UpdateOwningPlayer(PlayerPawn player)
     {
         owningPlayer = player;
-        if (owningPlayer)
+        if (owningPlayer && owningPlayer.HealthComponent)
         {
             owningPlayer.HealthComponent.OnMaxHealthChanged += OnPlayerMaxHealthChanged;
             owningPlayer.HealthComponent.OnHealthChange += OnPlayerHealthChanged;
