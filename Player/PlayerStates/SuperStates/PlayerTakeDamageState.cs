@@ -5,8 +5,8 @@ public class PlayerTakeDamageState : PlayerState
     private float preTakeDamageTimeScale;
     private float preTakeDamageGravityScale;
 
-    private CombatPlayer CombatPlayer { get => combatPlayer != null ? combatPlayer : core.GetCoreComponent(ref combatPlayer); }
-    private CombatPlayer combatPlayer;
+    private HealthComponent HealthComponent { get => healthComponent != null ? healthComponent : core.GetCoreComponent(ref healthComponent); }
+    private HealthComponent healthComponent;
 
     private Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     private Movement movement;
@@ -47,8 +47,8 @@ public class PlayerTakeDamageState : PlayerState
             Movement.SetVelocityY(0);
         if (Time.unscaledTime > startTime + playerStateData.takeDamageDuration)
         {
-            if (CombatPlayer)
-                CombatPlayer.ResetInvulnerability();
+            if (HealthComponent)
+                HealthComponent.SetInvulnerable(false);
             stateMachine.ChangeState(player.InAirState);
         }
     }

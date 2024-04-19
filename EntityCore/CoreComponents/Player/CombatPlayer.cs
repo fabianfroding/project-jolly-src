@@ -33,9 +33,9 @@ public class CombatPlayer : Combat
     {
         base.TakeDamage(damageData);
 
-        if (HealthComponent.IsAlive() && player.StateMachine.CurrentState != player.TakeDamageState && !Invulnerable)
+        if (HealthComponent.IsAlive() && player.StateMachine.CurrentState != player.TakeDamageState && !HealthComponent.IsInvulnerable())
         {
-            Invulnerable = true;
+            HealthComponent.SetInvulnerable(true);
 
             // Check so that player is not dead to avoid respawning when reviving.
             if (IsPlayerAlive())
@@ -50,22 +50,12 @@ public class CombatPlayer : Combat
                     Knockback(Vector2.zero, 0f, dir.x < 0f ? -1 : 1);
                     player.StateMachine.ChangeState(player.TakeDamageState);
                 }
-
-                if (invulnerabilityIndication)
-                    invulnerabilityIndication.StartFlash();
             }
         }
         else if (!HealthComponent.IsAlive())
         {
             player.StateMachine.ChangeState(player.DeadState);
         }
-    }
-
-    public override bool IsInvulnerable()
-    {
-        if (player.StateMachine.CurrentState == player.TakeDamageState)
-            return true;
-        return base.IsInvulnerable();
     }
 
     private bool IsPlayerAlive()

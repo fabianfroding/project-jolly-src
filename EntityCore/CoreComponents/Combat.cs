@@ -51,9 +51,6 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     public float LastStunDamageTime { get; protected set; }
     protected float currentStunResistance;
 
-    protected bool Invulnerable;
-    protected InvulnerabilityIndication invulnerabilityIndication;
-
     [Header("Spawned Objects")]
     public GameObject parriedSoundPrefab;
 
@@ -73,7 +70,6 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
     protected override void Awake()
     {
         base.Awake();
-        invulnerabilityIndication = GetComponent<InvulnerabilityIndication>();
         matWhite = Resources.Load(EditorConstants.RESOURCE_WHITE_FLASH, typeof(Material)) as Material;
         spriteRenderer = GetComponentInParent<SpriteRenderer>();
         if (!spriteRenderer) { Debug.LogError("Combat::Awake: Could not find SpriteRenderer component."); }
@@ -84,7 +80,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 
     public virtual void TakeDamage(Types.DamageData damageData)
     {
-        if (Invulnerable)
+        if (HealthComponent.IsInvulnerable())
             return;
         if (damageData.source == damageData.target)
             return;
@@ -122,15 +118,6 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             
             ApplyKnockback(damageData);
         }
-    }
-
-    public void ResetInvulnerability()
-    {
-        if (invulnerabilityIndication)
-        {
-            invulnerabilityIndication.EndFlash();
-        }
-        Invulnerable = false;
     }
 
     protected virtual void InstantiateTakeDamageVisuals()
@@ -176,11 +163,6 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damageData.source.transform, transform);
             Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
         }
-    }
-
-    public virtual bool IsInvulnerable()
-    {
-        return Invulnerable;
     }
 
     public virtual void Knockback(Vector2 angle, float strength, int direction)
