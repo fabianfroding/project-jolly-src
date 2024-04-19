@@ -2,7 +2,7 @@ public class EnemyPlaguetooth_StunState : StunState
 {
     private EnemyPlaguetooth plaguetooth;
 
-    public EnemyPlaguetooth_StunState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_StunState stateData, EnemyPlaguetooth plaguetooth) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyPlaguetooth_StunState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_StunState stateData, EnemyPlaguetooth plaguetooth) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.plaguetooth = plaguetooth;
     }

@@ -2,7 +2,7 @@ public class ShieldEnemy_IdleState : IdleState
 {
     ShieldEnemy shieldEnemy;
 
-    public ShieldEnemy_IdleState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData, ShieldEnemy shieldEnemy) : base(enemy, stateMachine, animBoolName, stateData)
+    public ShieldEnemy_IdleState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData, ShieldEnemy shieldEnemy) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.shieldEnemy = shieldEnemy;
     }

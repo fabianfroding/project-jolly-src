@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Enemy : Entity, IParriable
+public class EnemyPawn : PawnBase, IParriable
 {
     public D_Enemy enemyData;
     public FiniteStateMachine StateMachine { get; protected set; }

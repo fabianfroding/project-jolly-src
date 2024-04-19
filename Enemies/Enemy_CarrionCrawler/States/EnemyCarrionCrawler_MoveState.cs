@@ -1,6 +1,6 @@
 public class EnemyCarrionCrawler_MoveState : MoveState
 {
-    public EnemyCarrionCrawler_MoveState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData, EnemyCarrionCrawler carrionCrawler) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyCarrionCrawler_MoveState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData, EnemyCarrionCrawler carrionCrawler) : base(enemy, stateMachine, animBoolName, stateData)
     {}
 
     public override void LogicUpdate()

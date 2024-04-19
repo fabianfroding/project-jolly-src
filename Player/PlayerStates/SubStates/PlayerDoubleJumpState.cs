@@ -4,7 +4,7 @@ public class PlayerDoubleJumpState : PlayerAbilityState
 {
     private bool hasConsumedDoubleJump;
 
-    public PlayerDoubleJumpState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerDoubleJumpState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

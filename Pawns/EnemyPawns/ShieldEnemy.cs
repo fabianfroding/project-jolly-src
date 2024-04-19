@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ShieldEnemy : Enemy
+public class ShieldEnemy : EnemyPawn
 {
     public DeadState DeadState { get; private set; }
     public ShieldEnemy_IdleState IdleState { get; private set; }

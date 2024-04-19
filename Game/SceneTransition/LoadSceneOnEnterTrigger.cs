@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +17,7 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
 
         if (collision.CompareTag(EditorConstants.TAG_PLAYER))
         {
-            Player player = collision.GetComponent<Player>();
+            PlayerPawn player = collision.GetComponent<PlayerPawn>();
             if (player)
             {
                 Rigidbody2D rigidbody2D = collision.GetComponent<Rigidbody2D>();
@@ -45,7 +44,7 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
         }
     }
 
-    private void SetSceneTransitionData(Player player)
+    private void SetSceneTransitionData(PlayerPawn player)
     {
         if (player != null)
         {

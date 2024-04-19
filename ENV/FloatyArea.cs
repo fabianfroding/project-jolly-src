@@ -21,7 +21,7 @@ public class FloatyArea : MonoBehaviour
             Rigidbody2D playerRigidbody2D = collision.GetComponent<Rigidbody2D>();
             if (!playerRigidbody2D) { return; }
 
-            Player player = collision.GetComponent<Player>();
+            PlayerPawn player = collision.GetComponent<PlayerPawn>();
             if (!player) { return; }
 
             playerRigidbody2D.gravityScale = player.GetPlayerStateData().defaultGravityScale;

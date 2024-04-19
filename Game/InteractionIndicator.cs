@@ -40,7 +40,7 @@ public class InteractionIndicator : MonoBehaviour
     private void SetInteractableComponentForPlayer(Collider2D other)
     {
         if (!other) return;
-        if (!other.TryGetComponent(out Player player)) return;
+        if (!other.TryGetComponent(out PlayerPawn player)) return;
 
         IInteractable InteractableComponent = GetComponentInParent<IInteractable>();
         if (InteractableComponent == null) return;

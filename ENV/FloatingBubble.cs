@@ -24,7 +24,7 @@ public class FloatingBubble : MonoBehaviour
     {
         if (enteringGameObject)
         {
-            Player player = enteringGameObject.GetComponent<Player>();
+            PlayerPawn player = enteringGameObject.GetComponent<PlayerPawn>();
             if (player)
             {
                 player.StateMachine.ChangeState(player.InAirState);
@@ -54,7 +54,7 @@ public class FloatingBubble : MonoBehaviour
     {
         if (collision.CompareTag(EditorConstants.TAG_PLAYER))
         {
-            Player player = collision.GetComponent<Player>();
+            PlayerPawn player = collision.GetComponent<PlayerPawn>();
             if (player)
             {
                 if (entering)

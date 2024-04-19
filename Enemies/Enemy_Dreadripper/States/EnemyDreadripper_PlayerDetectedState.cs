@@ -2,7 +2,7 @@ public class EnemyDreadripper_PlayerDetectedState : PlayerDetectedState
 {
     EnemyDreadripper dreadripper;
 
-    public EnemyDreadripper_PlayerDetectedState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData, EnemyDreadripper dreadripper) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyDreadripper_PlayerDetectedState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData, EnemyDreadripper dreadripper) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.dreadripper = dreadripper;
     }

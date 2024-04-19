@@ -4,7 +4,7 @@ public class ShieldEnemy_MoveState : MoveState
 {
     private ShieldEnemy shieldEnemy;
 
-    public ShieldEnemy_MoveState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData, ShieldEnemy shieldEnemy)
+    public ShieldEnemy_MoveState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData, ShieldEnemy shieldEnemy)
         : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.shieldEnemy = shieldEnemy;

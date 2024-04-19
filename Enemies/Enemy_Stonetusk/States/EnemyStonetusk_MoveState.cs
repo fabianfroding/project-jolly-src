@@ -2,7 +2,7 @@ public class EnemyStonetusk_MoveState : MoveState
 {
     private EnemyStonetusk stonetusk;
 
-    public EnemyStonetusk_MoveState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData, EnemyStonetusk stonetusk) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyStonetusk_MoveState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData, EnemyStonetusk stonetusk) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.stonetusk = stonetusk;
     }

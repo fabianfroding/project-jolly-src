@@ -13,12 +13,12 @@ public class ShinyEnemyRandomizer : MonoBehaviour
     protected HealthComponent healthComponent;
 
     public bool IsShiny { get; private set; }
-    private Enemy enemy;
+    private EnemyPawn enemy;
     private Animator animator;
 
     private void Awake()
     {
-        enemy = GetComponent<Enemy>();
+        enemy = GetComponent<EnemyPawn>();
         animator = GetComponent<Animator>();
         IsShiny = false;
     }

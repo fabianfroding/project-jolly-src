@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyPlaguetooth : Enemy
+public class EnemyPlaguetooth : EnemyPawn
 {
     public DeadState DeadState { get; private set; }
     public EnemyPlaguetooth_IdleState IdleState { get; private set; }

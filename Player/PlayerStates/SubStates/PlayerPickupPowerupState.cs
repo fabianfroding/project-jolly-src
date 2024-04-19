@@ -4,7 +4,7 @@ public class PlayerPickupPowerupState : PlayerLockedState
 {
     float defaultGravityScale;
 
-    public PlayerPickupPowerupState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerPickupPowerupState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

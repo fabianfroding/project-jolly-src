@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class Player : Entity
+public class PlayerPawn : PawnBase
 {
     #region State Variables
     public PlayerStateMachine StateMachine { get; private set; }
@@ -59,7 +59,7 @@ public class Player : Entity
     #endregion
 
     #region Events
-    public static event Action<Player> OnPlayerAwake;
+    public static event Action<PlayerPawn> OnPlayerAwake;
     public static event Action OnPlayerDeath;
     public static event Action OnPlayerRevive;
 
@@ -118,7 +118,7 @@ public class Player : Entity
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        EnemyPawn enemy = collision.gameObject.GetComponent<EnemyPawn>();
         if (enemy)
         {
             enemyCollisionDamage.source = collision.gameObject;

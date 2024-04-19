@@ -2,7 +2,7 @@ public class EnemyHarvester_DodgeState : DodgeState
 {
     private EnemyHarvester harvester;
 
-    public EnemyHarvester_DodgeState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_DodgeState stateData, EnemyHarvester harvester) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyHarvester_DodgeState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_DodgeState stateData, EnemyHarvester harvester) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.harvester = harvester;
     }

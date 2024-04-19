@@ -16,9 +16,9 @@ public class EnvironmentInteract : MonoBehaviour
     {
         if (GetComponent<Destructible>() != null && GetComponent<Destructible>().GetHealth() > 0)
         {
-            if (collision.gameObject.GetComponent<Entity>())
+            if (collision.gameObject.GetComponent<PawnBase>())
             {
-                if (collision.GetComponent<Entity>().Core.GetCoreComponent<Movement>().FacingDirection == 1)
+                if (collision.GetComponent<PawnBase>().Core.GetCoreComponent<Movement>().FacingDirection == 1)
                     animator.Play(gameObject.name + "_" + INTERACT_LEFT_ANIM_NAME);
                 else
                     animator.Play(gameObject.name + "_" + INTERACT_RIGHT_ANIM_NAME);

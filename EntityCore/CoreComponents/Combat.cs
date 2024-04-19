@@ -108,7 +108,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
             // Not sure but I think this is solely used for players rage bar mechanic. Should be moved elsewhere.
             if (damageData.source.CompareTag(EditorConstants.TAG_PLAYER) && !gameObject.CompareTag(EditorConstants.TAG_PLAYER))
             {
-                Entity source = damageData.source.GetComponent<Entity>();
+                PawnBase source = damageData.source.GetComponent<PawnBase>();
                 if (source)
                 {
                     source.BroadcastOnDealtDamage();
@@ -141,7 +141,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
 
     protected bool IsFlyingEnemy()
     {
-        Enemy enemy = GetComponentInParent<Enemy>();
+        EnemyPawn enemy = GetComponentInParent<EnemyPawn>();
         return enemy != null && enemy.enemyData.isFlying;
     }
 

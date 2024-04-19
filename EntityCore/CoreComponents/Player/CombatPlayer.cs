@@ -7,14 +7,14 @@ public class CombatPlayer : Combat
     public GameObject attackImpactPositionDown;
     public GameObject attackImpactPositionUp;
 
-    private Player player;
+    private PlayerPawn player;
 
     public static event Action OnPlayerTakeDamageFromENV;
 
     protected override void Awake()
     {
         base.Awake();
-        player = GetComponentInParent<Player>();
+        player = GetComponentInParent<PlayerPawn>();
     }
 
     public override void Knockback(Vector2 angle, float strength, int direction)
@@ -40,7 +40,7 @@ public class CombatPlayer : Combat
             // Check so that player is not dead to avoid respawning when reviving.
             if (IsPlayerAlive())
             {
-                if (!damageData.source.GetComponent<Entity>())
+                if (!damageData.source.GetComponent<PawnBase>())
                 {
                     OnPlayerTakeDamageFromENV?.Invoke();
                 }

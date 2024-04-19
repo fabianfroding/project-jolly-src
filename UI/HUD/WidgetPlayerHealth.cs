@@ -5,13 +5,13 @@ public class WidgetPlayerHealth : MonoBehaviour
 {
     [SerializeField] private GameObject widgetPlayerHealthIconPrefab;
     private List<GameObject> widgetPlayerHealthIcons;
-    Player owningPlayer;
+    PlayerPawn owningPlayer;
 
     private void Awake()
     {
         widgetPlayerHealthIcons = new List<GameObject>();
 
-        owningPlayer = FindAnyObjectByType<Player>();
+        owningPlayer = FindAnyObjectByType<PlayerPawn>();
         if (owningPlayer)
         {
             owningPlayer.HealthComponent.OnMaxHealthChanged += OnPlayerMaxHealthChanged;
@@ -19,13 +19,13 @@ public class WidgetPlayerHealth : MonoBehaviour
         }
         else
         {
-            Player.OnPlayerAwake += UpdateOwningPlayer;
+            PlayerPawn.OnPlayerAwake += UpdateOwningPlayer;
         }
     }
 
     private void OnDestroy()
     {
-        Player.OnPlayerAwake -= UpdateOwningPlayer;
+        PlayerPawn.OnPlayerAwake -= UpdateOwningPlayer;
         if (owningPlayer)
         {
             owningPlayer.HealthComponent.OnMaxHealthChanged -= OnPlayerMaxHealthChanged;
@@ -33,7 +33,7 @@ public class WidgetPlayerHealth : MonoBehaviour
         }
     }
 
-    private void UpdateOwningPlayer(Player player)
+    private void UpdateOwningPlayer(PlayerPawn player)
     {
         owningPlayer = player;
         if (owningPlayer)

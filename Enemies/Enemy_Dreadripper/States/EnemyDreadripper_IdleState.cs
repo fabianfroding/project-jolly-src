@@ -2,7 +2,7 @@ public class EnemyDreadripper_IdleState : FlyingIdleState
 {
     EnemyDreadripper dreadripper;
 
-    public EnemyDreadripper_IdleState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData, EnemyDreadripper dreadripper) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyDreadripper_IdleState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData, EnemyDreadripper dreadripper) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.dreadripper = dreadripper;
     }

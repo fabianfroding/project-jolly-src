@@ -3,7 +3,7 @@ public class PlayerInteractState : PlayerGroundedState
     private bool advanceInteractionInput = false;
 
     public PlayerInteractState(
-        Player player, 
+        PlayerPawn player, 
         PlayerStateMachine stateMachine, 
         Player_StateData playerStateData, 
         int animBoolName) : 

@@ -10,7 +10,7 @@ public class Pickupable : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        Player player = collision.gameObject.GetComponent<Player>();
+        PlayerPawn player = collision.gameObject.GetComponent<PlayerPawn>();
         if (player && statusEffectPrefab)
         {
             Combat combatComponent = player.GetComponentInChildren<Combat>();

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public class PawnBase : MonoBehaviour
 {
     public EntityCore Core { get; protected set; }
     public Animator Animator { get; private set; }

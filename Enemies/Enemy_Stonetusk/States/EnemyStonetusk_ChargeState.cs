@@ -2,7 +2,7 @@ public class EnemyStonetusk_ChargeState : ChargeState
 {
     private EnemyStonetusk Stonetusk;
     
-    public EnemyStonetusk_ChargeState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_ChargeState stateData, EnemyStonetusk Stonetusk) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyStonetusk_ChargeState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_ChargeState stateData, EnemyStonetusk Stonetusk) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.Stonetusk = Stonetusk;
     }

@@ -234,7 +234,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            Player player = FindObjectOfType<Player>();
+            PlayerPawn player = FindObjectOfType<PlayerPawn>();
             if (player != null)
             {
                 player.EnableAllLockedStates();
@@ -245,7 +245,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void TogglePlayerLockedState()
     {
-        Player player = GetComponent<Player>();
+        PlayerPawn player = GetComponent<PlayerPawn>();
         if (player != null)
         {
             player.ToggleLockState();
@@ -254,7 +254,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private bool AllowInGameMenusToggle()
     {
-        Player player = GetComponent<Player>();
+        PlayerPawn player = GetComponent<PlayerPawn>();
         return player != null && !player.InAir();
     }
 }

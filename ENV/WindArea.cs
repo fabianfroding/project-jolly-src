@@ -3,26 +3,26 @@ using UnityEngine;
 public class WindArea : MonoBehaviour
 {
     [SerializeField] private float windVelocity = 8f;
-    private Player player;
+    private PlayerPawn player;
     private Rigidbody2D playerRigidbody2D;
 
     private void OnEnable()
     {
-        Player.OnPlayerEnterAirGlideState += SetWindVelocity;
-        Player.OnPlayerExitAirGlideState += ResetWindVelocity;
+        PlayerPawn.OnPlayerEnterAirGlideState += SetWindVelocity;
+        PlayerPawn.OnPlayerExitAirGlideState += ResetWindVelocity;
     }
 
     private void OnDisable()
     {
-        Player.OnPlayerEnterAirGlideState -= SetWindVelocity;
-        Player.OnPlayerExitAirGlideState -= ResetWindVelocity;
+        PlayerPawn.OnPlayerEnterAirGlideState -= SetWindVelocity;
+        PlayerPawn.OnPlayerExitAirGlideState -= ResetWindVelocity;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag(EditorConstants.LAYER_PLAYER))
         {
-            player = collision.GetComponent<Player>();
+            player = collision.GetComponent<PlayerPawn>();
             playerRigidbody2D = player.GetComponent<Rigidbody2D>();
             if (player)
             {
@@ -35,7 +35,7 @@ public class WindArea : MonoBehaviour
     {
         if (collision.CompareTag(EditorConstants.LAYER_PLAYER))
         {
-            Player playerComponent = collision.GetComponent<Player>();
+            PlayerPawn playerComponent = collision.GetComponent<PlayerPawn>();
             if (playerComponent)
             {
                 Rigidbody2D rigidBody2D = playerComponent.GetComponent<Rigidbody2D>();

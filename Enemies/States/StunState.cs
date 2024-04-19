@@ -16,7 +16,7 @@ public class StunState : State
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    public StunState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_StunState stateData) : base(enemy, stateMachine, animBoolName)
+    public StunState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_StunState stateData) : base(enemy, stateMachine, animBoolName)
     {
         this.stateData = stateData;
     }

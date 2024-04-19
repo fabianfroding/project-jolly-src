@@ -10,7 +10,7 @@ public class PlayerAscendState : PlayerAbilityState
     private Vector3 direction = Vector3.up;
     private GameObject warpActiveSFX;
 
-    public PlayerAscendState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerAscendState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

@@ -2,7 +2,7 @@ public class ShieldEnemy_PlayerDetectedState : PlayerDetectedState
 {
     private ShieldEnemy shieldEnemy;
     
-    public ShieldEnemy_PlayerDetectedState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData, ShieldEnemy shieldEnemy)
+    public ShieldEnemy_PlayerDetectedState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData, ShieldEnemy shieldEnemy)
         : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.shieldEnemy = shieldEnemy;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyDreadripper : Enemy
+public class EnemyDreadripper : EnemyPawn
 {
     public EnemyDreadripper_MoveState MoveState { get; private set; }
     public EnemyDreadripper_IdleState IdleState { get; private set; }

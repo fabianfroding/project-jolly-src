@@ -27,7 +27,7 @@ public class LoadSceneSpawnPoint : MonoBehaviour
         if (ShouldLoad())
         {
             // Load player data in Start to ensure it overrides potential values set in Awake in Stats.
-            LoadSceneTransitionData(newPlayer.GetComponent<Player>());
+            LoadSceneTransitionData(newPlayer.GetComponent<PlayerPawn>());
             SceneTransitionDataHolder.spawnPointName = null;
 
             ScreenFade screenFade = FindObjectOfType<ScreenFade>();
@@ -53,7 +53,7 @@ public class LoadSceneSpawnPoint : MonoBehaviour
             fromSceneName == SceneTransitionDataHolder.spawnPointName;
     }
 
-    private void LoadSceneTransitionData(Player player)
+    private void LoadSceneTransitionData(PlayerPawn player)
     {
         if (player)
         {

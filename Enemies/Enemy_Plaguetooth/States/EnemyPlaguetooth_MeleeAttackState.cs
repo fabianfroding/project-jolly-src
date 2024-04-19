@@ -4,7 +4,7 @@ public class EnemyPlaguetooth_MeleeAttackState : MeleeAttackState
 {
     private EnemyPlaguetooth plaguetooth;
     
-    public EnemyPlaguetooth_MeleeAttackState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_MeleeAttackState stateData, EnemyPlaguetooth plaguetooth) 
+    public EnemyPlaguetooth_MeleeAttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_MeleeAttackState stateData, EnemyPlaguetooth plaguetooth) 
         : base(enemy, stateMachine, animBoolName, attackPosition, stateData)
     {
         this.plaguetooth = plaguetooth;

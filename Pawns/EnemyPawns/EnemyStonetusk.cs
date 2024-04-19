@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyStonetusk : Enemy
+public class EnemyStonetusk : EnemyPawn
 {
     public DeadState DeadState { get; private set; }
     public EnemyStonetusk_IdleState IdleState { get; private set; }

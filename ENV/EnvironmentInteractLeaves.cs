@@ -12,7 +12,7 @@ public class EnvironmentInteractLeaves : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<Entity>())
+        if (collision.gameObject.GetComponent<PawnBase>())
         {
             foreach (ParticleSystem ps in particleSystems)
             {
@@ -24,7 +24,7 @@ public class EnvironmentInteractLeaves : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<Entity>())
+        if (collision.gameObject.GetComponent<PawnBase>())
         {
             foreach (ParticleSystem ps in particleSystems)
             {

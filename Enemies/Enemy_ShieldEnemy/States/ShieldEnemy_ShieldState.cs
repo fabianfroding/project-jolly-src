@@ -5,7 +5,7 @@ public class ShieldEnemy_ShieldState : BlockState
     private readonly ShieldEnemy shieldEnemy;
     private FieldOfView fov;
 
-    public ShieldEnemy_ShieldState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_BlockState stateData, ShieldEnemy shieldEnemy)
+    public ShieldEnemy_ShieldState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_BlockState stateData, ShieldEnemy shieldEnemy)
         : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.shieldEnemy = shieldEnemy;

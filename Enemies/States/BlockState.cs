@@ -8,7 +8,7 @@ public class BlockState : State
     protected Combat Combat => combat ? combat : core.GetCoreComponent(ref combat);
     protected Combat combat;
 
-    public BlockState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_BlockState stateData)
+    public BlockState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_BlockState stateData)
         : base(enemy, stateMachine, animBoolName)
     {
         this.stateData = stateData;

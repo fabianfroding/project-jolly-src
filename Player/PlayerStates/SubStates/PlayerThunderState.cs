@@ -7,7 +7,7 @@ public class PlayerThunderState : PlayerAbilityState
     private List<GameObject> damagedEnemies;
     private float lastUseThunderTime;
 
-    public PlayerThunderState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerThunderState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()
@@ -108,7 +108,7 @@ public class PlayerThunderState : PlayerAbilityState
 
         foreach (RaycastHit2D hit in hits)
         {
-            Enemy enemyComponent = hit.collider.GetComponent<Enemy>();
+            EnemyPawn enemyComponent = hit.collider.GetComponent<EnemyPawn>();
             if (enemyComponent && !damagedEnemies.Contains(enemyComponent.gameObject))
             {
                 damagedEnemies.Add(enemyComponent.gameObject);
@@ -122,7 +122,7 @@ public class PlayerThunderState : PlayerAbilityState
         Collider2D[] colliders = Physics2D.OverlapCircleAll(lineRenderer.GetPosition(1), playerStateData.thunderRadius);
         foreach (Collider2D collider in colliders)
         {
-            Enemy enemyComponent = collider.GetComponent<Enemy>();
+            EnemyPawn enemyComponent = collider.GetComponent<EnemyPawn>();
             if (enemyComponent != null && !damagedEnemies.Contains(enemyComponent.gameObject))
             {
                 damagedEnemies.Add(enemyComponent.gameObject);

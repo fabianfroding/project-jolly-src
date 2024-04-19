@@ -7,7 +7,7 @@ public class DeadState : State
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    public DeadState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_DeadState stateData) : base(enemy, stateMachine, animBoolName)
+    public DeadState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_DeadState stateData) : base(enemy, stateMachine, animBoolName)
     {
         this.stateData = stateData;
     }

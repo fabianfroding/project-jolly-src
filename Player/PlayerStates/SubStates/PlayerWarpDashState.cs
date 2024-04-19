@@ -4,7 +4,7 @@ public class PlayerWarpDashState : PlayerDashState
 {
     private Vector2 chestPos;
 
-    public PlayerWarpDashState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerWarpDashState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class NPC : Entity, IInteractable
+public class NPCPawn : PawnBase, IInteractable
 {
     [SerializeField] D_InteractData[] interactData;
     private int interactDataIndex = 0;

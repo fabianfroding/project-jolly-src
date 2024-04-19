@@ -38,14 +38,14 @@ public class CameraScript : MonoBehaviour
         {
             if (player == null)
             {
-                player = FindObjectOfType<Player>().gameObject;
+                player = FindObjectOfType<PlayerPawn>().gameObject;
             }
             return player;
         }
     }
 
-    private Player playerScript;
-    private Player PlayerScript
+    private PlayerPawn playerScript;
+    private PlayerPawn PlayerScript
     {
         get
         {
@@ -53,7 +53,7 @@ public class CameraScript : MonoBehaviour
             {
                 if (Player != null)
                 {
-                    playerScript = Player.GetComponent<Player>();
+                    playerScript = Player.GetComponent<PlayerPawn>();
                 }
             }
             return playerScript;

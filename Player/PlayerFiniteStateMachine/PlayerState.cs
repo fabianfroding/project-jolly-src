@@ -4,7 +4,7 @@ public class PlayerState
 {
     protected EntityCore core;
 
-    protected Player player;
+    protected PlayerPawn player;
     protected PlayerStateMachine stateMachine;
     protected Player_StateData playerStateData;
     protected float startTime;
@@ -13,7 +13,7 @@ public class PlayerState
 
     private int animBoolName;
 
-    public PlayerState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+    public PlayerState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
     {
         this.player = player;
         this.stateMachine = stateMachine;

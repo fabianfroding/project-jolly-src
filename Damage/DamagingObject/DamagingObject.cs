@@ -61,15 +61,15 @@ public class DamagingObject : MonoBehaviour
         if (!other.GetComponent<Collider2D>().isTrigger && Source != other)
         {
             // Prevent player damage-objects from colliding with NPCs.
-            if (Source != null && Source.GetComponent<Player>() && other.GetComponent<NPC>())
+            if (Source != null && Source.GetComponent<PlayerPawn>() && other.GetComponent<NPCPawn>())
                 return;
 
-            Entity entity = other.GetComponent<Entity>();
-            if (entity != null)
+            PawnBase pawn = other.GetComponent<PawnBase>();
+            if (pawn != null)
             {
                 damageData.source = Source;
                 damageData.target = other;
-                //entity.TakeDamage(damageData);
+                //pawn.TakeDamage(damageData);
             }
 
             IDamageable damageable = other.GetComponentInChildren<IDamageable>();

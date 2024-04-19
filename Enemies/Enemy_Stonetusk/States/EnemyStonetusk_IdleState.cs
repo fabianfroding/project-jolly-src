@@ -2,7 +2,7 @@ public class EnemyStonetusk_IdleState : IdleState
 {
     EnemyStonetusk Stonetusk;
 
-    public EnemyStonetusk_IdleState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData, EnemyStonetusk Stonetusk) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyStonetusk_IdleState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData, EnemyStonetusk Stonetusk) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.Stonetusk = Stonetusk;
     }

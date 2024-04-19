@@ -1,6 +1,6 @@
 public class TurnState : IdleState
 {
-    public TurnState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData) :
+    public TurnState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData) :
         base(enemy, stateMachine, animBoolName, stateData)
     {}
 

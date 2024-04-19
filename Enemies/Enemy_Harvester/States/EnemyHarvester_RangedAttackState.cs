@@ -4,7 +4,7 @@ public class EnemyHarvester_RangedAttackState : RangedAttackState
 {
     private EnemyHarvester harvester;
 
-    public EnemyHarvester_RangedAttackState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_RangedAttackState stateData, EnemyHarvester harvester) : base(enemy, stateMachine, animBoolName, attackPosition, stateData)
+    public EnemyHarvester_RangedAttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_RangedAttackState stateData, EnemyHarvester harvester) : base(enemy, stateMachine, animBoolName, attackPosition, stateData)
     {
         this.harvester = harvester;
     }

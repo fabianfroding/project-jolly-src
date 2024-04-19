@@ -4,7 +4,7 @@ public class EnemyHarvester_PlayerDetectedState : PlayerDetectedState
 {
     private EnemyHarvester harvester;
 
-    public EnemyHarvester_PlayerDetectedState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData, EnemyHarvester harvester) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyHarvester_PlayerDetectedState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData, EnemyHarvester harvester) : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.harvester = harvester;
     }

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyMasterHarvester : Enemy
+public class EnemyMasterHarvester : EnemyPawn
 {
     [SerializeField] private BoxCollider2D tpArea;
     [SerializeField] private GameObject teleportIndicatorPrefab;

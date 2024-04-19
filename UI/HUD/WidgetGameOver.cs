@@ -7,12 +7,12 @@ public class WidgetGameOver : MonoBehaviour
 
     private void Awake()
     {
-        Player.OnPlayerDeath += OnPlayerDeath;
+        PlayerPawn.OnPlayerDeath += OnPlayerDeath;
     }
 
     private void OnDestroy()
     {
-        Player.OnPlayerDeath -= OnPlayerDeath;
+        PlayerPawn.OnPlayerDeath -= OnPlayerDeath;
     }
 
     private void OnPlayerDeath()

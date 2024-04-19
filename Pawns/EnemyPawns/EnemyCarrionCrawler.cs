@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyCarrionCrawler : Enemy
+public class EnemyCarrionCrawler : EnemyPawn
 {
     public DeadState DeadState { get; private set; }
     public EnemyCarrionCrawler_MoveState MoveState { get; private set; }

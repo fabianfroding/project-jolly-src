@@ -14,7 +14,7 @@ public class ChargeState : State
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    public ChargeState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_ChargeState stateData) : base(enemy, stateMachine, animBoolName)
+    public ChargeState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_ChargeState stateData) : base(enemy, stateMachine, animBoolName)
     {
         this.stateData = stateData;
     }

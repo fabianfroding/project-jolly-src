@@ -12,7 +12,7 @@ public class WidgetDebugMenu : MonoBehaviour
 
     private void UnlockAbilitiesButtonClicked()
     {
-        Player player = FindObjectOfType<Player>();
+        PlayerPawn player = FindObjectOfType<PlayerPawn>();
         if (player)
             player.EnableAllLockedStates();
     }

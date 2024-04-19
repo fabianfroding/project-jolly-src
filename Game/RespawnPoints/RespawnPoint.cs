@@ -51,7 +51,7 @@ public class RespawnPoint : MonoBehaviour
 
     private void RespawnPlayer()
     {
-        Player player = FindObjectOfType<Player>();
+        PlayerPawn player = FindObjectOfType<PlayerPawn>();
         if (!player.IsDead())
         {
             player.transform.position = currentRespawnPoint;
@@ -62,6 +62,6 @@ public class RespawnPoint : MonoBehaviour
     /* Called when player is instantiated after a scene transition to make sure current respawn point is not null.
         This ensures that there will always be a current respawn point in the active scene. */
     private void SetCurrentRespawnPointToPlayerPosition() => 
-        currentRespawnPoint = FindObjectOfType<Player>().transform.position;
+        currentRespawnPoint = FindObjectOfType<PlayerPawn>().transform.position;
     #endregion
 }

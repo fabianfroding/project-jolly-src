@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyHarvester : Enemy
+public class EnemyHarvester : EnemyPawn
 {
     public EnemyHarvester_IdleState IdleState { get; private set; }
     public EnemyHarvester_MoveState MoveState { get; private set; }

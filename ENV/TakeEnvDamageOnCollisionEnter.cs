@@ -12,7 +12,7 @@ public class TakeEnvDamageOnCollisionEnter : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Instantly kill enemies.
-        if (collision.gameObject.GetComponent<Enemy>())
+        if (collision.gameObject.GetComponent<EnemyPawn>())
         {
             Death death = collision.gameObject.GetComponentInChildren<Death>();
             if (death)

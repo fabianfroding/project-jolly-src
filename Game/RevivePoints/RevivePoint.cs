@@ -33,7 +33,7 @@ public class RevivePoint : MonoBehaviour, IDamageable
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        Player.OnPlayerRevive += RevivePlayer;
+        PlayerPawn.OnPlayerRevive += RevivePlayer;
     }
 
     private void Start()
@@ -41,7 +41,7 @@ public class RevivePoint : MonoBehaviour, IDamageable
         if (IsCurrentRevivePointInActiveScene() && RevivePointRepository.CurrentRevivePointGOName == name)
         {
             Activate(false);
-            if (revivePlayerInOtherScene || FindObjectOfType<Player>() == null)
+            if (revivePlayerInOtherScene || FindObjectOfType<PlayerPawn>() == null)
             {
                 revivePlayerInOtherScene = false;
                 RevivePlayer();
@@ -55,7 +55,7 @@ public class RevivePoint : MonoBehaviour, IDamageable
 
     private void OnDestroy()
     {
-        Player.OnPlayerRevive -= RevivePlayer;
+        PlayerPawn.OnPlayerRevive -= RevivePlayer;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -76,7 +76,7 @@ public class RevivePoint : MonoBehaviour, IDamageable
         hitSound.transform.position = new Vector2(transform.position.x, transform.position.y);
         hitSound.transform.parent = null;
 
-        HealthComponent healthComponent = damageData.source.GetComponent<Player>().Core.GetCoreComponent<HealthComponent>();
+        HealthComponent healthComponent = damageData.source.GetComponent<PlayerPawn>().Core.GetCoreComponent<HealthComponent>();
         healthComponent.IncreaseHealth(healthComponent.GetMaxHealth());
 
         OnRevivePointSave?.Invoke();
@@ -147,10 +147,10 @@ public class RevivePoint : MonoBehaviour, IDamageable
         {
             if (IsCurrentRevivePointInActiveScene())
             {
-                Player player = FindObjectOfType<Player>();
+                PlayerPawn player = FindObjectOfType<PlayerPawn>();
                 if (player == null)
                 {
-                    player = Instantiate(playerPrefab).GetComponent<Player>();
+                    player = Instantiate(playerPrefab).GetComponent<PlayerPawn>();
                 }
 
                 //RevivePointLoadPlayerData(player);

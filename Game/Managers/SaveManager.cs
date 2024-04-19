@@ -27,7 +27,7 @@ public class SaveManager : MonoBehaviour
 
     private void SaveGame()
     {
-        Player player = FindObjectOfType<Player>();
+        PlayerPawn player = FindObjectOfType<PlayerPawn>();
         
 
         OnGameSave?.Invoke();

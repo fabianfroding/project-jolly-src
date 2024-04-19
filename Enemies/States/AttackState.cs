@@ -10,7 +10,7 @@ public class AttackState : State
     protected Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
     protected Movement movement;
 
-    public AttackState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition) : base(enemy, stateMachine, animBoolName)
+    public AttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition) : base(enemy, stateMachine, animBoolName)
     {
         this.attackPosition = attackPosition;
     }

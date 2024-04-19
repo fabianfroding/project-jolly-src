@@ -6,12 +6,12 @@ public class State
     public float EndTime { get; protected set; }
 
     protected FiniteStateMachine stateMachine;
-    protected Enemy enemy;
+    protected EnemyPawn enemy;
     protected EntityCore core;
 
     protected int animBoolName;
 
-    public State(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName)
+    public State(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName)
     {
         this.enemy = enemy;
         this.stateMachine = stateMachine;

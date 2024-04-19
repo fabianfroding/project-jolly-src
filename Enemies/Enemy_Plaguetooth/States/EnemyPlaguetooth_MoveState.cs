@@ -2,7 +2,7 @@ public class EnemyPlaguetooth_MoveState : MoveState
 {
     private EnemyPlaguetooth plaguetooth;
 
-    public EnemyPlaguetooth_MoveState(Enemy enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData, EnemyPlaguetooth plaguetooth)
+    public EnemyPlaguetooth_MoveState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData, EnemyPlaguetooth plaguetooth)
         : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.plaguetooth = plaguetooth;

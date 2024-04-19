@@ -13,7 +13,7 @@ public class PlayerTouchingWallState : PlayerState
     protected Movement movement;
 
 
-    public PlayerTouchingWallState(Player player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerTouchingWallState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {
     }
 

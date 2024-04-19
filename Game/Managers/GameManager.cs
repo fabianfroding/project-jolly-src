@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
         AddWidgetHUD();
 
-        Player.OnPlayerDeath += OnPlayerDeath;
+        PlayerPawn.OnPlayerDeath += OnPlayerDeath;
     }
 
     private void FixedUpdate()
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        Player.OnPlayerDeath -= OnPlayerDeath;
+        PlayerPawn.OnPlayerDeath -= OnPlayerDeath;
     }
 
     private void AddWidgetHUD()

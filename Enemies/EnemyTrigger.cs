@@ -11,7 +11,7 @@ public class EnemyTrigger : MonoBehaviour
             for (int i = 0; i < triggeredEnemies.Length; i++)
             {
                 if (triggeredEnemies[i] != null)
-                    triggeredEnemies[i].GetComponent<Enemy>().TriggerBehaviour(collision.gameObject);
+                    triggeredEnemies[i].GetComponent<EnemyPawn>().TriggerBehaviour(collision.gameObject);
             }
         }
     }
