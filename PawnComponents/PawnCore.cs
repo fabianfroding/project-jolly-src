@@ -39,7 +39,7 @@ public class PawnCore : MonoBehaviour
     // This function is called by CoreComponents when they want to add themselves to the update list.
     public void AddComponent(CoreComponent component)
     {
-        // Check to make sure components is not already part of the list - .Contains() comes from the Linq library we added.
+        // Check to make sure components is not already part of the list.
         if (!CoreComponents.Contains(component))
         {
             CoreComponents.Add(component);
