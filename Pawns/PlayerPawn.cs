@@ -109,10 +109,6 @@ public class PlayerPawn : PawnBase
 
         if (HealthComponent)
             HealthComponent.OnDamageTaken += OnDamageTaken;
-        else
-        {
-            Debug.Log("Could not find health comp");
-        }
     }
 
     protected override void Update()

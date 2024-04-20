@@ -33,7 +33,7 @@ public class HealthComponent : CoreComponent
     public void TakeDamage(Types.DamageData damageData)
     {
         DecreaseHealth(damageData.damageAmount);
-        OnDamageTaken(damageData);
+        OnDamageTaken?.Invoke(damageData);
     }
 
     public void DecreaseHealth(int damageAmount)

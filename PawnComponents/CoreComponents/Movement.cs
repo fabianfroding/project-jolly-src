@@ -6,7 +6,13 @@ public class Movement : CoreComponent, IKnockbackable
 
     [Header("Knockback Settings")]
     [SerializeField] private float maxKnockbackTime = 0.2f;
-    [SerializeField][Range(0f, 1f)] private float knockbackResistance = 0f; // This slider is buggy. Manually input values in the text box instead of dragging the slider.
+    [SerializeField][Range(0f, 1f)] private float knockbackResistance = 0f;
+    [SerializeField] private bool applyKnockbackOnDeath = true;
+    [Tooltip("Define overriden knockback settings if the owner should have hardcoded knockback when being knocked back.")]
+    [SerializeField] private bool overrideKnockbackSettings = false;
+    [SerializeField] private float overridenKnockbackStrength = 0f;
+    [SerializeField] private Vector2 overridenKnockbackAngle = Vector2.zero;
+
     private bool isKnockbackActive = false;
     private float knockbackStartTime;
 
@@ -127,18 +133,16 @@ public class Movement : CoreComponent, IKnockbackable
 
     public virtual void Knockback(Vector2 angle, float strength, int direction)
     {
-        // Player should always have the same knockback force applied.
-        PlayerPawn playerPawn = (PlayerPawn)componentOwner; // TODO: This is not very pretty and needs refactoring.
-        if (playerPawn && !isKnockbackActive && componentOwner.IsAlive())
-        {
-            SetVelocity(12.5f, new Vector2(1.2f, 1), direction);
-            CanSetVelocity = false;
-            isKnockbackActive = true;
-            knockbackStartTime = Time.time;
+        if (isKnockbackActive)
             return;
-        }
+        if (!applyKnockbackOnDeath && !componentOwner.IsAlive())
+            return;
 
-        SetVelocity(strength * (1f - knockbackResistance), angle, direction);
+        if (overrideKnockbackSettings)
+            SetVelocity(overridenKnockbackStrength, overridenKnockbackAngle, direction);
+        else
+            SetVelocity(strength * Mathf.Max(0f, 1f - knockbackResistance), angle, direction);
+
         CanSetVelocity = false;
         isKnockbackActive = true;
         knockbackStartTime = Time.time;

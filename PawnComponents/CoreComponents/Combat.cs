@@ -49,18 +49,15 @@ public class Combat : CoreComponent, IDamageable
     public GameObject parriedSoundPrefab;
 
     protected HealthComponent HealthComponent => healthComponent ? healthComponent : core.GetCoreComponent(ref healthComponent);
-    protected CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : core.GetCoreComponent(ref collisionSenses);
     public Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
     protected ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
 
     protected HealthComponent healthComponent;
-    protected CollisionSenses collisionSenses;
     protected Movement movement;
     protected ParticleManager particleManager;
 
     private List<StatusEffect> statusEffects;
 
-    public event Action OnDamaged;
     public event Action OnAttackBlocked;
 
     protected override void Awake()
@@ -93,11 +90,9 @@ public class Combat : CoreComponent, IDamageable
         {
             Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
             HealthComponent.TakeDamage(damageData);
-            OnDamaged?.Invoke();
 
             InstantiateTakeDamageVisuals();
 
-            // Not sure but I think this is solely used for players rage bar mechanic. Should be moved elsewhere.
             if (damageData.source.CompareTag(EditorConstants.TAG_PLAYER) && !gameObject.CompareTag(EditorConstants.TAG_PLAYER))
             {
                 PawnBase source = damageData.source.GetComponent<PawnBase>();
