@@ -3,8 +3,6 @@ public class PlayerAttackState : PlayerAbilityState
     protected Combat Combat => combat ? combat : core.GetCoreComponent(ref combat);
     protected Combat combat;
 
-    protected CombatPlayer combatPlayer;
-
     public PlayerAttackState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
@@ -12,7 +10,6 @@ public class PlayerAttackState : PlayerAbilityState
     {
         base.Enter();
         player.InputHandler.UseAttackInput();
-        combatPlayer = (CombatPlayer)Combat;
     }
 
     public override void Exit()
@@ -40,11 +37,11 @@ public class PlayerAttackState : PlayerAbilityState
 
         int yInput = player.InputHandler.NormInputY;
         if (yInput < 0)
-            combatPlayer.attackDownDamageHitBox.SetActive(true);
+            player.attackDownDamageHitBox.SetActive(true);
         else if (yInput > 0)
-            combatPlayer.attackUpDamageHitBox.SetActive(true);
+            player.attackUpDamageHitBox.SetActive(true);
         else
-            combatPlayer.attackHorizontalDamageHitBox.SetActive(true);
+            player.attackHorizontalDamageHitBox.SetActive(true);
     }
 
     public override void AnimationFinishTrigger()
@@ -60,8 +57,8 @@ public class PlayerAttackState : PlayerAbilityState
 
     private void DisableHitBoxes()
     {
-        combatPlayer.attackHorizontalDamageHitBox.SetActive(false);
-        combatPlayer.attackDownDamageHitBox.SetActive(false);
-        combatPlayer.attackUpDamageHitBox.SetActive(false);
+        player.attackHorizontalDamageHitBox.SetActive(false);
+        player.attackDownDamageHitBox.SetActive(false);
+        player.attackUpDamageHitBox.SetActive(false);
     }
 }

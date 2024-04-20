@@ -1,14 +1,23 @@
 using UnityEngine;
 
-public class Movement : CoreComponent
+public class Movement : CoreComponent, IKnockbackable
 {
     public MutableFloat movementSpeed;
+
+    [Header("Knockback Settings")]
+    [SerializeField] private float maxKnockbackTime = 0.2f;
+    [SerializeField][Range(0f, 1f)] private float knockbackResistance = 0f; // This slider is buggy. Manually input values in the text box instead of dragging the slider.
+    private bool isKnockbackActive = false;
+    private float knockbackStartTime;
 
     public Rigidbody2D RB { get; private set; }
     public int FacingDirection { get; private set; }
     public bool CanSetVelocity { get; set; }
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
+
+    private CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : core.GetCoreComponent(ref collisionSenses);
+    private CollisionSenses collisionSenses;
 
     protected override void Awake()
     {
@@ -19,7 +28,11 @@ public class Movement : CoreComponent
 }
 
     #region Other Functions
-    public override void LogicUpdate() => CurrentVelocity = RB.velocity;
+    public override void LogicUpdate()
+    {
+        CheckKnockback();
+        CurrentVelocity = RB.velocity;
+    }
     
     public void SetVelocity(float velocity, Vector2 angle, int direction)
     {
@@ -76,6 +89,70 @@ public class Movement : CoreComponent
         {
             RB.velocity = workspace;
             CurrentVelocity = workspace;
+        }
+    }
+
+    private bool IsFlyingEnemy()
+    {
+        EnemyPawn enemy = GetComponentInParent<EnemyPawn>();
+        return enemy != null && enemy.enemyData.isFlying;
+    }
+    #endregion
+
+    #region Knockback
+    public void ApplyKnockback(Types.DamageData damageData)
+    {
+        if (damageData.knockbackStrength <= 0f) { return; }
+
+        if (damageData.source != null)
+        {
+            DamagingObject damagingObject = damageData.source.GetComponent<DamagingObject>();
+            if (damageData.ranged)
+            {
+                Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damagingObject.transform, transform);
+                Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
+            }
+            else
+            {
+                Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damageData.source.transform, transform);
+                Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
+            }
+        }
+        else
+        {
+            Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damageData.source.transform, transform);
+            Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
+        }
+    }
+
+    public virtual void Knockback(Vector2 angle, float strength, int direction)
+    {
+        Debug.Log("A");
+        // Player should always have the same knockback force applied.
+        PlayerPawn playerPawn = (PlayerPawn)componentOwner; // TODO: This is not very pretty and needs refactoring.
+        if (playerPawn && !isKnockbackActive && componentOwner.IsAlive())
+        {
+            SetVelocity(12.5f, new Vector2(1.2f, 1), direction);
+            CanSetVelocity = false;
+            isKnockbackActive = true;
+            knockbackStartTime = Time.time;
+            return;
+        }
+
+        SetVelocity(strength * (1f - knockbackResistance), angle, direction);
+        CanSetVelocity = false;
+        isKnockbackActive = true;
+        knockbackStartTime = Time.time;
+    }
+
+    private void CheckKnockback()
+    {
+        if (isKnockbackActive &&
+            (IsFlyingEnemy() || CurrentVelocity.y < 0.01f) &&
+            (CollisionSenses.Ground || Time.time >= knockbackStartTime + maxKnockbackTime))
+        {
+            isKnockbackActive = false;
+            CanSetVelocity = true;
         }
     }
     #endregion

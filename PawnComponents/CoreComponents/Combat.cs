@@ -7,19 +7,13 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-public class Combat : CoreComponent, IDamageable, IKnockbackable
+public class Combat : CoreComponent, IDamageable
 {
     [SerializeField] private GameObject damagedParticles;
     [SerializeField] private GameObject damagedSFX;
     protected Material matDefault;
     protected Material matWhite;
     protected SpriteRenderer spriteRenderer;
-
-    [Header("Knockback Settings")]
-    [SerializeField] protected float maxKnockbackTime = 0.2f;
-    [SerializeField] [Range(0f, 1f)] protected float knockbackResistance = 0f; // This slider is buggy. Manually input values in the text box instead of dragging the slider.
-    protected bool isKnockbackActive = false;
-    protected float knockbackStartTime;
 
     [Header("Stun Settings")]
     [Tooltip("Check to allow the entity to recieve stun damage.")]
@@ -81,8 +75,6 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         statusEffects = new List<StatusEffect>();
     }
 
-    public override void LogicUpdate() { CheckKnockback(); }
-
     public virtual void TakeDamage(Types.DamageData damageData)
     {
         if (HealthComponent.IsInvulnerable())
@@ -121,7 +113,7 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
                 StartCoroutine(FlashWhiteMaterial(0.1f));
             }
             
-            ApplyKnockback(damageData);
+            Movement.ApplyKnockback(damageData);
         }
     }
 
@@ -136,56 +128,6 @@ public class Combat : CoreComponent, IDamageable, IKnockbackable
         {
             GameObject damagedSFXInstance = Instantiate(damagedSFX);
             damagedSFXInstance.transform.position = transform.position;
-        }
-    }
-
-    protected bool IsFlyingEnemy()
-    {
-        EnemyPawn enemy = GetComponentInParent<EnemyPawn>();
-        return enemy != null && enemy.enemyData.isFlying;
-    }
-
-    protected void ApplyKnockback(Types.DamageData damageData)
-    {
-        if (damageData.knockbackStrength <= 0f) { return; }
-
-        if (damageData.source != null)
-        {
-            DamagingObject damagingObject = damageData.source.GetComponent<DamagingObject>();
-            if (damageData.ranged)
-            {
-                Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damagingObject.transform, transform);
-                Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
-            }
-            else
-            {
-                Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damageData.source.transform, transform);
-                Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
-            }
-        }
-        else
-        {
-            Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damageData.source.transform, transform);
-            Knockback(damageData.knockbackAngle, damageData.knockbackStrength, dir.x >= 0 ? 1 : -1);
-        }
-    }
-
-    public virtual void Knockback(Vector2 angle, float strength, int direction)
-    {
-        Movement.SetVelocity(strength * (1f - knockbackResistance), angle, direction);
-        Movement.CanSetVelocity = false;
-        isKnockbackActive = true;
-        knockbackStartTime = Time.time;
-    }
-
-    protected void CheckKnockback()
-    {
-        if (isKnockbackActive && 
-            (IsFlyingEnemy() || Movement.CurrentVelocity.y < 0.01f) && 
-            (CollisionSenses.Ground || Time.time >= knockbackStartTime + maxKnockbackTime))
-        {
-            isKnockbackActive = false;
-            Movement.CanSetVelocity = true;
         }
     }
 

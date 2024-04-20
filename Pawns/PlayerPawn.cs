@@ -48,6 +48,9 @@ public class PlayerPawn : PawnBase
     [SerializeField] private Color playerNighttimeLightColor = Color.blue;
     [SerializeField] private Color playerDawnAndDuskLightColor = Color.yellow;
 
+    public GameObject attackHorizontalDamageHitBox;
+    public GameObject attackUpDamageHitBox;
+    public GameObject attackDownDamageHitBox;
     [SerializeField] private Transform fireArrowSpawnTransform;
     [SerializeField] private Types.DamageData enemyCollisionDamage;
 
@@ -124,7 +127,7 @@ public class PlayerPawn : PawnBase
             enemyCollisionDamage.source = collision.gameObject;
             enemyCollisionDamage.target = gameObject;
             Combat.TakeDamage(enemyCollisionDamage);
-            Combat.Knockback(enemyCollisionDamage.knockbackAngle, enemyCollisionDamage.knockbackStrength, Movement.FacingDirection);
+            Movement.Knockback(enemyCollisionDamage.knockbackAngle, enemyCollisionDamage.knockbackStrength, Movement.FacingDirection);
         }
     }
 

@@ -29,6 +29,11 @@ public class HealthComponent : CoreComponent
     public bool IsAlive() => CurrentHealth > 0;
     public bool IsInvulnerable() => invulnerable;
 
+    public void TakeDamage(Types.DamageData damageData)
+    {
+        DecreaseHealth(damageData.damageAmount);
+    }
+
     public void DecreaseHealth(int damageAmount)
     {
         CurrentHealth = Mathf.Max(0, CurrentHealth - damageAmount);
