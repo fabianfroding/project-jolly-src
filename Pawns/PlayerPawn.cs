@@ -65,6 +65,7 @@ public class PlayerPawn : PawnBase
     public static event Action<PlayerPawn> OnPlayerAwake;
     public static event Action OnPlayerDeath;
     public static event Action OnPlayerRevive;
+    public static event Action OnPlayerTakeDamageFromENV;
 
     public static event Action OnPlayerEnterAirGlideState;
     public static event Action OnPlayerExitAirGlideState;
@@ -105,6 +106,13 @@ public class PlayerPawn : PawnBase
 
         cachedDawnMid = DaytimeManager.Instance.GetDawnMidTime();
         cachedDuskMid = DaytimeManager.Instance.GetDuskMidTime();
+
+        if (HealthComponent)
+            HealthComponent.OnDamageTaken += OnDamageTaken;
+        else
+        {
+            Debug.Log("Could not find health comp");
+        }
     }
 
     protected override void Update()
@@ -134,6 +142,8 @@ public class PlayerPawn : PawnBase
     private void OnDestroy()
     {
         DaytimeManager.OnDaytimeTick -= UpdateDaytimeVisibility;
+        if (HealthComponent)
+            HealthComponent.OnDamageTaken -= OnDamageTaken;
     }
     #endregion
 
@@ -179,6 +189,33 @@ public class PlayerPawn : PawnBase
     #endregion
 
     #region Other Functions
+    private void OnDamageTaken(Types.DamageData damageData)
+    {
+        if (HealthComponent.IsAlive() && StateMachine.CurrentState != TakeDamageState && !HealthComponent.IsInvulnerable())
+        {
+            HealthComponent.SetInvulnerable(true);
+
+            // Check so that player is not dead to avoid respawning when reviving.
+            if (HealthComponent.IsAlive())
+            {
+                if (!damageData.source.GetComponent<PawnBase>())
+                {
+                    OnPlayerTakeDamageFromENV?.Invoke();
+                }
+                else
+                {
+                    Vector2 dir = GameFunctionLibrary.GetDirectionFromAngle(GameFunctionLibrary.GetAngleBetweenObjects(damageData.source, gameObject));
+                    Movement.Knockback(Vector2.zero, 0f, dir.x < 0f ? -1 : 1);
+                    StateMachine.ChangeState(TakeDamageState);
+                }
+            }
+        }
+        else if (!HealthComponent.IsAlive())
+        {
+            StateMachine.ChangeState(DeadState);
+        }
+    }
+
     protected override void Death()
     {
         base.Death();

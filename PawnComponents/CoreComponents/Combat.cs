@@ -92,7 +92,7 @@ public class Combat : CoreComponent, IDamageable
         if (HealthComponent.IsAlive())
         {
             Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
-            HealthComponent.DecreaseHealth(damageData.damageAmount);
+            HealthComponent.TakeDamage(damageData);
             OnDamaged?.Invoke();
 
             InstantiateTakeDamageVisuals();

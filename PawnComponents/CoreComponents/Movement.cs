@@ -127,7 +127,6 @@ public class Movement : CoreComponent, IKnockbackable
 
     public virtual void Knockback(Vector2 angle, float strength, int direction)
     {
-        Debug.Log("A");
         // Player should always have the same knockback force applied.
         PlayerPawn playerPawn = (PlayerPawn)componentOwner; // TODO: This is not very pretty and needs refactoring.
         if (playerPawn && !isKnockbackActive && componentOwner.IsAlive())

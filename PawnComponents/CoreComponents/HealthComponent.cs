@@ -12,6 +12,7 @@ public class HealthComponent : CoreComponent
 
     public event Action<int> OnHealthChange;
     public event Action<int> OnMaxHealthChanged;
+    public event Action<Types.DamageData> OnDamageTaken;
     public event Action OnHealthDepleted;
 
     protected override void Awake()
@@ -32,6 +33,7 @@ public class HealthComponent : CoreComponent
     public void TakeDamage(Types.DamageData damageData)
     {
         DecreaseHealth(damageData.damageAmount);
+        OnDamageTaken(damageData);
     }
 
     public void DecreaseHealth(int damageAmount)
