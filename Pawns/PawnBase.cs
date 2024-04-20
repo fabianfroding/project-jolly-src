@@ -6,7 +6,7 @@ public class PawnBase : MonoBehaviour
     public PawnCore Core { get; protected set; }
     public Animator Animator { get; private set; }
 
-    protected SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer { get; protected set; }
 
     protected Combat Combat => combat ? combat : Core.GetCoreComponent(ref combat);
     protected Combat combat;
@@ -20,16 +20,17 @@ public class PawnBase : MonoBehaviour
     #region Unity Callback Functions
     protected virtual void Awake()
     {
+        Animator = GetComponent<Animator>();
         Core = GetComponentInChildren<PawnCore>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        Animator = GetComponent<Animator>();
     }
 
     protected virtual void Start() {}
 
     protected virtual void Update()
     {
-        if (Core != null) Core.LogicUpdate();
+        if (Core)
+            Core.LogicUpdate();
     }
     #endregion
 

@@ -14,7 +14,7 @@ public static class Types
     public struct DamageData
     {
         public GameObject source, target;
-        public bool ranged, canBeParried;
+        public bool ranged, canBeParried, canBeBlocked;
         public int damageAmount;
         public float damageRadius, stunDamageAmount, knockbackStrength;
         public Vector2 knockbackAngle, direction;

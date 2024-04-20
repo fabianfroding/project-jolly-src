@@ -130,7 +130,7 @@ public class PlayerPawn : PawnBase
         {
             enemyCollisionDamage.source = collision.gameObject;
             enemyCollisionDamage.target = gameObject;
-            Combat.TakeDamage(enemyCollisionDamage);
+            HealthComponent.TakeDamage(enemyCollisionDamage);
             Movement.Knockback(enemyCollisionDamage.knockbackAngle, enemyCollisionDamage.knockbackStrength, Movement.FacingDirection);
         }
     }

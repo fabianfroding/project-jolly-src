@@ -1,14 +1,32 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
-public class HealthComponent : CoreComponent
+public class HealthComponent : CoreComponent, IDamageable
 {
     [SerializeField] protected int maxHealth;
+
+    [SerializeField] private GameObject damagedParticles;
+    [SerializeField] private GameObject damagedSFX;
+    [SerializeField] private GameObject hurtSFXPrefab;
+    [SerializeField][Range(0f, 1f)] float chanceToPlayHurtSound;
 
     public int CurrentHealth { get; private set; }
 
     private bool invulnerable = false; // TODO: This can be made into a Dictionary if there are multiple invulnerability-granting sources.
     private InvulnerabilityIndication invulnerabilityIndication;
+
+    private Material matDefault;
+    private Material matWhite;
+    private SpriteRenderer spriteRenderer;
+    private readonly float takeDamageMaterialDuration = 0.1f;
+
+    private Combat Combat => combat ? combat : core.GetCoreComponent(ref combat);
+    private Combat combat;
+    private Movement Movement => Movement ? movement : core.GetCoreComponent(ref movement);
+    private Movement movement;
+    protected ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
+    protected ParticleManager particleManager;
 
     public event Action<int> OnHealthChange;
     public event Action<int> OnMaxHealthChanged;
@@ -18,13 +36,23 @@ public class HealthComponent : CoreComponent
     protected override void Awake()
     {
         base.Awake();
-        invulnerabilityIndication = GetComponent<InvulnerabilityIndication>();
+        matWhite = Resources.Load(EditorConstants.RESOURCE_WHITE_FLASH, typeof(Material)) as Material;
     }
 
     protected override void Start()
     {
+        invulnerabilityIndication = GetComponent<InvulnerabilityIndication>();
+        spriteRenderer = componentOwner.spriteRenderer;
+        matDefault = spriteRenderer.material;
+
         OnMaxHealthChanged?.Invoke(maxHealth);
         SetHealth(maxHealth);
+    }
+
+    private IEnumerator ResetDefaultMaterial()
+    {
+        yield return new WaitForSeconds(takeDamageMaterialDuration);
+        spriteRenderer.material = matDefault;
     }
 
     public bool IsAlive() => CurrentHealth > 0;
@@ -32,8 +60,36 @@ public class HealthComponent : CoreComponent
 
     public void TakeDamage(Types.DamageData damageData)
     {
+        if (IsInvulnerable())
+            return;
+        if (damageData.source == damageData.target)
+            return;
+        if (!IsAlive())
+            return;
+
+        if (damageData.canBeBlocked && Combat.CheckBlock(damageData.source, damageData.target))
+            return;
+
+        if (damageData.knockbackStrength > 0f)
+            Movement.ApplyKnockback(damageData);
+
+        InstantiateTakeDamageVisuals();
+
         DecreaseHealth(damageData.damageAmount);
+
+        if (isActiveAndEnabled)
+        {
+            spriteRenderer.material = matWhite;
+            StopCoroutine(ResetDefaultMaterial());
+            StartCoroutine(ResetDefaultMaterial());
+        }
+
         OnDamageTaken?.Invoke(damageData);
+        PawnBase source = damageData.source.GetComponent<PawnBase>();
+        if (source)
+            source.BroadcastOnDealtDamage();
+
+        Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
     }
 
     public void DecreaseHealth(int damageAmount)
@@ -56,7 +112,7 @@ public class HealthComponent : CoreComponent
 
     public void SetHealth(int value)
     {
-        CurrentHealth = Mathf.Max(1, maxHealth);
+        CurrentHealth = Mathf.Clamp(value, 1, maxHealth);
         OnHealthChange?.Invoke(CurrentHealth);
     }
 
@@ -72,5 +128,25 @@ public class HealthComponent : CoreComponent
         invulnerable = newInvulnerable;
         if (!invulnerable && invulnerabilityIndication)
             invulnerabilityIndication.EndFlash();
+    }
+
+    protected virtual void InstantiateTakeDamageVisuals()
+    {
+        if (ParticleManager && damagedParticles)
+        {
+            ParticleManager.StartParticlesWithRandomRotation(damagedParticles);
+        }
+
+        if (damagedSFX)
+        {
+            GameObject damagedSFXInstance = Instantiate(damagedSFX);
+            damagedSFXInstance.transform.position = transform.position;
+        }
+
+        if (hurtSFXPrefab && UnityEngine.Random.Range(0f, 1f) <= chanceToPlayHurtSound)
+        {
+            GameObject hurtSFX = GameObject.Instantiate(hurtSFXPrefab);
+            hurtSFX.transform.position = transform.position;
+        }
     }
 }

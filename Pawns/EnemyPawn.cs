@@ -33,7 +33,7 @@ public class EnemyPawn : PawnBase, IParriable
     {
         base.Start();
 
-        HealthComponent.IncreaseHealth(HealthComponent.GetMaxHealth());
+        HealthComponent.SetHealth(HealthComponent.GetMaxHealth());
         Combat.SetCurrentStunResistance(Combat.GetStunResistance());
 
         InitialPosition = transform.position;

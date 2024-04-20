@@ -108,7 +108,8 @@ public class Movement : CoreComponent, IKnockbackable
     #region Knockback
     public void ApplyKnockback(Types.DamageData damageData)
     {
-        if (damageData.knockbackStrength <= 0f) { return; }
+        if (damageData.knockbackStrength <= 0f)
+            return;
 
         if (damageData.source != null)
         {

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,20 +6,14 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-public class Combat : CoreComponent, IDamageable
+public class Combat : CoreComponent
 {
-    [SerializeField] private GameObject damagedParticles;
-    [SerializeField] private GameObject damagedSFX;
-    protected Material matDefault;
-    protected Material matWhite;
-    protected SpriteRenderer spriteRenderer;
-
     [Header("Stun Settings")]
-    [Tooltip("Check to allow the entity to recieve stun damage.")]
+    [Tooltip("Check to allow the pawn to recieve stun damage.")]
     [SerializeField] protected bool stunnable = false;
-    [Tooltip("The time-window in which an enity can get stunned after it has become vulnerable to stun damage.")]
+    [Tooltip("The time-window in which a pawn can get stunned after it has become vulnerable to stun damage.")]
     [SerializeField] protected float stunTimeWindow = 2f;
-    [Tooltip("The amount of hits/damage before the entity can get stunned.")]
+    [Tooltip("The amount of hits/damage before the pawn can get stunned.")]
     [SerializeField] protected int stunResistance = 3;
 
     [Header("Parry Settings")]
@@ -38,9 +31,6 @@ public class Combat : CoreComponent, IDamageable
     public GameObject blockOriginPosition;
     public bool blockingEnabled = false;
 
-    [SerializeField] private GameObject hurtSFXPrefab;
-    [SerializeField][Range(0f, 1f)] float chanceToPlayHurtSound;
-
     // Time-window between the attacking-part of a melee attack animation.
     public bool IsInTriggeredParriedAnimationFrames { get; set; }
 
@@ -51,14 +41,9 @@ public class Combat : CoreComponent, IDamageable
     [Header("Spawned Objects")]
     public GameObject parriedSoundPrefab;
 
-    protected HealthComponent HealthComponent => healthComponent ? healthComponent : core.GetCoreComponent(ref healthComponent);
     public Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
-    protected ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
-
-    protected HealthComponent healthComponent;
     protected Movement movement;
-    protected ParticleManager particleManager;
-
+    
     private List<StatusEffect> statusEffects;
 
     public event Action OnAttackBlocked;
@@ -66,73 +51,7 @@ public class Combat : CoreComponent, IDamageable
     protected override void Awake()
     {
         base.Awake();
-
-        matWhite = Resources.Load(EditorConstants.RESOURCE_WHITE_FLASH, typeof(Material)) as Material;
-        spriteRenderer = GetComponentInParent<SpriteRenderer>();
-        if (!spriteRenderer) { Debug.LogError("Combat::Awake: Could not find SpriteRenderer component."); }
-        matDefault = spriteRenderer.material;
-
         statusEffects = new List<StatusEffect>();
-    }
-
-    public virtual void TakeDamage(Types.DamageData damageData)
-    {
-        if (HealthComponent.IsInvulnerable())
-            return;
-        if (damageData.source == damageData.target)
-            return;
-
-        if (CheckBlock(damageData.source, damageData.target))
-        {
-            Debug.Log(damageData.target.name + " blocked attack from " + damageData.source.name);
-            OnAttackBlocked?.Invoke();
-            return;
-        }
-        
-        if (HealthComponent.IsAlive())
-        {
-            Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
-            HealthComponent.TakeDamage(damageData);
-
-            InstantiateTakeDamageVisuals();
-
-            if (damageData.source.CompareTag(EditorConstants.TAG_PLAYER) && !gameObject.CompareTag(EditorConstants.TAG_PLAYER))
-            {
-                PawnBase source = damageData.source.GetComponent<PawnBase>();
-                if (source)
-                {
-                    source.BroadcastOnDealtDamage();
-                }
-            }
-
-            if (isActiveAndEnabled)
-            {
-                StopCoroutine(FlashWhiteMaterial());
-                StartCoroutine(FlashWhiteMaterial(0.1f));
-            }
-            
-            Movement.ApplyKnockback(damageData);
-        }
-    }
-
-    protected virtual void InstantiateTakeDamageVisuals()
-    {
-        if (ParticleManager && damagedParticles)
-        {
-            ParticleManager.StartParticlesWithRandomRotation(damagedParticles);
-        }
-
-        if (damagedSFX)
-        {
-            GameObject damagedSFXInstance = Instantiate(damagedSFX);
-            damagedSFXInstance.transform.position = transform.position;
-        }
-
-        if (hurtSFXPrefab && UnityEngine.Random.Range(0f, 1f) <= chanceToPlayHurtSound)
-        {
-            GameObject hurtSFX = GameObject.Instantiate(hurtSFXPrefab);
-            hurtSFX.transform.position = transform.position;
-        }
     }
 
     public void SetCurrentStunResistance(float amount) => currentStunResistance = amount;
@@ -190,9 +109,10 @@ public class Combat : CoreComponent, IDamageable
         // TODO: Instantiate parrySFXPrefab.
     }
 
-    protected bool CheckBlock(GameObject source, GameObject target)
+    public bool CheckBlock(GameObject source, GameObject target)
     {
-        if (!blockingEnabled) { return false; }
+        if (!blockingEnabled)
+            return false;
 
         float angle = Vector2.SignedAngle(transform.right, 
             source.transform.position - (blockOriginPosition ? blockOriginPosition.transform.position : target.transform.position));
@@ -200,17 +120,15 @@ public class Combat : CoreComponent, IDamageable
         foreach (Types.BlockData block in useAltBlockData ? blockDataAlt : blockData)
         {
             // Check if the angle is within the defined blocking zone.
-            if (angle >= block.minAngle && angle <= block.maxAngle) { return true; }
+            if (angle >= block.minAngle && angle <= block.maxAngle)
+            {
+                OnAttackBlocked?.Invoke();
+                Debug.Log(target.name + " blocked attack from " + source.name);
+                return true;
+            }
         }
 
         return false;
-    }
-
-    protected virtual IEnumerator FlashWhiteMaterial(float delay = 0f)
-    {
-        spriteRenderer.material = matWhite;
-        yield return new WaitForSeconds(delay);
-        spriteRenderer.material = matDefault;
     }
 
     public void AddStatusEffect(GameObject statusEffectPrefab)
