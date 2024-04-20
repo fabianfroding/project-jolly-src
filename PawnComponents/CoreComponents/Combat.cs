@@ -38,6 +38,9 @@ public class Combat : CoreComponent, IDamageable
     public GameObject blockOriginPosition;
     public bool blockingEnabled = false;
 
+    [SerializeField] private GameObject hurtSFXPrefab;
+    [SerializeField][Range(0f, 1f)] float chanceToPlayHurtSound;
+
     // Time-window between the attacking-part of a melee attack animation.
     public bool IsInTriggeredParriedAnimationFrames { get; set; }
 
@@ -123,6 +126,12 @@ public class Combat : CoreComponent, IDamageable
         {
             GameObject damagedSFXInstance = Instantiate(damagedSFX);
             damagedSFXInstance.transform.position = transform.position;
+        }
+
+        if (hurtSFXPrefab && UnityEngine.Random.Range(0f, 1f) <= chanceToPlayHurtSound)
+        {
+            GameObject hurtSFX = GameObject.Instantiate(hurtSFXPrefab);
+            hurtSFX.transform.position = transform.position;
         }
     }
 
