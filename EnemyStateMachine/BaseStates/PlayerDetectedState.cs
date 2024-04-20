@@ -8,10 +8,11 @@ public class PlayerDetectedState : State
     protected bool performLongRangeAction;
     protected bool performCloseRangeAction;
     protected bool isDetectingLedge;
+    protected float aggroSoundUsedTime = 0f;
 
-    protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
+    protected CollisionSenses CollisionSenses { get => collisionSenses != null ? collisionSenses : core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;
-    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
     public PlayerDetectedState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData) : base(enemy, stateMachine, animBoolName)
@@ -26,11 +27,11 @@ public class PlayerDetectedState : State
         performLongRangeAction = false;
         Movement.SetVelocityX(0);
 
-        if (stateData.aggroSoundPrefab != null)
+        if (stateData.aggroSoundPrefab && Time.time > aggroSoundUsedTime + stateData.aggroSoundResetTime)
         {
-            GameObject deathSound = GameObject.Instantiate(stateData.aggroSoundPrefab, enemy.transform.position, Quaternion.identity);
-            deathSound.transform.parent = null;
-            GameObject.Destroy(deathSound, deathSound.GetComponent<AudioSource>() != null ? deathSound.GetComponent<AudioSource>().clip.length : 0f);
+            aggroSoundUsedTime = Time.time;
+            GameObject aggroSFX = GameObject.Instantiate(stateData.aggroSoundPrefab);
+            aggroSFX.transform.position = enemy.transform.position;
         }
     }
 
