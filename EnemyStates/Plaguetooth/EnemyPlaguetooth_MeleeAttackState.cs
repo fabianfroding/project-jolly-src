@@ -41,7 +41,7 @@ public class EnemyPlaguetooth_MeleeAttackState : MeleeAttackState
             Vector2 spawnPos = new Vector2(attackPosition.position.x + Movement.FacingDirection * stateData.spawnPosOffsetX, attackPosition.position.y);
             GameObject slash = GameObject.Instantiate(stateData.slashHorizontalPrefab, spawnPos, Quaternion.identity);
             slash.transform.localScale = new Vector2(slash.transform.localScale.x * Movement.FacingDirection, slash.transform.localScale.y);
-            DamagingObject damagingObject = slash.GetComponent<DamagingObject>();
+            Projectile damagingObject = slash.GetComponent<Projectile>();
             if (damagingObject)
                 damagingObject.SetSource(plaguetooth.gameObject);
             GameObject.Destroy(slash, 0.04f);

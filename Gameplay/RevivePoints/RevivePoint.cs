@@ -87,10 +87,10 @@ public class RevivePoint : MonoBehaviour, IDamageable
 
     private void ProcessCollision(GameObject other)
     {
-        DamagingObject damagingObject = other.GetComponent<DamagingObject>();
+        Projectile damagingObject = other.GetComponent<Projectile>();
         if (damagingObject != null && 
             !damagingObject.IsProjectile() &&
-            damagingObject.Source.CompareTag(EditorConstants.TAG_PLAYER))
+            damagingObject.GetDamageData().source.CompareTag(EditorConstants.TAG_PLAYER))
         {
             Types.DamageData damageData = damagingObject.GetDamageData();
             damageData.source = damagingObject.Source;

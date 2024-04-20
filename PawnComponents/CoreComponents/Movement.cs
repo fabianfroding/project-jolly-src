@@ -112,7 +112,7 @@ public class Movement : CoreComponent, IKnockbackable
 
         if (damageData.source != null)
         {
-            DamagingObject damagingObject = damageData.source.GetComponent<DamagingObject>();
+            Projectile damagingObject = damageData.source.GetComponent<Projectile>();
             if (damageData.ranged)
             {
                 Vector2 dir = GameFunctionLibrary.GetDirectionBetweenPositions(damagingObject.transform, transform);
