@@ -2,10 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 public class Combat : CoreComponent
 {
     [Header("Stun Settings")]
@@ -23,13 +19,9 @@ public class Combat : CoreComponent
     [SerializeField] protected bool canBeParried = false;
 
     [Header("Block Settings")]
-    [SerializeField] public bool canBlock = false;
-    [SerializeField] public List<Types.BlockData> blockData;
-    [Tooltip("Alternative block data that is disabled by default but can be toggled in various circumstances such as top or behind.")]
-    [SerializeField] public List<Types.BlockData> blockDataAlt;
-    public bool useAltBlockData = false;
-    public GameObject blockOriginPosition;
-    public bool blockingEnabled = false;
+    [Tooltip("If the pawn can block, this is the state it will default to when blocking.")]
+    public Types.EBlockState defaultBlockState = Types.EBlockState.E_BlockNone;
+    [HideInInspector] public Types.EBlockState blockState = Types.EBlockState.E_BlockNone;
 
     // Time-window between the attacking-part of a melee attack animation.
     public bool IsInTriggeredParriedAnimationFrames { get; set; }
@@ -42,7 +34,7 @@ public class Combat : CoreComponent
     public GameObject parriedSoundPrefab;
 
     public Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
-    protected Movement movement;
+    private Movement movement;
     
     private List<StatusEffect> statusEffects;
 
@@ -111,21 +103,41 @@ public class Combat : CoreComponent
 
     public bool CheckBlock(GameObject source, GameObject target)
     {
-        if (!blockingEnabled)
+        Debug.Log(target.name + " attempt to block attack from " + source.name);
+        if (source == target)
             return false;
 
-        float angle = Vector2.SignedAngle(transform.right, 
-            source.transform.position - (blockOriginPosition ? blockOriginPosition.transform.position : target.transform.position));
-        
-        foreach (Types.BlockData block in useAltBlockData ? blockDataAlt : blockData)
+        Vector2 attackDirection = (source.transform.position - transform.position).normalized;
+        float dotProduct;
+        switch (blockState)
         {
-            // Check if the angle is within the defined blocking zone.
-            if (angle >= block.minAngle && angle <= block.maxAngle)
-            {
+            case Types.EBlockState.E_BlockNone:
+                return false;
+
+            case Types.EBlockState.E_BlockAll:
                 OnAttackBlocked?.Invoke();
-                Debug.Log(target.name + " blocked attack from " + source.name);
                 return true;
-            }
+
+            case Types.EBlockState.E_BlockFront:
+                dotProduct = Vector2.Dot(attackDirection, transform.right);
+                if (dotProduct > 0)
+                {
+                    OnAttackBlocked?.Invoke();
+                    return true;
+                }
+                break;
+
+            case Types.EBlockState.E_BlockAbove:
+                dotProduct = Vector2.Dot(attackDirection, transform.up);
+                if (dotProduct > 0)
+                {
+                    OnAttackBlocked?.Invoke(); 
+                    return true;
+                }
+                break;
+
+            default:
+                return false;
         }
 
         return false;
@@ -146,24 +158,4 @@ public class Combat : CoreComponent
         statusEffect.OnStatusEffectEnded -= RemoveStatusEffect;
         statusEffects.Remove(statusEffect);
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Vector2 forwardDirection = transform.right;
-        Vector2 blockOriginPos = blockOriginPosition ? blockOriginPosition.transform.position : transform.position;
-        Handles.color = new Color(0.15f, 0.15f, 1f, 0.35f);
-        foreach (Types.BlockData block in blockData)
-        {
-            if (!block.showDebugVisuals) { continue; }
-            Handles.DrawSolidArc(blockOriginPos, Vector3.forward, Quaternion.Euler(0f, 0f, block.minAngle) * forwardDirection, block.maxAngle - block.minAngle, 1.5f);
-        }
-        Handles.color = new Color(0.15f, 0.85f, 1f, 0.35f);
-        foreach (Types.BlockData block in blockDataAlt)
-        {
-            if (!block.showDebugVisuals) { continue; }
-            Handles.DrawSolidArc(blockOriginPos, Vector3.forward, Quaternion.Euler(0f, 0f, block.minAngle) * forwardDirection, block.maxAngle - block.minAngle, 1.5f);
-        }
-    }
-#endif
 }

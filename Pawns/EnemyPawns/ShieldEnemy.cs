@@ -18,7 +18,6 @@ public class ShieldEnemy : EnemyPawn
     [SerializeField] private D_MoveState moveStateData;
     [SerializeField] private D_PlayerDetectedState playerDetectedStateData;
     [SerializeField] private D_StunState stunStateData;
-    [SerializeField] private Transform meleeAttackImpactPosition;
 
     protected override void Start()
     {

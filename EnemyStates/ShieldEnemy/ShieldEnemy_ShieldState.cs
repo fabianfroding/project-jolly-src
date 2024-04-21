@@ -31,7 +31,7 @@ public class ShieldEnemy_ShieldState : BlockState
         base.LogicUpdate();
         if ((isPlayerInMinAggroRange || (AIVision && AIVision.TargetPlayerPawn)))
         {
-            if (isPlayerInMinAggroRange && !Combat.useAltBlockData && shieldEnemy.MeleeAttackState.IsMeleeAttackReady() && Time.time >= StartTime + 1f)
+            if (isPlayerInMinAggroRange && Combat.blockState != Types.EBlockState.E_BlockAbove && shieldEnemy.MeleeAttackState.IsMeleeAttackReady() && Time.time >= StartTime + 1f)
             {
                 stateMachine.ChangeState(shieldEnemy.MeleeAttackState);
             }
@@ -41,7 +41,8 @@ public class ShieldEnemy_ShieldState : BlockState
                 {
                     Vector2 direction = (AIVision.TargetPlayerPawn.transform.position - enemy.transform.position).normalized;
                     int yDir = Mathf.RoundToInt(direction.y);
-                    Combat.useAltBlockData = yDir > 0;
+                    if (yDir > 0)
+                        Combat.blockState = Types.EBlockState.E_BlockAbove;
                     enemy.Animator.SetFloat(AnimationConstants.ANIM_PARAM_SHIELD_DIR, yDir);
                 }
             }

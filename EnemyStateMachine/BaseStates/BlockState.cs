@@ -17,12 +17,12 @@ public class BlockState : State
     public override void Enter()
     {
         base.Enter();
-        Combat.blockingEnabled = true;
+        Combat.blockState = Combat.defaultBlockState;
     }
 
     public override void Exit()
     {
-        Combat.blockingEnabled = false;
+        Combat.blockState = Types.EBlockState.E_BlockNone;
         base.Exit();
     }
 
@@ -36,6 +36,7 @@ public class BlockState : State
     {
         if (stateData.sfxBlockPrefab)
         {
+            Debug.Log("Block");
             GameObject sfxBlockInstance = GameObject.Instantiate(stateData.sfxBlockPrefab);
             sfxBlockInstance.transform.position = enemy.transform.position;
         }

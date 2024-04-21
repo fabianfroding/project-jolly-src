@@ -2,12 +2,12 @@ using UnityEngine;
 
 public static class Types
 {
-    [System.Serializable]
-    public struct BlockData
+    public enum EBlockState
     {
-        [Range(-180f, 180f)] public float minAngle;
-        [Range(-180f, 180f)] public float maxAngle;
-        public bool showDebugVisuals;
+        E_BlockFront,
+        E_BlockAbove,
+        E_BlockAll,
+        E_BlockNone
     }
 
     [System.Serializable]
