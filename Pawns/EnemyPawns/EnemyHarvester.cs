@@ -24,7 +24,6 @@ public class EnemyHarvester : EnemyPawn
     public D_DodgeState dodgeStateData; // Public because it needs to be accessed from other state scripts AND the inspector.
     [SerializeField] D_RangedAttackState rangedAttackStateData;
 
-    [SerializeField] private Transform meleeAttackPosition;
     [SerializeField] private Transform rangedAttackPosition;
 
     protected override void Start()
@@ -36,19 +35,13 @@ public class EnemyHarvester : EnemyPawn
         PlayerDetectedState = new EnemyHarvester_PlayerDetectedState(this, StateMachine, AnimationConstants.ANIM_PARAM_PLAYER_DETECTED, playerDetectedStateData, this);
         ChargeState = new EnemyHarvester_ChargeState(this, StateMachine, AnimationConstants.ANIM_PARAM_CHARGE, chargeStateData, this);
         LookForPlayerState = new EnemyHarvester_LookForPlayerState(this, StateMachine, AnimationConstants.ANIM_PARAM_LOOK_FOR_PLAYER, lookForPlayerStateData, this);
-        MeleeAttackState = new EnemyHarvester_MeleeAttackState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK, meleeAttackPosition, meleeAttackStateData, this);
+        MeleeAttackState = new EnemyHarvester_MeleeAttackState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK, meleeAttackDamageHitBox, meleeAttackStateData, this);
         StunState = new EnemyHarvester_StunState(this, StateMachine, AnimationConstants.ANIM_PARAM_STUN, stunStateData, this);
         DeadState = new DeadState(this, StateMachine, AnimationConstants.ANIM_PARAM_DEAD, deadStateData);
         DodgeState = new EnemyHarvester_DodgeState(this, StateMachine, AnimationConstants.ANIM_PARAM_DODGE, dodgeStateData, this);
         RangedAttackState = new EnemyHarvester_RangedAttackState(this, StateMachine, AnimationConstants.ANIM_PARAM_RANGED_ATTACK, rangedAttackPosition, rangedAttackStateData, this);
 
         StateMachine.Initialize(MoveState);
-    }
-
-    protected override void OnDrawGizmos()
-    {
-        base.OnDrawGizmos();
-        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.damageData.damageRadius);
     }
 
     /*public override void TakeDamage(Types.DamageData damageData)

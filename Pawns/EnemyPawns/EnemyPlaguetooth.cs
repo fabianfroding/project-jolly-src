@@ -23,18 +23,12 @@ public class EnemyPlaguetooth : EnemyPawn
 
         DeadState = new DeadState(this, StateMachine, AnimationConstants.ANIM_PARAM_DEAD, deadStateData);
         IdleState = new EnemyPlaguetooth_IdleState(this, StateMachine, AnimationConstants.ANIM_PARAM_IDLE, idleStateData, this);
-        MeleeAttackState = new EnemyPlaguetooth_MeleeAttackState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK, meleeAttackPosition, meleeAttackStateData, this);
+        MeleeAttackState = new EnemyPlaguetooth_MeleeAttackState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK, meleeAttackDamageHitBox, meleeAttackStateData, this);
         MoveState = new EnemyPlaguetooth_MoveState(this, StateMachine, AnimationConstants.ANIM_PARAM_MOVE, moveStateData, this);
         PlayerDetectedState = new EnemyPlaguetooth_PlayerDetectedState(this, StateMachine, AnimationConstants.ANIM_PARAM_PLAYER_DETECTED, playerDetectedStateData, this);
         StunState = new EnemyPlaguetooth_StunState(this, StateMachine, AnimationConstants.ANIM_PARAM_STUN, stunStateData, this);
 
         StateMachine.Initialize(IdleState);
-    }
-
-    protected override void OnDrawGizmos()
-    {
-        base.OnDrawGizmos();
-        Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.damageData.damageRadius);
     }
 
     public override void Death()

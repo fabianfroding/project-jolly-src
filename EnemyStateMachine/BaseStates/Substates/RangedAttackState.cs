@@ -5,10 +5,12 @@ public class RangedAttackState : AttackState
     protected D_RangedAttackState stateData;
     protected GameObject projectile;
     protected Projectile projectileScript;
+    protected Transform attackPosition;
 
-    public RangedAttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_RangedAttackState stateData) : base(enemy, stateMachine, animBoolName, attackPosition)
+    public RangedAttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_RangedAttackState stateData) : base(enemy, stateMachine, animBoolName)
     {
         this.stateData = stateData;
+        this.attackPosition = attackPosition;
     }
 
     public override void TriggerAttack()

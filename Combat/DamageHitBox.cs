@@ -39,7 +39,8 @@ public class DamageHitBox : MonoBehaviour
         PlayerPawn collidingPlayerPawn = collision.GetComponent<PlayerPawn>();
         if (owningEnemyPawn && collidingPlayerPawn)
         {
-            healthComponent = collidingEnemyPawn.GetComponentInChildren<HealthComponent>();
+            healthComponent = collidingPlayerPawn.GetComponentInChildren<HealthComponent>();
+            Debug.Log(damageData.damageAmount);
             if (healthComponent)
                 healthComponent.TakeDamage(damageData);
         }

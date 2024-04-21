@@ -3,13 +3,15 @@ using UnityEngine;
 public class MeleeAttackState : AttackState
 {
     protected D_MeleeAttackState stateData;
+    protected GameObject meleeAttackDamageHitBox;
 
     protected Combat Combat => combat ? combat : core.GetCoreComponent(ref combat);
     protected Combat combat;
 
-    public MeleeAttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition, D_MeleeAttackState stateData) : base(enemy, stateMachine, animBoolName, attackPosition)
+    public MeleeAttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, GameObject meleeAttackDamageHitBox, D_MeleeAttackState stateData) : base(enemy, stateMachine, animBoolName)
     {
         this.stateData = stateData;
+        this.meleeAttackDamageHitBox = meleeAttackDamageHitBox;
     }
 
     public override void Enter()
@@ -29,26 +31,19 @@ public class MeleeAttackState : AttackState
         base.TriggerAttack();
         Combat.IsInTriggeredParriedAnimationFrames = false;
 
-        InstantiateSFXPrefab();
+        if (meleeAttackDamageHitBox)
+            meleeAttackDamageHitBox.SetActive(true);
 
-        // Check if damageable is within circle.
-        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackPosition.position, stateData.damageData.damageRadius);
-        foreach (Collider2D collider in detectedObjects)
-        {
-            IDamageable damageable = collider.GetComponentInChildren<IDamageable>();
-            if (damageable != null) 
-            {
-                Types.DamageData damageData = stateData.damageData;
-                damageData.source = enemy.gameObject;
-                damageData.target = collider.gameObject;
-                damageable.TakeDamage(damageData);
-            }
-        }
+        InstantiateSFXPrefab();
     }
 
     public override void FinishAttack()
     {
         base.FinishAttack();
+
+        if (meleeAttackDamageHitBox)
+            meleeAttackDamageHitBox.SetActive(false);
+
         Combat.IsInTriggeredParriedAnimationFrames = false;
     }
 

@@ -16,7 +16,7 @@ public static class Types
         public GameObject source, target;
         public bool ranged, canBeParried, canBeBlocked;
         public int damageAmount;
-        public float damageRadius, stunDamageAmount, knockbackStrength;
+        public float stunDamageAmount, knockbackStrength;
         public Vector2 knockbackAngle, direction;
         public GameObject sfxPrefab;
     }

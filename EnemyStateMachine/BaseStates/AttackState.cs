@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class AttackState : State
 {
-    protected Transform attackPosition;
     protected bool isAnimationFinished;
     protected bool isPlayerInMinAggroRange;
     protected float lastAttackTime;
@@ -10,10 +9,7 @@ public class AttackState : State
     protected Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
     protected Movement movement;
 
-    public AttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackPosition) : base(enemy, stateMachine, animBoolName)
-    {
-        this.attackPosition = attackPosition;
-    }
+    public AttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName) : base(enemy, stateMachine, animBoolName) {}
 
     public override void Enter()
     {

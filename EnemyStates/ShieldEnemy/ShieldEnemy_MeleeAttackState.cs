@@ -4,8 +4,8 @@ public class ShieldEnemy_MeleeAttackState : MeleeAttackState
 {
     private ShieldEnemy shieldEnemy;
 
-    public ShieldEnemy_MeleeAttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, Transform attackImpactPosition, D_MeleeAttackState stateData, ShieldEnemy shieldEnemy)
-        : base(enemy, stateMachine, animBoolName, attackImpactPosition, stateData)
+    public ShieldEnemy_MeleeAttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, GameObject meleeAttackDamageHitBox, D_MeleeAttackState stateData, ShieldEnemy shieldEnemy)
+        : base(enemy, stateMachine, animBoolName, meleeAttackDamageHitBox, stateData)
     {
         this.shieldEnemy = shieldEnemy;
     }

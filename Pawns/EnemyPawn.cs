@@ -12,6 +12,7 @@ public class EnemyPawn : PawnBase, IParriable
     public bool InitialFacing { get; protected set; }
 
     [SerializeField] protected Transform playerCheck;
+    [SerializeField] protected GameObject meleeAttackDamageHitBox;
 
     public AIVisionComponent AIVision => aiVision ? aiVision : Core.GetCoreComponent(ref aiVision);
     protected AIVisionComponent aiVision;

@@ -25,7 +25,7 @@ public class ShieldEnemy : EnemyPawn
         base.Start();
         DeadState = new DeadState(this, StateMachine, AnimationConstants.ANIM_PARAM_DEAD, deadStateData);
         IdleState = new ShieldEnemy_IdleState(this, StateMachine, AnimationConstants.ANIM_PARAM_IDLE, idleStateData, this);
-        MeleeAttackState = new ShieldEnemy_MeleeAttackState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK, meleeAttackImpactPosition, meleeAttackStateData, this);
+        MeleeAttackState = new ShieldEnemy_MeleeAttackState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK, meleeAttackDamageHitBox, meleeAttackStateData, this);
         MoveState = new ShieldEnemy_MoveState(this, StateMachine, AnimationConstants.ANIM_PARAM_MOVE, moveStateData, this);
         PlayerDetectedState = new ShieldEnemy_PlayerDetectedState(this, StateMachine, AnimationConstants.ANIM_PARAM_PLAYER_DETECTED, playerDetectedStateData, this);
         ShieldState = new ShieldEnemy_ShieldState(this, StateMachine, AnimationConstants.ANIM_PARAM_SHIELD, blockStateData, this);
