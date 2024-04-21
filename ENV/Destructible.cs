@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Destructible : MonoBehaviour, IDamageable
 {
-    [SerializeField] protected int health = 1;
+    [SerializeField] protected int durability = 1;
     [SerializeField] private GameObject destroyedSFXPrefab; // The particle system for when the destructible is destroyed.
     [SerializeField] private string destroyedAnimName;
     [SerializeField] private AudioSource onHitSound;
@@ -21,15 +21,15 @@ public class Destructible : MonoBehaviour, IDamageable
             {
                 onHitSound.Play();
             }
-            health--;
-            if (health == 0)
+            durability--;
+            if (durability == 0)
                 DestroySelf();
         }
     }
 
-    public int GetHealth()
+    public int GetDurability()
     {
-        return health;
+        return durability;
     }
 
     //==================== PROTECTED ====================//

@@ -14,7 +14,7 @@ public class EnvironmentInteract : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (GetComponent<Destructible>() != null && GetComponent<Destructible>().GetHealth() > 0)
+        if (GetComponent<Destructible>() != null && GetComponent<Destructible>().GetDurability() > 0)
         {
             if (collision.gameObject.GetComponent<PawnBase>())
             {

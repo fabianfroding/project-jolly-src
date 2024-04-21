@@ -25,8 +25,6 @@ public class HealthComponent : CoreComponent, IDamageable
     private Combat combat;
     private Movement Movement => Movement ? movement : core.GetCoreComponent(ref movement);
     private Movement movement;
-    protected ParticleManager ParticleManager => particleManager ? particleManager : core.GetCoreComponent(ref particleManager);
-    protected ParticleManager particleManager;
 
     public event Action<int> OnHealthChange;
     public event Action<int> OnMaxHealthChanged;
@@ -139,11 +137,6 @@ public class HealthComponent : CoreComponent, IDamageable
 
     protected virtual void InstantiateTakeDamageVisuals()
     {
-        if (ParticleManager && damagedParticles)
-        {
-            ParticleManager.StartParticlesWithRandomRotation(damagedParticles);
-        }
-
         if (damagedSFX)
         {
             GameObject damagedSFXInstance = Instantiate(damagedSFX);

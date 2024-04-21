@@ -11,7 +11,7 @@ public class Destructible_TreeBridgeFall : Destructible
     {
         base.TakeDamage();
         // Create leaf particles on damage.
-        if (health > 0)
+        if (durability > 0)
         for (int i = 0; i < leafSFXPosition.Length; i++)
         {
             int numLeaves = Random.Range(1, 3);
