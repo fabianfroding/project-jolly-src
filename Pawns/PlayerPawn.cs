@@ -212,10 +212,9 @@ public class PlayerPawn : PawnBase
         }
     }
 
-    protected override void Death()
+    public override void Death()
     {
         base.Death();
-        Debug.Log("Death");
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY));
     }
 

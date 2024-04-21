@@ -128,7 +128,7 @@ public class EnemyPawn : PawnBase, IParriable
         return Physics2D.Raycast(originPos, direction, range, enemyData.groundLayer);
     }
 
-    protected override void Death()
+    public override void Death()
     {
         AddToKilledEnemies();
 

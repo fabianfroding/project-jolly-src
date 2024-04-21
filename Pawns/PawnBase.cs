@@ -31,7 +31,7 @@ public class PawnBase : MonoBehaviour
             Core.LogicUpdate();
     }
 
-    protected virtual void Death() {}
+    public virtual void Death() {}
 
     public virtual void Revive() {}
 

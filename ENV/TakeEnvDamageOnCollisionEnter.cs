@@ -11,19 +11,20 @@ public class TakeEnvDamageOnCollisionEnter : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Instantly kill enemies.
-        if (collision.gameObject.GetComponent<EnemyPawn>())
-        {
-            Death death = collision.gameObject.GetComponentInChildren<Death>();
-            if (death)
-            {
-                death.Die();
-                return;
-            }
-        }
+        PawnBase pawnBase = collision.gameObject.GetComponent<PawnBase>();
+        if (!pawnBase)
+            return;
 
-        damageData.target = collision.gameObject;
-        IDamageable damageable = collision.gameObject.GetComponentInChildren<IDamageable>();
-        damageable?.TakeDamage(damageData);
+        HealthComponent healthComponent = pawnBase.HealthComponent;
+        if (!healthComponent)
+            return;
+
+        damageData.target = pawnBase.gameObject;
+
+        EnemyPawn enemyPawn = (EnemyPawn)pawnBase;
+        if (enemyPawn)
+            healthComponent.Kill();
+        else
+            healthComponent.TakeDamage(damageData);
     }
 }

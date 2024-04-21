@@ -37,11 +37,13 @@ public class DeadState : State
 
     private void InstantiateDeathSound()
     {
-        if (stateData.deathSoundPrefab != null)
+        if (stateData.deathSoundPrefab)
         {
             GameObject deathSound = GameObject.Instantiate(stateData.deathSoundPrefab, enemy.transform.position, Quaternion.identity);
             deathSound.transform.parent = null;
-            GameObject.Destroy(deathSound, deathSound.GetComponent<AudioSource>() != null ? deathSound.GetComponent<AudioSource>().clip.length : 0f);
+            AudioSource audioSource = deathSound.GetComponent<AudioSource>();
+            if (audioSource && audioSource.clip)
+                GameObject.Destroy(deathSound, audioSource ? audioSource.clip.length : 0f);
         }
     }
 

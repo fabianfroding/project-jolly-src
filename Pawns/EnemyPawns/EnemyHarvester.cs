@@ -71,7 +71,7 @@ public class EnemyHarvester : EnemyPawn
         }
     }*/
 
-    protected override void Death()
+    public override void Death()
     {
         base.Death();
         StateMachine.ChangeState(DeadState);

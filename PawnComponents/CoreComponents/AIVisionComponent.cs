@@ -74,14 +74,9 @@ public class AIVisionComponent : CoreComponent
             return;
         }
 
-        Debug.Log("Facing dir: " + Movement.FacingDirection);
-        Debug.Log("X: " + transform.position.x);
-        Debug.Log("target X: " + TargetPlayerPawn.transform.position.x);
-
         if ((Movement.FacingDirection > 0 && TargetPlayerPawn.transform.position.x < transform.position.x) ||
             (Movement.FacingDirection < 0 && TargetPlayerPawn.transform.position.x > transform.position.x))
         {
-            Debug.Log("Flip");
             Movement.Flip();
         }
     }

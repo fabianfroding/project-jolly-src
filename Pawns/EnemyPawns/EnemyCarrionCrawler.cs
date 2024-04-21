@@ -17,7 +17,7 @@ public class EnemyCarrionCrawler : EnemyPawn
         StateMachine.Initialize(MoveState);
     }
 
-    protected override void Death()
+    public override void Death()
     {
         base.Death();
         StateMachine.ChangeState(DeadState);

@@ -35,7 +35,7 @@ public class ShieldEnemy : EnemyPawn
         StateMachine.Initialize(IdleState);
     }
 
-    protected override void Death()
+    public override void Death()
     {
         base.Death();
         StateMachine.ChangeState(DeadState);

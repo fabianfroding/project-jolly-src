@@ -37,7 +37,7 @@ public class EnemyPlaguetooth : EnemyPawn
         Gizmos.DrawWireSphere(meleeAttackPosition.position, meleeAttackStateData.damageData.damageRadius);
     }
 
-    protected override void Death()
+    public override void Death()
     {
         base.Death();
         StateMachine.ChangeState(DeadState);

@@ -99,9 +99,14 @@ public class HealthComponent : CoreComponent, IDamageable
     {
         CurrentHealth = Mathf.Max(0, CurrentHealth - damageAmount);
         if (IsAlive())
+        {
             OnHealthChange?.Invoke(CurrentHealth);
+        }
         else
+        {
             OnHealthDepleted?.Invoke();
+            componentOwner.Death();
+        }
 
         if (invulnerabilityIndication)
             invulnerabilityIndication.StartFlash();
@@ -125,6 +130,8 @@ public class HealthComponent : CoreComponent, IDamageable
         maxHealth = Mathf.Max(1, value);
         OnMaxHealthChanged?.Invoke(maxHealth);
     }
+
+    public void Kill() => DecreaseHealth(maxHealth);
 
     public void SetInvulnerable(bool newInvulnerable)
     {
