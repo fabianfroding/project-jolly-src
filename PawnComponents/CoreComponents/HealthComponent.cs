@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class HealthComponent : CoreComponent, IDamageable
@@ -16,10 +15,11 @@ public class HealthComponent : CoreComponent, IDamageable
     private bool invulnerable = false; // TODO: This can be made into a Dictionary if there are multiple invulnerability-granting sources.
     private InvulnerabilityIndication invulnerabilityIndication;
 
-    private Material matDefault;
-    private Material matWhite;
     private SpriteRenderer spriteRenderer;
-    private readonly float takeDamageMaterialDuration = 0.1f;
+    private Material defaultSpriteMaterial;
+    private Material whiteSpriteMaterial;
+    private float whiteFlashStartTime = -1f;
+    private readonly float whiteFlashDuration = 0.1f;
 
     private Combat Combat => combat ? combat : core.GetCoreComponent(ref combat);
     private Combat combat;
@@ -36,23 +36,27 @@ public class HealthComponent : CoreComponent, IDamageable
     protected override void Awake()
     {
         base.Awake();
-        matWhite = Resources.Load(EditorConstants.RESOURCE_WHITE_FLASH, typeof(Material)) as Material;
+        whiteSpriteMaterial = Resources.Load(EditorConstants.RESOURCE_WHITE_FLASH, typeof(Material)) as Material;
     }
 
     protected override void Start()
     {
         invulnerabilityIndication = GetComponent<InvulnerabilityIndication>();
-        spriteRenderer = componentOwner.spriteRenderer;
-        matDefault = spriteRenderer.material;
+        spriteRenderer = componentOwner.SpriteRenderer;
+        defaultSpriteMaterial = spriteRenderer.material;
 
         OnMaxHealthChanged?.Invoke(maxHealth);
         SetHealth(maxHealth);
     }
 
-    private IEnumerator ResetDefaultMaterial()
+    public override void LogicUpdate()
     {
-        yield return new WaitForSeconds(takeDamageMaterialDuration);
-        spriteRenderer.material = matDefault;
+        base.LogicUpdate();
+        if (whiteFlashStartTime > -1f && spriteRenderer && Time.time > whiteFlashStartTime + whiteFlashDuration)
+        {
+            whiteFlashStartTime = -1f;
+            spriteRenderer.material = defaultSpriteMaterial;
+        }
     }
 
     public bool IsAlive() => CurrentHealth > 0;
@@ -79,9 +83,8 @@ public class HealthComponent : CoreComponent, IDamageable
 
         if (isActiveAndEnabled)
         {
-            spriteRenderer.material = matWhite;
-            StopCoroutine(ResetDefaultMaterial());
-            StartCoroutine(ResetDefaultMaterial());
+            spriteRenderer.material = whiteSpriteMaterial;
+            whiteFlashStartTime = Time.time;
         }
 
         OnDamageTaken?.Invoke(damageData);
