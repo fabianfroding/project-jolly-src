@@ -24,25 +24,17 @@ public class DamageHitBox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        HealthComponent healthComponent;
+        IDamageable damageable = collision.GetComponentInChildren<IDamageable>();
+        if (damageable == null)
+            return;
+
         damageData.target = collision.gameObject;
 
-        EnemyPawn collidingEnemyPawn = collision.GetComponent<EnemyPawn>();
-        if (owningPlayerPawn && collidingEnemyPawn)
-        {
-            healthComponent = collidingEnemyPawn.GetComponentInChildren<HealthComponent>();
-            if (healthComponent)
-                healthComponent.TakeDamage(damageData);
+        if (owningPlayerPawn && collision.GetComponent<PlayerPawn>())
             return;
-        }
+        if (owningEnemyPawn && collision.GetComponent<EnemyPawn>())
+            return;
 
-        PlayerPawn collidingPlayerPawn = collision.GetComponent<PlayerPawn>();
-        if (owningEnemyPawn && collidingPlayerPawn)
-        {
-            healthComponent = collidingPlayerPawn.GetComponentInChildren<HealthComponent>();
-            Debug.Log(damageData.damageAmount);
-            if (healthComponent)
-                healthComponent.TakeDamage(damageData);
-        }
+        damageable.TakeDamage(damageData);
     }
 }

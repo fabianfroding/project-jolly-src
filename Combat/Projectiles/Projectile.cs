@@ -96,7 +96,6 @@ public class Projectile : MonoBehaviour
             {
                 damageData.source = Source;
                 damageData.target = other;
-                //pawn.TakeDamage(damageData);
             }
 
             IDamageable damageable = other.GetComponentInChildren<IDamageable>();
