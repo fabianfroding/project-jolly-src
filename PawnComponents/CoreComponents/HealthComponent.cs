@@ -98,11 +98,8 @@ public class HealthComponent : CoreComponent, IDamageable
     public void DecreaseHealth(int damageAmount)
     {
         CurrentHealth = Mathf.Max(0, CurrentHealth - damageAmount);
-        if (IsAlive())
-        {
-            OnHealthChange?.Invoke(CurrentHealth);
-        }
-        else
+        OnHealthChange?.Invoke(CurrentHealth);
+        if (!IsAlive())
         {
             OnHealthDepleted?.Invoke();
             componentOwner.Death();

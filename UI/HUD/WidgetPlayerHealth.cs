@@ -19,6 +19,8 @@ public class WidgetPlayerHealth : MonoBehaviour
         {
             owningPlayer.HealthComponent.OnMaxHealthChanged += OnPlayerMaxHealthChanged;
             owningPlayer.HealthComponent.OnHealthChange += OnPlayerHealthChanged;
+            OnPlayerMaxHealthChanged(owningPlayer.HealthComponent.GetMaxHealth());
+            OnPlayerHealthChanged(owningPlayer.HealthComponent.CurrentHealth);
         }
         else
         {
@@ -65,8 +67,10 @@ public class WidgetPlayerHealth : MonoBehaviour
     {
         for (int i = 1; i <= value; i++)
         {
-            if (i >= widgetPlayerHealthIcons.Count)
+            if (i >= widgetPlayerHealthIcons.Count + 1)
+            {
                 widgetPlayerHealthIcons.Add(Instantiate(widgetPlayerHealthIconPrefab, transform));
+            }
         }
     }
 }
