@@ -11,9 +11,7 @@ public class EnemyDreadripper_PlayerDetectedState : PlayerDetectedState
     {
         base.LogicUpdate();
 
-        if (enemy.Target != null)
-        {
+        if (enemy.AIVision.TargetPlayerPawn)
             stateMachine.ChangeState(dreadripper.MoveState);
-        }
     }
 }

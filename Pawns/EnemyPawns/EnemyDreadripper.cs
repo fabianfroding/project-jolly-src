@@ -26,7 +26,7 @@ public class EnemyDreadripper : EnemyPawn
     private void PlayIdleSound()
     {
         // Only play idle sound if the enemy has no target.
-        if (Target == null && GameFunctionLibrary.IsGameObjectInCameraView(gameObject))
+        if (AIVision.TargetPlayerPawn == null && GameFunctionLibrary.IsGameObjectInCameraView(gameObject))
         {
             // Check so that any idle sound is not already playing.
             for (int i = 0; i < idleSound.Length; i++)

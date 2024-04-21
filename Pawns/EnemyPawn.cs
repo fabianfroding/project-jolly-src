@@ -1,19 +1,20 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyPawn : PawnBase, IParriable
 {
     public D_Enemy enemyData;
-    public FiniteStateMachine StateMachine { get; protected set; }
+
     public AnimationToStateMachine ATSM { get; protected set; }
+    public Collider2D EnemyCollider { get; protected set; }
+    public FiniteStateMachine StateMachine { get; protected set; }
+
     public Vector3 InitialPosition { get; protected set; }
     public bool InitialFacing { get; protected set; }
-    public int LastDamageDirection { get; protected set; }
-    public GameObject Target { get; protected set; }
-    public FieldOfView FoV { get; protected set; }
 
     [SerializeField] protected Transform playerCheck;
 
+    public AIVisionComponent AIVision => aiVision ? aiVision : Core.GetCoreComponent(ref aiVision);
+    protected AIVisionComponent aiVision;
     protected CollisionSenses CollisionSenses => collisionSenses ? collisionSenses : Core.GetCoreComponent(ref collisionSenses);
     protected CollisionSenses collisionSenses;
 
@@ -22,7 +23,7 @@ public class EnemyPawn : PawnBase, IParriable
     {
         base.Awake();
         ATSM = GetComponent<AnimationToStateMachine>();
-        FoV = GetComponent<FieldOfView>();
+        EnemyCollider = GetComponent<Collider2D>();
         StateMachine = new FiniteStateMachine();
 
         // Prevent enemy from colliding with NPCs.
@@ -48,17 +49,12 @@ public class EnemyPawn : PawnBase, IParriable
 
         // Everytime Update is called on the Enemy, we call the LogicUpdate on the state.
         StateMachine.currentState?.LogicUpdate();
-
-        CheckFOVTarget();
         Combat.CheckStunRecoveryTime();
     }
 
     protected virtual void FixedUpdate()
     {
-        if (StateMachine.currentState != null)
-        {
-            StateMachine.currentState.PhysicsUpdate();
-        }
+        StateMachine.currentState?.PhysicsUpdate();
     }
 
     protected virtual void OnDrawGizmos()
@@ -78,7 +74,6 @@ public class EnemyPawn : PawnBase, IParriable
     }
     #endregion
 
-    #region Check Functions
     public virtual bool CheckPlayerInCloseRangeAction()
     {
         if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.closeRangeActionDistance))
@@ -105,9 +100,9 @@ public class EnemyPawn : PawnBase, IParriable
             return false;
         }
 
-        if (FoV != null && FoV.Target != null)
+        if (AIVision && AIVision.TargetPlayerPawn)
         {
-            return Vector3.Distance(playerCheck.position, FoV.Target.transform.position) < enemyData.minAggroDistance;
+            return Vector3.Distance(playerCheck.position, AIVision.TargetPlayerPawn.transform.position) < enemyData.minAggroDistance;
         }
 
         return false;
@@ -120,9 +115,9 @@ public class EnemyPawn : PawnBase, IParriable
             return false;
         }
 
-        if (FoV != null && FoV.Target != null)
+        if (AIVision && AIVision.TargetPlayerPawn)
         {
-            return Vector3.Distance(playerCheck.position, FoV.Target.transform.position) < enemyData.maxAggroDistance;
+            return Vector3.Distance(playerCheck.position, AIVision.TargetPlayerPawn.transform.position) < enemyData.maxAggroDistance;
         }
 
         return false;
@@ -133,41 +128,12 @@ public class EnemyPawn : PawnBase, IParriable
         return Physics2D.Raycast(originPos, direction, range, enemyData.groundLayer);
     }
 
-    protected void CheckFOVTarget()
-    {
-        if (FoV != null)
-        {
-            if (enemyData.targetLockDuration > 0.0f && Target == null)
-            {
-                Target = FoV.Target;
-                if (Target != null)
-                {
-                    StopCoroutine(ResetTargetDelayed());
-                    StartCoroutine(ResetTargetDelayed());
-                }
-            }
-            else if (enemyData.targetLockDuration == 0.0f)
-            {
-                Target = FoV.Target;
-            }
-        }
-    }
-    #endregion
-
-    #region Other Functions
     protected override void Death()
     {
         AddToKilledEnemies();
 
         base.Death();
         gameObject.SetActive(false);
-    }
-
-    public void ResetTarget() => Target = null;
-    protected virtual IEnumerator ResetTargetDelayed()
-    {
-        yield return new WaitForSeconds(enemyData.targetLockDuration);
-        Target = null;
     }
 
     protected virtual bool CanBeParried(Types.DamageData damageData) 
@@ -200,7 +166,4 @@ public class EnemyPawn : PawnBase, IParriable
             }
         }
     }
-
-    public virtual void TriggerBehaviour(GameObject triggeringObject) { }
-    #endregion
 }

@@ -10,9 +10,7 @@ public class EnemyDreadripper_IdleState : FlyingIdleState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (enemy.Target != null)
-        {
+        if (enemy.AIVision.TargetPlayerPawn)
             stateMachine.ChangeState(dreadripper.PlayerDetectedState);
-        }
     }
 }

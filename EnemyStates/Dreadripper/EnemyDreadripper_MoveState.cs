@@ -13,20 +13,20 @@ public class EnemyDreadripper_MoveState : FlyingMoveState
     {
         base.LogicUpdate();
 
-        if (enemy.Target != null)
+        if (enemy.AIVision.TargetPlayerPawn)
         {
-            HealthComponent targetStats = enemy.Target.GetComponentInChildren<HealthComponent>();
+            HealthComponent targetStats = enemy.AIVision.TargetPlayerPawn.HealthComponent;
             if (targetStats != null && targetStats.IsAlive())
             {
-                if (isDetectingWall || isDetectingWallUp || isDetectingWallDown) enemy.ResetTarget();
+                if (isDetectingWall || isDetectingWallUp || isDetectingWallDown) enemy.AIVision.ResetTarget();
                 else
                 {
-                    Vector2 dirToPlayer = (enemy.Target.transform.position - enemy.transform.position).normalized;
+                    Vector2 dirToPlayer = (enemy.AIVision.TargetPlayerPawn.transform.position - enemy.transform.position).normalized;
                     Movement.SetVelocity(stateData.movementSpeed, dirToPlayer);
                 }
             }
         }
-        else if (enemy.Target == null)
+        else if (!enemy.AIVision.TargetPlayerPawn)
         {
             if (!IsAtInitialPosition())
             {

@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class PawnBase : MonoBehaviour
 {
-    public PawnCore Core { get; protected set; }
     public Animator Animator { get; private set; }
-
+    public PawnCore Core { get; protected set; }
     public SpriteRenderer SpriteRenderer { get; protected set; }
 
     protected Combat Combat => combat ? combat : Core.GetCoreComponent(ref combat);

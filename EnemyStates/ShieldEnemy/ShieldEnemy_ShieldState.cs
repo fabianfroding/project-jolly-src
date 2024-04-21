@@ -3,13 +3,14 @@ using UnityEngine;
 public class ShieldEnemy_ShieldState : BlockState
 {
     private readonly ShieldEnemy shieldEnemy;
-    private FieldOfView fov;
+
+    private AIVisionComponent AIVision => aiVision ? aiVision : core.GetCoreComponent(ref aiVision);
+    private AIVisionComponent aiVision;
 
     public ShieldEnemy_ShieldState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_BlockState stateData, ShieldEnemy shieldEnemy)
         : base(enemy, stateMachine, animBoolName, stateData)
     {
         this.shieldEnemy = shieldEnemy;
-        fov = enemy.GetComponent<FieldOfView>();
     }
 
     public override void Enter()
@@ -28,7 +29,7 @@ public class ShieldEnemy_ShieldState : BlockState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if ((isPlayerInMinAggroRange || (fov && fov.Target)))
+        if ((isPlayerInMinAggroRange || (AIVision && AIVision.TargetPlayerPawn)))
         {
             if (isPlayerInMinAggroRange && !Combat.useAltBlockData && shieldEnemy.MeleeAttackState.IsMeleeAttackReady() && Time.time >= StartTime + 1f)
             {
@@ -36,9 +37,9 @@ public class ShieldEnemy_ShieldState : BlockState
             }
             else
             {
-                if (fov && fov.Target)
+                if (AIVision && AIVision.TargetPlayerPawn)
                 {
-                    Vector2 direction = (fov.Target.transform.position - enemy.transform.position).normalized;
+                    Vector2 direction = (AIVision.TargetPlayerPawn.transform.position - enemy.transform.position).normalized;
                     int yDir = Mathf.RoundToInt(direction.y);
                     Combat.useAltBlockData = yDir > 0;
                     enemy.Animator.SetFloat(AnimationConstants.ANIM_PARAM_SHIELD_DIR, yDir);

@@ -21,10 +21,6 @@ public class EnemyMasterHarvester : EnemyPawn
     }
 
     //==================== PUBLIC ====================//
-    public override void TriggerBehaviour(GameObject triggeringObject)
-    {
-        //SetTarget(triggeringObject);
-    }
 
     /*public override void TakeDamage(Types.DamageData damageData)
     {

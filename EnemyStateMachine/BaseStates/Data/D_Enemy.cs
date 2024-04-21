@@ -20,10 +20,6 @@ public class D_Enemy : ScriptableObject
     public float closeRangeActionDistance = 1f;
     public float longRangeActionDistance = 5f;
 
-    [Tooltip("How long the enemy should keep it's target even after it is outside of the detection range." +
-        "Setting the value to 0 means that it will reset directly upon leaving the detection range.")]
-    public float targetLockDuration;
-
     public LayerMask groundLayer;
     public LayerMask playerLayer;
 
