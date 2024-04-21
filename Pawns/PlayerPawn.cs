@@ -94,6 +94,8 @@ public class PlayerPawn : PawnBase
 
         InputHandler = GetComponent<PlayerInputHandler>();
 
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
+
         DaytimeManager.OnDaytimeTick += UpdateDaytimeVisibility;
 
         OnPlayerAwake?.Invoke(this);
