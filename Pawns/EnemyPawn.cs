@@ -40,8 +40,6 @@ public class EnemyPawn : PawnBase, IParriable
 
         InitialPosition = transform.position;
         InitialFacing = Core.GetCoreComponent<Movement>().FacingDirection == 1;
-
-        CheckRespawn();
     }
 
     protected override void Update()
@@ -131,8 +129,6 @@ public class EnemyPawn : PawnBase, IParriable
 
     public override void Death()
     {
-        AddToKilledEnemies();
-
         base.Death();
         gameObject.SetActive(false);
     }
@@ -144,27 +140,4 @@ public class EnemyPawn : PawnBase, IParriable
 
     public virtual void Parried() {} // Interface implementation.
 
-    protected void AddToKilledEnemies()
-    {
-        if (enemyData.enemyRespawnType == D_Enemy.EnemyRespawnType.NEVER)
-        {
-            EnemyRepository.AddToKilledEnemies(gameObject.name, true);
-        }
-        else if (enemyData.enemyRespawnType == D_Enemy.EnemyRespawnType.ON_SAVE)
-        {
-            EnemyRepository.AddToKilledEnemies(gameObject.name, false);
-        }
-    }
-
-    protected void CheckRespawn()
-    {
-        if (EnemyRepository.HasBeenKilled(gameObject.name))
-        {
-            if (enemyData.enemyRespawnType == D_Enemy.EnemyRespawnType.NEVER ||
-                enemyData.enemyRespawnType == D_Enemy.EnemyRespawnType.ON_SAVE)
-            {
-                Destroy(gameObject);
-            }
-        }
-    }
 }

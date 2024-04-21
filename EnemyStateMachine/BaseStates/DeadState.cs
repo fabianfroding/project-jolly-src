@@ -62,8 +62,7 @@ public class DeadState : State
     {
         if (stateData.currencyDropPrefab != null)
         {
-            ShinyEnemyRandomizer shinyRandomizer = enemy.GetComponent<ShinyEnemyRandomizer>();
-            int drops = shinyRandomizer != null && shinyRandomizer.IsShiny ? Random.Range(4, 6) : Random.Range(1, 3);
+            int drops = Random.Range(1, 3);
             for (int i = 0; i < drops; i++)
             {
                 GameObject currencyDrop = GameObject.Instantiate(stateData.currencyDropPrefab);

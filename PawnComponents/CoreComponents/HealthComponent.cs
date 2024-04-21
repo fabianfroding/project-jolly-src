@@ -13,7 +13,6 @@ public class HealthComponent : CoreComponent, IDamageable
     public int CurrentHealth { get; private set; }
 
     private bool invulnerable = false; // TODO: This can be made into a Dictionary if there are multiple invulnerability-granting sources.
-    private InvulnerabilityIndication invulnerabilityIndication;
 
     private SpriteRenderer spriteRenderer;
     private Material defaultSpriteMaterial;
@@ -39,7 +38,6 @@ public class HealthComponent : CoreComponent, IDamageable
 
     protected override void Start()
     {
-        invulnerabilityIndication = GetComponent<InvulnerabilityIndication>();
         spriteRenderer = componentOwner.SpriteRenderer;
         defaultSpriteMaterial = spriteRenderer.material;
 
@@ -102,9 +100,6 @@ public class HealthComponent : CoreComponent, IDamageable
             OnHealthDepleted?.Invoke();
             componentOwner.Death();
         }
-
-        if (invulnerabilityIndication)
-            invulnerabilityIndication.StartFlash();
     }
 
     public void IncreaseHealth(int amount)
@@ -128,12 +123,7 @@ public class HealthComponent : CoreComponent, IDamageable
 
     public void Kill() => DecreaseHealth(maxHealth);
 
-    public void SetInvulnerable(bool newInvulnerable)
-    {
-        invulnerable = newInvulnerable;
-        if (!invulnerable && invulnerabilityIndication)
-            invulnerabilityIndication.EndFlash();
-    }
+    public void SetInvulnerable(bool newInvulnerable) => invulnerable = newInvulnerable;
 
     protected virtual void InstantiateTakeDamageVisuals()
     {

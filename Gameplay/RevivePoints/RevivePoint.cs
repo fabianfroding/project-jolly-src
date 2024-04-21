@@ -80,7 +80,6 @@ public class RevivePoint : MonoBehaviour, IDamageable
         healthComponent.IncreaseHealth(healthComponent.GetMaxHealth());
 
         OnRevivePointSave?.Invoke();
-        EnemyRepository.ResetKilledEnemies();
 
         Activate(true);
     }

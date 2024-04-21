@@ -1,12 +1,13 @@
 using UnityEngine;
 
-public class TakeEnvDamageOnCollisionEnter : MonoBehaviour
+public class KillZone : MonoBehaviour
 {
     [SerializeField] private Types.DamageData damageData;
 
     private void Awake()
     {
         damageData.source = gameObject;
+        damageData.isKillZone = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

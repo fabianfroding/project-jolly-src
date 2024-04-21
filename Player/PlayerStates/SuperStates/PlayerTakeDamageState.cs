@@ -48,7 +48,10 @@ public class PlayerTakeDamageState : PlayerState
         if (Time.unscaledTime > startTime + playerStateData.takeDamageDuration)
         {
             if (HealthComponent)
+            {
                 HealthComponent.SetInvulnerable(false);
+                player.StopInvulnerabilityFlash();
+            }
             stateMachine.ChangeState(player.InAirState);
         }
     }

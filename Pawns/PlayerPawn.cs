@@ -56,6 +56,7 @@ public class PlayerPawn : PawnBase
 
     public Light2D light2D;
     public IInteractable currentInteractionTarget;
+    private PlayerInvulnerabilityIndicator playerInvulnerabilityIndicator;
 
     private float cachedDawnMid;
     private float cachedDuskMid;
@@ -93,8 +94,9 @@ public class PlayerPawn : PawnBase
         InteractState = new PlayerInteractState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
 
         InputHandler = GetComponent<PlayerInputHandler>();
+        playerInvulnerabilityIndicator = GetComponent<PlayerInvulnerabilityIndicator>();
 
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
+    Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
 
         DaytimeManager.OnDaytimeTick += UpdateDaytimeVisibility;
 
@@ -192,6 +194,8 @@ public class PlayerPawn : PawnBase
         if (HealthComponent.IsAlive() && StateMachine.CurrentState != TakeDamageState && !HealthComponent.IsInvulnerable())
         {
             HealthComponent.SetInvulnerable(true);
+            if (playerInvulnerabilityIndicator)
+                playerInvulnerabilityIndicator.StartFlash();
 
             // Check so that player is not dead to avoid respawning when reviving.
             if (HealthComponent.IsAlive())
@@ -307,6 +311,12 @@ public class PlayerPawn : PawnBase
                 light2D.color = (timeOfDay < dawnStart || timeOfDay >= duskEnd) ? playerNighttimeLightColor : playerDaytimeLightColor;
             }
         }
+    }
+
+    public void StopInvulnerabilityFlash()
+    {
+        if (playerInvulnerabilityIndicator)
+            playerInvulnerabilityIndicator.EndFlash();
     }
 
     public void ToggleLockState()
