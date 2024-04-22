@@ -4,6 +4,9 @@ public class PlayerDeadState : PlayerState
 {
     private bool hasRevivedPlayer = false;
 
+    private HealthComponent HealthComponent { get => healthComponent != null ? healthComponent : core.GetCoreComponent(ref healthComponent); }
+    private HealthComponent healthComponent;
+
     private Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     private Movement movement;
 
@@ -17,6 +20,8 @@ public class PlayerDeadState : PlayerState
         SpriteRenderer playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
         if (playerSpriteRenderer)
             playerSpriteRenderer.enabled = false;
+
+        HealthComponent.SetInvulnerable(true);
     }
 
     public override void Exit()
@@ -24,6 +29,9 @@ public class PlayerDeadState : PlayerState
         SpriteRenderer playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
         if (playerSpriteRenderer)
             playerSpriteRenderer.enabled = true;
+
+        HealthComponent.SetInvulnerable(false);
+
         base.Exit();
     }
 

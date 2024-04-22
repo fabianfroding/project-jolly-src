@@ -127,6 +127,13 @@ public class EnemyPawn : PawnBase, IParriable
         return Physics2D.Raycast(originPos, direction, range, enemyData.groundLayer);
     }
 
+    public override void TakeDamage(Types.DamageData damageData)
+    {
+        base.TakeDamage(damageData);
+        if (HealthComponent.IsAlive() && damageData.isKillZone)
+            HealthComponent.Kill();
+    }
+
     public override void Death()
     {
         base.Death();

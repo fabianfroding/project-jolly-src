@@ -27,6 +27,8 @@ public class PlayerTakeDamageState : PlayerState
             preTakeDamageGravityScale = rigidBody2D.gravityScale;
             rigidBody2D.gravityScale = 0f;
         }
+
+        HealthComponent.SetInvulnerable(true);
     }
 
     public override void Exit()
@@ -36,6 +38,8 @@ public class PlayerTakeDamageState : PlayerState
         Rigidbody2D rigidBody2D = player.GetComponent<Rigidbody2D>();
         if (rigidBody2D)
             rigidBody2D.gravityScale = preTakeDamageGravityScale;
+
+        HealthComponent.SetInvulnerable(false);
 
         base.Exit();
     }

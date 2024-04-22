@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class HealthComponent : CoreComponent, IDamageable
+public class HealthComponent : CoreComponent
 {
     [SerializeField] protected int maxHealth;
 
@@ -27,7 +27,6 @@ public class HealthComponent : CoreComponent, IDamageable
 
     public event Action<int> OnHealthChange;
     public event Action<int> OnMaxHealthChanged;
-    public event Action<Types.DamageData> OnDamageTaken;
     public event Action OnHealthDepleted;
 
     protected override void Awake()
@@ -83,7 +82,6 @@ public class HealthComponent : CoreComponent, IDamageable
             whiteFlashStartTime = Time.time;
         }
 
-        OnDamageTaken?.Invoke(damageData);
         PawnBase source = damageData.source.GetComponent<PawnBase>();
         if (source)
             source.BroadcastOnDealtDamage();

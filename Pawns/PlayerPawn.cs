@@ -6,10 +6,13 @@ public class PlayerPawn : PawnBase
 {
     #region State Variables
     public PlayerStateMachine StateMachine { get; private set; }
-    public PlayerIdleState IdleState { get; private set; }
-    public PlayerMoveState MoveState { get; private set; }
-    public PlayerJumpState JumpState { get; private set; }
+
     public PlayerDoubleJumpState DoubleJumpState { get; private set; }
+    public PlayerIdleState IdleState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerMoveState MoveState { get; private set; }
+    public PlayerRespawnState RespawnState { get; private set; }
+
     public PlayerInAirState InAirState { get; private set; }
     public PlayerLandState LandState { get; private set; }
     public PlayerWallSlideState WallSlideState { get; private set; }
@@ -20,7 +23,6 @@ public class PlayerPawn : PawnBase
     public PlayerTakeDamageState TakeDamageState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
-    //public PlayerDyingState DyingState { get; private set; }
     public PlayerPickupPowerupState PickupPowerupState { get; private set; }
     public PlayerLockedState LockedState { get; private set; }
     public PlayerHoldAscendState HoldAscendState { get; private set; }
@@ -66,7 +68,6 @@ public class PlayerPawn : PawnBase
     public static event Action<PlayerPawn> OnPlayerAwake;
     public static event Action OnPlayerDeath;
     public static event Action OnPlayerRevive;
-    public static event Action OnPlayerTakeDamageFromENV;
 
     public static event Action OnPlayerEnterAirGlideState;
     public static event Action OnPlayerExitAirGlideState;
@@ -79,6 +80,7 @@ public class PlayerPawn : PawnBase
         StateMachine = new PlayerStateMachine();
         IdleState = new PlayerIdleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
         MoveState = new PlayerMoveState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_MOVE);
+        RespawnState = new PlayerRespawnState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_DEAD);
         JumpState = new PlayerJumpState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
         InAirState = new PlayerInAirState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
         LandState = new PlayerLandState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_LAND);
@@ -87,7 +89,6 @@ public class PlayerPawn : PawnBase
         AttackState = new PlayerAttackState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ATTACK);
         TakeDamageState = new PlayerTakeDamageState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
         DeadState = new PlayerDeadState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_DEAD);
-        //DyingState = new PlayerDyingState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_DYING);
         PickupPowerupState = new PlayerPickupPowerupState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_PICKUP_POWERUP);
         LockedState = new PlayerLockedState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
         FloatingBubbleState = new PlayerFloatingBubbleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
@@ -111,8 +112,7 @@ public class PlayerPawn : PawnBase
         cachedDawnMid = DaytimeManager.Instance.GetDawnMidTime();
         cachedDuskMid = DaytimeManager.Instance.GetDuskMidTime();
 
-        if (HealthComponent)
-            HealthComponent.OnDamageTaken += OnDamageTaken;
+        SetPlayerRespawnPosition(transform.position);
     }
 
     protected override void Update()
@@ -134,16 +134,13 @@ public class PlayerPawn : PawnBase
         {
             enemyCollisionDamage.source = collision.gameObject;
             enemyCollisionDamage.target = gameObject;
-            HealthComponent.TakeDamage(enemyCollisionDamage);
-            Movement.Knockback(enemyCollisionDamage.knockbackAngle, enemyCollisionDamage.knockbackStrength, Movement.FacingDirection);
+            TakeDamage(enemyCollisionDamage);
         }
     }
 
     private void OnDestroy()
     {
         DaytimeManager.OnDaytimeTick -= UpdateDaytimeVisibility;
-        if (HealthComponent)
-            HealthComponent.OnDamageTaken -= OnDamageTaken;
     }
     #endregion
 
@@ -189,33 +186,27 @@ public class PlayerPawn : PawnBase
     #endregion
 
     #region Other Functions
-    private void OnDamageTaken(Types.DamageData damageData)
+    public override void TakeDamage(Types.DamageData damageData)
     {
-        if (HealthComponent.IsAlive() && StateMachine.CurrentState != TakeDamageState && !HealthComponent.IsInvulnerable())
-        {
-            HealthComponent.SetInvulnerable(true);
-            if (playerInvulnerabilityIndicator)
-                playerInvulnerabilityIndicator.StartFlash();
+        base.TakeDamage(damageData);
 
-            // Check so that player is not dead to avoid respawning when reviving.
-            if (HealthComponent.IsAlive())
-            {
-                if (!damageData.source.GetComponent<PawnBase>())
-                {
-                    OnPlayerTakeDamageFromENV?.Invoke();
-                }
-                else
-                {
-                    Vector2 dir = GameFunctionLibrary.GetDirectionFromAngle(GameFunctionLibrary.GetAngleBetweenObjects(damageData.source, gameObject));
-                    Movement.Knockback(Vector2.zero, 0f, dir.x < 0f ? -1 : 1);
-                    StateMachine.ChangeState(TakeDamageState);
-                }
-            }
-        }
-        else if (!HealthComponent.IsAlive())
+        if (!HealthComponent.IsAlive())
         {
             StateMachine.ChangeState(DeadState);
         }
+        else if (HealthComponent.IsAlive() && damageData.isKillZone)
+        {
+            StateMachine.ChangeState(RespawnState);
+        }
+        else
+        {
+            StateMachine.ChangeState(TakeDamageState);
+            Vector2 dir = GameFunctionLibrary.GetDirectionFromAngle(GameFunctionLibrary.GetAngleBetweenObjects(damageData.source, gameObject));
+            Movement.Knockback(Vector2.zero, 0f, dir.x < 0f ? -1 : 1);
+        }
+
+        if (HealthComponent.IsAlive() && HealthComponent.IsInvulnerable() && playerInvulnerabilityIndicator)
+            playerInvulnerabilityIndicator.StartFlash();
     }
 
     public override void Death()
@@ -228,6 +219,8 @@ public class PlayerPawn : PawnBase
     {
         OnPlayerDeath?.Invoke();
     }
+
+    public void SetPlayerRespawnPosition(Vector2 pos) => RespawnState?.SetRespawnPosition(pos);
 
     public override void Revive()
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PawnBase : MonoBehaviour
+public class PawnBase : MonoBehaviour, IDamageable
 {
     public Animator Animator { get; private set; }
     public PawnCore Core { get; protected set; }
@@ -29,6 +29,11 @@ public class PawnBase : MonoBehaviour
     {
         if (Core)
             Core.LogicUpdate();
+    }
+
+    public virtual void TakeDamage(Types.DamageData damageData)
+    {
+        HealthComponent.TakeDamage(damageData);
     }
 
     public virtual void Death() {}

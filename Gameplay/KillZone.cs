@@ -12,20 +12,11 @@ public class KillZone : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        PawnBase pawnBase = collision.gameObject.GetComponent<PawnBase>();
-        if (!pawnBase)
-            return;
-
-        HealthComponent healthComponent = pawnBase.HealthComponent;
-        if (!healthComponent)
-            return;
-
-        damageData.target = pawnBase.gameObject;
-
-        EnemyPawn enemyPawn = (EnemyPawn)pawnBase;
-        if (enemyPawn)
-            healthComponent.Kill();
-        else
-            healthComponent.TakeDamage(damageData);
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageData.target = collision.gameObject;
+            damageable.TakeDamage(damageData);
+        }
     }
 }

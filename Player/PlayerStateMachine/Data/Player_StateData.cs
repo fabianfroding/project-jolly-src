@@ -25,6 +25,9 @@ public class Player_StateData : ScriptableObject
     public float variableJumpHeightMultiplier = 0.25f;
     public float maxFallVelocity = -1f;
 
+    [Header("Respawn State")]
+    public float respawnDelay = 2f;
+
     [Header("Wall Touch State")]
     public float wallFrictionMultiplier = 0.99f;
 
