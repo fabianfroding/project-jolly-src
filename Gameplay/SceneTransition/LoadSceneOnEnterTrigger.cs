@@ -27,7 +27,6 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
                 }
 
                 SetSceneTransitionData(player);
-                player.ToggleLockState();
 
                 ScreenFade screenFade = FindObjectOfType<ScreenFade>();
                 if (screenFade != null)

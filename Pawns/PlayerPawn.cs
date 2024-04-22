@@ -23,8 +23,6 @@ public class PlayerPawn : PawnBase
     public PlayerTakeDamageState TakeDamageState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
-    public PlayerPickupPowerupState PickupPowerupState { get; private set; }
-    public PlayerLockedState LockedState { get; private set; }
     public PlayerHoldAscendState HoldAscendState { get; private set; }
     public PlayerAscendState AscendState { get; private set; }
     public PlayerThunderState ThunderState { get; private set; }
@@ -87,8 +85,6 @@ public class PlayerPawn : PawnBase
         AttackState = new PlayerAttackState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ATTACK);
         TakeDamageState = new PlayerTakeDamageState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
         DeadState = new PlayerDeadState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_DEAD);
-        PickupPowerupState = new PlayerPickupPowerupState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_PICKUP_POWERUP);
-        LockedState = new PlayerLockedState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
         FloatingBubbleState = new PlayerFloatingBubbleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
         InteractState = new PlayerInteractState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
 
@@ -310,20 +306,7 @@ public class PlayerPawn : PawnBase
             playerInvulnerabilityIndicator.EndFlash();
     }
 
-    public void ToggleLockState()
-    {
-        if (StateMachine.CurrentState == LockedState)
-        {
-            ResetState();
-        }
-        else
-        {
-            StateMachine.ChangeState(LockedState);
-        }
-    }
-
     public bool InAir() => StateMachine.CurrentState == InAirState;
-    public bool InLockedState() => StateMachine.CurrentState == LockedState;
 
     public void ResetState() => StateMachine.ChangeState(IdleState);
 

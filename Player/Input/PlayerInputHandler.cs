@@ -225,8 +225,6 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started && AllowInGameMenusToggle())
         {
-
-            //TogglePlayerLockedState();
         }
     }
 
@@ -242,15 +240,6 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
     #endregion
-
-    private void TogglePlayerLockedState()
-    {
-        PlayerPawn player = GetComponent<PlayerPawn>();
-        if (player != null)
-        {
-            player.ToggleLockState();
-        }
-    }
 
     private bool AllowInGameMenusToggle()
     {
