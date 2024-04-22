@@ -218,21 +218,15 @@ public class CameraScript : MonoBehaviour
     {
         Vector2 newOffset = cameraOffset;
 
-        if (Player != null)
+        if (Player)
         {
-            if (PlayerScript.HasXMovementInput() && !PlayerScript.InLockedState())
-            {
+            if (PlayerScript.HasXMovementInput())
                 newOffset = playerWalkOffset;
-            }
             else
-            {
                 newOffset = playerBaseOffset;
-            }
 
             if (PlayerScript.GetFacingDirection() != 1)
-            {
                 newOffset.x = -newOffset.x;
-            }
         }
 
         return newOffset;

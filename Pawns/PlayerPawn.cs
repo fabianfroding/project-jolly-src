@@ -33,9 +33,7 @@ public class PlayerPawn : PawnBase
     public PlayerInteractState InteractState { get; private set; }
     #endregion
 
-    #region Components
     public PlayerInputHandler InputHandler { get; private set; }
-    #endregion
 
     #region Other Variables
     [SerializeField] private Player_StateData playerStateData;
@@ -329,7 +327,12 @@ public class PlayerPawn : PawnBase
 
     public void ResetState() => StateMachine.ChangeState(IdleState);
 
-    public bool HasXMovementInput() =>  InputHandler.NormInputX != 0;
+    public bool HasXMovementInput()
+    {
+        if (InputHandler.enabled)
+            return InputHandler.NormInputX != 0;
+        return false;
+    }
 
     public Vector2 GetFireArrowSpawnPosition() => fireArrowSpawnTransform.position;
 
