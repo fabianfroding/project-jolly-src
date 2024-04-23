@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NPCPawn : PawnBase, IInteractable
 {
@@ -8,9 +6,6 @@ public class NPCPawn : PawnBase, IInteractable
     private int interactDataIndex = 0;
     private int interactDataTextIndex = 0;
 
-    public static event Action OnNPCRegisterToNPCNotebook;
-
-    #region Unity Callback Functions
     protected override void Awake()
     {
         base.Awake();
@@ -19,15 +14,8 @@ public class NPCPawn : PawnBase, IInteractable
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_NPC), LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_NPC), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY));
     }
-    #endregion
 
-    #region Other Functions
-    protected IEnumerator InvokeOnNPCRegisterToNPCNotebook()
-    {
-        yield return new WaitForSeconds(1.5f);
-        OnNPCRegisterToNPCNotebook?.Invoke();
-    }
-    #endregion
+    public int GetInteractDataIndex() => interactDataIndex;
 
     #region Interactable Interface
     public bool AdvanceInteraction()
@@ -45,7 +33,7 @@ public class NPCPawn : PawnBase, IInteractable
                 return true;
             }
         }
-        interactDataIndex = Mathf.Clamp(interactDataIndex + 1, 0, interactData.Length - 1); // TODO: Needs to be saved to remember the dialogue index next time game is restarted.
+        interactDataIndex = Mathf.Clamp(interactDataIndex + 1, 0, interactData.Length - 1);
         return false;
     }
     public void Interact()
