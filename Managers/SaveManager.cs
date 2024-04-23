@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -7,15 +8,19 @@ public static class SaveManager
     static string PlayerSaveDataFileName() => "/playerSaveData";
 
     static string SaveDataFileExtension => ".sun";
-    static string SaveDataPath(string fileName) => Application.persistentDataPath + "/Saved" + fileName + SaveDataFileExtension;
+    static string SaveDataPath(string fileName) => Application.persistentDataPath + fileName + SaveDataFileExtension;
 
-    public static void SavePlayerSaveData(PlayerPawn playerPawn, string sceneName)
+    public static event Action OnGameSaved;
+
+    public static void SavePlayerSaveData(PlayerPawn playerPawn, Vector2 position, string sceneName)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(SaveDataPath(PlayerSaveDataFileName()), FileMode.Create);
-        PlayerSaveData playerSaveData = new PlayerSaveData(playerPawn, sceneName);
+        BinaryFormatter formatter = new();
+        FileStream stream = new(SaveDataPath(PlayerSaveDataFileName()), FileMode.Create);
+        PlayerSaveData playerSaveData = new(playerPawn, position.x, position.y, sceneName);
         formatter.Serialize(stream, playerSaveData);
         stream.Close();
+
+        OnGameSaved?.Invoke();
     }
 
     public static PlayerSaveData LoadPlayerSaveData()
@@ -23,8 +28,8 @@ public static class SaveManager
         string path = SaveDataPath(PlayerSaveDataFileName());
         if (File.Exists(path))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(SaveDataPath(PlayerSaveDataFileName()), FileMode.Open);
+            BinaryFormatter formatter = new();
+            FileStream stream = new(SaveDataPath(PlayerSaveDataFileName()), FileMode.Open);
             PlayerSaveData playerSaveData = formatter.Deserialize(stream) as PlayerSaveData;
             stream.Close();
             return playerSaveData;
@@ -35,4 +40,13 @@ public static class SaveManager
         }
         return null;
     }
+
+    public static void ClearPlayerSaveData()
+    {
+        string path = SaveDataPath(PlayerSaveDataFileName());
+        if (File.Exists(path))
+            File.Delete(path);
+    }
+
+    public static bool DoesPlayerSaveDataExist() => File.Exists(SaveDataPath(PlayerSaveDataFileName()));
 }

@@ -8,12 +8,11 @@ public class PlayerSaveData
     public int playerMaxHealth;
     public string sceneName;
 
-    public PlayerSaveData(PlayerPawn playerPawn, string sceneName)
+    public PlayerSaveData(PlayerPawn playerPawn, float xPos, float yPos, string sceneName)
     {
-        position = new float[3];
-        position[0] = playerPawn.transform.position.x;
-        position[1] = playerPawn.transform.position.y;
-        position[2] = playerPawn.transform.position.z;
+        position = new float[2];
+        position[0] = xPos;
+        position[1] = yPos;
 
         playerHealth = playerPawn.HealthComponent.CurrentHealth;
         playerMaxHealth = playerPawn.HealthComponent.GetMaxHealth();

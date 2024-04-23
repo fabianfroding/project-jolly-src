@@ -90,8 +90,7 @@ public class PlayerPawn : PawnBase
 
         InputHandler = GetComponent<PlayerInputHandler>();
         playerInvulnerabilityIndicator = GetComponent<PlayerInvulnerabilityIndicator>();
-
-    Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
 
         DaytimeManager.OnDaytimeTick += UpdateDaytimeVisibility;
 
@@ -105,6 +104,15 @@ public class PlayerPawn : PawnBase
 
         cachedDawnMid = DaytimeManager.Instance.GetDawnMidTime();
         cachedDuskMid = DaytimeManager.Instance.GetDuskMidTime();
+
+        
+        if (SaveManager.DoesPlayerSaveDataExist())
+        {
+            PlayerSaveData playerSaveData = SaveManager.LoadPlayerSaveData();
+            HealthComponent.SetMaxHealth(playerSaveData.playerMaxHealth);
+            HealthComponent.SetHealth(playerSaveData.playerHealth);
+            transform.position = new Vector2(playerSaveData.position[0], playerSaveData.position[1]);
+        }
 
         SetPlayerRespawnPosition(transform.position);
     }
