@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class PlayerPawn : PawnBase
 {
@@ -62,8 +63,8 @@ public class PlayerPawn : PawnBase
 
     #region Events
     public static event Action<PlayerPawn> OnPlayerAwake;
-    public static event Action OnPlayerDeath;
-    public static event Action OnPlayerRevive;
+    public static event Action<PlayerPawn> OnPlayerDeathSequenceFinish;
+    public static event Action OnQuitInput;
 
     public static event Action OnPlayerEnterAirGlideState;
     public static event Action OnPlayerExitAirGlideState;
@@ -122,6 +123,9 @@ public class PlayerPawn : PawnBase
         base.Update();
         Core.LogicUpdate();
         StateMachine.CurrentState.LogicUpdate();
+
+        if (InputHandler.QuitInput)
+            OnQuitInput?.Invoke();
     }
 
     private void FixedUpdate()
@@ -217,25 +221,16 @@ public class PlayerPawn : PawnBase
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY));
     }
 
-    public void PlayerDeath()
-    {
-        OnPlayerDeath?.Invoke();
-    }
-
-    public void SetPlayerRespawnPosition(Vector2 pos) => RespawnState?.SetRespawnPosition(pos);
-
     public override void Revive()
     {
         base.Revive();
-        OnPlayerRevive?.Invoke();
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
+        StateMachine.ChangeState(IdleState);
     }
 
-    public void RevivePlayer()
-    {
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
-        HealthComponent.SetHealth(HealthComponent.GetMaxHealth());
-        ResetState();
-    }
+    public void PlayerDeathSequenceFinish() => OnPlayerDeathSequenceFinish?.Invoke(this);
+
+    public void SetPlayerRespawnPosition(Vector2 pos) => RespawnState?.SetRespawnPosition(pos);
 
     public bool IsDead() => StateMachine.CurrentState == DeadState;
 
@@ -315,8 +310,6 @@ public class PlayerPawn : PawnBase
     }
 
     public bool InAir() => StateMachine.CurrentState == InAirState;
-
-    public void ResetState() => StateMachine.ChangeState(IdleState);
 
     public bool HasXMovementInput()
     {

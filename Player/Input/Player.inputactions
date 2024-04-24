@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "ecbe4d7d-ccde-4e72-ab32-a163688e071b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -488,280 +497,15 @@
                     "action": "AdvanceInteraction",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "UI",
-            "id": "b95c8e61-772d-4d8d-94d9-7dafd0b64c29",
-            "actions": [
-                {
-                    "name": "ToggleInGameMenus",
-                    "type": "Button",
-                    "id": "436db74d-8a8c-49bb-867a-a097d379cbdf",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "InGameMenuMoveUp",
-                    "type": "Button",
-                    "id": "a6c1a634-57e4-40c0-897a-e9157a3d81ac",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "InGameMenuMoveDown",
-                    "type": "Button",
-                    "id": "cd346e36-7e5f-4dcf-a145-916e0cf87a19",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "InGameMenuMoveRight",
-                    "type": "Button",
-                    "id": "22610a32-724a-4c12-b222-a9b41f99db28",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "InGameMenuMoveLeft",
-                    "type": "Button",
-                    "id": "9b0bd74e-e1cc-4d31-bbd8-ac3095348eaa",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "InGameMenuSelect",
-                    "type": "Button",
-                    "id": "df422ead-4235-45a7-b756-0cbe99371b09",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "InGameMenuShiftRight",
-                    "type": "Button",
-                    "id": "ad9b3512-ceec-4919-8081-d60ea79a0218",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "InGameMenuShiftLeft",
-                    "type": "Button",
-                    "id": "c57b4188-ec30-4850-936f-c86bbaa9c2cb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ToggleDebugMenu",
-                    "type": "Button",
-                    "id": "856bc971-a569-4108-8497-cde96cbb5657",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "77b206ef-9e6c-4376-b8a3-83ebe9f4d249",
-                    "path": "<Keyboard>/s",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "InGameMenuMoveDown",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "d4d78930-1e94-43ba-9306-06990e4e72fe",
-                    "path": "<Gamepad>/leftStick/down",
+                    "id": "2ec0f2ae-6e1c-4877-8518-ae6c889abe9c",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
-                    "action": "InGameMenuMoveDown",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8200f3a9-af2b-48bb-961e-15d9476e683b",
-                    "path": "<Keyboard>/w",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "InGameMenuMoveUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4a76edf4-e6c2-495a-b2ff-b08705edcdb8",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "InGameMenuMoveUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e9f80719-e1c8-429e-9282-bf2a9f28ac58",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ToggleInGameMenus",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0b5006ca-5f9b-4bc7-ae3f-a5a226453c33",
-                    "path": "<Gamepad>/select",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "ToggleInGameMenus",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "819accc7-d659-4cb2-8cfc-ed8739b669ae",
-                    "path": "<Keyboard>/q",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "InGameMenuShiftLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "034c8a1c-5016-40ed-b58f-c32c26ebf848",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "InGameMenuShiftLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "996a327e-02fc-4575-bcf4-98f1755e7cd2",
-                    "path": "<Keyboard>/d",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "InGameMenuMoveRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "939bbec2-0253-4cc5-80c9-b785a0c270cf",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "InGameMenuMoveRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c33d3421-c5fd-4a36-8ce7-94e23c0fd14e",
-                    "path": "<Keyboard>/e",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "InGameMenuShiftRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c9e5e172-b981-4510-b2ff-768767593cd4",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "InGameMenuShiftRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7fa69a63-f0f6-487f-8fcf-b1fb3206a9b2",
-                    "path": "<Keyboard>/a",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "InGameMenuMoveLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b36814b8-79e9-4f69-959b-50ac83620525",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "InGameMenuMoveLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6d0a8060-1089-4d07-8e65-3b1008c65e02",
-                    "path": "<Keyboard>/u",
-                    "interactions": "Tap",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "InGameMenuSelect",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "76fcdc68-3756-4d52-9506-4c00a057fa1c",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "InGameMenuSelect",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7a5af48d-b27c-4313-830f-5b90a8b7cec6",
-                    "path": "<Keyboard>/5",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ToggleDebugMenu",
+                    "groups": "",
+                    "action": "Quit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

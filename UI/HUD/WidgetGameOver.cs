@@ -7,18 +7,27 @@ public class WidgetGameOver : MonoBehaviour
 
     private void Awake()
     {
-        PlayerPawn.OnPlayerDeath += OnPlayerDeath;
+        GameManager.OnGameOver += OnGameOver;
+        GameManager.OnRevivePlayer += OnRevivePlayer;
     }
 
     private void OnDestroy()
     {
-        PlayerPawn.OnPlayerDeath -= OnPlayerDeath;
+        GameManager.OnGameOver -= OnGameOver;
+        GameManager.OnRevivePlayer -= OnRevivePlayer;
     }
 
-    private void OnPlayerDeath()
+    private void OnGameOver()
     {
         GetComponent<Image>().enabled = true;
         if (gameOverText)
             gameOverText.SetActive(true);
+    }
+
+    private void OnRevivePlayer()
+    {
+        GetComponent<Image>().enabled = false;
+        if (gameOverText)
+            gameOverText.SetActive(false);
     }
 }

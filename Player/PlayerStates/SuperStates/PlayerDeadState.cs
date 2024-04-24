@@ -45,8 +45,7 @@ public class PlayerDeadState : PlayerState
         if (!hasRevivedPlayer && Time.time > startTime + playerStateData.deadStateDuration)
         {
             hasRevivedPlayer = true;
-            //player.Revive();
-            player.PlayerDeath();
+            player.PlayerDeathSequenceFinish();
         }
     }
 }

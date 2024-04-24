@@ -26,6 +26,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool AirGlideInput { get; private set; }
     public bool InteractInput { get; private set; }
     public bool AdvanceInteractionInput {  get; private set; }
+    public bool QuitInput { get; private set; }
 
     [Header("Action Map Names")]
     [Tooltip("Name of the action map for toggling ingame menus.")]
@@ -48,7 +49,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void Start()
     {
-        playerInput.actions.FindActionMap(InGameMenusActionMapName).Enable();
+        //playerInput.actions.FindActionMap(InGameMenusActionMapName).Enable();
     }
 
     private void Update()
@@ -186,6 +187,14 @@ public class PlayerInputHandler : MonoBehaviour
             AdvanceInteractionInput = true;
         if (context.canceled)
             AdvanceInteractionInput = false;
+    }
+
+    public void OnQuitInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            QuitInput = true;
+        if (context.canceled)
+            QuitInput = false;
     }
 
     public void UseJumpInput() => JumpInput = false;

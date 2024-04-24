@@ -1,13 +1,16 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject widgetHUD;
-    [SerializeField] private float playerDeathToMainMenuDelay = 2.5f;
+    [SerializeField] private float playerReviveDelay = 2.5f;
     [SerializeField] private string mainMenuSceneName;
 
-    private float onPlayerDeathStartTime = 0f;
+    public static event Action OnGameOver;
+    public static event Action OnRevivePlayer;
 
     private void Awake()
     {
@@ -18,18 +21,14 @@ public class GameManager : MonoBehaviour
 
         AddWidgetHUD();
 
-        PlayerPawn.OnPlayerDeath += OnPlayerDeath;
-    }
-
-    private void FixedUpdate()
-    {
-        if (onPlayerDeathStartTime > 0f && Time.time >= onPlayerDeathStartTime + playerDeathToMainMenuDelay)
-            GameOverToMainMenu();
+        PlayerPawn.OnPlayerDeathSequenceFinish += OnPlayerDeathSequenceFinish;
+        PlayerPawn.OnQuitInput += QuitToMainMenu;
     }
 
     private void OnDestroy()
     {
-        PlayerPawn.OnPlayerDeath -= OnPlayerDeath;
+        PlayerPawn.OnPlayerDeathSequenceFinish -= OnPlayerDeathSequenceFinish;
+        PlayerPawn.OnQuitInput -= QuitToMainMenu;
     }
 
     private void AddWidgetHUD()
@@ -38,14 +37,37 @@ public class GameManager : MonoBehaviour
         tempGO.transform.SetParent(transform);
     }
 
-    private void OnPlayerDeath()
+    private void OnPlayerDeathSequenceFinish(PlayerPawn playerPawn)
     {
-        onPlayerDeathStartTime = Time.time;
+        OnGameOver?.Invoke();
+        StartCoroutine(RevivePlayer(playerPawn));
     }
 
-    private void GameOverToMainMenu()
+    private IEnumerator RevivePlayer(PlayerPawn playerPawn)
     {
-        onPlayerDeathStartTime = 0f;
+        yield return new WaitForSeconds(playerReviveDelay);
+
+        if (SaveManager.DoesPlayerSaveDataExist() && playerPawn)
+        {
+            PlayerSaveData playerSaveData = SaveManager.LoadPlayerSaveData();
+
+            if (SceneManager.GetActiveScene().name != playerSaveData.sceneName)
+                SceneManager.LoadScene(playerSaveData.sceneName);
+
+            playerPawn.transform.position = new(playerSaveData.position[0], playerSaveData.position[1]);
+            playerPawn.HealthComponent.SetMaxHealth(playerSaveData.playerMaxHealth);
+            playerPawn.HealthComponent.SetHealth(playerSaveData.playerHealth);
+            playerPawn.Revive();
+            OnRevivePlayer?.Invoke();
+        }
+        else
+        {
+            QuitToMainMenu();
+        }
+    }
+
+    private void QuitToMainMenu()
+    {
         SceneManager.LoadScene(mainMenuSceneName);
         Destroy(gameObject);
     }

@@ -9,9 +9,11 @@ public class WidgetMainMenu : MonoBehaviour
     {
         string sceneToLoad = newGameSceneName;
 
-        PlayerSaveData playerSaveData = SaveManager.LoadPlayerSaveData();
-        if (playerSaveData != null && playerSaveData.sceneName != "")
-            sceneToLoad = playerSaveData.sceneName;
+        if (SaveManager.DoesPlayerSaveDataExist())
+        {
+            PlayerSaveData playerSaveData = SaveManager.LoadPlayerSaveData();
+                sceneToLoad = playerSaveData.sceneName;
+        }
 
         SceneManager.LoadScene(sceneToLoad);
     }
@@ -19,5 +21,10 @@ public class WidgetMainMenu : MonoBehaviour
     public void ClearSave()
     {
         SaveManager.ClearPlayerSaveData();
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
