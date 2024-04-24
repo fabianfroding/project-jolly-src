@@ -106,13 +106,13 @@ public class PlayerPawn : PawnBase
         cachedDawnMid = DaytimeManager.Instance.GetDawnMidTime();
         cachedDuskMid = DaytimeManager.Instance.GetDuskMidTime();
 
-        
         if (SaveManager.DoesPlayerSaveDataExist())
         {
             PlayerSaveData playerSaveData = SaveManager.LoadPlayerSaveData();
             HealthComponent.SetMaxHealth(playerSaveData.playerMaxHealth);
             HealthComponent.SetHealth(playerSaveData.playerHealth);
             transform.position = new Vector2(playerSaveData.position[0], playerSaveData.position[1]);
+            DaytimeManager.Instance.SetCurrentHour(playerSaveData.currentHour);
         }
 
         SetPlayerRespawnPosition(transform.position);

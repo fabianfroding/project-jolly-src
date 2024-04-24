@@ -8,6 +8,8 @@ public class PlayerSaveData
     public int playerMaxHealth;
     public string sceneName;
 
+    public int currentHour;
+
     public PlayerSaveData(PlayerPawn playerPawn, float xPos, float yPos, string sceneName)
     {
         position = new float[2];

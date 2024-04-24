@@ -17,6 +17,7 @@ public static class SaveManager
         BinaryFormatter formatter = new();
         FileStream stream = new(SaveDataPath(PlayerSaveDataFileName()), FileMode.Create);
         PlayerSaveData playerSaveData = new(playerPawn, position.x, position.y, sceneName);
+        playerSaveData.currentHour = DaytimeManager.Instance.GetCurrentHour();
         formatter.Serialize(stream, playerSaveData);
         stream.Close();
 

@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour
             playerPawn.HealthComponent.SetHealth(playerSaveData.playerHealth);
             playerPawn.Revive();
             OnRevivePlayer?.Invoke();
+
+            DaytimeManager.Instance.SetCurrentHour(playerSaveData.currentHour);
         }
         else
         {

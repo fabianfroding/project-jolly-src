@@ -46,6 +46,13 @@ public class DaytimeManager : MonoBehaviour
         StartCoroutine(Tick());
     }
 
+    public int GetCurrentHour() => currentHour;
+    public void SetCurrentHour(int newHour)
+    {
+        currentHour = newHour;
+        OnHourChange?.Invoke(currentHour);
+    }
+
     public float GetDawnStartTime() => dawnStartTime;
     public float GetDawnMidTime() => GetDawnStartTime() + ((GetDawnEndTime() - GetDawnStartTime()) / 2f);
     public float GetDawnEndTime() => dawnEndTime;
