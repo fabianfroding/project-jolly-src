@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.SceneManagement;
 
 public class PlayerPawn : PawnBase
 {
@@ -91,7 +90,6 @@ public class PlayerPawn : PawnBase
 
         InputHandler = GetComponent<PlayerInputHandler>();
         playerInvulnerabilityIndicator = GetComponent<PlayerInvulnerabilityIndicator>();
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
 
         DaytimeManager.OnDaytimeTick += UpdateDaytimeVisibility;
 
@@ -215,20 +213,25 @@ public class PlayerPawn : PawnBase
             playerInvulnerabilityIndicator.StartFlash();
     }
 
-    public override void Death()
-    {
-        base.Death();
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY));
-    }
-
     public override void Revive()
     {
         base.Revive();
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), false);
         StateMachine.ChangeState(IdleState);
     }
 
-    public void PlayerDeathSequenceFinish() => OnPlayerDeathSequenceFinish?.Invoke(this);
+    public override void Death()
+    {
+        base.Death();
+        Rigidbody2D.isKinematic = true;
+        Collider2D.enabled = false;
+    }
+
+    public void PlayerDeathSequenceFinish()
+    {
+        Rigidbody2D.isKinematic = false;
+        Collider2D.enabled = true;
+        OnPlayerDeathSequenceFinish?.Invoke(this);
+    }
 
     public void SetPlayerRespawnPosition(Vector2 pos) => RespawnState?.SetRespawnPosition(pos);
 

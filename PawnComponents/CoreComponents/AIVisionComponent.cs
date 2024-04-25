@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AIVisionComponent : CoreComponent
@@ -10,7 +11,7 @@ public class AIVisionComponent : CoreComponent
     private float loseTargetStartTime = -1f;
 
     private EnemyPawn owningEnemyPawn;
-    public PlayerPawn TargetPlayerPawn { get;private set; }
+    public PlayerPawn TargetPlayerPawn { get; private set; }
 
     private Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
     private Movement movement;
@@ -37,7 +38,7 @@ public class AIVisionComponent : CoreComponent
         if (triggeringPlayerPawn)
         {
             loseTargetStartTime = Time.time;
-            Debug.Log(componentOwner.name + " lost its target.");
+            //Debug.Log(componentOwner.name + " lost its target.");
         }
     }
 
@@ -53,7 +54,7 @@ public class AIVisionComponent : CoreComponent
 
     public void ResetTarget()
     {
-        Debug.Log(componentOwner.name + " reset its target.");
+        //Debug.Log(componentOwner.name + " reset its target.");
         TargetPlayerPawn = null;
         loseTargetStartTime = -1f;
     }
@@ -62,7 +63,7 @@ public class AIVisionComponent : CoreComponent
     {
         if (!flipIfTargetIsBehind)
             return;
-        if (!TargetPlayerPawn)
+        if (!TargetPlayerPawn || !TargetPlayerPawn.IsAlive())
             return;
         if (!Movement)
             return;

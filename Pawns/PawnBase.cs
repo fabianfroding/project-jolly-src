@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class PawnBase : MonoBehaviour, IDamageable
 {
-    public Animator Animator { get; private set; }
+    public Animator Animator { get; protected set; }
+    public Collider2D Collider2D { get; protected set; }
     public PawnCore Core { get; protected set; }
+    public Rigidbody2D Rigidbody2D { get; protected set; }
     public SpriteRenderer SpriteRenderer { get; protected set; }
 
     protected Combat Combat => combat ? combat : Core.GetCoreComponent(ref combat);
@@ -19,7 +21,9 @@ public class PawnBase : MonoBehaviour, IDamageable
     protected virtual void Awake()
     {
         Animator = GetComponent<Animator>();
+        Collider2D = GetComponent<Collider2D>();
         Core = GetComponentInChildren<PawnCore>();
+        Rigidbody2D = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 

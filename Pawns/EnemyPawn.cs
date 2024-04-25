@@ -76,18 +76,22 @@ public class EnemyPawn : PawnBase, IParriable
     public virtual bool CheckPlayerInCloseRangeAction()
     {
         if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.closeRangeActionDistance))
-        {
             return false;
-        }
+        if (!AIVision.TargetPlayerPawn)
+            return false;
+        if (!AIVision.TargetPlayerPawn.IsAlive())
+            return false;
         return Physics2D.Raycast(playerCheck.position, transform.right, enemyData.closeRangeActionDistance, enemyData.playerLayer);
     }
 
     public virtual bool CheckPlayerInLongRangeAction()
     {
         if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.longRangeActionDistance))
-        {
             return false;
-        }
+        if (!AIVision.TargetPlayerPawn)
+            return false;
+        if (!AIVision.TargetPlayerPawn.IsAlive())
+            return false;
         //Debug.DrawLine(playerCheck.position, playerCheck.position + (transform.right * enemyData.longRangeActionDistance), Color.cyan);
         return Physics2D.Raycast(playerCheck.position, transform.right, enemyData.longRangeActionDistance, enemyData.playerLayer);
     }
@@ -95,30 +99,18 @@ public class EnemyPawn : PawnBase, IParriable
     public virtual bool CheckPlayerInMinAggroRange()
     {
         if (playerCheck == null || CheckGroundInRange(playerCheck.position, transform.right, enemyData.minAggroDistance))
-        {
             return false;
-        }
-
-        if (AIVision && AIVision.TargetPlayerPawn)
-        {
+        if (AIVision && AIVision.TargetPlayerPawn && AIVision.TargetPlayerPawn.IsAlive())
             return Vector3.Distance(playerCheck.position, AIVision.TargetPlayerPawn.transform.position) < enemyData.minAggroDistance;
-        }
-
         return false;
     }
 
     public virtual bool CheckPlayerInMaxAggroRange()
     {
         if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.maxAggroDistance))
-        {
             return false;
-        }
-
-        if (AIVision && AIVision.TargetPlayerPawn)
-        {
+        if (AIVision && AIVision.TargetPlayerPawn && AIVision.TargetPlayerPawn.IsAlive())
             return Vector3.Distance(playerCheck.position, AIVision.TargetPlayerPawn.transform.position) < enemyData.maxAggroDistance;
-        }
-
         return false;
     }
 
