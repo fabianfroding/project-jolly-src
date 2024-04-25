@@ -7,15 +7,15 @@ public class WidgetDaytimeIndicator : MonoBehaviour
 
     private void OnEnable()
     {
-        DaytimeManager.OnHourChange += OnHourChanged;
+        DaytimeManager.OnTimeChange += OnTimeChanged;
     }
 
     private void OnDisable()
     {
-        DaytimeManager.OnHourChange -= OnHourChanged;
+        DaytimeManager.OnTimeChange -= OnTimeChanged;
     }
 
-    private void OnHourChanged(int hour)
+    private void OnTimeChanged(int hour, int minute)
     {
         if (!hourText)
         {

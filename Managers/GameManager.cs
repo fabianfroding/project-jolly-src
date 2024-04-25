@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
             OnRevivePlayer?.Invoke();
 
             DaytimeManager.Instance.SetCurrentHour(playerSaveData.currentHour);
+            DaytimeManager.Instance.SetCurrentMinute(playerSaveData.currentMinute);
         }
         else
         {

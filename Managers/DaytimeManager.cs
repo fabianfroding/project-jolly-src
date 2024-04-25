@@ -6,6 +6,7 @@ public class DaytimeManager : MonoBehaviour
 {
     [SerializeField] private float realMinutesPerDay = 18f;
     [SerializeField] private int currentHour = 6;
+    [SerializeField] private int currentMinute = 0;
 
     [Range(5, 9)]
     [SerializeField] private float dawnStartTime = 0f;
@@ -18,11 +19,10 @@ public class DaytimeManager : MonoBehaviour
 
     private float gameHourInterval;
     private float gameMinuteInterval;
-    private float timeAtLastHour = 0f;
 
     public bool stopDaytime = false;
 
-    public static event Action<int> OnHourChange;
+    public static event Action<int, int> OnTimeChange;
     public static event Action<float> OnDaytimeTick;
 
     private static DaytimeManager instance;
@@ -39,18 +39,30 @@ public class DaytimeManager : MonoBehaviour
     {
         gameHourInterval = realMinutesPerDay / 24.0f * 60.0f;
         gameMinuteInterval = gameHourInterval / 60f;
-        timeAtLastHour = Time.time;
 
-        OnHourChange?.Invoke(currentHour);
+        if (SaveManager.DoesPlayerSaveDataExist())
+        {
+            PlayerSaveData playerSaveData = SaveManager.LoadPlayerSaveData();
+            SetCurrentHour(playerSaveData.currentHour);
+            SetCurrentMinute(playerSaveData.currentMinute);
+        }
+
+        OnTimeChange?.Invoke(currentHour, currentMinute);
 
         StartCoroutine(Tick());
     }
 
     public int GetCurrentHour() => currentHour;
+    public int GetCurrentMinute() => currentMinute;
     public void SetCurrentHour(int newHour)
     {
         currentHour = newHour;
-        OnHourChange?.Invoke(currentHour);
+        OnTimeChange?.Invoke(currentHour, currentMinute);
+    }
+    public void SetCurrentMinute(int newMinute)
+    {
+        currentMinute = newMinute;
+        OnTimeChange?.Invoke(currentHour, currentMinute);
     }
 
     public float GetDawnStartTime() => dawnStartTime;
@@ -68,17 +80,18 @@ public class DaytimeManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(gameMinuteInterval);
 
-                if (Time.time >= timeAtLastHour + gameHourInterval)
-                {   
+                currentMinute++;
+                if (currentMinute >= 60)
+                {
+                    currentMinute = 0;
                     currentHour++;
-                    timeAtLastHour = Time.time;
                     if (currentHour >= 24)
                         currentHour = 0;
-                    OnHourChange?.Invoke(currentHour);
                 }
 
-                float tickTime = currentHour + ((Time.time - timeAtLastHour) / gameHourInterval);
+                float tickTime = currentHour + (currentMinute / 60f);
                 OnDaytimeTick?.Invoke(tickTime);
+                OnTimeChange?.Invoke(currentHour, currentMinute);
             }
             else
             {

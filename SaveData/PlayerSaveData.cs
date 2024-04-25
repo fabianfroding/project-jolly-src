@@ -9,6 +9,7 @@ public class PlayerSaveData
     public string sceneName;
 
     public int currentHour;
+    public int currentMinute;
 
     public PlayerSaveData(PlayerPawn playerPawn, float xPos, float yPos, string sceneName)
     {
