@@ -23,16 +23,6 @@ public class DaytimeManager : MonoBehaviour
 
     private bool stopDaytime = false;
 
-    private static DaytimeManager instance;
-    public static DaytimeManager Instance
-    {
-        get
-        {
-            if (instance == null) instance = FindObjectOfType<DaytimeManager>();
-            return instance;
-        }
-    }
-
     private void Start()
     {
         gameHourInterval = realMinutesPerDay / 24.0f * 60.0f;
