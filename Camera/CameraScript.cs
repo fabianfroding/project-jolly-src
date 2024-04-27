@@ -11,9 +11,6 @@ public class CameraScript : MonoBehaviour
     [SerializeField] private Color backgroundColorMidday;
     [SerializeField] private Color backgroundColorMidnight;
 
-    [Header("DaytimeManager")]
-    [SerializeField] private SOIntVariable currentHour;
-    [SerializeField] private SOIntVariable currentMinute;
     [SerializeField] private SODaytimeSettings daytimeSettings;
 
     private CameraState cameraState = CameraState.FollowPlayer;
@@ -355,37 +352,35 @@ public class CameraScript : MonoBehaviour
     public void UpdateBackgroundTint()
     {
         if (!cachedCamera) return;
-        if (!currentHour) return;
-        if (!currentMinute) return;
         if (!daytimeSettings) return;
 
-        float timeOfDay = currentHour.Value + (currentMinute.Value / 60f);
-        float dawnMidTime = daytimeSettings.GetDawnMidTime(); // TODO: Can be cached for performance.
-        float duskMidTime = daytimeSettings.GetDuskMidTime();
+        float timeOfDay = daytimeSettings.currentHour + (daytimeSettings.currentMinute / 60f);
+        float dawnMidTime = daytimeSettings.DawnMidTime; // TODO: Can be cached for performance.
+        float duskMidTime = daytimeSettings.DuskMidTime;
 
-        if (timeOfDay >= daytimeSettings.dawnStartTime && timeOfDay < dawnMidTime)
+        if (timeOfDay >= daytimeSettings.DawnStartTime && timeOfDay < dawnMidTime)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - daytimeSettings.dawnStartTime) / (dawnMidTime - daytimeSettings.dawnStartTime));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - daytimeSettings.DawnStartTime) / (dawnMidTime - daytimeSettings.DawnStartTime));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidnight, backgroundColorDawnAndDusk, lerpFactor);
         }
-        else if (timeOfDay >= dawnMidTime && timeOfDay < daytimeSettings.dawnEndTime)
+        else if (timeOfDay >= dawnMidTime && timeOfDay < daytimeSettings.DawnEndTime)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnMidTime) / (daytimeSettings.dawnEndTime - dawnMidTime));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnMidTime) / (daytimeSettings.DawnEndTime - dawnMidTime));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorDawnAndDusk, backgroundColorMidday, lerpFactor);
         }
-        else if (timeOfDay >= daytimeSettings.duskStartTime && timeOfDay < duskMidTime)
+        else if (timeOfDay >= daytimeSettings.DuskStartTime && timeOfDay < duskMidTime)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - daytimeSettings.duskStartTime) / (duskMidTime - daytimeSettings.duskStartTime));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - daytimeSettings.DuskStartTime) / (duskMidTime - daytimeSettings.DuskStartTime));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidday, backgroundColorDawnAndDusk, lerpFactor);
         }
-        else if (timeOfDay >= duskMidTime && timeOfDay < daytimeSettings.duskEndTime)
+        else if (timeOfDay >= duskMidTime && timeOfDay < daytimeSettings.DuskEndTime)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - duskMidTime) / (daytimeSettings.duskEndTime - duskMidTime));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - duskMidTime) / (daytimeSettings.DuskEndTime - duskMidTime));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorDawnAndDusk, backgroundColorMidnight, lerpFactor);
         }
         else
         {
-            cachedCamera.backgroundColor = (timeOfDay < daytimeSettings.dawnStartTime || timeOfDay >= daytimeSettings.duskEndTime) ? backgroundColorMidnight : backgroundColorMidday;
+            cachedCamera.backgroundColor = (timeOfDay < daytimeSettings.DawnStartTime || timeOfDay >= daytimeSettings.DuskEndTime) ? backgroundColorMidnight : backgroundColorMidday;
         }
     }
 }

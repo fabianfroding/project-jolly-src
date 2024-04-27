@@ -8,25 +8,21 @@ public class AmbiencePlayer : MonoBehaviour
     [SerializeField] private AudioClip currentNighttimeAmbience;
 
     [Header("Daytime Settings")]
-    [SerializeField] private SOIntVariable currentHour;
-    [SerializeField] private SOIntVariable currentMinute;
     [SerializeField] private SODaytimeSettings daytimeSettings;
 
     public void UpdateAmbienceVolume()
     {
         if (!daytimeAudioSource || !nighttimeAudioSource) return;
-        if (!currentHour ||
-            !currentMinute ||
-            !daytimeSettings) return;
+        if (!daytimeSettings) return;
 
-        float timeOfDay = currentHour.Value + (currentMinute.Value / 60f);
-        float dawnMidTime = daytimeSettings.GetDawnMidTime(); // TODO: Can be cached for performance.
-        float duskMidTime = daytimeSettings.GetDuskMidTime();
-        float duskMidOffset = duskMidTime + (daytimeSettings.duskEndTime - daytimeSettings.duskStartTime);
+        float timeOfDay = daytimeSettings.currentHour + (daytimeSettings.currentMinute / 60f);
+        float dawnMidTime = daytimeSettings.DawnMidTime; // TODO: Can be cached for performance.
+        float duskMidTime = daytimeSettings.DuskMidTime;
+        float duskMidOffset = duskMidTime + (daytimeSettings.DuskEndTime - daytimeSettings.DuskStartTime);
 
-        if (timeOfDay >= daytimeSettings.dawnStartTime && timeOfDay < dawnMidTime)
+        if (timeOfDay >= daytimeSettings.DawnStartTime && timeOfDay < dawnMidTime)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - daytimeSettings.dawnStartTime) / (dawnMidTime - daytimeSettings.dawnStartTime));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - daytimeSettings.DawnStartTime) / (dawnMidTime - daytimeSettings.DawnStartTime));
             daytimeAudioSource.volume = Mathf.Lerp(0f, 1f, lerpFactor);
             nighttimeAudioSource.volume = Mathf.Lerp(1f, 0f, lerpFactor);
         }

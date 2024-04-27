@@ -4,8 +4,7 @@ using UnityEngine;
 public class WidgetDaytimeIndicator : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI hourText;
-    [SerializeField] SOIntVariable currentHour;
-    [SerializeField] SOIntVariable currentMinute;
+    [SerializeField] SODaytimeSettings daytimeSettings;
 
     public void OnTimeChanged()
     {
@@ -14,6 +13,6 @@ public class WidgetDaytimeIndicator : MonoBehaviour
             Debug.LogWarning("WidgetDaytimeIndicator::OnHourChanged: Could not find TextMeshProUGUI component for variable 'hourText'.");
             return;
         }
-        hourText.text = "Hour: " + currentHour.Value;
+        hourText.text = "Hour: " + daytimeSettings.currentHour;
     }
 }

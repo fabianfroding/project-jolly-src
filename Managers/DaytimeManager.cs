@@ -5,8 +5,7 @@ using UnityEngine;
 public class DaytimeManager : MonoBehaviour
 {
     [SerializeField] private float realMinutesPerDay = 18f;
-    [SerializeField] private SOIntVariable currentHour;
-    [SerializeField] private SOIntVariable currentMinute;
+    [SerializeField] private SODaytimeSettings daytimeSettings;
     [SerializeField] private SOGameEvent onHourChanged;
     [SerializeField] private SOGameEvent onMinuteChanged;
 
@@ -64,16 +63,16 @@ public class DaytimeManager : MonoBehaviour
             onMinuteChanged.Raise();
     }
 
-    public int GetCurrentHour() => currentHour.Value;
-    public int GetCurrentMinute() => currentMinute.Value;
+    public int GetCurrentHour() => daytimeSettings.currentHour;
+    public int GetCurrentMinute() => daytimeSettings.currentMinute;
     public void SetCurrentHour(int newHour)
     {
-        currentHour.Value = newHour;
+        daytimeSettings.currentHour = newHour;
         RaiseOnHourChanged();
     }
     public void SetCurrentMinute(int newMinute)
     {
-        currentMinute.Value = newMinute;
+        daytimeSettings.currentMinute = newMinute;
         RaiseOnMinuteChanged();
     }
 
@@ -94,14 +93,14 @@ public class DaytimeManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(gameMinuteInterval);
 
-                currentMinute.Value++;
+                daytimeSettings.currentMinute++;
                 RaiseOnMinuteChanged();
-                if (currentMinute.Value >= 60)
+                if (daytimeSettings.currentMinute >= 60)
                 {
-                    currentMinute.Value = 0;
-                    currentHour.Value++;
-                    if (currentHour.Value >= 24)
-                        currentHour.Value = 0;
+                    daytimeSettings.currentMinute = 0;
+                    daytimeSettings.currentHour++;
+                    if (daytimeSettings.currentHour >= 24)
+                        daytimeSettings.currentHour = 0;
                     RaiseOnHourChanged();
                 }
             }
