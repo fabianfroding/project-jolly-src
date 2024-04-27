@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class HealthComponent : CoreComponent
 {
-    [SerializeField] protected int maxHealth;
+    [SerializeField] private IntReference maxHealth;
 
     [SerializeField] private GameObject damagedParticles;
     [SerializeField] private GameObject damagedSFX;
     [SerializeField] private GameObject hurtSFXPrefab;
     [SerializeField][Range(0f, 1f)] float chanceToPlayHurtSound;
 
-    public int CurrentHealth { get; private set; }
+    [SerializeField] private IntReference CurrentHealth;
 
     private bool invulnerable = false; // TODO: This can be made into a Dictionary if there are multiple invulnerability-granting sources.
 
@@ -26,7 +26,6 @@ public class HealthComponent : CoreComponent
     private Movement movement;
 
     public event Action<int> OnHealthChange;
-    public event Action<int> OnMaxHealthChanged;
     public event Action OnHealthDepleted;
 
     protected override void Awake()
@@ -40,8 +39,7 @@ public class HealthComponent : CoreComponent
         spriteRenderer = componentOwner.SpriteRenderer;
         defaultSpriteMaterial = spriteRenderer.material;
 
-        OnMaxHealthChanged?.Invoke(maxHealth);
-        SetHealth(maxHealth);
+        //SetHealth(maxHealth.Value);
     }
 
     public override void LogicUpdate()
@@ -54,7 +52,7 @@ public class HealthComponent : CoreComponent
         }
     }
 
-    public bool IsAlive() => CurrentHealth > 0;
+    public bool IsAlive() => CurrentHealth.Value > 0;
     public bool IsInvulnerable() => invulnerable;
 
     public void TakeDamage(Types.DamageData damageData)
@@ -89,10 +87,12 @@ public class HealthComponent : CoreComponent
         Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
     }
 
+    public IntReference GetCurrenthealth() => CurrentHealth;
+
     public void DecreaseHealth(int damageAmount)
     {
-        CurrentHealth = Mathf.Max(0, CurrentHealth - damageAmount);
-        OnHealthChange?.Invoke(CurrentHealth);
+        CurrentHealth.Value = Mathf.Max(0, CurrentHealth.Value - damageAmount);
+        OnHealthChange?.Invoke(CurrentHealth.Value);
         if (!IsAlive())
         {
             OnHealthDepleted?.Invoke();
@@ -102,24 +102,23 @@ public class HealthComponent : CoreComponent
 
     public void IncreaseHealth(int amount)
     {
-        CurrentHealth = Mathf.Min(CurrentHealth + amount, maxHealth);
-        OnHealthChange?.Invoke(CurrentHealth);
+        CurrentHealth.Value = Mathf.Min(CurrentHealth.Value + amount, maxHealth.Value);
+        OnHealthChange?.Invoke(CurrentHealth.Value);
     }
 
     public void SetHealth(int value)
     {
-        CurrentHealth = Mathf.Clamp(value, 1, maxHealth);
-        OnHealthChange?.Invoke(CurrentHealth);
+        CurrentHealth.Value = Mathf.Clamp(value, 1, maxHealth.Value);
+        OnHealthChange?.Invoke(CurrentHealth.Value);
     }
 
-    public int GetMaxHealth() => maxHealth;
+    public IntReference GetMaxHealth() => maxHealth;
     public void SetMaxHealth(int value)
     {
-        maxHealth = Mathf.Max(1, value);
-        OnMaxHealthChanged?.Invoke(maxHealth);
+        maxHealth.Value = Mathf.Max(1, value);
     }
 
-    public void Kill() => DecreaseHealth(maxHealth);
+    public void Kill() => DecreaseHealth(maxHealth.Value);
 
     public void SetInvulnerable(bool newInvulnerable) => invulnerable = newInvulnerable;
 

@@ -11,8 +11,10 @@ public class PawnBase : MonoBehaviour, IDamageable
 
     protected Combat Combat => combat ? combat : Core.GetCoreComponent(ref combat);
     protected Combat combat;
+
     public HealthComponent HealthComponent => healthComponent ? healthComponent : Core.GetCoreComponent(ref healthComponent);
     protected HealthComponent healthComponent;
+
     protected Movement Movement => movement ? movement : Core.GetCoreComponent(ref movement);
     protected Movement movement;
 

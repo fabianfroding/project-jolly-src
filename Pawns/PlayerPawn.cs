@@ -35,6 +35,8 @@ public class PlayerPawn : PawnBase
 
     #region Other Variables
     [SerializeField] private Player_StateData playerStateData;
+    [SerializeField] private SOGameEvent OnPlayerHealthChangedGameEvent;
+    [SerializeField] private SOGameEvent OnPlayerMaxHealthChangedGameEvent;
 
     [Range(0, 100)]
     [SerializeField] private float playerDaytimeVisibilityRadius = 0f;
@@ -113,6 +115,11 @@ public class PlayerPawn : PawnBase
         }
 
         SetPlayerRespawnPosition(transform.position);
+
+        if (OnPlayerMaxHealthChangedGameEvent)
+            OnPlayerMaxHealthChangedGameEvent.Raise();
+        if (OnPlayerHealthChangedGameEvent)
+            OnPlayerHealthChangedGameEvent.Raise();
     }
 
     protected override void Update()
@@ -210,6 +217,10 @@ public class PlayerPawn : PawnBase
 
         if (HealthComponent.IsAlive() && HealthComponent.IsInvulnerable() && playerInvulnerabilityIndicator)
             playerInvulnerabilityIndicator.StartFlash();
+
+        HealthComponent.TakeDamage(damageData);
+        if (OnPlayerHealthChangedGameEvent)
+            OnPlayerHealthChangedGameEvent.Raise();
     }
 
     public override void Revive()

@@ -17,8 +17,8 @@ public class PlayerSaveData
         position[0] = xPos;
         position[1] = yPos;
 
-        playerHealth = playerPawn.HealthComponent.CurrentHealth;
-        playerMaxHealth = playerPawn.HealthComponent.GetMaxHealth();
+        playerHealth = playerPawn.HealthComponent.GetCurrenthealth().Value;
+        playerMaxHealth = playerPawn.HealthComponent.GetMaxHealth().Value;
 
         this.sceneName = sceneName;
     }
