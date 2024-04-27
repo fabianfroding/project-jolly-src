@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject widgetHUD;
     [SerializeField] private float playerReviveDelay = 2.5f;
     [SerializeField] private string mainMenuSceneName;
+    [SerializeField] private SODaytimeSettings daytimeSettings;
 
     public static event Action OnGameOver;
     public static event Action OnRevivePlayer;
@@ -60,8 +61,11 @@ public class GameManager : MonoBehaviour
             playerPawn.Revive();
             OnRevivePlayer?.Invoke();
 
-            DaytimeManager.Instance.SetCurrentHour(playerSaveData.currentHour);
-            DaytimeManager.Instance.SetCurrentMinute(playerSaveData.currentMinute);
+            if (daytimeSettings)
+            {
+                daytimeSettings.currentHour = playerSaveData.currentHour;
+                daytimeSettings.currentMinute = playerSaveData.currentMinute;
+            }
         }
         else
         {
