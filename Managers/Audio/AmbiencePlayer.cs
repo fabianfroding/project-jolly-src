@@ -7,14 +7,12 @@ public class AmbiencePlayer : MonoBehaviour
     [SerializeField] private AudioClip currentDaytimeAmbience;
     [SerializeField] private AudioClip currentNighttimeAmbience;
 
+    [SerializeField] SOIntVariable currentHour;
+    [SerializeField] SOIntVariable currentMinute;
+
     private float cachedDawnMid;
     private float cachedDuskMid;
     private float duskMidOffset;
-
-    private void Awake()
-    {
-        DaytimeManager.OnDaytimeTick += UpdateAmbienceVolume;
-    }
 
     private void Start()
     {
@@ -23,14 +21,11 @@ public class AmbiencePlayer : MonoBehaviour
         duskMidOffset = cachedDuskMid + (DaytimeManager.Instance.GetDuskEndTime() - DaytimeManager.Instance.GetDuskStartTime());
     }
 
-    private void OnDestroy()
-    {
-        DaytimeManager.OnDaytimeTick -= UpdateAmbienceVolume;
-    }
-
-    private void UpdateAmbienceVolume(float timeOfDay)
+    public void UpdateAmbienceVolume()
     {
         if (!daytimeAudioSource || !nighttimeAudioSource) return;
+
+        float timeOfDay = currentHour.Value + (currentMinute.Value / 60f);
 
         float dawnStart = DaytimeManager.Instance.GetDawnStartTime();
 

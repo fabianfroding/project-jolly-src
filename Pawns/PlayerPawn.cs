@@ -37,6 +37,8 @@ public class PlayerPawn : PawnBase
     [SerializeField] private Player_StateData playerStateData;
     [SerializeField] private SOGameEvent OnPlayerHealthChangedGameEvent;
     [SerializeField] private SOGameEvent OnPlayerMaxHealthChangedGameEvent;
+    [SerializeField] private SOGameEvent SOPlayerInteractEvent;
+    [SerializeField] private SOGameEvent SOPlayerInteractEndEvent;
 
     [Range(0, 100)]
     [SerializeField] private float playerDaytimeVisibilityRadius = 0f;
@@ -54,12 +56,16 @@ public class PlayerPawn : PawnBase
     [SerializeField] private Transform fireArrowSpawnTransform;
     [SerializeField] private Types.DamageData enemyCollisionDamage;
 
+    [SerializeField] private SOIntVariable currentHour;
+    [SerializeField] private SOIntVariable currentMinute;
+    [SerializeField] private SOFloatVariable dawnStartTime;
+    [SerializeField] private SOFloatVariable dawnEndTime;
+    [SerializeField] private SOFloatVariable duskStartTime;
+    [SerializeField] private SOFloatVariable duskEndTime;
+
     public Light2D light2D;
     public IInteractable currentInteractionTarget;
     private PlayerInvulnerabilityIndicator playerInvulnerabilityIndicator;
-
-    private float cachedDawnMid;
-    private float cachedDuskMid;
     #endregion
 
     #region Events
@@ -93,8 +99,6 @@ public class PlayerPawn : PawnBase
         InputHandler = GetComponent<PlayerInputHandler>();
         playerInvulnerabilityIndicator = GetComponent<PlayerInvulnerabilityIndicator>();
 
-        DaytimeManager.OnDaytimeTick += UpdateDaytimeVisibility;
-
         OnPlayerAwake?.Invoke(this);
     }
 
@@ -102,9 +106,6 @@ public class PlayerPawn : PawnBase
     {
         base.Start();
         StateMachine.Initialize(IdleState);
-
-        cachedDawnMid = DaytimeManager.Instance.GetDawnMidTime();
-        cachedDuskMid = DaytimeManager.Instance.GetDuskMidTime();
 
         if (SaveManager.DoesPlayerSaveDataExist())
         {
@@ -146,11 +147,6 @@ public class PlayerPawn : PawnBase
             enemyCollisionDamage.target = gameObject;
             TakeDamage(enemyCollisionDamage);
         }
-    }
-
-    private void OnDestroy()
-    {
-        DaytimeManager.OnDaytimeTick -= UpdateDaytimeVisibility;
     }
     #endregion
 
@@ -252,7 +248,7 @@ public class PlayerPawn : PawnBase
         if (currentInteractionTarget != null)
         {
             currentInteractionTarget.Interact();
-            DaytimeManager.Instance.stopDaytime = true;
+            if (SOPlayerInteractEvent) SOPlayerInteractEvent.Raise();
             return true;
         }
         return false;
@@ -272,47 +268,49 @@ public class PlayerPawn : PawnBase
         WidgetHUD widgetHUD = WidgetHUD.Instance;
         if (widgetHUD != null)
             WidgetHUD.Instance.ShowInteractionPanel(false);
-        DaytimeManager.Instance.stopDaytime = false;
+        if (SOPlayerInteractEndEvent) SOPlayerInteractEndEvent.Raise();
     }
 
-    public void UpdateDaytimeVisibility(float timeOfDay)
+    public void UpdateDaytimeVisibility()
     {
-        if (light2D)
-        {
-            float dawnStart = DaytimeManager.Instance.GetDawnStartTime();
-            float dawnEnd = DaytimeManager.Instance.GetDawnEndTime();
-            float duskStart = DaytimeManager.Instance.GetDuskStartTime();
-            float duskEnd = DaytimeManager.Instance.GetDuskEndTime();
+        if (!light2D) return;
+        if (!dawnStartTime) return;
+        if (!dawnEndTime) return;
+        if (!duskStartTime) return;
+        if (!duskEndTime) return;
 
-            if (timeOfDay >= dawnStart && timeOfDay < cachedDawnMid)
-            {
-                float lerpFactor = Mathf.Clamp01((timeOfDay - dawnStart) / (cachedDawnMid - dawnStart));
-                light2D.pointLightOuterRadius = Mathf.Lerp(playerNighttimeVisibilityRadius, playerDawnAndDuskVisibility, lerpFactor);
-                light2D.color = Color.Lerp(playerNighttimeLightColor, playerDawnAndDuskLightColor, lerpFactor);
-            }
-            else if (timeOfDay >= cachedDawnMid && timeOfDay < dawnEnd)
-            {
-                float lerpFactor = Mathf.Clamp01((timeOfDay - cachedDawnMid) / (dawnEnd - cachedDawnMid));
-                light2D.pointLightOuterRadius = Mathf.Lerp(playerDawnAndDuskVisibility, playerDaytimeVisibilityRadius, lerpFactor);
-                light2D.color = Color.Lerp(playerDawnAndDuskLightColor, playerDaytimeLightColor, lerpFactor);
-            }
-            else if (timeOfDay >= duskStart && timeOfDay < cachedDuskMid)
-            {
-                float lerpFactor = Mathf.Clamp01((timeOfDay - duskStart) / (cachedDuskMid - duskStart));
-                light2D.pointLightOuterRadius = Mathf.Lerp(playerDaytimeVisibilityRadius, playerDawnAndDuskVisibility, lerpFactor);
-                light2D.color = Color.Lerp(playerDaytimeLightColor, playerDawnAndDuskLightColor, lerpFactor);
-            }
-            else if (timeOfDay >= cachedDuskMid && timeOfDay < duskEnd)
-            {
-                float lerpFactor = Mathf.Clamp01((timeOfDay - cachedDuskMid) / (duskEnd - cachedDuskMid));
-                light2D.pointLightOuterRadius = Mathf.Lerp(playerDawnAndDuskVisibility, playerNighttimeVisibilityRadius, lerpFactor);
-                light2D.color = Color.Lerp(playerDawnAndDuskLightColor, playerNighttimeLightColor, lerpFactor);
-            }
-            else
-            {
-                light2D.pointLightOuterRadius = (timeOfDay < dawnStart || timeOfDay >= duskEnd) ? playerNighttimeVisibilityRadius : playerDaytimeVisibilityRadius;
-                light2D.color = (timeOfDay < dawnStart || timeOfDay >= duskEnd) ? playerNighttimeLightColor : playerDaytimeLightColor;
-            }
+        float timeOfDay = currentHour.Value + (currentMinute.Value / 60f);
+        float dawnMidTime = GameFunctionLibrary.CalculateMiddleOfTimeInterval(dawnStartTime.Value, dawnEndTime.Value); // TODO: These two can be cached to save performance.
+        float duskMidTIme = GameFunctionLibrary.CalculateMiddleOfTimeInterval(duskStartTime.Value, duskEndTime.Value);
+
+        if (timeOfDay >= dawnStartTime.Value && timeOfDay < dawnMidTime)
+        {
+            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnStartTime.Value) / (dawnMidTime - dawnStartTime.Value));
+            light2D.pointLightOuterRadius = Mathf.Lerp(playerNighttimeVisibilityRadius, playerDawnAndDuskVisibility, lerpFactor);
+            light2D.color = Color.Lerp(playerNighttimeLightColor, playerDawnAndDuskLightColor, lerpFactor);
+        }
+        else if (timeOfDay >= dawnMidTime && timeOfDay < dawnEndTime.Value)
+        {
+            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnMidTime) / (dawnEndTime.Value - dawnMidTime));
+            light2D.pointLightOuterRadius = Mathf.Lerp(playerDawnAndDuskVisibility, playerDaytimeVisibilityRadius, lerpFactor);
+            light2D.color = Color.Lerp(playerDawnAndDuskLightColor, playerDaytimeLightColor, lerpFactor);
+        }
+        else if (timeOfDay >= duskStartTime.Value && timeOfDay < duskMidTIme)
+        {
+            float lerpFactor = Mathf.Clamp01((timeOfDay - duskStartTime.Value) / (duskMidTIme - duskStartTime.Value));
+            light2D.pointLightOuterRadius = Mathf.Lerp(playerDaytimeVisibilityRadius, playerDawnAndDuskVisibility, lerpFactor);
+            light2D.color = Color.Lerp(playerDaytimeLightColor, playerDawnAndDuskLightColor, lerpFactor);
+        }
+        else if (timeOfDay >= duskMidTIme && timeOfDay < duskEndTime.Value)
+        {
+            float lerpFactor = Mathf.Clamp01((timeOfDay - duskMidTIme) / (duskEndTime.Value - duskMidTIme));
+            light2D.pointLightOuterRadius = Mathf.Lerp(playerDawnAndDuskVisibility, playerNighttimeVisibilityRadius, lerpFactor);
+            light2D.color = Color.Lerp(playerDawnAndDuskLightColor, playerNighttimeLightColor, lerpFactor);
+        }
+        else
+        {
+            light2D.pointLightOuterRadius = (timeOfDay < dawnStartTime.Value || timeOfDay >= duskEndTime.Value) ? playerNighttimeVisibilityRadius : playerDaytimeVisibilityRadius;
+            light2D.color = (timeOfDay < dawnStartTime.Value || timeOfDay >= duskEndTime.Value) ? playerNighttimeLightColor : playerDaytimeLightColor;
         }
     }
 

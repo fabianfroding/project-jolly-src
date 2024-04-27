@@ -26,7 +26,7 @@ public class WidgetPlayerMana : MonoBehaviour
 
     private void OnPlayerManaChanged(int value)
     {
-        if (widgetPlayerManaFill)
+        if (this.isActiveAndEnabled && widgetPlayerManaFill)
             StartCoroutine(SmoothSliderValueChange(value));
     }
 

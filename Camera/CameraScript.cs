@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
+    [SerializeField] SOIntVariable currentHour;
+    [SerializeField] SOIntVariable currentMinute;
+
     [SerializeField] private float zoomDistance = 22.5f;
     [SerializeField] private Vector2 playerBaseOffset = new Vector2(1.5f, 1f);
     [SerializeField] private Vector2 playerWalkOffset = new Vector2(3f, 1f);
@@ -91,8 +94,6 @@ public class CameraScript : MonoBehaviour
         if (behaviourPointOfInterest == null) behaviourPointOfInterest = gameObject.AddComponent<CameraBehaviourPointOfInterest>();
 
         cachedCamera = GetComponent<Camera>();
-
-        DaytimeManager.OnDaytimeTick += UpdateBackgroundTint;
     }
 
     private void Start()
@@ -126,11 +127,6 @@ public class CameraScript : MonoBehaviour
     {
         CameraBehaviourZone.OnEnterCameraBehaviourZone -= SetCurrentBehaviourObj;
         CameraBehaviourZone.OnExitCameraBehaviourZone -= SetCurrentBehaviourObj;
-    }
-
-    private void OnDestroy()
-    {
-        DaytimeManager.OnDaytimeTick -= UpdateBackgroundTint;
     }
     #endregion
 
@@ -359,9 +355,11 @@ public class CameraScript : MonoBehaviour
         return defaultFST;
     }
 
-    private void UpdateBackgroundTint(float timeOfDay)
+    public void UpdateBackgroundTint()
     {
         if (!cachedCamera) return;
+
+        float timeOfDay = currentHour.Value + (currentMinute.Value / 60f);
 
         float dawnStart = DaytimeManager.Instance.GetDawnStartTime();
         float dawnEnd = DaytimeManager.Instance.GetDawnEndTime();

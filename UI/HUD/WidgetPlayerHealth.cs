@@ -15,7 +15,6 @@ public class WidgetPlayerHealth : MonoBehaviour
 
     public void OnPlayerHealthChanged()
     {
-        Debug.Log("Player health changed");
         for (int i = 1; i <= widgetPlayerHealthIcons.Count; i++)
         {
             WidgetPlayerHealthIcon widgetPlayerHealthIcon = widgetPlayerHealthIcons[i - 1].GetComponent<WidgetPlayerHealthIcon>();
