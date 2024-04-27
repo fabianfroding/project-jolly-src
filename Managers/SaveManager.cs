@@ -5,7 +5,8 @@ using UnityEngine;
 
 public static class SaveManager
 {
-    static string PlayerSaveDataFileName() => "/playerSaveData";
+    public static int currentSaveSlotIndex;
+    static string PlayerSaveDataFileName() => "/playerSaveData" + currentSaveSlotIndex;
 
     static string SaveDataFileExtension => ".sun";
     static string SaveDataPath(string fileName) => Application.persistentDataPath + fileName + SaveDataFileExtension;

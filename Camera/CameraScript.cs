@@ -14,10 +14,7 @@ public class CameraScript : MonoBehaviour
     [Header("DaytimeManager")]
     [SerializeField] private SOIntVariable currentHour;
     [SerializeField] private SOIntVariable currentMinute;
-    [SerializeField] private SOFloatVariable dawnStartTime;
-    [SerializeField] private SOFloatVariable dawnEndTime;
-    [SerializeField] private SOFloatVariable duskStartTime;
-    [SerializeField] private SOFloatVariable duskEndTime;
+    [SerializeField] private SODaytimeSettings daytimeSettings;
 
     private CameraState cameraState = CameraState.FollowPlayer;
     private CameraBehaviourZone.CameraBehaviour cameraBehaviour = CameraBehaviourZone.CameraBehaviour.HorizontalLane;
@@ -360,38 +357,35 @@ public class CameraScript : MonoBehaviour
         if (!cachedCamera) return;
         if (!currentHour) return;
         if (!currentMinute) return;
-        if (!dawnStartTime) return;
-        if (!dawnEndTime) return;
-        if (!duskStartTime) return;
-        if (!duskEndTime) return;
+        if (!daytimeSettings) return;
 
         float timeOfDay = currentHour.Value + (currentMinute.Value / 60f);
-        float dawnMidTime = GameFunctionLibrary.CalculateMiddleOfTimeInterval(dawnStartTime.Value, dawnEndTime.Value);
-        float duskMidTime = GameFunctionLibrary.CalculateMiddleOfTimeInterval(duskStartTime.Value, duskEndTime.Value);
+        float dawnMidTime = daytimeSettings.GetDawnMidTime(); // TODO: Can be cached for performance.
+        float duskMidTime = daytimeSettings.GetDuskMidTime();
 
-        if (timeOfDay >= dawnStartTime.Value && timeOfDay < dawnMidTime)
+        if (timeOfDay >= daytimeSettings.dawnStartTime && timeOfDay < dawnMidTime)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnStartTime.Value) / (dawnMidTime - dawnStartTime.Value));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - daytimeSettings.dawnStartTime) / (dawnMidTime - daytimeSettings.dawnStartTime));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidnight, backgroundColorDawnAndDusk, lerpFactor);
         }
-        else if (timeOfDay >= dawnMidTime && timeOfDay < dawnEndTime.Value)
+        else if (timeOfDay >= dawnMidTime && timeOfDay < daytimeSettings.dawnEndTime)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnMidTime) / (dawnEndTime.Value - dawnMidTime));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnMidTime) / (daytimeSettings.dawnEndTime - dawnMidTime));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorDawnAndDusk, backgroundColorMidday, lerpFactor);
         }
-        else if (timeOfDay >= duskStartTime.Value && timeOfDay < duskMidTime)
+        else if (timeOfDay >= daytimeSettings.duskStartTime && timeOfDay < duskMidTime)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - duskStartTime.Value) / (duskMidTime - duskStartTime.Value));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - daytimeSettings.duskStartTime) / (duskMidTime - daytimeSettings.duskStartTime));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidday, backgroundColorDawnAndDusk, lerpFactor);
         }
-        else if (timeOfDay >= duskMidTime && timeOfDay < duskEndTime.Value)
+        else if (timeOfDay >= duskMidTime && timeOfDay < daytimeSettings.duskEndTime)
         {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - duskMidTime) / (duskEndTime.Value - duskMidTime));
+            float lerpFactor = Mathf.Clamp01((timeOfDay - duskMidTime) / (daytimeSettings.duskEndTime - duskMidTime));
             cachedCamera.backgroundColor = Color.Lerp(backgroundColorDawnAndDusk, backgroundColorMidnight, lerpFactor);
         }
         else
         {
-            cachedCamera.backgroundColor = (timeOfDay < dawnStartTime.Value || timeOfDay >= duskEndTime.Value) ? backgroundColorMidnight : backgroundColorMidday;
+            cachedCamera.backgroundColor = (timeOfDay < daytimeSettings.dawnStartTime || timeOfDay >= daytimeSettings.duskEndTime) ? backgroundColorMidnight : backgroundColorMidday;
         }
     }
 }
