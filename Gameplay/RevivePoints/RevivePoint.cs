@@ -7,6 +7,7 @@ public class RevivePoint : MonoBehaviour, IDamageable
     [SerializeField] private GameObject takeDamageVFXPosition;
     [SerializeField] private GameObject glowGameObject;
     [SerializeField] private string takeDamageAnimationName;
+    [SerializeField] private SODaytimeSettings daytimeSettings;
 
     private Animator animator;
     private AudioSource audioSource;
@@ -41,6 +42,6 @@ public class RevivePoint : MonoBehaviour, IDamageable
         if (glowGameObject)
             glowGameObject.SetActive(true);
 
-        SaveManager.SavePlayerSaveData(playerPawn, transform.position, SceneManager.GetActiveScene().name);
+        SaveManager.SavePlayerSaveData(playerPawn, transform.position, SceneManager.GetActiveScene().name, daytimeSettings);
     }
 }
