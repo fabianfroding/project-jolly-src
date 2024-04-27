@@ -21,7 +21,7 @@ public class DaytimeManager : MonoBehaviour
     private float gameHourInterval;
     private float gameMinuteInterval;
 
-    public bool stopDaytime = false;
+    private bool stopDaytime = false;
 
     private static DaytimeManager instance;
     public static DaytimeManager Instance

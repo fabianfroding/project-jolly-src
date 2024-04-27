@@ -13,9 +13,6 @@ public class GameFunctionLibrary : MonoBehaviour
         return false;
     }
 
-    public static float CalculateMiddleOfTimeInterval(float startTime, float endTime)
-        => startTime + ((endTime - startTime) / 2f);
-
     #region Math Functions
     public static float GetAngleBetweenObjects(GameObject source, GameObject target)
     {
