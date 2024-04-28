@@ -38,7 +38,9 @@ public class PlayerPawn : PawnBase
     [SerializeField] private SOGameEvent OnPlayerHealthChangedGameEvent;
     [SerializeField] private SOGameEvent OnPlayerMaxHealthChangedGameEvent;
     [SerializeField] private SOGameEvent SOPlayerInteractEvent;
+    [SerializeField] private SOGameEvent SOPlayerInteractionAdvancedEvent;
     [SerializeField] private SOGameEvent SOPlayerInteractEndEvent;
+    [SerializeField] private SOInteractionData SOInteractionData;
 
     [Range(0, 100)]
     [SerializeField] private float playerDaytimeVisibilityRadius = 0f;
@@ -59,7 +61,6 @@ public class PlayerPawn : PawnBase
     [SerializeField] private SODaytimeSettings daytimeSettings;
 
     public Light2D light2D;
-    public IInteractable currentInteractionTarget;
     private PlayerInvulnerabilityIndicator playerInvulnerabilityIndicator;
     #endregion
 
@@ -214,6 +215,18 @@ public class PlayerPawn : PawnBase
             OnPlayerHealthChangedGameEvent.Raise();
     }
 
+    public void OnEnterInteractionIndicator(IInteractable interactable)
+    {
+        if (interactable != null && interactable.IsInteractable() && SOInteractionData)
+            SOInteractionData.interactable = interactable;
+    }
+
+    public void OnExitInteractionIndicator()
+    {
+        if (SOInteractionData)
+            SOInteractionData.interactable = null;
+    }
+
     public override void Revive()
     {
         base.Revive();
@@ -240,10 +253,10 @@ public class PlayerPawn : PawnBase
 
     public bool Interact()
     {
-        if (currentInteractionTarget != null)
+        if (SOInteractionData && SOInteractionData.interactable != null && SOInteractionData.interactable.IsInteractable())
         {
-            currentInteractionTarget.Interact();
-            if (SOPlayerInteractEvent) SOPlayerInteractEvent.Raise();
+            SOInteractionData.interactable.Interact();
+            SOPlayerInteractEvent.Raise();
             return true;
         }
         return false;
@@ -251,19 +264,26 @@ public class PlayerPawn : PawnBase
 
     public bool AdvanceInteraction()
     {
-        if (currentInteractionTarget == null)
-            return false;
-        if (currentInteractionTarget.AdvanceInteraction())
-            return true;
+        if (SOInteractionData && SOInteractionData.interactable != null)
+        {
+            if (SOInteractionData.interactable.AdvanceInteraction())
+            {
+                if (SOPlayerInteractionAdvancedEvent)
+                    SOPlayerInteractionAdvancedEvent.Raise();
+                return true;
+            }
+        }
         return false;
     }
 
     public void EndInteraction()
     {
-        WidgetHUD widgetHUD = WidgetHUD.Instance;
-        if (widgetHUD != null)
-            WidgetHUD.Instance.ShowInteractionPanel(false);
-        if (SOPlayerInteractEndEvent) SOPlayerInteractEndEvent.Raise();
+        if (SOPlayerInteractEndEvent)
+        {
+            if (SOInteractionData && SOInteractionData.interactable != null)
+                SOInteractionData.interactable.InteractEnd();
+            SOPlayerInteractEndEvent.Raise();
+        }
     }
 
     public void UpdateDaytimeVisibility()

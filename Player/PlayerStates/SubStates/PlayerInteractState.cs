@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 public class PlayerInteractState : PlayerGroundedState
 {
     private bool advanceInteractionInput = false;

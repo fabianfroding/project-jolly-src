@@ -3,16 +3,24 @@ using UnityEngine;
 
 public class WidgetInteractionPanel : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI Text;
+    [SerializeField] private TextMeshProUGUI Text;
+    [SerializeField] private SOInteractionData interactionData;
 
-    void Start()
+    private void Start()
     {
         gameObject.SetActive(false);
     }
 
-    public void SetText(string text)
+    private void OnEnable()
     {
-        if (Text)
-            Text.text = text;
+        SetText();
+    }
+
+    public void SetText()
+    {
+        if (!Text) return;
+        if (!interactionData) return;
+        if (interactionData.interactable == null) return;
+        Text.text = interactionData.interactable.GetInteractionText();
     }
 }

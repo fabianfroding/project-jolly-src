@@ -2,51 +2,49 @@
 
 public class NPCPawn : PawnBase, IInteractable
 {
-    [SerializeField] D_InteractData[] interactData;
-    private int interactDataIndex = 0;
-    private int interactDataTextIndex = 0;
+    [SerializeField] private Types.DialogueData[] dialogues;
+    [SerializeField] private bool isInteractable = true;
+    [SerializeField] private GameObject interactionIndicatorGO;
+
+    private int currentDialogueIndex;
+    private int currentDialogueParagraphIndex;
 
     protected override void Awake()
     {
         base.Awake();
+        currentDialogueIndex = 0; // TODO: Get this from save data.
+        currentDialogueParagraphIndex = 0;
 
         // Prevent NPCs from colliding with player or enemies.
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_NPC), LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_NPC), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY));
     }
 
-    public int GetInteractDataIndex() => interactDataIndex;
-
     #region Interactable Interface
-    public bool AdvanceInteraction()
+    public bool AdvanceInteraction() =>
+        currentDialogueParagraphIndex++ < dialogues[currentDialogueIndex].paragraphs.Length - 1;
+
+    public void Interact() => currentDialogueParagraphIndex = 0;
+    public void InteractEnd() => currentDialogueIndex = Mathf.Clamp(currentDialogueIndex + 1, 0, dialogues.Length - 1);
+    public bool IsInteractable() => isInteractable;
+
+    public string GetInteractionText()
     {
-        for (int i = 0; i < interactData[interactDataIndex].InteractText.Length; i++)
+        string result = "Missing interaction text.";
+
+        for (int i = 0; i < dialogues.Length; i++)
         {
-            if (i == interactDataTextIndex)
+            if (i == currentDialogueIndex)
             {
-                WidgetHUD widgetHUD = WidgetHUD.Instance;
-                if (widgetHUD != null)
+                for (int j = 0; j < dialogues[i].paragraphs.Length; j++)
                 {
-                    WidgetHUD.Instance.SetInteractionPanelText(interactData[interactDataIndex].InteractText[interactDataTextIndex]);
+                    if (j == currentDialogueParagraphIndex)
+                        result = dialogues[i].paragraphs[j];
                 }
-                interactDataTextIndex++;
-                return true;
             }
         }
-        interactDataIndex = Mathf.Clamp(interactDataIndex + 1, 0, interactData.Length - 1);
-        return false;
-    }
-    public void Interact()
-    {
-        WidgetHUD widgetHUD = WidgetHUD.Instance;
-        if (widgetHUD != null)
-        {
-            interactDataTextIndex = 0;
-            WidgetHUD.Instance.ShowInteractionPanel(true);
-            AdvanceInteraction();
-        }
-    }
 
-    public bool IsInteractable() => false;
+        return result;
+    }
     #endregion
 }

@@ -20,4 +20,10 @@ public static class Types
         public Vector2 knockbackAngle, direction;
         public GameObject sfxPrefab;
     }
+
+    [System.Serializable]
+    public struct DialogueData
+    {
+        [TextArea] public string[] paragraphs;
+    }
 }

@@ -210,7 +210,7 @@ public class CameraScript : MonoBehaviour
 
         if (Player)
         {
-            if (PlayerScript.HasXMovementInput())
+            if (PlayerScript.HasXMovementInput() && PlayerScript.StateMachine.CurrentState != PlayerScript.InteractState)
                 newOffset = playerWalkOffset;
             else
                 newOffset = playerBaseOffset;
