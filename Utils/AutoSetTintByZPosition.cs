@@ -6,8 +6,8 @@ public class AutoSetTintByZPosition : MonoBehaviour
     [Tooltip("At which Z-position the sprite should become pitch black. " +
         "Z-positions between 0 and this value will adapt the tint between default color and black. " +
         "Z-positions less than 0 will always bet the default color.")]
-    [SerializeField] SOFloatVariable autoTintThreshold;
-    SpriteRenderer spriteRenderer;
+    [SerializeField] private SOFloatVariable autoTintThreshold;
+    private SpriteRenderer spriteRenderer;
 
     private void Start()
     {
@@ -19,10 +19,7 @@ public class AutoSetTintByZPosition : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private void Update()
-    {
-        UpdateTint();
-    }
+    private void Update() => UpdateTint();
 #endif
 
     private void UpdateTint()

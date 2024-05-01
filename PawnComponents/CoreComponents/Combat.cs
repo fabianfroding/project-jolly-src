@@ -103,7 +103,6 @@ public class Combat : CoreComponent
 
     public bool CheckBlock(GameObject source, GameObject target)
     {
-        Debug.Log(target.name + " attempt to block attack from " + source.name);
         if (source == target)
             return false;
 

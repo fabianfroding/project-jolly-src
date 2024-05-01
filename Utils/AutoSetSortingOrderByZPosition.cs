@@ -4,8 +4,8 @@ using UnityEngine.Rendering;
 [ExecuteInEditMode]
 public class AutoSetSortingOrderByZPosition : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
-    SortingGroup sortGroup;
+    private SpriteRenderer spriteRenderer;
+    private SortingGroup sortGroup;
 
     private void Start()
     {
@@ -18,10 +18,7 @@ public class AutoSetSortingOrderByZPosition : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private void Update()
-    {
-        UpdateSortingOrder();
-    }
+    private void Update() => UpdateSortingOrder();
 #endif
 
     private void UpdateSortingOrder()
