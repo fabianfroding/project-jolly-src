@@ -84,7 +84,7 @@ public class HealthComponent : CoreComponent
         if (source)
             source.BroadcastOnDealtDamage();
 
-        Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
+        //Debug.Log(damageData.target.name + " took " + damageData.damageAmount + " damage from " + damageData.source.name);
     }
 
     public IntReference GetCurrenthealth() => CurrentHealth;

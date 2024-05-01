@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class PlayerChargeArrowState : PlayerAbilityState
 {
-    public bool isCharging { get; private set; }
+    public bool IsCharging { get; private set; }
     private float lastChargeArrowTime;
+
+    private PlayerManaComponent PlayerManaComponent { get => playerManaComponent != null ? playerManaComponent : core.GetCoreComponent(ref playerManaComponent); }
+    private PlayerManaComponent playerManaComponent;
 
     public PlayerChargeArrowState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
@@ -11,7 +14,7 @@ public class PlayerChargeArrowState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
-        isCharging = true;
+        IsCharging = true;
         startTime = Time.time;
         player.InputHandler.UseChargeBowInput();
         player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, true);
@@ -29,7 +32,7 @@ public class PlayerChargeArrowState : PlayerAbilityState
 
         if (!isExitingState)
         {
-            if (isCharging)
+            if (IsCharging)
             {
                 player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, true);
                 player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, player.InputHandler.NormInputY);
@@ -37,21 +40,23 @@ public class PlayerChargeArrowState : PlayerAbilityState
                 if (player.InputHandler.ChargeBowInputRelease)
                 {
                     player.Animator.SetBool(AnimationConstants.ANIM_PARAM_CHARGE_ARROW, false);
-                    isCharging = false;
+                    IsCharging = false;
                     lastChargeArrowTime = Time.time;
                     isAbilityDone = true;
+                    PlayerManaComponent.ConsumeManaCharge();
                     stateMachine.ChangeState(player.FireArrowState);
                 }
             }
             if (CollisionSenses.Ground)
             {
-                //Movement.SetVelocityX(0f);
+                Movement.SetVelocityX(0f);
             }
         }
     }
 
     public bool CheckIfCanChargeArrow()
     {
-        return Time.time < playerStateData.chargeArrowCooldown || Time.time >= lastChargeArrowTime + playerStateData.chargeArrowCooldown;
+        return (Time.time < playerStateData.chargeArrowCooldown || Time.time >= lastChargeArrowTime + playerStateData.chargeArrowCooldown) &&
+            PlayerManaComponent == null || PlayerManaComponent.CurrentManaCharges > 0;
     }
 }

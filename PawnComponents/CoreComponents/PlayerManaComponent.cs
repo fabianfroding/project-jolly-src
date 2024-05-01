@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
 public class PlayerManaComponent : CoreComponent
 {
@@ -67,5 +66,11 @@ public class PlayerManaComponent : CoreComponent
     {
         CurrentManaCharges = value;
         OnPlayerManaChargesChange?.Invoke(value);
+    }
+
+    public void ConsumeManaCharge()
+    {
+        CurrentManaCharges = Mathf.Clamp(CurrentManaCharges - 1, 0, maxManaCharges);
+        OnPlayerManaChargesChange?.Invoke(CurrentManaCharges);
     }
 }
