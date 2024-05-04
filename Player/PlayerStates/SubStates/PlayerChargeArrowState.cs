@@ -57,6 +57,6 @@ public class PlayerChargeArrowState : PlayerAbilityState
     public bool CheckIfCanChargeArrow()
     {
         return (Time.time < playerStateData.chargeArrowCooldown || Time.time >= lastChargeArrowTime + playerStateData.chargeArrowCooldown) &&
-            PlayerManaComponent == null || PlayerManaComponent.CurrentManaCharges > 0;
+            PlayerManaComponent == null || PlayerManaComponent.playerManaCharges.Value > 0;
     }
 }

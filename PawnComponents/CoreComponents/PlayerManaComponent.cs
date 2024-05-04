@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,19 +6,20 @@ public class PlayerManaComponent : CoreComponent
     [SerializeField] private int manaGainedPerAttack;
     [SerializeField] private float manaTickInterval = 0.5f;
     [SerializeField] private int manaLostPerTick = 2;
-    [SerializeField] private int maxManaCharges = 2;
 
-    public int CurrentMana { get; private set; }
-    public int CurrentManaCharges { get; private set; }
+    [SerializeField] private SOIntVariable playerMana;
+    [SerializeField] public SOIntVariable playerManaCharges;
+    [SerializeField] private SOIntVariable playerMaxManaCharges;
 
-    public static event Action<int> OnPlayerManaChange;
-    public static event Action<int> OnPlayerManaChargesChange;
-    public static event Action<int> OnPlayerMaxManaChargesChange;
+    [SerializeField] private SOGameEvent OnPlayerManaChangedGameEvent;
+    [SerializeField] private SOGameEvent OnPlayerManaChargesChangedGameEvent;
+    [SerializeField] private SOGameEvent OnPlayerMaxManaChargesChangedGameEvent;
 
     protected override void Start()
     {
-        OnPlayerMaxManaChargesChange?.Invoke(maxManaCharges);
-        SetManaCharges(0);
+        if (OnPlayerMaxManaChargesChangedGameEvent)
+            OnPlayerMaxManaChargesChangedGameEvent.Raise();
+        SetManaCharges(0); // TODO: This should be fetched from save data.
     }
 
     private void OnEnable()
@@ -44,33 +44,38 @@ public class PlayerManaComponent : CoreComponent
             yield return new WaitForSeconds(manaTickInterval);
             if (componentOwner && componentOwner.IsAlive())
             {
-                CurrentMana = Mathf.Clamp(CurrentMana - manaLostPerTick, 0, 100);
-                OnPlayerManaChange?.Invoke(CurrentMana);
+                playerMana.Value = Mathf.Clamp(playerMana.Value - manaLostPerTick, 0, 100);
+                if (OnPlayerManaChangedGameEvent)
+                    OnPlayerManaChangedGameEvent.Raise();
             }
         }
     }
 
     private void OnDealtDamage()
     {
-        CurrentMana = Mathf.Clamp(CurrentMana + manaGainedPerAttack, 0, 100);
-        if (CurrentMana >= 100 && CurrentManaCharges < maxManaCharges)
+        playerMana.Value = Mathf.Clamp(playerMana.Value + manaGainedPerAttack, 0, 100);
+        if (playerMana.Value >= 100 && playerManaCharges.Value < playerMaxManaCharges.Value)
         {
-            CurrentManaCharges = Mathf.Clamp(CurrentManaCharges + 1, 0, maxManaCharges);
-            OnPlayerManaChargesChange?.Invoke(CurrentManaCharges);
-            CurrentMana = 0;
+            playerManaCharges.Value = Mathf.Clamp(playerManaCharges.Value + 1, 0, playerMaxManaCharges.Value);
+            if (OnPlayerManaChargesChangedGameEvent)
+                OnPlayerManaChargesChangedGameEvent.Raise();
+            playerMana.Value = 0;
         }
-        OnPlayerManaChange?.Invoke(CurrentMana);
+        if (OnPlayerManaChangedGameEvent)
+            OnPlayerManaChangedGameEvent.Raise();
     }
 
     private void SetManaCharges(int value)
     {
-        CurrentManaCharges = value;
-        OnPlayerManaChargesChange?.Invoke(value);
+        playerManaCharges.Value = value;
+        if (OnPlayerManaChargesChangedGameEvent)
+            OnPlayerManaChargesChangedGameEvent.Raise();
     }
 
     public void ConsumeManaCharge()
     {
-        CurrentManaCharges = Mathf.Clamp(CurrentManaCharges - 1, 0, maxManaCharges);
-        OnPlayerManaChargesChange?.Invoke(CurrentManaCharges);
+        playerManaCharges.Value = Mathf.Clamp(playerManaCharges.Value - 1, 0, playerMaxManaCharges.Value);
+        if (OnPlayerManaChargesChangedGameEvent)
+            OnPlayerManaChargesChangedGameEvent.Raise();
     }
 }
