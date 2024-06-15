@@ -11,7 +11,7 @@ public class ChargeState : State
 
     protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;
-    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
     public ChargeState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_ChargeState stateData) : base(enemy, stateMachine, animBoolName)

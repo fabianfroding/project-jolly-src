@@ -42,4 +42,6 @@ public class AttackState : State
     public virtual void TriggerParriable() {}
 
     public virtual void FinishAttack() => isAnimationFinished = true;
+
+    public virtual void AttackImpact() {}
 }

@@ -27,11 +27,15 @@ public class PlayerDetectedState : State
         performLongRangeAction = false;
         Movement.SetVelocityX(0);
 
-        if (stateData.aggroSoundPrefab && Time.time > aggroSoundUsedTime + stateData.aggroSoundResetTime)
+        if (stateData.aggroAudioClip && Time.time > aggroSoundUsedTime + stateData.aggroSoundResetTime)
         {
             aggroSoundUsedTime = Time.time;
-            GameObject aggroSFX = GameObject.Instantiate(stateData.aggroSoundPrefab);
+            GameObject aggroSFX = new("AggroSFX");
             aggroSFX.transform.position = enemy.transform.position;
+            AudioSource audioSource = aggroSFX.AddComponent<AudioSource>();
+            audioSource.clip = stateData.aggroAudioClip;
+            audioSource.Play();
+            aggroSFX.AddComponent<DestroyWhenDone>();
         }
     }
 

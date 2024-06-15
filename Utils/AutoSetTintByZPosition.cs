@@ -29,10 +29,10 @@ public class AutoSetTintByZPosition : MonoBehaviour
 
         float zPosition = transform.position.z;
         if (zPosition >= 0)
-            spriteRenderer.color = Color.white;
+            spriteRenderer.color = new(1f, 1f, 1f, spriteRenderer.color.a);
         else if (zPosition > autoTintThreshold.Value)
-            spriteRenderer.color = Color.Lerp(Color.white, Color.black, zPosition / autoTintThreshold.Value);
+            spriteRenderer.color = Color.Lerp(new(1f, 1f, 1f, spriteRenderer.color.a), new(0f, 0f, 0f, spriteRenderer.color.a), zPosition / autoTintThreshold.Value);
         else
-            spriteRenderer.color = Color.black;
+            spriteRenderer.color = new(0f, 0f, 0f, spriteRenderer.color.a);
     }
 }

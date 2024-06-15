@@ -6,24 +6,14 @@ public class AnimationToStateMachine : MonoBehaviour
     public TurnState turnState;
 
     // Also works as end of the time-window in which the enemy can be parried.
-    private void TriggerAttack()
-    {
-        attackState?.TriggerAttack();
-    }
+    private void TriggerAttack() => attackState?.TriggerAttack();
 
-    private void FinishAttack()
-    {
-        attackState?.FinishAttack();
-    }
+    private void FinishAttack() => attackState?.FinishAttack();
 
     // Start of the time-window in which the enemy can be parried.
-    private void TriggerParriable()
-    {
-        attackState?.TriggerParriable();
-    }
+    private void TriggerParriable() => attackState?.TriggerParriable();
 
-    private void FinishTurn()
-    {
-        turnState?.FinishTurn();
-    }
+    private void FinishTurn() => turnState?.FinishTurn();
+
+    private void AttackImpact() => attackState?.AttackImpact();
 }

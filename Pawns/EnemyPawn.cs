@@ -92,7 +92,9 @@ public class EnemyPawn : PawnBase, IParriable
             return false;
         if (!AIVision.TargetPlayerPawn.IsAlive())
             return false;
-        //Debug.DrawLine(playerCheck.position, playerCheck.position + (transform.right * enemyData.longRangeActionDistance), Color.cyan);
+#if UNITY_EDITOR
+        Debug.DrawLine(playerCheck.position, playerCheck.position + (transform.right * enemyData.longRangeActionDistance), Color.cyan);
+#endif
         return Physics2D.Raycast(playerCheck.position, transform.right, enemyData.longRangeActionDistance, enemyData.playerLayer);
     }
 

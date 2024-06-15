@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class PlayerPawn : PawnBase
 {
@@ -108,7 +109,10 @@ public class PlayerPawn : PawnBase
             PlayerSaveData playerSaveData = SaveManager.LoadPlayerSaveData();
             HealthComponent.SetMaxHealth(playerSaveData.playerMaxHealth);
             HealthComponent.SetHealth(playerSaveData.playerHealth);
-            transform.position = new Vector2(playerSaveData.position[0], playerSaveData.position[1]);
+            
+            // TODO: Need to rework this. If player re-enters save scene he will get teleported to save position...
+            if (SceneManager.GetActiveScene().name == playerSaveData.sceneName)
+                transform.position = new Vector2(playerSaveData.position[0], playerSaveData.position[1]);
         }
 
         SetPlayerRespawnPosition(transform.position);

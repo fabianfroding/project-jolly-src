@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         AddWidgetHUD();
+        Cursor.visible = false;
 
         PlayerPawn.OnPlayerDeathSequenceFinish += OnPlayerDeathSequenceFinish;
         PlayerPawn.OnQuitInput += QuitToMainMenu;

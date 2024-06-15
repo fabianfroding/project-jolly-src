@@ -28,7 +28,7 @@ public class Movement : CoreComponent, IKnockbackable
     protected override void Awake()
     {
         base.Awake();
-        FacingDirection = 1;
+        FacingDirection = transform.rotation.y >= 180 ? -1 : 1;
         CanSetVelocity = true;
         RB = GetComponentInParent<Rigidbody2D>();
 }

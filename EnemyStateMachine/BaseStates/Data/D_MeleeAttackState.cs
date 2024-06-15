@@ -10,5 +10,7 @@ public class D_MeleeAttackState : ScriptableObject
     [Tooltip("How far the slash should spawn horizontally from the spawn position.")]
     public float spawnPosOffsetX = 2f;
 
+    public GameObject windupSFXPrefab;
+
     public LayerMask playerLayer;
 }
