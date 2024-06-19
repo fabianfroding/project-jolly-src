@@ -18,6 +18,7 @@ public class AnimationConstants : MonoBehaviour
     public static readonly int ANIM_PARAM_LAND = Animator.StringToHash("land");
     public static readonly int ANIM_PARAM_LOOK_FOR_PLAYER = Animator.StringToHash("lookForPlayer");
     public static readonly int ANIM_PARAM_MELEE_ATTACK = Animator.StringToHash("meleeAttack");
+    public static readonly int ANIM_PARAM_MELEE_ATTACK_SECOND = Animator.StringToHash("meleeAttackSecond");
     public static readonly int ANIM_PARAM_MOVE = Animator.StringToHash("move");
     public static readonly int ANIM_PARAM_PICKUP_POWERUP = Animator.StringToHash("pickupPowerup");
     public static readonly int ANIM_PARAM_PLAYER_DETECTED = Animator.StringToHash("playerDetected");
@@ -26,6 +27,7 @@ public class AnimationConstants : MonoBehaviour
     public static readonly int ANIM_PARAM_SHIELD_DIR = Animator.StringToHash("shieldDir");
     public static readonly int ANIM_PARAM_SHIELD_HIT = Animator.StringToHash("shieldHit");
     public static readonly int ANIM_PARAM_SHIELD_HIT_DIR = Animator.StringToHash("shieldHitDir");
+    public static readonly int ANIM_PARAM_SLAM = Animator.StringToHash("slam");
     public static readonly int ANIM_PARAM_STUN = Animator.StringToHash("stun");
     public static readonly int ANIM_PARAM_THUNDER = Animator.StringToHash("thunder");
     public static readonly int ANIM_PARAM_TURN = Animator.StringToHash("turn");

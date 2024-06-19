@@ -9,23 +9,15 @@ public class EnemyGundyr_MeleeAttackState : MeleeAttackState
         this.enemyGundyr = enemyGundyr;
     }
 
-    public override void AttackImpact()
-    {
-        base.AttackImpact();
-        if (stateData.windupSFXPrefab)
-        {
-            GameObject windupSFXPrefab = GameObject.Instantiate(stateData.windupSFXPrefab, enemyGundyr.transform);
-            windupSFXPrefab.transform.parent = null;
-            windupSFXPrefab.transform.position = enemyGundyr.transform.position;
-        }
-    }
-
     public override void LogicUpdate()
     {
         base.LogicUpdate();
         if (isAnimationFinished)
         {
-            stateMachine.ChangeState(enemyGundyr.IdleState);
+            if (enemyGundyr.MeleeAttackSecondState.IsMeleeAttackReady() && Random.Range(0, 2) <= 0.5f)
+                stateMachine.ChangeState(enemyGundyr.MeleeAttackSecondState);
+            else
+                stateMachine.ChangeState(enemyGundyr.IdleState);
         }
     }
 }

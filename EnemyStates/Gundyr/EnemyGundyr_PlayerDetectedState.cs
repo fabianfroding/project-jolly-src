@@ -11,9 +11,13 @@ public class EnemyGundyr_PlayerDetectedState : PlayerDetectedState
     {
         base.LogicUpdate();
 
-        if (performCloseRangeAction)
+        if (performCloseRangeAction && enemyGundyr.MeleeAttackState.IsMeleeAttackReady())
         {
             stateMachine.ChangeState(enemyGundyr.MeleeAttackState);
+        }
+        else if (performLongRangeAction && enemyGundyr.SlamState.IsMeleeAttackReady())
+        {
+            stateMachine.ChangeState(enemyGundyr.SlamState);
         }
         else if (!isDetectingLedge)
         {
