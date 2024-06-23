@@ -15,11 +15,7 @@ public class DamageHitBox : MonoBehaviour
 
     private void OnEnable()
     {
-        if (damageData.sfxPrefab)
-        {
-            GameObject sfxInstance = GameObject.Instantiate(damageData.sfxPrefab);
-            sfxInstance.transform.position = transform.position;
-        }
+        GameFunctionLibrary.PlayRandomAudioAtPosition(damageData.audioClips, transform.position);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -7,15 +7,15 @@ public class Projectile : MonoBehaviour
     [SerializeField] protected float lifetime = 2.5f;
 
     [SerializeField] protected GameObject birthSoundPrefab;
-    [SerializeField] protected GameObject deathSoundPrefab;
-    [SerializeField] protected GameObject deathSFXPrefab;
+    [SerializeField] protected AudioClip deathAudioClip;
+    [SerializeField] protected GameObject deathVFXPrefab;
     [SerializeField] protected bool destroyOnImpact = true;
 
     [SerializeField] protected float speed;
     [SerializeField] protected Vector2 currentDir;
     [SerializeField] protected bool destroyedByDestructibles = false;
     [SerializeField] protected bool destroyedByGround = false;
-    [SerializeField] protected GameObject sfxChildGameObject;
+    [SerializeField] protected GameObject vfxChildGameObject;
 
     public GameObject Source { get; protected set; }
     protected SpriteRenderer spriteRenderer;
@@ -62,10 +62,10 @@ public class Projectile : MonoBehaviour
 
     protected void OnDestroy()
     {
-        if (sfxChildGameObject != null)
+        if (vfxChildGameObject != null)
         {
-            sfxChildGameObject.transform.parent = null;
-            sfxChildGameObject.GetComponent<ProjectileSFX>().StopEmitting();
+            vfxChildGameObject.transform.parent = null;
+            vfxChildGameObject.GetComponent<ProjectileVFX>().StopEmitting();
         }
     }
     #endregion
@@ -115,7 +115,7 @@ public class Projectile : MonoBehaviour
 
         // Duct tape solution.
         if (Source != other)
-            InstantiateDeathSFX(other);
+            InstantiateDeathVFX(other);
     }
 
     public Types.DamageData GetDamageData() => damageData;
@@ -127,22 +127,17 @@ public class Projectile : MonoBehaviour
     protected IEnumerator DestroySelf(float delay = 0f)
     {
         yield return new WaitForSeconds(delay);
-        if (deathSoundPrefab != null)
-        {
-            GameObject hitSound = Instantiate(deathSoundPrefab);
-            hitSound.transform.parent = null;
-            hitSound.transform.position = transform.position;
-        }
+        GameFunctionLibrary.PlayAudioAtPosition(deathAudioClip, transform.position);
         Destroy(gameObject);
     }
 
-    protected void InstantiateDeathSFX(GameObject at)
+    protected void InstantiateDeathVFX(GameObject at)
     {
-        if (deathSFXPrefab != null)
+        if (deathVFXPrefab != null)
         {
-            GameObject hitSFX = Instantiate(deathSFXPrefab, transform);
-            hitSFX.transform.parent = null;
-            hitSFX.transform.position = at.transform.position;
+            GameObject hitVFX = Instantiate(deathVFXPrefab, transform);
+            hitVFX.transform.parent = null;
+            hitVFX.transform.position = at.transform.position;
         }
     }
 

@@ -11,11 +11,11 @@ public class Player_StateData : ScriptableObject
 
     [Header("Jump State")]
     public float jumpVelocity = 25f;
-    public GameObject jumpSFXPrefab;
-    public GameObject jumpTrailSFXPrefab;
-    public GameObject jumpSNDPrefab;
-    public GameObject landSoundPrefab;
-    public GameObject doubleJumpSFX;
+    public GameObject jumpVFXPrefab;
+    public GameObject jumpTrailVFXPrefab;
+    public AudioClip jumpAudioClip;
+    public AudioClip jumpLandAudioClip;
+    public AudioClip doubleJumpAudioClip;
 
     [Header("Double Jump State")]
     public float doubleJumpVelocity = 20f;
@@ -63,13 +63,12 @@ public class Player_StateData : ScriptableObject
     public float dashDelay = 0.05f;
     public float dashDistance = 12f;
     public GameObject dashVFXPrefab;
-    public GameObject dashSFXPrefab;
+    public AudioClip dashAudioClip;
 
     public float distBetweenAfterimages = 0.5f;
     public float maxHoldTime = 1f;
     public float holdTimeScale = 0.25f;
-    public GameObject dashSFX;
-    public GameObject dashTimeSlowSFX;
+    public AudioClip dashTimeSlowAudioClip;
 
     [Header("Warp State")]
     public float ascendRayDistance = 20f;
@@ -78,8 +77,8 @@ public class Player_StateData : ScriptableObject
     public float warpInGroundSpeed = 0.07f;
     public GameObject ascendDiveInVFX;
     public GameObject ascendEmergeVFX;
-    public GameObject ascendDiveInSFX;
-    public GameObject ascendEmergeSFX;
+    public AudioClip ascendDiveInAudioClip;
+    public AudioClip ascendEmergeAudioClip;
     public GameObject warpActiveSFX;
     public GameObject warpCeilingCheck;
 
@@ -89,11 +88,11 @@ public class Player_StateData : ScriptableObject
     public float thunderRadius = 7f;
     public float thunderCooldown = 1f;
     public Types.DamageData thunderDamage;
-    public GameObject thunderSFX;
+    public AudioClip[] thunderAudioClips;
     public GameObject thunderVFX;
 
     [Header("Air Glide State")]
     public float airGlideFallVelocity = -1.5f;
-    public GameObject airGlideStartSFX;
-    public GameObject airGlideEndSFX;
+    public AudioClip airGlideStartAudioClip;
+    public AudioClip airGlideEndAudioClip;
 }

@@ -16,7 +16,7 @@ public class DeadState : State
     {
         base.Enter();
 
-        InstantiateDeathSFX();
+        InstantiateDeathVFX();
         InstantiateDeathSound();
         InstantiateCorpse();
         InstantiateCurrencyDrop();
@@ -24,28 +24,19 @@ public class DeadState : State
         enemy.gameObject.SetActive(false);
     }
 
-    private void InstantiateDeathSFX()
+    private void InstantiateDeathVFX()
     {
-        if (stateData.deathSFXPrefab != null)
+        if (stateData.deathVFXPrefab != null)
         {
-            GameObject deathSFX = GameObject.Instantiate(stateData.deathSFXPrefab, enemy.transform.position, Quaternion.identity);
-            deathSFX.transform.parent = null;
-            deathSFX.transform.Rotate(0, 0, 90);
-            GameObject.Destroy(deathSFX, deathSFX.GetComponent<ParticleSystem>() != null ? deathSFX.GetComponent<ParticleSystem>().main.duration : 0f);
+            GameObject deathVFX = GameObject.Instantiate(stateData.deathVFXPrefab, enemy.transform.position, Quaternion.identity);
+            deathVFX.transform.parent = null;
+            deathVFX.transform.Rotate(0, 0, 90);
+            GameObject.Destroy(deathVFX, deathVFX.GetComponent<ParticleSystem>() != null ? deathVFX.GetComponent<ParticleSystem>().main.duration : 0f);
         }
     }
 
-    private void InstantiateDeathSound()
-    {
-        if (stateData.deathSoundPrefab)
-        {
-            GameObject deathSound = GameObject.Instantiate(stateData.deathSoundPrefab, enemy.transform.position, Quaternion.identity);
-            deathSound.transform.parent = null;
-            AudioSource audioSource = deathSound.GetComponent<AudioSource>();
-            if (audioSource && audioSource.clip)
-                GameObject.Destroy(deathSound, audioSource ? audioSource.clip.length : 0f);
-        }
-    }
+    private void InstantiateDeathSound() =>
+        GameFunctionLibrary.PlayAudioAtPosition(stateData.deathAudioClip, enemy.transform.position);
 
     private void InstantiateCorpse()
     {

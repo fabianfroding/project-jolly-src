@@ -36,15 +36,14 @@ public class PlayerJumpState : PlayerAbilityState
     {
         if (collisionSenses.Ground)
         {
-            GameObject tempGO = GameObject.Instantiate(playerStateData.jumpSFXPrefab);
+            GameObject tempGO = GameObject.Instantiate(playerStateData.jumpVFXPrefab);
             tempGO.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - 0.15f, player.transform.position.z);
 
-            tempGO = GameObject.Instantiate(playerStateData.jumpTrailSFXPrefab);
+            tempGO = GameObject.Instantiate(playerStateData.jumpTrailVFXPrefab);
             tempGO.transform.SetParent(player.transform);
             tempGO.transform.position = player.transform.position;
 
-            tempGO = GameObject.Instantiate(playerStateData.jumpSNDPrefab);
-            tempGO.transform.position = player.transform.position;
+            GameFunctionLibrary.PlayAudioAtPosition(playerStateData.jumpAudioClip, player.transform.position);
         }
     }
 }

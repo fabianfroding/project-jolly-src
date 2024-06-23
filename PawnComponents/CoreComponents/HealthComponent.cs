@@ -6,8 +6,8 @@ public class HealthComponent : CoreComponent
     [SerializeField] private IntReference maxHealth;
 
     [SerializeField] private GameObject damagedParticles;
-    [SerializeField] private GameObject damagedSFX;
-    [SerializeField] private GameObject hurtSFXPrefab;
+    [SerializeField] private AudioClip damagedAudioClip;
+    [SerializeField] private AudioClip hurtAudioClip;
     [SerializeField][Range(0f, 1f)] float chanceToPlayHurtSound;
 
     [SerializeField] private IntReference CurrentHealth;
@@ -124,16 +124,8 @@ public class HealthComponent : CoreComponent
 
     protected virtual void InstantiateTakeDamageVisuals()
     {
-        if (damagedSFX)
-        {
-            GameObject damagedSFXInstance = Instantiate(damagedSFX);
-            damagedSFXInstance.transform.position = transform.position;
-        }
-
-        if (hurtSFXPrefab && UnityEngine.Random.Range(0f, 1f) <= chanceToPlayHurtSound)
-        {
-            GameObject hurtSFX = GameObject.Instantiate(hurtSFXPrefab);
-            hurtSFX.transform.position = transform.position;
-        }
+        GameFunctionLibrary.PlayAudioAtPosition(damagedAudioClip, transform.position);
+        if (UnityEngine.Random.Range(0f, 1f) <= chanceToPlayHurtSound)
+            GameFunctionLibrary.PlayAudioAtPosition(hurtAudioClip, transform.position);
     }
 }

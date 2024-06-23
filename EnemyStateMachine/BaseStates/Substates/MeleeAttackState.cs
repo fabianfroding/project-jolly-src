@@ -34,7 +34,7 @@ public class MeleeAttackState : AttackState
         if (meleeAttackDamageHitBox)
             meleeAttackDamageHitBox.SetActive(true);
 
-        InstantiateSFXPrefab();
+        PlayAttackAudio();
     }
 
     public override void FinishAttack()
@@ -53,25 +53,8 @@ public class MeleeAttackState : AttackState
         Combat.IsInTriggeredParriedAnimationFrames = true;
     }
 
-    public bool IsMeleeAttackReady()
-    {
-        return Time.time >= lastAttackTime + stateData.meleeAttackCooldown;
-    }
+    public bool IsMeleeAttackReady() => Time.time >= lastAttackTime + stateData.meleeAttackCooldown;
 
-    private void InstantiateSFXPrefab()
-    {
-        if (stateData.damageData.sfxPrefab)
-        {
-            GameObject sfxInstance = GameObject.Instantiate(stateData.damageData.sfxPrefab);
-            if (Movement.FacingDirection > 0)
-            {
-                SpriteRenderer spriteRenderer = sfxInstance.GetComponent<SpriteRenderer>();
-                if (spriteRenderer != null)
-                {
-                    spriteRenderer.flipX = true;
-                }
-            }
-            sfxInstance.transform.position = enemy.transform.position;
-        }
-    }
+    private void PlayAttackAudio() =>
+        GameFunctionLibrary.PlayRandomAudioAtPosition(stateData.damageData.audioClips, enemy.transform.position);
 }

@@ -5,7 +5,7 @@ public class TimedPlatform : MonoBehaviour
 {
     [SerializeField] private float durationBeforeBreak = 1.5f;
     [SerializeField] private float resetDuration = 5f;
-    [SerializeField] private GameObject breakSFX;
+    [SerializeField] private AudioClip breakAudioClip;
     private BoxCollider2D boxCollider2D;
     private SpriteRenderer spriteRenderer;
 
@@ -13,15 +13,11 @@ public class TimedPlatform : MonoBehaviour
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
         if (!boxCollider2D)
-        {
             Debug.LogError("TimedPlatform:Start: Failed to get BoxCollider2D component.");
-        }
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (!spriteRenderer)
-        {
             Debug.LogError("TimedPlatform:Start: Failed to get SpriteRenderer component.");
-        }
     }
 
     private void OnDisable()
@@ -33,9 +29,7 @@ public class TimedPlatform : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.collider.CompareTag(EditorConstants.TAG_PLAYER) && spriteRenderer.enabled)
-        {
             boxCollider2D.isTrigger = true;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -57,9 +51,7 @@ public class TimedPlatform : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag(EditorConstants.TAG_PLAYER) && spriteRenderer.enabled)
-        {
             boxCollider2D.isTrigger = true;
-        }
     }
 
     private IEnumerator Break()
@@ -68,11 +60,7 @@ public class TimedPlatform : MonoBehaviour
         spriteRenderer.enabled = false;
         boxCollider2D.enabled = false;
 
-        if (breakSFX)
-        {
-            GameObject tempGo = GameObject.Instantiate(breakSFX);
-            tempGo.transform.position = transform.position;
-        }
+        GameFunctionLibrary.PlayAudioAtPosition(breakAudioClip, transform.position);
 
         StartCoroutine(Reset());
     }

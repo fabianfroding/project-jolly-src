@@ -12,12 +12,7 @@ public class EnemyGundyr_SlamState : MeleeAttackState
     public override void AttackImpact()
     {
         base.AttackImpact();
-        if (stateData.windupSFXPrefab)
-        {
-            GameObject windupSFXPrefab = GameObject.Instantiate(stateData.windupSFXPrefab, enemyGundyr.transform);
-            windupSFXPrefab.transform.parent = null;
-            windupSFXPrefab.transform.position = enemyGundyr.transform.position;
-        }
+        GameFunctionLibrary.PlayAudioAtPosition(stateData.windupAudioClip, enemyGundyr.transform.position);
     }
 
     public override void LogicUpdate()

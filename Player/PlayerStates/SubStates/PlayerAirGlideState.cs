@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerAirGlideState : PlayerAbilityState
 {
@@ -27,11 +28,7 @@ public class PlayerAirGlideState : PlayerAbilityState
             Debug.LogError("PlayerAirGlideState:Enter: Failed to get player Rigidbody2D component.");
         }
 
-        if (playerStateData.airGlideStartSFX)
-        {
-            GameObject tempGO = GameObject.Instantiate(playerStateData.airGlideStartSFX);
-            tempGO.transform.position = player.transform.position;
-        }
+        GameFunctionLibrary.PlayAudioAtPosition(playerStateData.airGlideStartAudioClip, player.transform.position);
 
         player.TriggerOnPlayerEnterAirGlideState();
     }
@@ -45,11 +42,7 @@ public class PlayerAirGlideState : PlayerAbilityState
             rigidbody2D.gravityScale = defaultGravityScale;
         }
 
-        if (playerStateData.airGlideEndSFX)
-        {
-            GameObject tempGO = GameObject.Instantiate(playerStateData.airGlideEndSFX);
-            tempGO.transform.position = player.transform.position;
-        }
+        GameFunctionLibrary.PlayAudioAtPosition(playerStateData.airGlideEndAudioClip, player.transform.position);
 
         player.TriggerOnPlayerExitAirGlideState();
     }

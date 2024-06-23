@@ -4,5 +4,5 @@ using UnityEngine;
 public class D_BlockState : ScriptableObject
 {
     [Range(0f, 1f)] public float chanceToCounterOnBlock = 0f;
-    public GameObject sfxBlockPrefab;
+    public AudioClip blockAudioClip;
 }

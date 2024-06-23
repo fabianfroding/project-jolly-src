@@ -18,7 +18,7 @@ public static class Types
         public int damageAmount;
         public float stunDamageAmount, knockbackStrength;
         public Vector2 knockbackAngle, direction;
-        public GameObject sfxPrefab;
+        public AudioClip[] audioClips;
     }
 
     [System.Serializable]

@@ -3,11 +3,10 @@ using UnityEngine;
 public class Destructible : MonoBehaviour, IDamageable
 {
     [SerializeField] protected int durability = 1;
-    [SerializeField] private GameObject destroyedSFXPrefab; // The particle system for when the destructible is destroyed.
+    [SerializeField] private GameObject destroyedVFXPrefab; // The particle system for when the destructible is destroyed.
     [SerializeField] private string destroyedAnimName;
     [SerializeField] private AudioSource onHitSound;
     [SerializeField] private AudioSource onDeathSound;
-    [SerializeField] private GameObject deathSFX;
 
     private Animator animator;
     private bool destroyed = false;
@@ -41,12 +40,12 @@ public class Destructible : MonoBehaviour, IDamageable
     protected virtual void DestroySelf()
     {
         destroyed = true;
-        if (destroyedSFXPrefab != null)
+        if (destroyedVFXPrefab != null)
         {
-            GameObject sfx = Instantiate(destroyedSFXPrefab);
-            sfx.transform.position = new Vector2(transform.position.x, transform.position.y + 0.5f);
-            sfx.GetComponent<ParticleSystemRenderer>().sortingOrder = GetComponent<SpriteRenderer>().sortingOrder + 1;
-            Destroy(sfx, sfx.GetComponent<ParticleSystem>().main.duration);
+            GameObject vfx = Instantiate(destroyedVFXPrefab);
+            vfx.transform.position = new Vector2(transform.position.x, transform.position.y + 0.5f);
+            vfx.GetComponent<ParticleSystemRenderer>().sortingOrder = GetComponent<SpriteRenderer>().sortingOrder + 1;
+            Destroy(vfx, vfx.GetComponent<ParticleSystem>().main.duration);
         }
 
         if (onDeathSound != null)
@@ -69,12 +68,6 @@ public class Destructible : MonoBehaviour, IDamageable
             rb2d.AddTorque(Random.Range(50f, 200f));
             rb2d.gravityScale = 3f;
             Destroy(child.gameObject, 2.5f);
-        }
-
-        if (deathSFX)
-        {
-            GameObject deathSFXInstance = GameObject.Instantiate(deathSFX);
-            deathSFXInstance.transform.position = transform.position;
         }
 
         Destroy(gameObject);

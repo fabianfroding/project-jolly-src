@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileSFX : MonoBehaviour
+public class ProjectileVFX : MonoBehaviour
 {
     [SerializeField] private TrailRenderer[] trailRenderers;
     [SerializeField] private ParticleSystem[] particleSystems;

@@ -32,12 +32,6 @@ public class BlockState : State
         isPlayerInMinAggroRange = enemy.CheckPlayerInMinAggroRange();
     }
 
-    protected virtual void AttackBlocked()
-    {
-        if (stateData.sfxBlockPrefab)
-        {
-            GameObject sfxBlockInstance = GameObject.Instantiate(stateData.sfxBlockPrefab);
-            sfxBlockInstance.transform.position = enemy.transform.position;
-        }
-    }
+    protected virtual void AttackBlocked() =>
+        GameFunctionLibrary.PlayAudioAtPosition(stateData.blockAudioClip, enemy.transform.position);
 }

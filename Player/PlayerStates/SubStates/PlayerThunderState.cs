@@ -83,11 +83,7 @@ public class PlayerThunderState : PlayerAbilityState
                 tempGO.GetComponent<ParticleSystemRenderer>().sortingOrder = player.GetComponent<SpriteRenderer>().sortingOrder + 1;
             }
 
-            if (playerStateData.thunderSFX)
-            {
-                GameObject tempGO = GameObject.Instantiate(playerStateData.thunderSFX);
-                tempGO.transform.position = lineRenderer.GetPosition(1);
-            }
+            GameFunctionLibrary.PlayRandomAudioAtPosition(playerStateData.thunderAudioClips, lineRenderer.GetPosition(1));
 
             DealDamageInLine();
             DealDamageInRadius();

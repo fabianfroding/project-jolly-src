@@ -32,12 +32,6 @@ public class PlayerLandState : PlayerGroundedState
     private void InstantiateLandVisuals()
     {
         if (collisionSenses.Ground)
-        {
-            if (playerStateData.landSoundPrefab)
-            {
-                GameObject tempGO = GameObject.Instantiate(playerStateData.landSoundPrefab);
-                tempGO.transform.position = player.transform.position;
-            }
-        }
+            GameFunctionLibrary.PlayAudioAtPosition(playerStateData.jumpLandAudioClip, player.transform.position);
     }
 }

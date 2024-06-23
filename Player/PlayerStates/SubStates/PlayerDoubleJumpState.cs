@@ -23,9 +23,6 @@ public class PlayerDoubleJumpState : PlayerAbilityState
     public void ConsumeDoubleJump() => hasConsumedDoubleJump = true;
     public void ResetDoubleJump() => hasConsumedDoubleJump = false;
 
-    private void InstantiateDoubleJumpVisuals()
-    {
-        GameObject tempGO = GameObject.Instantiate(playerStateData.doubleJumpSFX);
-        tempGO.transform.position = player.transform.position;
-    }
+    private void InstantiateDoubleJumpVisuals() =>
+        GameFunctionLibrary.PlayAudioAtPosition(playerStateData.doubleJumpAudioClip, player.transform.position);
 }

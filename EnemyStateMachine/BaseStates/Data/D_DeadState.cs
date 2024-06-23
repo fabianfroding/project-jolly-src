@@ -3,8 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newDeadStateData", menuName = "Data/StateData/DeadState")]
 public class D_DeadState : ScriptableObject
 {
-    public GameObject deathSFXPrefab;
-    public GameObject deathSoundPrefab;
+    public GameObject deathVFXPrefab;
+    public AudioClip deathAudioClip;
 
     [Tooltip("Leave empty if no corpse should spawn.")]
     public GameObject corpsePrefab;

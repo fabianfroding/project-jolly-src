@@ -74,8 +74,7 @@ public class PlayerAscendState : PlayerAbilityState
             GameObject tempGO = GameObject.Instantiate(playerStateData.ascendDiveInVFX);
             tempGO.transform.position = direction == Vector3.down ? player.transform.position : CollisionSenses.GetCeilingCheck().position; 
 
-            tempGO = GameObject.Instantiate(playerStateData.ascendDiveInSFX);
-            tempGO.transform.position = player.transform.position;
+            GameFunctionLibrary.PlayAudioAtPosition(playerStateData.ascendDiveInAudioClip, player.transform.position);
 
             warpActiveSFX = GameObject.Instantiate(playerStateData.warpActiveSFX);
             warpActiveSFX.transform.SetParent(player.transform);
@@ -95,8 +94,7 @@ public class PlayerAscendState : PlayerAbilityState
                 GameObject tempGO = GameObject.Instantiate(playerStateData.ascendDiveInVFX);
                 tempGO.transform.position = wallCheckOrigin.position;
 
-                tempGO = GameObject.Instantiate(playerStateData.ascendEmergeSFX);
-                tempGO.transform.position = player.transform.position;
+                GameFunctionLibrary.PlayAudioAtPosition(playerStateData.ascendEmergeAudioClip, player.transform.position);
 
                 EndWarp();
             }

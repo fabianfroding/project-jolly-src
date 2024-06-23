@@ -30,12 +30,7 @@ public class PlayerDetectedState : State
         if (stateData.aggroAudioClip && Time.time > aggroSoundUsedTime + stateData.aggroSoundResetTime)
         {
             aggroSoundUsedTime = Time.time;
-            GameObject aggroSFX = new("AggroSFX");
-            aggroSFX.transform.position = enemy.transform.position;
-            AudioSource audioSource = aggroSFX.AddComponent<AudioSource>();
-            audioSource.clip = stateData.aggroAudioClip;
-            audioSource.Play();
-            aggroSFX.AddComponent<DestroyWhenDone>();
+            GameFunctionLibrary.PlayAudioAtPosition(stateData.aggroAudioClip, enemy.transform.position);
         }
     }
 

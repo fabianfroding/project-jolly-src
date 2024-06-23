@@ -19,8 +19,7 @@ public class PlayerDashState : PlayerAbilityState
         Vector2 chestPos = CollisionSenses.GetChestTransform().position;
         GameObject tempGO = GameObject.Instantiate(playerStateData.dashVFXPrefab);
         tempGO.transform.position = chestPos;
-        tempGO = GameObject.Instantiate(playerStateData.dashSFXPrefab);
-        tempGO.transform.position = player.transform.position;
+        GameFunctionLibrary.PlayAudioAtPosition(playerStateData.dashAudioClip, player.transform.position);
 
         RaycastHit2D hit = Physics2D.Raycast(chestPos, Vector2.right * Movement.FacingDirection, playerStateData.dashDistance, playerStateData.groundLayer);
         if (hit.collider && !hit.collider.GetComponent<TimedPlatform>())

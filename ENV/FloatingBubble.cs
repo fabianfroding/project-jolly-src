@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FloatingBubble : MonoBehaviour
 {
-    [SerializeField] private GameObject deathSFX;
+    [SerializeField] private AudioClip deathAudioClip;
     private Rigidbody2D bubbleRigidbody2D;
     private GameObject enteringGameObject; 
 
@@ -14,9 +14,7 @@ public class FloatingBubble : MonoBehaviour
         {
             AudioSource audioSource = GetComponent<AudioSource>();
             if (audioSource)
-            {
                 audioSource.Play();
-            }
         }
     }
 
@@ -26,16 +24,9 @@ public class FloatingBubble : MonoBehaviour
         {
             PlayerPawn player = enteringGameObject.GetComponent<PlayerPawn>();
             if (player)
-            {
                 player.StateMachine.ChangeState(player.InAirState);
-            }
         }
-
-        if (deathSFX)
-        {
-            GameObject tempGO = GameObject.Instantiate(deathSFX);
-            tempGO.transform.position = transform.position;
-        }
+        GameFunctionLibrary.PlayAudioAtPosition(deathAudioClip, transform.position);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

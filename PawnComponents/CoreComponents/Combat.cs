@@ -30,8 +30,7 @@ public class Combat : CoreComponent
     public float LastStunDamageTime { get; protected set; }
     protected float currentStunResistance;
 
-    [Header("Spawned Objects")]
-    public GameObject parriedSoundPrefab;
+    public AudioClip parriedAudioClip;
 
     public Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
     private Movement movement;
@@ -90,16 +89,8 @@ public class Combat : CoreComponent
         return false;
     }
 
-    protected void InstantiateParryVisuals()
-    {
-        if (parriedSoundPrefab != null)
-        {
-            GameObject parrySound = Instantiate(parriedSoundPrefab);
-            parrySound.transform.position = transform.position;
-        }
-
-        // TODO: Instantiate parrySFXPrefab.
-    }
+    protected void InstantiateParryVisuals() =>
+        GameFunctionLibrary.PlayAudioAtPosition(parriedAudioClip, transform.position);
 
     public bool CheckBlock(GameObject source, GameObject target)
     {

@@ -52,12 +52,11 @@ public class PlayerWallJumpState : PlayerAbilityState
     {
         if (collisionSenses.WallBack || collisionSenses.WallFront)
         {
-            GameObject tempGO = GameObject.Instantiate(playerStateData.jumpTrailSFXPrefab);
+            GameObject tempGO = GameObject.Instantiate(playerStateData.jumpTrailVFXPrefab);
             tempGO.transform.SetParent(player.transform);
             tempGO.transform.position = player.transform.position;
 
-            tempGO = GameObject.Instantiate(playerStateData.jumpSNDPrefab);
-            tempGO.transform.position = player.transform.position;
+            GameFunctionLibrary.PlayAudioAtPosition(playerStateData.jumpAudioClip, player.transform.position);
         }
     }
 }

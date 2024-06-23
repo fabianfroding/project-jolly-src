@@ -7,10 +7,32 @@ public class GameFunctionLibrary : MonoBehaviour
         GameObject mainCam = GameObject.FindObjectOfType<CameraScript>().gameObject;
         Vector3 viewPos = mainCam.GetComponent<Camera>().WorldToViewportPoint(obj.transform.position);
         if (viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1)
-        {
             return true;
-        }
         return false;
+    }
+
+    public static void PlayAudioAtPosition(AudioClip audioClip, Vector2 position, bool destroyWhenDone = true)
+    {
+        // TODO: Might want to set spatial blend to 3D.
+        // If additional settings are needed, consider defining a serialized struct to avoid excessive parameters.
+
+        if (!audioClip)
+            return;
+        GameObject soundGO = new("SoundInstance");
+        soundGO.transform.parent = null;
+        soundGO.transform.position = position;
+        AudioSource audioSource = soundGO.AddComponent<AudioSource>();
+        audioSource.clip = audioClip;
+        audioSource.Play();
+        if (destroyWhenDone)
+            soundGO.AddComponent<DestroyWhenDone>();
+    }
+
+    public static void PlayRandomAudioAtPosition(AudioClip[] audioClips, Vector2 position, bool destroyWhenDone = true)
+    {
+        if (audioClips.Length <= 0)
+            return;
+        PlayAudioAtPosition(audioClips[Random.Range(0, audioClips.Length - 1)], position, destroyWhenDone);
     }
 
     #region Math Functions

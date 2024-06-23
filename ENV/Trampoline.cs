@@ -3,7 +3,7 @@ using UnityEngine;
 public class Trampoline : MonoBehaviour
 {
     [SerializeField] private float trampolineVelocity = 40f;
-    [SerializeField] private GameObject trampolineSFX; // TODO: Make this generalized so it doesn't have to be set for each individual trampoline.
+    [SerializeField] private AudioClip trampolineAudioClip; // TODO: Make this generalized so it doesn't have to be set for each individual trampoline.
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -24,11 +24,7 @@ public class Trampoline : MonoBehaviour
 
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, trampolineVelocity);
 
-            if (trampolineSFX)
-            {
-                GameObject tempGO = GameObject.Instantiate(trampolineSFX);
-                tempGO.transform.position = player.transform.position;
-            }
+            GameFunctionLibrary.PlayAudioAtPosition(trampolineAudioClip, player.transform.position);
         }
     }
 }
