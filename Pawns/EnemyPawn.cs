@@ -73,29 +73,47 @@ public class EnemyPawn : PawnBase, IParriable
     }
     #endregion
 
+    private Vector2 GetDirectionToPlayerTarget()
+    {
+        Vector2 directionToPlayer = aiVision.TargetPlayerPawn.transform.position - playerCheck.position;
+        directionToPlayer.Normalize();
+        return directionToPlayer;
+    }
+
     public virtual bool CheckPlayerInCloseRangeAction()
     {
+        if (!aiVision.TargetPlayerPawn)
+            return false;
         if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.closeRangeActionDistance))
             return false;
         if (!AIVision.TargetPlayerPawn)
             return false;
         if (!AIVision.TargetPlayerPawn.IsAlive())
             return false;
-        return Physics2D.Raycast(playerCheck.position, transform.right, enemyData.closeRangeActionDistance, enemyData.playerLayer);
+
+#if UNITY_EDITOR
+        Debug.DrawLine(playerCheck.position, playerCheck.position + ((Vector3)GetDirectionToPlayerTarget() * enemyData.longRangeActionDistance), Color.red);
+#endif
+
+        return Physics2D.Raycast(playerCheck.position, GetDirectionToPlayerTarget(), enemyData.closeRangeActionDistance, enemyData.playerLayer);
     }
 
     public virtual bool CheckPlayerInLongRangeAction()
     {
+        if (!aiVision.TargetPlayerPawn)
+            return false;
         if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.longRangeActionDistance))
             return false;
         if (!AIVision.TargetPlayerPawn)
             return false;
         if (!AIVision.TargetPlayerPawn.IsAlive())
             return false;
+
 #if UNITY_EDITOR
-        Debug.DrawLine(playerCheck.position, playerCheck.position + (transform.right * enemyData.longRangeActionDistance), Color.cyan);
+        Debug.DrawLine(playerCheck.position, playerCheck.position + ((Vector3)GetDirectionToPlayerTarget() * enemyData.longRangeActionDistance), Color.yellow);
 #endif
-        return Physics2D.Raycast(playerCheck.position, transform.right, enemyData.longRangeActionDistance, enemyData.playerLayer);
+
+        return Physics2D.Raycast(playerCheck.position, GetDirectionToPlayerTarget(), enemyData.longRangeActionDistance, enemyData.playerLayer);
     }
 
     public virtual bool CheckPlayerInMinAggroRange()
