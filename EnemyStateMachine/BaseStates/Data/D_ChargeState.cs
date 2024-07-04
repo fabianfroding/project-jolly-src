@@ -4,6 +4,9 @@ using UnityEngine;
 public class D_ChargeState : ScriptableObject
 {
     public float chargeSpeed = 6f;
-    public float chargeTime = 2f;
+    public float chargeDuration = 2f;
     public float chargeCooldown = 2f;
+    public float chargeUpTime = 1f;
+
+    public AudioClip chargeStartAudioClip;
 }

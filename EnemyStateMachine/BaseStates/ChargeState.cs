@@ -23,14 +23,17 @@ public class ChargeState : State
     {
         base.Enter();
         isChargeTimeOver = false;
-        Movement.SetVelocityX(stateData.chargeSpeed * Movement.FacingDirection);
+        GameFunctionLibrary.PlayAudioAtPosition(stateData.chargeStartAudioClip, enemy.transform.position);
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        Movement.SetVelocityX(stateData.chargeSpeed * Movement.FacingDirection);
-        if (Time.time >= StartTime + stateData.chargeTime)
+
+        if (Time.time > StartTime + stateData.chargeUpTime)
+            Movement.SetVelocityX(stateData.chargeSpeed * Movement.FacingDirection);
+
+        if (Time.time >= StartTime + stateData.chargeDuration)
         {
             isChargeTimeOver = true;
         }
