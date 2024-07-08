@@ -28,6 +28,8 @@ public class AnimationConstants : MonoBehaviour
     public static readonly int ANIM_PARAM_SHIELD_HIT = Animator.StringToHash("shieldHit");
     public static readonly int ANIM_PARAM_SHIELD_HIT_DIR = Animator.StringToHash("shieldHitDir");
     public static readonly int ANIM_PARAM_SLAM = Animator.StringToHash("slam");
+    public static readonly int ANIM_PARAM_SPECIAL1 = Animator.StringToHash("special1");
+    public static readonly int ANIM_PARAM_SPECIAL2 = Animator.StringToHash("special2");
     public static readonly int ANIM_PARAM_STUN = Animator.StringToHash("stun");
     public static readonly int ANIM_PARAM_THUNDER = Animator.StringToHash("thunder");
     public static readonly int ANIM_PARAM_TURN = Animator.StringToHash("turn");

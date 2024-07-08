@@ -22,13 +22,23 @@ public class EnemyGundyr : EnemyPawn
     protected override void Start()
     {
         base.Start();
-        IdleState = new EnemyGundyr_IdleState(this, StateMachine, AnimationConstants.ANIM_PARAM_IDLE, idleStateData, this);
-        MeleeAttackState = new EnemyGundyr_MeleeAttackState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK, meleeAttackDamageHitBox, meleeAttackStateData, this);
-        MeleeAttackSecondState = new EnemyGundyr_MeleeAttackSecondState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK_SECOND, meleeAttackSecondDamageHitBox, meleeAttackSecondStateData, this);
-        MoveState = new EnemyGundyr_MoveState(this, StateMachine, AnimationConstants.ANIM_PARAM_MOVE, moveStateData, this);
-        PlayerDetectedState = new EnemyGundyr_PlayerDetectedState(this, StateMachine, AnimationConstants.ANIM_PARAM_PLAYER_DETECTED, playerDetectedStateData, this);
-        SlamState = new EnemyGundyr_SlamState(this, StateMachine, AnimationConstants.ANIM_PARAM_SLAM, slamDamageHitBox, slamStateData, this);
+        IdleState = new EnemyGundyr_IdleState(this, StateMachine, AnimationConstants.ANIM_PARAM_IDLE, idleStateData);
+        MeleeAttackState = new EnemyGundyr_MeleeAttackState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK, meleeAttackDamageHitBox, meleeAttackStateData);
+        MeleeAttackSecondState = new EnemyGundyr_MeleeAttackSecondState(this, StateMachine, AnimationConstants.ANIM_PARAM_MELEE_ATTACK_SECOND, meleeAttackSecondDamageHitBox, meleeAttackSecondStateData);
+        MoveState = new EnemyGundyr_MoveState(this, StateMachine, AnimationConstants.ANIM_PARAM_MOVE, moveStateData);
+        PlayerDetectedState = new EnemyGundyr_PlayerDetectedState(this, StateMachine, AnimationConstants.ANIM_PARAM_PLAYER_DETECTED, playerDetectedStateData);
+        SlamState = new EnemyGundyr_SlamState(this, StateMachine, AnimationConstants.ANIM_PARAM_SLAM, slamDamageHitBox, slamStateData);
 
         StateMachine.Initialize(IdleState);
+    }
+
+    public override bool CheckPlayerInCloseRangeAction()
+    {
+        return base.CheckPlayerInCloseRangeAction() && MeleeAttackState.IsMeleeAttackReady();
+    }
+
+    public override bool CheckPlayerInLongRangeAction()
+    {
+        return base.CheckPlayerInLongRangeAction() && SlamState.IsMeleeAttackReady();
     }
 }

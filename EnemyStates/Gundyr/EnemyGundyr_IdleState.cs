@@ -1,16 +1,17 @@
 public class EnemyGundyr_IdleState : IdleState
 {
-    private EnemyGundyr enemyGundyr;
+    private readonly EnemyGundyr enemyGundyr;
 
-    public EnemyGundyr_IdleState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData, EnemyGundyr enemyGundyr) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyGundyr_IdleState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData) : base(enemy, stateMachine, animBoolName, stateData)
     {
-        this.enemyGundyr = enemyGundyr;
+        this.enemyGundyr = (EnemyGundyr)enemy;
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (isPlayerInMinAggroRange)
+        if ((enemyGundyr.CheckPlayerInMaxAggroRange() && enemyGundyr.CheckPlayerInLongRangeAction()) ||
+            (enemyGundyr.CheckPlayerInMinAggroRange() && enemyGundyr.CheckPlayerInCloseRangeAction()))
         {
             stateMachine.ChangeState(enemyGundyr.PlayerDetectedState);
         }

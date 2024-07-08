@@ -1,10 +1,10 @@
 public class EnemyDragonWarrior_PlayerDetectedState : PlayerDetectedState
 {
-    private EnemyDragonWarrior enemyDragonWarrior;
+    private readonly EnemyDragonWarrior enemyDragonWarrior;
 
-    public EnemyDragonWarrior_PlayerDetectedState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData, EnemyDragonWarrior enemyDragonWarrior) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyDragonWarrior_PlayerDetectedState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData) : base(enemy, stateMachine, animBoolName, stateData)
     {
-        this.enemyDragonWarrior = enemyDragonWarrior;
+        this.enemyDragonWarrior = (EnemyDragonWarrior)enemy;
     }
 
     public override void LogicUpdate()
@@ -17,7 +17,14 @@ public class EnemyDragonWarrior_PlayerDetectedState : PlayerDetectedState
         }
         else if (performLongRangeAction)
         {
-            stateMachine.ChangeState(enemyDragonWarrior.ChargeState);
+            if (enemyDragonWarrior.ChargeState.IsChargeReady())
+            {
+                stateMachine.ChangeState(enemyDragonWarrior.ChargeState);
+            }
+            else if (enemyDragonWarrior.FlyState.IsFlyReady())
+            {
+                stateMachine.ChangeState(enemyDragonWarrior.FlyState);
+            }
         }
         else if (!isDetectingLedge)
         {

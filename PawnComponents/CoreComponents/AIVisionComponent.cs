@@ -45,7 +45,7 @@ public class AIVisionComponent : CoreComponent
     {
         base.LogicUpdate();
 
-        if (loseTargetStartTime > -1f && TargetPlayerPawn && Time.time > loseTargetStartTime + holdTargetDuration)
+        if (loseTargetStartTime >= 0f && TargetPlayerPawn && Time.time > loseTargetStartTime + holdTargetDuration)
             ResetTarget();
 
         FlipIfTargetIsBehind();
@@ -57,6 +57,16 @@ public class AIVisionComponent : CoreComponent
         TargetPlayerPawn = null;
         loseTargetStartTime = -1f;
     }
+
+    public bool IsPlayerBehind()
+    {
+        if (!TargetPlayerPawn)
+            return false;
+        return ((Movement.FacingDirection > 0 && TargetPlayerPawn.transform.position.x < transform.position.x) ||
+            (Movement.FacingDirection < 0 && TargetPlayerPawn.transform.position.x > transform.position.x));
+    }
+
+    public bool ShouldFlipIfTargetIsBehind() => flipIfTargetIsBehind;
 
     private void FlipIfTargetIsBehind()
     {
@@ -74,10 +84,7 @@ public class AIVisionComponent : CoreComponent
             return;
         }
 
-        if ((Movement.FacingDirection > 0 && TargetPlayerPawn.transform.position.x < transform.position.x) ||
-            (Movement.FacingDirection < 0 && TargetPlayerPawn.transform.position.x > transform.position.x))
-        {
+        if (IsPlayerBehind())
             Movement.Flip();
-        }
     }
 }

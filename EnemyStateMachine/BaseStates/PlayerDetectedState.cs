@@ -34,11 +34,6 @@ public class PlayerDetectedState : State
         }
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
     public override void LogicUpdate()
     {
         base.LogicUpdate();

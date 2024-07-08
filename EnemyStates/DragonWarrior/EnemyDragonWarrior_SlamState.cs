@@ -4,9 +4,9 @@ public class EnemyDragonWarrior_SlamState : MeleeAttackState
 {
     private EnemyDragonWarrior enemyDragonWarrior;
 
-    public EnemyDragonWarrior_SlamState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, GameObject meleeAttackDamageHitBox, D_MeleeAttackState stateData, EnemyDragonWarrior enemyDragonWarrior) : base(enemy, stateMachine, animBoolName, meleeAttackDamageHitBox, stateData)
+    public EnemyDragonWarrior_SlamState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, GameObject meleeAttackDamageHitBox, D_MeleeAttackState stateData) : base(enemy, stateMachine, animBoolName, meleeAttackDamageHitBox, stateData)
     {
-        this.enemyDragonWarrior = enemyDragonWarrior;
+        this.enemyDragonWarrior = (EnemyDragonWarrior)enemy;
     }
 
     public override void AttackImpact()

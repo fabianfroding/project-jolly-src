@@ -49,4 +49,10 @@ public class PawnBase : MonoBehaviour, IDamageable
     public virtual bool IsAlive() => HealthComponent.IsAlive();
 
     public void BroadcastOnDealtDamage() => OnDealtDamage?.Invoke();
+
+    public void Flip()
+    {
+        if (Movement)
+            Movement.Flip();
+    }
 }

@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class EnemyGundyr_MeleeAttackState : MeleeAttackState
 {
-    private EnemyGundyr enemyGundyr;
+    private readonly EnemyGundyr enemyGundyr;
 
-    public EnemyGundyr_MeleeAttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, GameObject meleeAttackDamageHitBox, D_MeleeAttackState stateData, EnemyGundyr enemyGundyr) : base(enemy, stateMachine, animBoolName, meleeAttackDamageHitBox, stateData)
+    public EnemyGundyr_MeleeAttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, GameObject meleeAttackDamageHitBox, D_MeleeAttackState stateData) : base(enemy, stateMachine, animBoolName, meleeAttackDamageHitBox, stateData)
     {
-        this.enemyGundyr = enemyGundyr;
+        this.enemyGundyr = (EnemyGundyr)enemy;
     }
 
     public override void LogicUpdate()

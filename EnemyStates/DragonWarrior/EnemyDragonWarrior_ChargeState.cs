@@ -2,9 +2,9 @@ public class EnemyDragonWarrior_ChargeState : ChargeState
 {
     private readonly EnemyDragonWarrior enemyDragonWarrior;
 
-    public EnemyDragonWarrior_ChargeState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_ChargeState stateData, EnemyDragonWarrior enemyDragonWarrior) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyDragonWarrior_ChargeState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_ChargeState stateData) : base(enemy, stateMachine, animBoolName, stateData)
     {
-        this.enemyDragonWarrior = enemyDragonWarrior;
+        this.enemyDragonWarrior = (EnemyDragonWarrior)enemy;
     }
 
     public override void LogicUpdate()

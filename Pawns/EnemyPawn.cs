@@ -82,13 +82,11 @@ public class EnemyPawn : PawnBase, IParriable
 
     public virtual bool CheckPlayerInCloseRangeAction()
     {
-        if (!aiVision.TargetPlayerPawn)
-            return false;
-        if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.closeRangeActionDistance))
-            return false;
         if (!AIVision.TargetPlayerPawn)
             return false;
-        if (!AIVision.TargetPlayerPawn.IsAlive())
+        if (!AIVision.TargetPlayerPawn.IsAlive() || AIVision.IsPlayerBehind())
+            return false;
+        if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.closeRangeActionDistance))
             return false;
 
 #if UNITY_EDITOR
@@ -100,13 +98,11 @@ public class EnemyPawn : PawnBase, IParriable
 
     public virtual bool CheckPlayerInLongRangeAction()
     {
-        if (!aiVision.TargetPlayerPawn)
-            return false;
-        if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.longRangeActionDistance))
-            return false;
         if (!AIVision.TargetPlayerPawn)
             return false;
-        if (!AIVision.TargetPlayerPawn.IsAlive())
+        if (!AIVision.TargetPlayerPawn.IsAlive() || AIVision.IsPlayerBehind())
+            return false;
+        if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.longRangeActionDistance))
             return false;
 
 #if UNITY_EDITOR
@@ -159,4 +155,16 @@ public class EnemyPawn : PawnBase, IParriable
 
     public virtual void Parried() {} // Interface implementation.
 
+    public bool IsPlayerBehind()
+    {
+        if (AIVision)
+            return false;
+        return AIVision.IsPlayerBehind();
+    }
+
+    public bool ShouldFlipIfTargetIsBehind()
+    {
+        if (!AIVision) return false;
+        return AIVision.ShouldFlipIfTargetIsBehind();
+    }
 }

@@ -8,6 +8,7 @@ public class ChargeState : State
     protected bool isDetectingWall;
     protected bool isChargeTimeOver;
     protected bool performCloseRangeAction;
+    protected float chargeEndTime;
 
     protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;
@@ -24,6 +25,12 @@ public class ChargeState : State
         base.Enter();
         isChargeTimeOver = false;
         GameFunctionLibrary.PlayAudioAtPosition(stateData.chargeStartAudioClip, enemy.transform.position);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        chargeEndTime = Time.time;
     }
 
     public override void LogicUpdate()
@@ -47,4 +54,6 @@ public class ChargeState : State
         isDetectingWall = CollisionSenses.WallFront;
         performCloseRangeAction = enemy.CheckPlayerInCloseRangeAction();
     }
+
+    public bool IsChargeReady() => Time.time >= chargeEndTime + stateData.chargeCooldown;
 }

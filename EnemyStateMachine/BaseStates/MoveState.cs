@@ -6,9 +6,9 @@ public class MoveState : State
     protected bool isDetectingEnemy;
     protected bool isPlayerInMinAggroRange;
 
-    protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
+    protected CollisionSenses CollisionSenses { get => collisionSenses != null ? collisionSenses : core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;
-    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
     public MoveState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData) : base(enemy, stateMachine, animBoolName)

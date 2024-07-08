@@ -2,9 +2,9 @@ public class EnemyGundyr_PlayerDetectedState : PlayerDetectedState
 {
     private EnemyGundyr enemyGundyr;
 
-    public EnemyGundyr_PlayerDetectedState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData, EnemyGundyr enemyGundyr) : base(enemy, stateMachine, animBoolName, stateData)
+    public EnemyGundyr_PlayerDetectedState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData) : base(enemy, stateMachine, animBoolName, stateData)
     {
-        this.enemyGundyr = enemyGundyr;
+        this.enemyGundyr = (EnemyGundyr)enemy;
     }
 
     public override void LogicUpdate()
