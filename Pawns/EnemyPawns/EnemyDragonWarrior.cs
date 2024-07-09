@@ -1,5 +1,17 @@
 using UnityEngine;
 
+[System.Serializable]
+public struct DragonWarrior_FlyStateData
+{
+    public float flyStartDelay;
+    public float flyStartDescendDelay;
+    public float flyCooldown;
+    public AudioClip flyImpactAudioClip;
+    public AudioClip flyStartSound;
+    public AudioClip flyStartDescendAudioClip;
+    public string animationName;
+}
+
 public class EnemyDragonWarrior : EnemyPawn
 {
     [SerializeField] private D_ChargeState chargeStateData;
@@ -8,12 +20,7 @@ public class EnemyDragonWarrior : EnemyPawn
     [SerializeField] private D_PlayerDetectedState playerDetectedStateData;
     [SerializeField] private D_MeleeAttackState slamStateData;
 
-    // TODO: This can probably be wrapped in a struct and passed to the fly state on initialization.
-    [SerializeField] private float flyStartDelay = 1f;
-    [SerializeField] private float flyStartDescendDelay = 1.75f;
-    [SerializeField] private float flyCooldown = 6f;
-    [SerializeField] private AudioClip flyImpactAudioClip;
-    public AudioClip flyStartSound;
+    [SerializeField] private DragonWarrior_FlyStateData flyStateData;
 
     [SerializeField] private GameObject slamDamageHitBox;
 
@@ -28,7 +35,7 @@ public class EnemyDragonWarrior : EnemyPawn
     {
         base.Start();
         ChargeState = new EnemyDragonWarrior_ChargeState(this, StateMachine, AnimationConstants.ANIM_PARAM_CHARGE, chargeStateData);
-        FlyState = new EnemyDragonWarrior_FlyState(this, StateMachine, AnimationConstants.ANIM_PARAM_SPECIAL1);
+        FlyState = new EnemyDragonWarrior_FlyState(this, StateMachine, Animator.StringToHash(flyStateData.animationName), flyStateData);
         IdleState = new EnemyDragonWarrior_IdleState(this, StateMachine, AnimationConstants.ANIM_PARAM_IDLE, idleStateData);
         MoveState = new EnemyDragonWarrior_MoveState(this, StateMachine, AnimationConstants.ANIM_PARAM_MOVE, moveStateData);
         PlayerDetectedState = new EnemyDragonWarrior_PlayerDetectedState(this, StateMachine, AnimationConstants.ANIM_PARAM_PLAYER_DETECTED, playerDetectedStateData);
@@ -47,8 +54,6 @@ public class EnemyDragonWarrior : EnemyPawn
         return base.CheckPlayerInLongRangeAction() && (ChargeState.IsChargeReady() || FlyState.IsFlyReady());
     }
 
-    public float GetFlyStartDelay() => flyStartDelay;
-    public float GetFlyStartDescendDelay() => flyStartDescendDelay;
-    public float GetFlyCooldown() => flyCooldown;
-    public AudioClip GetFlyImpactAudioClip() => flyImpactAudioClip;
+    private void TriggerStartAscend() => FlyState.StartAscend();
+    private void TriggerStartDescend() => FlyState.StartDescend();
 }

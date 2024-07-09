@@ -55,4 +55,11 @@ public class PawnBase : MonoBehaviour, IDamageable
         if (Movement)
             Movement.Flip();
     }
+
+    public bool IsSpriteMirrored()
+    {
+        if (!SpriteRenderer)
+            return false;
+        return SpriteRenderer.flipX;
+    }
 }

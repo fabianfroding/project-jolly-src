@@ -33,8 +33,6 @@ public class State
     {
         EndTime = Time.time;
         enemy.Animator.SetBool(animBoolName, false);
-        if (enemy.ShouldFlipIfTargetIsBehind() && enemy.IsPlayerBehind())
-            enemy.Flip();
     }
 
     public virtual void LogicUpdate() {}

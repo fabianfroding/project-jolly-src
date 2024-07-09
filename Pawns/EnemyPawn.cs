@@ -157,7 +157,7 @@ public class EnemyPawn : PawnBase, IParriable
 
     public bool IsPlayerBehind()
     {
-        if (AIVision)
+        if (!AIVision)
             return false;
         return AIVision.IsPlayerBehind();
     }
@@ -166,5 +166,19 @@ public class EnemyPawn : PawnBase, IParriable
     {
         if (!AIVision) return false;
         return AIVision.ShouldFlipIfTargetIsBehind();
+    }
+
+    public bool HasTarget()
+    {
+        if (!AIVision)
+            return false;
+        return AIVision.TargetPlayerPawn;
+    }
+
+    public Transform GetTargetTransform()
+    {
+        if (!AIVision)
+            return null;
+        return AIVision.TargetPlayerPawn.transform;
     }
 }

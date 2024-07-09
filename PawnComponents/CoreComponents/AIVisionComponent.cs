@@ -60,10 +60,17 @@ public class AIVisionComponent : CoreComponent
 
     public bool IsPlayerBehind()
     {
-        if (!TargetPlayerPawn)
-            return false;
-        return ((Movement.FacingDirection > 0 && TargetPlayerPawn.transform.position.x < transform.position.x) ||
-            (Movement.FacingDirection < 0 && TargetPlayerPawn.transform.position.x > transform.position.x));
+        if (!TargetPlayerPawn) // TODO: If enemy doesn't have target, assume player is behind?
+            return true;
+        if (Movement.FacingDirection > 0 && TargetPlayerPawn.transform.position.x < transform.position.x)
+        {
+            return !owningEnemyPawn.IsSpriteMirrored();
+        }
+        if (Movement.FacingDirection < 0 && TargetPlayerPawn.transform.position.x > transform.position.x)
+        {
+            return !owningEnemyPawn.IsSpriteMirrored();
+        }
+        return false;
     }
 
     public bool ShouldFlipIfTargetIsBehind() => flipIfTargetIsBehind;
