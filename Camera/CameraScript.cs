@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CameraScript : MonoBehaviour
@@ -12,6 +13,7 @@ public class CameraScript : MonoBehaviour
     [SerializeField] private Color backgroundColorMidnight;
 
     [SerializeField] private SODaytimeSettings daytimeSettings;
+    [SerializeField] private SOGameEvent onCameraShake;
 
     private CameraState cameraState = CameraState.FollowPlayer;
     private CameraBehaviourZone.CameraBehaviour cameraBehaviour = CameraBehaviourZone.CameraBehaviour.HorizontalLane;
@@ -115,12 +117,14 @@ public class CameraScript : MonoBehaviour
     {
         CameraBehaviourZone.OnEnterCameraBehaviourZone += SetCurrentBehaviourObj;
         CameraBehaviourZone.OnExitCameraBehaviourZone += SetCurrentBehaviourObj;
+        EventBus.Subscribe<CameraShakeEvent>(StartCameraShake);
     }
 
     private void OnDisable()
     {
         CameraBehaviourZone.OnEnterCameraBehaviourZone -= SetCurrentBehaviourObj;
         CameraBehaviourZone.OnExitCameraBehaviourZone -= SetCurrentBehaviourObj;
+        EventBus.Unsubscribe<CameraShakeEvent>(StartCameraShake);
     }
     #endregion
 
@@ -131,6 +135,22 @@ public class CameraScript : MonoBehaviour
     public bool GetStopAtLeft() => CameraBehaviourZone.GetStopAtLeft();
     public float GetHorizontalYAdjustment() => CameraBehaviourZone.GetHorizontalYAdjustment();
     #endregion
+
+    private void StartCameraShake(CameraShakeEvent cameraShakeEvent) => 
+        StartCoroutine(Shake(cameraShakeEvent.Duration, cameraShakeEvent.Magnitude));
+
+    private IEnumerator Shake(float duration, float magnitude)
+    {
+        float elapsed = 0.0f;
+        while (elapsed < duration)
+        {
+            float x = transform.position.x + Random.Range(-1f, 1f) * magnitude;
+            float y = transform.position.y + Random.Range(-1f, 1f) * magnitude;
+            transform.position = new Vector3(x, y, transform.position.z);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
 
     public LayerMask GetGroundMask() => groundMask;
 

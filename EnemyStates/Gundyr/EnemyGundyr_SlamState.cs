@@ -13,6 +13,7 @@ public class EnemyGundyr_SlamState : MeleeAttackState
     {
         base.AttackImpact();
         GameFunctionLibrary.PlayAudioAtPosition(stateData.windupAudioClip, enemyGundyr.transform.position);
+        EventBus.Publish(new CameraShakeEvent(0.75f, 0.01f));
     }
 
     public override void LogicUpdate()

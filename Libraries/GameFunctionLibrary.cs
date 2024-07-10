@@ -1,7 +1,28 @@
 using UnityEngine;
 
-public class GameFunctionLibrary : MonoBehaviour
+public static class GameFunctionLibrary
 {
+    public static void InstantiateParticleSystemAtPosition(GameObject particleSystemGO, Vector2 position, bool destroyWhenDone = true)
+    {
+        // Consider using additional params such as attach to parent for attached vfx, and wrap in struct if too many params.
+        if (!particleSystemGO)
+        {
+            Debug.LogWarning("GameFunctionLibrary::InstantiateParticleSystemAtPosition: Invalid game object!");
+            return;
+        }
+        if (!particleSystemGO.GetComponent<ParticleSystem>())
+        {
+            Debug.LogWarning("GameFunctionLibrary::InstantiateParticleSystemAtPosition: The game object " +
+                particleSystemGO.name + " has no particle system component!");
+            return;
+        }
+        GameObject particleSystemGOInstance = GameObject.Instantiate(particleSystemGO);
+        particleSystemGOInstance.transform.parent = null;
+        particleSystemGOInstance.transform.position = position;
+        if (destroyWhenDone)
+            particleSystemGOInstance.AddComponent<DestroyWhenDone>();
+    }
+
     public static bool IsGameObjectInCameraView(GameObject obj)
     {
         GameObject mainCam = GameObject.FindObjectOfType<CameraScript>().gameObject;

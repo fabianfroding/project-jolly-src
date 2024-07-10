@@ -4,8 +4,6 @@ using UnityEngine;
 public class HealthComponent : CoreComponent
 {
     [SerializeField] private IntReference maxHealth;
-
-    [SerializeField] private GameObject damagedParticles;
     [SerializeField] private AudioClip damagedAudioClip;
     [SerializeField] private AudioClip hurtAudioClip;
     [SerializeField][Range(0f, 1f)] float chanceToPlayHurtSound;

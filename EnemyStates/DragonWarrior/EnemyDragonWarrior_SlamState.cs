@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyDragonWarrior_SlamState : MeleeAttackState
 {
-    private EnemyDragonWarrior enemyDragonWarrior;
+    private readonly EnemyDragonWarrior enemyDragonWarrior;
 
     public EnemyDragonWarrior_SlamState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, GameObject meleeAttackDamageHitBox, D_MeleeAttackState stateData) : base(enemy, stateMachine, animBoolName, meleeAttackDamageHitBox, stateData)
     {
@@ -13,6 +13,7 @@ public class EnemyDragonWarrior_SlamState : MeleeAttackState
     {
         base.AttackImpact();
         GameFunctionLibrary.PlayAudioAtPosition(stateData.windupAudioClip, enemyDragonWarrior.transform.position);
+        EventBus.Publish(new CameraShakeEvent(0.75f, 0.01f));
     }
 
     public override void LogicUpdate()

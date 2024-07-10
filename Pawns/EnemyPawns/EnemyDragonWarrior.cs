@@ -1,17 +1,5 @@
 using UnityEngine;
 
-[System.Serializable]
-public struct DragonWarrior_FlyStateData
-{
-    public float flyStartDelay;
-    public float flyStartDescendDelay;
-    public float flyCooldown;
-    public AudioClip flyImpactAudioClip;
-    public AudioClip flyStartSound;
-    public AudioClip flyStartDescendAudioClip;
-    public string animationName;
-}
-
 public class EnemyDragonWarrior : EnemyPawn
 {
     [SerializeField] private D_ChargeState chargeStateData;
@@ -56,4 +44,5 @@ public class EnemyDragonWarrior : EnemyPawn
 
     private void TriggerStartAscend() => FlyState.StartAscend();
     private void TriggerStartDescend() => FlyState.StartDescend();
+    private void TriggerFinishedLandingAnimation() => FlyState.OnFinishLandingAnimation();
 }
