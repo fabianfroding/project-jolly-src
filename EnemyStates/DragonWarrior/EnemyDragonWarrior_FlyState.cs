@@ -11,12 +11,15 @@ public struct DragonWarrior_FlyStateData
     public string landingAnimationName;
     public GameObject takeOffVFX;
     public GameObject impactVFX;
+    public CameraShakeEvent impactCameraShakeEventSettings;
 }
 
 public class EnemyDragonWarrior_FlyState : State
 {
     private readonly EnemyDragonWarrior enemyDragonWarrior;
     private readonly DragonWarrior_FlyStateData stateData;
+
+    private Transform targetTransform;
 
     private Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     private Movement movement;
@@ -30,6 +33,12 @@ public class EnemyDragonWarrior_FlyState : State
         this.stateData = stateData;
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        targetTransform = enemy.GetTargetTransform();
+    }
+
     public override void LogicUpdate()
     {
         base.LogicUpdate();
@@ -38,7 +47,7 @@ public class EnemyDragonWarrior_FlyState : State
         {
             enemy.Animator.SetBool(Animator.StringToHash(stateData.animationName), false);
             enemy.Animator.SetBool(Animator.StringToHash(stateData.landingAnimationName), true);
-            EventBus.Publish(new CameraShakeEvent(0.75f, 0.01f));
+            EventBus.Publish(stateData.impactCameraShakeEventSettings);
         }
     }
 
@@ -54,8 +63,7 @@ public class EnemyDragonWarrior_FlyState : State
 
     public void StartDescend()
     {
-        if (enemy.HasTarget())
-            enemy.transform.position = new Vector2(enemy.GetTargetTransform().position.x, enemy.transform.position.y);
+        enemy.transform.position = new Vector2(targetTransform.position.x, enemy.transform.position.y);
         GameFunctionLibrary.PlayAudioAtPosition(stateData.flyStartDescendAudioClip, enemy.transform.position);
         Movement.SetVelocityX(0f);
         Movement.SetVelocityY(-60f);
@@ -66,6 +74,6 @@ public class EnemyDragonWarrior_FlyState : State
         GameFunctionLibrary.InstantiateParticleSystemAtPosition(stateData.impactVFX, enemy.transform.position);
         GameFunctionLibrary.PlayAudioAtPosition(stateData.flyImpactAudioClip, enemy.transform.position);
         enemy.Animator.SetBool(Animator.StringToHash(stateData.landingAnimationName), false);
-        stateMachine.ChangeState(enemyDragonWarrior.IdleState);
+        stateMachine.ChangeState(enemyDragonWarrior.LookForPlayerState);
     }
 }

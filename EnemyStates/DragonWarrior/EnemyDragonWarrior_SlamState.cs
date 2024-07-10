@@ -20,6 +20,6 @@ public class EnemyDragonWarrior_SlamState : MeleeAttackState
     {
         base.LogicUpdate();
         if (isAnimationFinished)
-            stateMachine.ChangeState(enemyDragonWarrior.IdleState);
+            stateMachine.ChangeState(enemyDragonWarrior.LookForPlayerState);
     }
 }

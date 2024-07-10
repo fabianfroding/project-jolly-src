@@ -10,7 +10,7 @@ public class LookForPlayerState : State
     protected int amountOfTurnsDone;
     protected bool turnImmediately;
 
-    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
     public LookForPlayerState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_LookForPlayerState stateData) : base(enemy, stateMachine, animBoolName)
@@ -21,19 +21,16 @@ public class LookForPlayerState : State
     public override void DoChecks()
     {
         base.DoChecks();
-
         isPlayerInMinAggroRange = enemy.CheckPlayerInMinAggroRange();
     }
 
     public override void Enter()
     {
         base.Enter();
-
         isAllTurnsDone = false;
         isAllTurnsTimeDone = false;
         lastTurnTime = StartTime;
         amountOfTurnsDone = 0;
-
         Movement.SetVelocityX(0);
     }
 
@@ -41,6 +38,7 @@ public class LookForPlayerState : State
     {
         base.LogicUpdate();
         Movement.SetVelocityX(0);
+
         if (turnImmediately)
         {
             Movement.Flip();
@@ -67,5 +65,8 @@ public class LookForPlayerState : State
     }
 
     public void SetTurnImmediately(bool flip) => turnImmediately = flip;
-    
+
+    public bool HasFinishedLookingForPlayer() => isAllTurnsDone || isAllTurnsTimeDone;
+
+
 }

@@ -1,11 +1,17 @@
+using UnityEngine;
+
+[System.Serializable]
 public class CameraShakeEvent
 {
-    public float Duration { get; private set; }
-    public float Magnitude { get; private set; }
+    [SerializeField] private float duration;
+    [SerializeField] private float magnitude;
 
     public CameraShakeEvent(float duration, float magnitude)
     {
-        Duration = duration;
-        Magnitude = magnitude;
+        this.duration = duration;
+        this.magnitude = magnitude;
     }
+
+    public float GetDuration() => duration;
+    public float GetMagnitude() => magnitude;
 }

@@ -82,9 +82,7 @@ public class EnemyPawn : PawnBase, IParriable
 
     public virtual bool CheckPlayerInCloseRangeAction()
     {
-        if (!AIVision.TargetPlayerPawn)
-            return false;
-        if (!AIVision.TargetPlayerPawn.IsAlive() || AIVision.IsPlayerBehind())
+        if (!HasTarget())
             return false;
         if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.closeRangeActionDistance))
             return false;
@@ -98,9 +96,7 @@ public class EnemyPawn : PawnBase, IParriable
 
     public virtual bool CheckPlayerInLongRangeAction()
     {
-        if (!AIVision.TargetPlayerPawn)
-            return false;
-        if (!AIVision.TargetPlayerPawn.IsAlive() || AIVision.IsPlayerBehind())
+        if (!HasTarget())
             return false;
         if (CheckGroundInRange(playerCheck.position, transform.right, enemyData.longRangeActionDistance))
             return false;
@@ -155,24 +151,11 @@ public class EnemyPawn : PawnBase, IParriable
 
     public virtual void Parried() {} // Interface implementation.
 
-    public bool IsPlayerBehind()
-    {
-        if (!AIVision)
-            return false;
-        return AIVision.IsPlayerBehind();
-    }
-
-    public bool ShouldFlipIfTargetIsBehind()
-    {
-        if (!AIVision) return false;
-        return AIVision.ShouldFlipIfTargetIsBehind();
-    }
-
     public bool HasTarget()
     {
         if (!AIVision)
             return false;
-        return AIVision.TargetPlayerPawn;
+        return AIVision.HasTarget();
     }
 
     public Transform GetTargetTransform()

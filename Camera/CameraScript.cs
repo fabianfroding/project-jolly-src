@@ -137,15 +137,15 @@ public class CameraScript : MonoBehaviour
     #endregion
 
     private void StartCameraShake(CameraShakeEvent cameraShakeEvent) => 
-        StartCoroutine(Shake(cameraShakeEvent.Duration, cameraShakeEvent.Magnitude));
+        StartCoroutine(Shake(cameraShakeEvent));
 
-    private IEnumerator Shake(float duration, float magnitude)
+    private IEnumerator Shake(CameraShakeEvent cameraShakeEvent)
     {
         float elapsed = 0.0f;
-        while (elapsed < duration)
+        while (elapsed < cameraShakeEvent.GetDuration())
         {
-            float x = transform.position.x + Random.Range(-1f, 1f) * magnitude;
-            float y = transform.position.y + Random.Range(-1f, 1f) * magnitude;
+            float x = transform.position.x + Random.Range(-1f, 1f) * cameraShakeEvent.GetMagnitude();
+            float y = transform.position.y + Random.Range(-1f, 1f) * cameraShakeEvent.GetMagnitude();
             transform.position = new Vector3(x, y, transform.position.z);
             elapsed += Time.deltaTime;
             yield return null;

@@ -23,7 +23,7 @@ public class EnemyDragonWarrior_ChargeState : ChargeState
             }
             else
             {
-                stateMachine.ChangeState(enemyDragonWarrior.IdleState);
+                stateMachine.ChangeState(enemyDragonWarrior.LookForPlayerState);
             }
         }
     }
