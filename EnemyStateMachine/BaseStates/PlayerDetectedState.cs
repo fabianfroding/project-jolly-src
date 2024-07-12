@@ -31,7 +31,6 @@ public class PlayerDetectedState : State
         {
             GameFunctionLibrary.PlayAudioAtPosition(stateData.aggroAudioClip, enemy.transform.position);
             aggroSoundResetStartTime = Time.time;
-            Debug.Log("Play aggro sound");
         }
     }
 
@@ -53,8 +52,8 @@ public class PlayerDetectedState : State
             if (enemy.HasTarget())
                 aggroSoundResetStartTime = Time.time;
             if (Time.time > aggroSoundResetStartTime + stateData.aggroSoundResetTime)
-                { aggroSoundResetStartTime = -1f;
-                Debug.Log("Reset aggro sound for " + enemy.name);
+            {
+                aggroSoundResetStartTime = -1f;
             }
         }
     }

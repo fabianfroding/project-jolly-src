@@ -234,6 +234,8 @@ public class PlayerPawn : PawnBase
     public override void Revive()
     {
         base.Revive();
+        HealthComponent.SetHealth(3);
+        OnPlayerHealthChangedGameEvent.Raise();
         StateMachine.ChangeState(IdleState);
     }
 
