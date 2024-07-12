@@ -80,6 +80,8 @@ public class EnemyPawn : PawnBase, IParriable
         return directionToPlayer;
     }
 
+    public virtual bool ShouldPerformCloseRangeAction() { return false; }
+
     public virtual bool CheckPlayerInCloseRangeAction()
     {
         if (!HasTarget())
@@ -160,8 +162,13 @@ public class EnemyPawn : PawnBase, IParriable
 
     public Transform GetTargetTransform()
     {
-        if (!AIVision)
-            return null;
+        if (!AIVision) return null;
+        if (!AIVision.HasTarget()) return null;
         return AIVision.TargetPlayerPawn.transform;
+    }
+
+    public void ResetTarget()
+    {
+        if (AIVision) AIVision.ResetTarget();
     }
 }

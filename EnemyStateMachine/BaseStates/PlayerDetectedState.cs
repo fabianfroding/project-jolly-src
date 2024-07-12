@@ -8,11 +8,11 @@ public class PlayerDetectedState : State
     protected bool performLongRangeAction;
     protected bool performCloseRangeAction;
     protected bool isDetectingLedge;
-    protected float aggroSoundUsedTime = 0f;
+    protected float aggroSoundResetStartTime = -1f;
 
-    protected CollisionSenses CollisionSenses { get => collisionSenses != null ? collisionSenses : core.GetCoreComponent(ref collisionSenses); }
+    protected CollisionSenses CollisionSenses { get => collisionSenses ? collisionSenses : core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;
-    protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
+    protected Movement Movement { get => movement ? movement : core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
     public PlayerDetectedState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_PlayerDetectedState stateData) : base(enemy, stateMachine, animBoolName)
@@ -27,10 +27,11 @@ public class PlayerDetectedState : State
         performLongRangeAction = false;
         Movement.SetVelocityX(0);
 
-        if (stateData.aggroAudioClip && Time.time > aggroSoundUsedTime + stateData.aggroSoundResetTime)
+        if (stateData.aggroAudioClip && aggroSoundResetStartTime <= -1f)
         {
-            aggroSoundUsedTime = Time.time;
             GameFunctionLibrary.PlayAudioAtPosition(stateData.aggroAudioClip, enemy.transform.position);
+            aggroSoundResetStartTime = Time.time;
+            Debug.Log("Play aggro sound");
         }
     }
 
@@ -45,6 +46,16 @@ public class PlayerDetectedState : State
         if (Time.time >= StartTime + stateData.longRangeActionTime)
         {
             performLongRangeAction = true;
+        }
+
+        if (stateData.aggroAudioClip)
+        {
+            if (enemy.HasTarget())
+                aggroSoundResetStartTime = Time.time;
+            if (Time.time > aggroSoundResetStartTime + stateData.aggroSoundResetTime)
+                { aggroSoundResetStartTime = -1f;
+                Debug.Log("Reset aggro sound for " + enemy.name);
+            }
         }
     }
 

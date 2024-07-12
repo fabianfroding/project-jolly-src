@@ -11,11 +11,13 @@ public class EnemyDragonWarrior_PlayerDetectedState : PlayerDetectedState
     {
         base.LogicUpdate();
 
-        if (performCloseRangeAction && enemyDragonWarrior.SlamState.IsMeleeAttackReady())
+        if (enemyDragonWarrior.ShouldPerformCloseRangeAction())
         {
             stateMachine.ChangeState(enemyDragonWarrior.SlamState);
+            return;
         }
-        else if (performLongRangeAction)
+
+        if (performLongRangeAction)
         {
             if (enemyDragonWarrior.ChargeState.IsChargeReady())
             {
@@ -25,10 +27,12 @@ public class EnemyDragonWarrior_PlayerDetectedState : PlayerDetectedState
             {
                 stateMachine.ChangeState(enemyDragonWarrior.FlyState);
             }
+            return;
         }
-        else if (!isDetectingLedge)
+
+        if (!isDetectingLedge)
         {
-            enemyDragonWarrior.Core.GetCoreComponent<Movement>().Flip();
+            enemyDragonWarrior.Flip();
             stateMachine.ChangeState(enemyDragonWarrior.MoveState);
         }
     }

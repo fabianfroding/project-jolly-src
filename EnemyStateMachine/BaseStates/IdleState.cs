@@ -8,7 +8,7 @@ public class IdleState : State
     protected bool isPlayerInMinAggroRange;
     protected float idleTime;
 
-    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
     public IdleState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_IdleState stateData) : base(enemy, stateMachine, animBoolName)
@@ -22,6 +22,7 @@ public class IdleState : State
         Movement.SetVelocityX(0f);
         isIdleTimeOver = false;
         SetRandomIdleTime();
+        enemy.ResetTarget();
     }
 
     public override void DoChecks()

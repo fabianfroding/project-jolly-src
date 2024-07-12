@@ -18,7 +18,7 @@ public class EnemyDragonWarrior_MoveState : MoveState
         }
         else if (isDetectingWall || !isDetectingLedge)
         {
-            enemyDragonWarrior.IdleState.SetFlipAfterIdle(true);
+            enemyDragonWarrior.IdleState.SetFlipAfterIdle(true); // TODO: This should happen automatically.
             stateMachine.ChangeState(enemyDragonWarrior.IdleState);
         }
     }

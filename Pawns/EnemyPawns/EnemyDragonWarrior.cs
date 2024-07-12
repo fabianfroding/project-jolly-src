@@ -35,9 +35,23 @@ public class EnemyDragonWarrior : EnemyPawn
         StateMachine.Initialize(IdleState);
     }
 
+    public override bool ShouldPerformCloseRangeAction()
+    {
+        if (!SlamState.IsMeleeAttackReady()) return false;
+        if (!AIVision) return false;
+        if (!AIVision.HasTarget()) return false;
+        float damageHitBoxHalfWidth = slamDamageHitBox.GetComponent<Collider2D>().bounds.size.x;
+        return Mathf.Abs(Vector3.Distance(transform.position, GetTargetTransform().position))
+            <= Mathf.Abs(Vector3.Distance(transform.position, slamDamageHitBox.transform.position) + damageHitBoxHalfWidth);
+    }
+
     public override bool CheckPlayerInCloseRangeAction()
     {
-        return base.CheckPlayerInCloseRangeAction() && SlamState.IsMeleeAttackReady();
+        if (!SlamState.IsMeleeAttackReady()) return false;
+        if (!AIVision) return false;
+        if (!AIVision.TargetPlayerPawn) return false;
+        return Vector3.Distance(transform.position, GetTargetTransform().position)
+            <= Vector3.Distance(transform.position, slamDamageHitBox.transform.position);
     }
 
     public override bool CheckPlayerInLongRangeAction()

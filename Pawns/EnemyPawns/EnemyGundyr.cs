@@ -41,4 +41,13 @@ public class EnemyGundyr : EnemyPawn
     {
         return base.CheckPlayerInLongRangeAction() && SlamState.IsMeleeAttackReady();
     }
+
+    public override void TakeDamage(Types.DamageData damageData)
+    {
+        base.TakeDamage(damageData);
+        if (IsAlive() && (StateMachine.currentState == IdleState || StateMachine.currentState == MoveState))
+        {
+            // TODO: Make a LookForPlayerState and transition to it here.
+        }
+    }
 }
