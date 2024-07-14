@@ -34,6 +34,9 @@ public class MeleeAttackState : AttackState
         if (meleeAttackDamageHitBox)
             meleeAttackDamageHitBox.SetActive(true);
 
+        if (stateData.cameraShakeEvent != null)
+            EventBus.Publish(stateData.cameraShakeEvent);
+
         PlayAttackAudio();
     }
 

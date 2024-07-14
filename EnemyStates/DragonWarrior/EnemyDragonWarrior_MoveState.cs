@@ -14,7 +14,7 @@ public class EnemyDragonWarrior_MoveState : MoveState
         if ((enemyDragonWarrior.CheckPlayerInMaxAggroRange() && enemyDragonWarrior.CheckPlayerInLongRangeAction()) ||
             (enemyDragonWarrior.CheckPlayerInMinAggroRange() && enemyDragonWarrior.CheckPlayerInCloseRangeAction()))
         {
-            enemyDragonWarrior.StateMachine.ChangeState(enemyDragonWarrior.PlayerDetectedState);
+            stateMachine.ChangeState(enemyDragonWarrior.PlayerDetectedState);
         }
         else if (isDetectingWall || !isDetectingLedge)
         {

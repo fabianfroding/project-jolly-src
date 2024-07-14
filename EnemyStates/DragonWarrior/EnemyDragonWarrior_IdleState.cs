@@ -12,6 +12,6 @@ public class EnemyDragonWarrior_IdleState : IdleState
     {
         base.LogicUpdate();
         if (isIdleTimeOver || enemy.HasTarget())
-            enemyDragonWarrior.StateMachine.ChangeState(enemyDragonWarrior.MoveState);
+            stateMachine.ChangeState(enemyDragonWarrior.MoveState);
     }
 }

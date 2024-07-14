@@ -13,4 +13,6 @@ public class D_MeleeAttackState : ScriptableObject
     public AudioClip windupAudioClip;
 
     public LayerMask playerLayer;
+
+    public CameraShakeEvent cameraShakeEvent;
 }

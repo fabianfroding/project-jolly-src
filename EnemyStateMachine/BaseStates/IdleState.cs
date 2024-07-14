@@ -22,7 +22,6 @@ public class IdleState : State
         Movement.SetVelocityX(0f);
         isIdleTimeOver = false;
         SetRandomIdleTime();
-        enemy.ResetTarget();
     }
 
     public override void DoChecks()
