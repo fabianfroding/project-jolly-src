@@ -28,9 +28,6 @@ public class EnemyJungleBeast_JumpState : State
     private Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     private Movement movement;
 
-    private CollisionSenses CollisionSenses { get => collisionSenses != null ? collisionSenses : core.GetCoreComponent(ref collisionSenses); }
-    private CollisionSenses collisionSenses;
-
     public EnemyJungleBeast_JumpState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, JungleBeast_JumpStateData stateData)
         : base(enemy, stateMachine, animBoolName)
     {
@@ -73,6 +70,7 @@ public class EnemyJungleBeast_JumpState : State
                 enemy.Animator.SetBool(Animator.StringToHash(stateData.animationName), false);
                 enemy.Animator.SetBool(Animator.StringToHash(stateData.landingAnimationName), true);
                 EventBus.Publish(stateData.impactCameraShakeEvent);
+                // TODO: Get overlaps in enemy collison box and damage player if found.
             }
             return;
         }

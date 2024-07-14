@@ -12,6 +12,9 @@ public class EnemyJungleBeast : EnemyPawn
     [SerializeField] private JungleBeast_JumpStateData jumpStateData;
 
     [SerializeField] private GameObject meleeAttackSecondDamageHitBox;
+    [SerializeField] public GameObject throwPoint;
+    [SerializeField] public GameObject throwProjectilePrefab;
+    [SerializeField] public AudioClip throwAudioClip;
 
     public EnemyJungleBeast_IdleState IdleState { get; private set; }
     public EnemyJungleBeast_JumpState JumpState { get; private set; }
