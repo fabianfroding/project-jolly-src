@@ -76,6 +76,11 @@ public class GameManager : MonoBehaviour
 
     private void QuitToMainMenu()
     {
+        PlayerPawn playerPawn = FindObjectOfType<PlayerPawn>();
+        if (playerPawn)
+        {
+            Destroy(playerPawn.gameObject);
+        }
         SceneManager.LoadScene(mainMenuSceneName);
         Destroy(gameObject);
     }

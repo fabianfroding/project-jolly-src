@@ -63,6 +63,7 @@ public class PlayerPawn : PawnBase
 
     public Light2D light2D;
     private PlayerInvulnerabilityIndicator playerInvulnerabilityIndicator;
+    public string currentSceneName;
     #endregion
 
     #region Events
@@ -74,10 +75,19 @@ public class PlayerPawn : PawnBase
     public static event Action OnPlayerExitAirGlideState;
     #endregion
 
+    public static PlayerPawn Instance { get; private set; }
+
     #region Unity Callback Functions
     protected override void Awake()
     {
         base.Awake();
+        if (Instance && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
         StateMachine = new PlayerStateMachine();
         IdleState = new PlayerIdleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
         MoveState = new PlayerMoveState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_MOVE);
@@ -97,6 +107,7 @@ public class PlayerPawn : PawnBase
         playerInvulnerabilityIndicator = GetComponent<PlayerInvulnerabilityIndicator>();
 
         OnPlayerAwake?.Invoke(this);
+        DontDestroyOnLoad(gameObject);
     }
 
     protected override void Start()
@@ -116,6 +127,7 @@ public class PlayerPawn : PawnBase
         }
 
         SetPlayerRespawnPosition(transform.position);
+        currentSceneName = SceneManager.GetActiveScene().name;
 
         if (OnPlayerMaxHealthChangedGameEvent)
             OnPlayerMaxHealthChangedGameEvent.Raise();
@@ -192,6 +204,7 @@ public class PlayerPawn : PawnBase
     #endregion
 
     #region Other Functions
+
     public override void TakeDamage(Types.DamageData damageData)
     {
         base.TakeDamage(damageData);
