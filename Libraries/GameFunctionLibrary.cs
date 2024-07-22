@@ -51,9 +51,8 @@ public static class GameFunctionLibrary
 
     public static void PlayRandomAudioAtPosition(AudioClip[] audioClips, Vector2 position, bool destroyWhenDone = true)
     {
-        if (audioClips.Length <= 0)
-            return;
-        PlayAudioAtPosition(audioClips[Random.Range(0, audioClips.Length - 1)], position, destroyWhenDone);
+        if (audioClips != null && audioClips.Length > 0)
+            PlayAudioAtPosition(audioClips[Random.Range(0, audioClips.Length - 1)], position, destroyWhenDone);
     }
 
     #region Math Functions

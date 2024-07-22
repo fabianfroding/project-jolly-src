@@ -38,7 +38,7 @@ public class CameraScript : MonoBehaviour
     {
         get
         {
-            if (player == null)
+            if (!player)
             {
                 player = FindObjectOfType<PlayerPawn>().gameObject;
             }
@@ -106,7 +106,7 @@ public class CameraScript : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Player != null)
+        if (Player)
         {
             CheckCameraBehaviour();
             FollowPlayer();
