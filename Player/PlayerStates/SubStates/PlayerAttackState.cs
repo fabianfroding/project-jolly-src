@@ -42,6 +42,7 @@ public class PlayerAttackState : PlayerAbilityState
             player.attackUpDamageHitBox.SetActive(true);
         else
             player.attackHorizontalDamageHitBox.SetActive(true);
+        GameFunctionLibrary.PlayRandomAudioAtPosition(playerStateData.attackDamageData.audioClips, player.transform.position);
     }
 
     public override void AnimationFinishTrigger()
