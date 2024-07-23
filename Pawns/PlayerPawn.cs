@@ -103,6 +103,8 @@ public class PlayerPawn : PawnBase
         FloatingBubbleState = new PlayerFloatingBubbleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
         InteractState = new PlayerInteractState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
 
+        EnableUnlockedPlayerAbilities();
+
         InputHandler = GetComponent<PlayerInputHandler>();
         playerInvulnerabilityIndicator = GetComponent<PlayerInvulnerabilityIndicator>();
 
@@ -165,41 +167,41 @@ public class PlayerPawn : PawnBase
     #region Enable State Functions
     public void EnableAllLockedStates()
     {
-        EnableDoubleJumpState();
-        EnableWallJumpAndSlideStates();
-        EnableDashState();
-        EnableAirGlideState();
-        EnableWarpState();
-        EnableThunderState();
+        for (int i = 0; i < (int)Types.EUnlockablePlayerAbilityID.Num; i++)
+        {
+            EnableUnlockablePlayerAbility((Types.EUnlockablePlayerAbilityID)i);
+        }
     }
 
-    public void EnableDoubleJumpState() => DoubleJumpState = new PlayerDoubleJumpState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
-
-    public void EnableWallJumpAndSlideStates()
+    public void EnableUnlockablePlayerAbility(Types.EUnlockablePlayerAbilityID unlockablePlayerAbilityID)
     {
-        WallSlideState = new PlayerWallSlideState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_WALL_SLIDE);
-        WallJumpState = new PlayerWallJumpState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
+        switch (unlockablePlayerAbilityID)
+        {
+            case Types.EUnlockablePlayerAbilityID.Dash:
+                DashState = new PlayerDashState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
+                break;
+            case Types.EUnlockablePlayerAbilityID.DoubleJump:
+                DoubleJumpState = new PlayerDoubleJumpState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
+                break;
+            case Types.EUnlockablePlayerAbilityID.WallJump:
+                WallSlideState = new PlayerWallSlideState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_WALL_SLIDE);
+                WallJumpState = new PlayerWallJumpState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
+                break;
+            case Types.EUnlockablePlayerAbilityID.Warp:
+                HoldAscendState = new PlayerHoldAscendState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_HOLD_ASCEND);
+                AscendState = new PlayerAscendState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ASCEND);
+                break;
+        }
     }
-
-    public void EnableDashState()
+    
+    public void EnableUnlockedPlayerAbilities()
     {
-        DashState = new PlayerDashState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
-    }
-
-    public void EnableAirGlideState()
-    {
-        AirGlideState = new PlayerAirGlideState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_AIR_GLIDE);
-    }
-
-    public void EnableWarpState()
-    {
-        HoldAscendState = new PlayerHoldAscendState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_HOLD_ASCEND);
-        AscendState = new PlayerAscendState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ASCEND);
-    }
-
-    public void EnableThunderState()
-    {
-        ThunderState = new PlayerThunderState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_THUNDER);
+        for (int i = 0; i < (int)Types.EUnlockablePlayerAbilityID.Num; i++)
+        {
+            Types.EUnlockablePlayerAbilityID intEnum = (Types.EUnlockablePlayerAbilityID)i;
+            if (SaveManager.IsUnlockablePlayerAbilityUnlocked(intEnum))
+                EnableUnlockablePlayerAbility(intEnum);
+        }
     }
     #endregion
 

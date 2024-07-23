@@ -3,9 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class Pickupable : MonoBehaviour
 {
-    [SerializeField] private GameObject statusEffectPrefab;
+    [SerializeField] private GameObject statusEffectPrefab; // TODO: Make subclass for status effect pickupable.
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         if (SaveManager.HasPickupableBeenPickedUp(GetPickupableUniqueName()))
             Destroy(gameObject);

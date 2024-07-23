@@ -11,6 +11,16 @@ public static class Types
     }
 
     [System.Serializable]
+    public enum EUnlockablePlayerAbilityID
+    {
+        Dash,
+        DoubleJump,
+        WallJump,
+        Warp,
+        Num
+    }
+
+    [System.Serializable]
     public struct DamageData
     {
         public GameObject source, target;
