@@ -2,13 +2,40 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadSceneOnEnterTrigger : MonoBehaviour
+public class SceneTransitionTrigger : MonoBehaviour
 {
     [Tooltip("Name of the scene to load.")]
     [SerializeField] private string sceneToLoad;
+    [SerializeField] private GameObject sceneTransitionSpawnPoint;
 
     private void Start()
     {
+        if (sceneTransitionSpawnPoint)
+        {
+            PlayerPawn playerPawn = PlayerPawn.Instance;
+            if (!playerPawn)
+            {
+                Debug.LogError(GetType().Name +  "::Start: Failed to find PlayerPawn!");
+                return;
+            }
+
+            if (playerPawn.currentSceneName != null &&
+                playerPawn.currentSceneName != "" &&
+                sceneToLoad == playerPawn.currentSceneName)
+            {
+                playerPawn.transform.position = sceneTransitionSpawnPoint.transform.position;
+                playerPawn.currentSceneName = SceneManager.GetActiveScene().name;
+
+                ScreenFade screenFade = FindObjectOfType<ScreenFade>();
+                if (screenFade)
+                    screenFade.FadeIn();
+            }
+        }
+        else
+        {
+            Debug.LogError(GetType().Name +  "::Start: No spawn point found for " + gameObject.name);
+        }
+
 #if !UNITY_EDITOR
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer)
@@ -20,7 +47,7 @@ public class LoadSceneOnEnterTrigger : MonoBehaviour
     {
         if (sceneToLoad == null || sceneToLoad == "")
         {
-            Debug.LogError("LoadSceneOnEnterTrigger::OnTriggerEnter2D: Undefined sceneToLoad in " + gameObject.name);
+            Debug.LogError(GetType().Name +  "::OnTriggerEnter2D: Undefined sceneToLoad in " + gameObject.name);
             return;
         }
 
