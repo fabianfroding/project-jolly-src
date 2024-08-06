@@ -26,7 +26,7 @@ public class PawnCore : MonoBehaviour
         comp = GetComponentInChildren<T>();
         if (comp) { return comp; }
 
-        Debug.LogWarning($"{typeof(T)} not found on {transform.parent.name}");
+        //Debug.LogWarning($"{typeof(T)} not found on {transform.parent.name}");
         return comp;
     }
 

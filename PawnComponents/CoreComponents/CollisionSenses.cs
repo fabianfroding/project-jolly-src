@@ -68,7 +68,12 @@ public class CollisionSenses : CoreComponent
 
     public bool WallFront
     {
-        get => Physics2D.Raycast(wallCheck.position, Vector2.right * Movement.FacingDirection, wallCheckDistance, groundLayer);
+        get
+        {
+            if (!Movement)
+                return false; // Dirty fix for enemies who only have movement states (they get null ref when trying to get move comp on enter state).
+            return Physics2D.Raycast(wallCheck.position, Vector2.right * Movement.FacingDirection, wallCheckDistance, groundLayer);
+        }
     }
 
     public bool WallBack

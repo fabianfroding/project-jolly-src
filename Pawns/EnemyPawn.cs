@@ -13,6 +13,7 @@ public class EnemyPawn : PawnBase, IParriable
 
     [SerializeField] protected Transform playerCheck;
     [SerializeField] protected GameObject meleeAttackDamageHitBox;
+    [SerializeField] protected AudioClip deathAudioClip;
 
     public AIVisionComponent AIVision => aiVision ? aiVision : Core.GetCoreComponent(ref aiVision);
     protected AIVisionComponent aiVision;
@@ -143,6 +144,7 @@ public class EnemyPawn : PawnBase, IParriable
     public override void Death()
     {
         base.Death();
+        GameFunctionLibrary.PlayAudioAtPosition(deathAudioClip, transform.position);
         gameObject.SetActive(false);
     }
 
