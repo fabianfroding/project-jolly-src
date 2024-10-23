@@ -130,6 +130,9 @@ public class PlayerInAirState : PlayerState
             player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_X_VELOCITY, Mathf.Abs(Movement.CurrentVelocity.x));
             player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_VELOCITY, Movement.CurrentVelocity.y);
         }
+
+        if (player.InputHandler.BarrierInput)
+            player.ActivateBarrier();
     }
 
     private void CheckJumpMultiplier()

@@ -6,8 +6,10 @@ public class PlayerHoldAscendState : PlayerAbilityState
     private bool ascendHit;
     private LineRenderer lineRenderer;
 
+    private Vector2 directionInput;
+
     public PlayerHoldAscendState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
-    {}
+    { }
 
     public override void Enter()
     {
@@ -44,17 +46,14 @@ public class PlayerHoldAscendState : PlayerAbilityState
                 lineRenderer.enabled = true;
                 lineRenderer.SetPosition(0, CollisionSenses.GetWallCheckTransform().position);
 
-                Vector3 direction = Vector3.up;
-                if (player.InputHandler.RawWarpDirectionInput.y > 0)
-                {
-                    direction = Vector3.up;
-                }
-                else if (player.InputHandler.RawWarpDirectionInput.y < 0)
-                {
-                    direction = Vector3.down;
-                }
+                // Get the raw input direction from the player
+                Vector2 inputDirection = player.InputHandler.RawWarpDirectionInput;
 
-                RaycastHit2D hit = Physics2D.Raycast(player.transform.position, (Vector2)direction, playerStateData.ascendRayDistance, playerStateData.groundLayer);
+                // Normalize the direction to ensure consistent direction regardless of input magnitude
+                Vector3 direction = inputDirection.normalized;
+
+                // Perform a raycast in the direction of the input
+                RaycastHit2D hit = Physics2D.Raycast(player.transform.position, direction, playerStateData.ascendRayDistance, playerStateData.groundLayer);
 
                 if (hit.collider != null)
                 {

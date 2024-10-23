@@ -16,5 +16,8 @@ public class PlayerWallSlideState : PlayerTouchingWallState
         {
             Movement.SetVelocityY(-playerStateData.wallSlideVelocity);
         }
+
+        if (player.InputHandler.BarrierInput)
+            player.ActivateBarrier();
     }
 }

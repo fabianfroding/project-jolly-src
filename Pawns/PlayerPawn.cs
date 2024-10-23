@@ -61,9 +61,14 @@ public class PlayerPawn : PawnBase
 
     [SerializeField] private SODaytimeSettings daytimeSettings;
 
+    [SerializeField] private GameObject barrierGO;
+
     public Light2D light2D;
     private PlayerInvulnerabilityIndicator playerInvulnerabilityIndicator;
     public string currentSceneName;
+
+    public BoxCollider2D boxCollider;
+    public GameObject dashDamageCollider;
     #endregion
 
     #region Events
@@ -178,7 +183,7 @@ public class PlayerPawn : PawnBase
         switch (unlockablePlayerAbilityID)
         {
             case Types.EUnlockablePlayerAbilityID.Dash:
-                DashState = new PlayerDashState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
+                DashState = new PlayerDashState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_DASH);
                 break;
             case Types.EUnlockablePlayerAbilityID.DoubleJump:
                 DoubleJumpState = new PlayerDoubleJumpState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
@@ -381,6 +386,17 @@ public class PlayerPawn : PawnBase
         {
             Animator.Play(AnimationConstants.ANIM_PARAM_IDLE, 0, 0.0f);
         }
+    }
+
+    public void SetIgnoreEnemyLayerCollisoon(bool NewCollision)
+    {
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), NewCollision);
+    }
+
+    public void ActivateBarrier()
+    {
+        if (barrierGO)
+            barrierGO.SetActive(true);
     }
     #endregion
 }

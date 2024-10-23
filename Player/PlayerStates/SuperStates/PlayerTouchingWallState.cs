@@ -65,6 +65,9 @@ public class PlayerTouchingWallState : PlayerState
         {
             stateMachine.ChangeState(player.InAirState);
         }
+
+        if (player.InputHandler.BarrierInput)
+            player.ActivateBarrier();
     }
 
     public override void PhysicsUpdate()

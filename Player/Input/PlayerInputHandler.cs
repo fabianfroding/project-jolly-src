@@ -23,6 +23,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool HoldWarpInput { get; private set; }
     public bool HoldWarpInputStop { get; private set; }
     public bool ThunderInput { get; private set; }
+    public bool BarrierInput { get; private set; }
     public bool AirGlideInput { get; private set; }
     public bool InteractInput { get; private set; }
     public bool AdvanceInteractionInput {  get; private set; }
@@ -158,6 +159,18 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.canceled)
         {
             ThunderInput = false;
+        }
+    }
+
+    public void OnBarrierInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            BarrierInput = true;
+        }
+        if (context.canceled)
+        {
+            BarrierInput = false;
         }
     }
 

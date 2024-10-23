@@ -7,6 +7,7 @@ public class AnimationConstants : MonoBehaviour
     public static readonly int ANIM_PARAM_ATTACK = Animator.StringToHash("attack");
     public static readonly int ANIM_PARAM_CHARGE = Animator.StringToHash("charge");
     public static readonly int ANIM_PARAM_CHARGE_ARROW = Animator.StringToHash("chargeArrow");
+    public static readonly int ANIM_PARAM_DASH = Animator.StringToHash("dash");
     public static readonly int ANIM_PARAM_DEAD = Animator.StringToHash("dead");
     public static readonly int ANIM_PARAM_DEAD_AIR = Animator.StringToHash("deadAir");
     public static readonly int ANIM_PARAM_DODGE = Animator.StringToHash("dodge");

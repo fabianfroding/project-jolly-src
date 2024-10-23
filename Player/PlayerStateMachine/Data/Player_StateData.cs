@@ -69,6 +69,8 @@ public class Player_StateData : ScriptableObject
     public float maxHoldTime = 1f;
     public float holdTimeScale = 0.25f;
     public AudioClip dashTimeSlowAudioClip;
+    public float dashVelocity;
+    public float dashTime;
 
     [Header("Warp State")]
     public float ascendRayDistance = 20f;

@@ -1,9 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SelfKnockbackDirection
+{
+    Up,
+    Down,
+    Left,
+    Right,
+    None
+}
+
 public class DamageHitBox : MonoBehaviour
 {
     [SerializeField] private Types.DamageData damageData;
+    [SerializeField] private SelfKnockbackDirection selfKnockbackDirection = SelfKnockbackDirection.None;
+    [SerializeField] private float selfKnockbackForce;
     [SerializeField] private LayerMask affectedLayerMask; // TODO: Consider moving this to damage data.
 
     private EnemyPawn owningEnemyPawn;
@@ -48,6 +59,29 @@ public class DamageHitBox : MonoBehaviour
         damageData.target = collision.gameObject;
         damageable.TakeDamage(damageData);
         cachedHitColliders.Add(collision);
+
+        GameObject owner = owningPlayerPawn ? owningPlayerPawn.gameObject : owningEnemyPawn.gameObject;
+        if (selfKnockbackForce != 0f && selfKnockbackDirection != SelfKnockbackDirection.None)
+        {
+            Movement movement = owner.GetComponentInChildren<Movement>();
+            if (movement)
+            {
+                Vector2 direction = Vector2.zero;
+                if (selfKnockbackDirection == SelfKnockbackDirection.Up)
+                    direction = Vector2.down;
+                else if (selfKnockbackDirection == SelfKnockbackDirection.Down)
+                    direction = Vector2.up;
+                else if (selfKnockbackDirection == SelfKnockbackDirection.Right)
+                    direction = Vector2.left;
+                else if (selfKnockbackDirection == SelfKnockbackDirection.Left)
+                    direction = Vector2.right;
+
+                if (direction.x == 0f)
+                    movement.SetVelocityY(selfKnockbackForce);
+                else if (direction.y == 0f)
+                    movement.SetVelocityX(selfKnockbackForce);
+            }
+        }
     }
 
     private bool IsFriendlyTarget(Collider2D collision)
