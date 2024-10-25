@@ -5,13 +5,10 @@ public class PlayerGroundedState : PlayerState
     private bool isGrounded;
     private bool chargeArrowInput;
     private bool dashInput;
-    private bool holdAscendState;
-    private bool thunderInput;
 
-    // Null-coalescing operator.
-    protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
+    protected CollisionSenses CollisionSenses { get => collisionSenses != null ? collisionSenses : core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;
-    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
     public PlayerGroundedState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
@@ -48,8 +45,6 @@ public class PlayerGroundedState : PlayerState
         jumpInput = player.InputHandler.JumpInput;
         chargeArrowInput = player.InputHandler.ChargeBowInput;
         dashInput = player.InputHandler.DashInput;
-        holdAscendState = player.InputHandler.HoldWarpInput;
-        thunderInput = player.InputHandler.ThunderInput;
 
         if (player.InputHandler.AttackInput)
         {
@@ -71,14 +66,6 @@ public class PlayerGroundedState : PlayerState
         else if (dashInput && player.DashState != null && player.DashState.CheckIfCanDash())
         {
             stateMachine.ChangeState(player.DashState);
-        }
-        else if (holdAscendState && player.HoldAscendState != null)
-        {
-            stateMachine.ChangeState(player.HoldAscendState);
-        }
-        else if (thunderInput && player.ThunderState != null && player.ThunderState.CheckIfCanuseThunder())
-        {
-            stateMachine.ChangeState(player.ThunderState);
         }
     }
 

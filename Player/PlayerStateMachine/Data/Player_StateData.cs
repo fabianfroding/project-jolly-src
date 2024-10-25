@@ -97,4 +97,7 @@ public class Player_StateData : ScriptableObject
     public float airGlideFallVelocity = -1.5f;
     public AudioClip airGlideStartAudioClip;
     public AudioClip airGlideEndAudioClip;
+
+    [Header("Alt Transition")]
+    public AudioClip enterAltStateSound;
 }

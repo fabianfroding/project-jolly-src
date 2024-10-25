@@ -5,9 +5,6 @@ public class PlayerChargeArrowState : PlayerAbilityState
     public bool IsCharging { get; private set; }
     private float lastChargeArrowTime;
 
-    private PlayerManaComponent PlayerManaComponent { get => playerManaComponent != null ? playerManaComponent : core.GetCoreComponent(ref playerManaComponent); }
-    private PlayerManaComponent playerManaComponent;
-
     public PlayerChargeArrowState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
@@ -43,7 +40,6 @@ public class PlayerChargeArrowState : PlayerAbilityState
                     IsCharging = false;
                     lastChargeArrowTime = Time.time;
                     isAbilityDone = true;
-                    PlayerManaComponent.ConsumeManaCharge();
                     stateMachine.ChangeState(player.FireArrowState);
                 }
             }
@@ -59,7 +55,6 @@ public class PlayerChargeArrowState : PlayerAbilityState
 
     public bool CheckIfCanChargeArrow()
     {
-        return (Time.time < playerStateData.chargeArrowCooldown || Time.time >= lastChargeArrowTime + playerStateData.chargeArrowCooldown) &&
-            PlayerManaComponent == null || PlayerManaComponent.playerManaCharges.Value > 0;
+        return (Time.time < playerStateData.chargeArrowCooldown || Time.time >= lastChargeArrowTime + playerStateData.chargeArrowCooldown);
     }
 }

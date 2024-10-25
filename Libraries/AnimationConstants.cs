@@ -15,12 +15,14 @@ public class AnimationConstants : MonoBehaviour
     public static readonly int ANIM_PARAM_FIRE_ARROW = Animator.StringToHash("fireArrow");
     public static readonly int ANIM_PARAM_HOLD_ASCEND = Animator.StringToHash("holdAscend");
     public static readonly int ANIM_PARAM_IDLE = Animator.StringToHash("idle");
+    public static readonly int ANIM_PARAM_IDLE_ALT = Animator.StringToHash("idleAlt");
     public static readonly int ANIM_PARAM_IN_AIR = Animator.StringToHash("inAir");
     public static readonly int ANIM_PARAM_LAND = Animator.StringToHash("land");
     public static readonly int ANIM_PARAM_LOOK_FOR_PLAYER = Animator.StringToHash("lookForPlayer");
     public static readonly int ANIM_PARAM_MELEE_ATTACK = Animator.StringToHash("meleeAttack");
     public static readonly int ANIM_PARAM_MELEE_ATTACK_SECOND = Animator.StringToHash("meleeAttackSecond");
     public static readonly int ANIM_PARAM_MOVE = Animator.StringToHash("move");
+    public static readonly int ANIM_PARAM_MOVE_ALT = Animator.StringToHash("moveAlt");
     public static readonly int ANIM_PARAM_PICKUP_POWERUP = Animator.StringToHash("pickupPowerup");
     public static readonly int ANIM_PARAM_PLAYER_DETECTED = Animator.StringToHash("playerDetected");
     public static readonly int ANIM_PARAM_RANGED_ATTACK = Animator.StringToHash("rangedAttack");
@@ -30,7 +32,6 @@ public class AnimationConstants : MonoBehaviour
     public static readonly int ANIM_PARAM_SHIELD_HIT_DIR = Animator.StringToHash("shieldHitDir");
     public static readonly int ANIM_PARAM_SLAM = Animator.StringToHash("slam");
     public static readonly int ANIM_PARAM_STUN = Animator.StringToHash("stun");
-    public static readonly int ANIM_PARAM_THUNDER = Animator.StringToHash("thunder");
     public static readonly int ANIM_PARAM_TURN = Animator.StringToHash("turn");
     public static readonly int ANIM_PARAM_WALL_SLIDE = Animator.StringToHash("wallSlide");
     public static readonly int ANIM_PARAM_Y_INPUT = Animator.StringToHash("yInput");

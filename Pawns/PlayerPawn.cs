@@ -26,10 +26,14 @@ public class PlayerPawn : PawnBase
     public PlayerDeadState DeadState { get; private set; }
     public PlayerHoldAscendState HoldAscendState { get; private set; }
     public PlayerAscendState AscendState { get; private set; }
-    public PlayerThunderState ThunderState { get; private set; }
     public PlayerAirGlideState AirGlideState { get; private set; }
     public PlayerFloatingBubbleState FloatingBubbleState { get; private set; }
     public PlayerInteractState InteractState { get; private set; }
+    #endregion
+
+    #region Alt State Variables
+    public PlayerIdleStateAlt IdleStateAlt { get; private set; }
+    public PlayerMoveStateAlt MoveStateAlt { get; private set; }
     #endregion
 
     public PlayerInputHandler InputHandler { get; private set; }
@@ -108,6 +112,9 @@ public class PlayerPawn : PawnBase
         FloatingBubbleState = new PlayerFloatingBubbleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
         InteractState = new PlayerInteractState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
 
+        IdleStateAlt = new PlayerIdleStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE_ALT);
+        MoveStateAlt = new PlayerMoveStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_MOVE_ALT);
+
         EnableUnlockedPlayerAbilities();
 
         InputHandler = GetComponent<PlayerInputHandler>();
@@ -167,6 +174,16 @@ public class PlayerPawn : PawnBase
             TakeDamage(enemyCollisionDamage);
         }
     }
+
+    private void OnEnable()
+    {
+        PlayerManaComponent.OnPlayerManaFilled += OnPlayerManaFilled;
+    }
+
+    private void OnDisable()
+    {
+        PlayerManaComponent.OnPlayerManaFilled -= OnPlayerManaFilled;
+    }
     #endregion
 
     #region Enable State Functions
@@ -211,6 +228,12 @@ public class PlayerPawn : PawnBase
     #endregion
 
     #region Other Functions
+
+    private void OnPlayerManaFilled()
+    {
+        StateMachine.ChangeState(IdleStateAlt);
+        GameFunctionLibrary.PlayAudioAtPosition(playerStateData.enterAltStateSound, transform.position);
+    }
 
     public override void TakeDamage(Types.DamageData damageData)
     {

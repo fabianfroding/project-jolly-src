@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -8,18 +9,15 @@ public class PlayerManaComponent : CoreComponent
     [SerializeField] private int manaLostPerTick = 2;
 
     [SerializeField] private SOIntVariable playerMana;
-    [SerializeField] public SOIntVariable playerManaCharges;
-    [SerializeField] private SOIntVariable playerMaxManaCharges;
-
     [SerializeField] private SOGameEvent OnPlayerManaChangedGameEvent;
-    [SerializeField] private SOGameEvent OnPlayerManaChargesChangedGameEvent;
-    [SerializeField] private SOGameEvent OnPlayerMaxManaChargesChangedGameEvent;
+
+    public static event Action OnPlayerManaFilled;
+
+    private bool manaFilled = false;
 
     protected override void Start()
     {
-        if (OnPlayerMaxManaChargesChangedGameEvent)
-            OnPlayerMaxManaChargesChangedGameEvent.Raise();
-        SetManaCharges(0); // TODO: This should be fetched from save data.
+
     }
 
     private void OnEnable()
@@ -53,29 +51,27 @@ public class PlayerManaComponent : CoreComponent
 
     private void OnDealtDamage()
     {
+        if (manaFilled)
+            return;
+
         playerMana.Value = Mathf.Clamp(playerMana.Value + manaGainedPerAttack, 0, 100);
-        if (playerMana.Value >= 100 && playerManaCharges.Value < playerMaxManaCharges.Value)
+        if (playerMana.Value >= 100)
         {
-            playerManaCharges.Value = Mathf.Clamp(playerManaCharges.Value + 1, 0, playerMaxManaCharges.Value);
-            if (OnPlayerManaChargesChangedGameEvent)
-                OnPlayerManaChargesChangedGameEvent.Raise();
-            playerMana.Value = 0;
+            manaFilled = true;
+            StartCoroutine(ManaFilled());
         }
         if (OnPlayerManaChangedGameEvent)
             OnPlayerManaChangedGameEvent.Raise();
     }
 
-    private void SetManaCharges(int value)
+    private IEnumerator ManaFilled()
     {
-        playerManaCharges.Value = value;
-        if (OnPlayerManaChargesChangedGameEvent)
-            OnPlayerManaChargesChangedGameEvent.Raise();
+        yield return new WaitForSeconds(1.5f);
+        playerMana.Value = 0;
+        if (OnPlayerManaChangedGameEvent)
+            OnPlayerManaChangedGameEvent.Raise();
+        OnPlayerManaFilled?.Invoke();
+        manaFilled = false;
     }
 
-    public void ConsumeManaCharge()
-    {
-        playerManaCharges.Value = Mathf.Clamp(playerManaCharges.Value - 1, 0, playerMaxManaCharges.Value);
-        if (OnPlayerManaChargesChangedGameEvent)
-            OnPlayerManaChargesChangedGameEvent.Raise();
-    }
 }

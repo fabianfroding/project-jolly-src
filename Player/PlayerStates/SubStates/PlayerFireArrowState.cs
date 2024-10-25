@@ -68,6 +68,7 @@ public class PlayerFireArrowState : PlayerAbilityState
             }
         }
 
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer("PlayerProjectile"));
         GameObject arrow = GameObject.Instantiate(playerStateData.arrowPrefab, spawnPos, Quaternion.identity);
         Projectile projectile = arrow.GetComponent<Projectile>();
 

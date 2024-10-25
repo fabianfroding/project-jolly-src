@@ -104,6 +104,7 @@ public class Projectile : MonoBehaviour
                 damageData.source = Source;
                 damageData.target = other;
                 damageable.TakeDamage(damageData);
+                damageData.source.GetComponent<PawnBase>().BroadcastOnDealtDamage();
             }
 
             if (destroyOnImpact)
