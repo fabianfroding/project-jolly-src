@@ -32,7 +32,9 @@ public class PlayerPawn : PawnBase
     #endregion
 
     #region Alt State Variables
+    public PlayerAttackStateAlt AttackStateAlt { get; private set; }
     public PlayerIdleStateAlt IdleStateAlt { get; private set; }
+    public PlayerJumpStateAlt JumpStateAlt { get; private set; }
     public PlayerMoveStateAlt MoveStateAlt { get; private set; }
     #endregion
 
@@ -112,7 +114,9 @@ public class PlayerPawn : PawnBase
         FloatingBubbleState = new PlayerFloatingBubbleState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
         InteractState = new PlayerInteractState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE);
 
+        AttackStateAlt = new PlayerAttackStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ATTACK_ALT);
         IdleStateAlt = new PlayerIdleStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE_ALT);
+        JumpStateAlt = new PlayerJumpStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_JUMP_ALT);
         MoveStateAlt = new PlayerMoveStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_MOVE_ALT);
 
         EnableUnlockedPlayerAbilities();

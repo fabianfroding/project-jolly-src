@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerAbilityState
 {
-    private bool hasConsumedJump;
+    protected bool hasConsumedJump;
 
-    public PlayerJumpState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerJumpState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+        : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()
@@ -35,7 +36,7 @@ public class PlayerJumpState : PlayerAbilityState
     public void ConsumeJump() => hasConsumedJump = true;
     public void ResetJump() => hasConsumedJump = false;
 
-    private void InstantiateJumpVisuals()
+    protected void InstantiateJumpVisuals()
     {
         if (collisionSenses.Ground)
         {

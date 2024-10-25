@@ -5,6 +5,7 @@ public class AnimationConstants : MonoBehaviour
     public static readonly int ANIM_PARAM_AIR_GLIDE = Animator.StringToHash("airGlide");
     public static readonly int ANIM_PARAM_ASCEND = Animator.StringToHash("ascend");
     public static readonly int ANIM_PARAM_ATTACK = Animator.StringToHash("attack");
+    public static readonly int ANIM_PARAM_ATTACK_ALT = Animator.StringToHash("attackAlt");
     public static readonly int ANIM_PARAM_CHARGE = Animator.StringToHash("charge");
     public static readonly int ANIM_PARAM_CHARGE_ARROW = Animator.StringToHash("chargeArrow");
     public static readonly int ANIM_PARAM_DASH = Animator.StringToHash("dash");
@@ -17,6 +18,7 @@ public class AnimationConstants : MonoBehaviour
     public static readonly int ANIM_PARAM_IDLE = Animator.StringToHash("idle");
     public static readonly int ANIM_PARAM_IDLE_ALT = Animator.StringToHash("idleAlt");
     public static readonly int ANIM_PARAM_IN_AIR = Animator.StringToHash("inAir");
+    public static readonly int ANIM_PARAM_JUMP_ALT = Animator.StringToHash("jumpAlt");
     public static readonly int ANIM_PARAM_LAND = Animator.StringToHash("land");
     public static readonly int ANIM_PARAM_LOOK_FOR_PLAYER = Animator.StringToHash("lookForPlayer");
     public static readonly int ANIM_PARAM_MELEE_ATTACK = Animator.StringToHash("meleeAttack");

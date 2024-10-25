@@ -1,7 +1,7 @@
 public class PlayerAbilityState : PlayerState
 {
     protected bool isAbilityDone;
-    private bool isGrounded; // Change to protected if any ability needs to know if the player is grounded.
+    protected bool isGrounded; // Change to protected if any ability needs to know if the player is grounded.
 
     protected CollisionSenses CollisionSenses { get => collisionSenses != null ? collisionSenses : core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;

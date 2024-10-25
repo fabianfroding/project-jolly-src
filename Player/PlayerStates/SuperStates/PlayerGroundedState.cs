@@ -1,10 +1,10 @@
 public class PlayerGroundedState : PlayerState
 {
     protected int xInput;
-    private bool jumpInput;
-    private bool isGrounded;
-    private bool chargeArrowInput;
-    private bool dashInput;
+    protected bool jumpInput;
+    protected bool isGrounded;
+    protected bool chargeArrowInput;
+    protected bool dashInput;
 
     protected CollisionSenses CollisionSenses { get => collisionSenses != null ? collisionSenses : core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;
@@ -31,11 +31,6 @@ public class PlayerGroundedState : PlayerState
         player.JumpState.ResetJump();
         player.DoubleJumpState?.ResetDoubleJump();
         player.DashState?.ResetCanDash();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
     }
 
     public override void LogicUpdate()
@@ -67,10 +62,5 @@ public class PlayerGroundedState : PlayerState
         {
             stateMachine.ChangeState(player.DashState);
         }
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
     }
 }

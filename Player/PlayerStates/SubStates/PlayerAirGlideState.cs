@@ -4,7 +4,6 @@ using UnityEngine.Animations.Rigging;
 public class PlayerAirGlideState : PlayerAbilityState
 {
     private bool airGlideInput;
-    private bool isGrounded;
     private float defaultGravityScale;
     private int xInput;
     private Rigidbody2D rigidbody2D;
