@@ -55,7 +55,7 @@ public class HealthComponent : CoreComponent
 
     public void TakeDamage(Types.DamageData damageData)
     {
-        Debug.Log(componentOwner + " take dmg. INv: " + IsInvulnerable());
+        //Debug.Log(componentOwner + " take dmg. INv: " + IsInvulnerable());
         if (IsInvulnerable())
             return;
         if (damageData.source == damageData.target)

@@ -78,15 +78,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Thunder",
-                    "type": "Button",
-                    "id": "a5c9d358-b25b-4807-aea5-5466c7d76c9d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "AirGlide",
                     "type": "Button",
                     "id": "b3ac85a3-4f2b-4193-bb6e-d2e4f9ae6ce3",
@@ -126,15 +117,6 @@
                     "name": "EnableAllPlayerAbilities",
                     "type": "Button",
                     "id": "c7e69746-79a6-468d-b3e9-698f2bc84f33",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Barrier",
-                    "type": "Button",
-                    "id": "7f61d889-a0a3-42cc-a35b-93d247e0288e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -233,7 +215,7 @@
                 {
                     "name": "",
                     "id": "a4b35576-5642-4650-9e81-00ab52ba38cd",
-                    "path": "<Keyboard>/u",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -430,28 +412,6 @@
                 },
                 {
                     "name": "",
-                    "id": "e5fd56d1-0d46-4894-a7fe-14aa982f5ccf",
-                    "path": "<Keyboard>/o",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Thunder",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "90ce0e82-52ac-4bef-a48f-7edfd49626f0",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Thunder",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0271828c-eaed-400f-9060-659ad125d5fb",
                     "path": "<Keyboard>/k",
                     "interactions": "",
@@ -475,7 +435,7 @@
                 {
                     "name": "",
                     "id": "fa301257-7890-4469-bad5-e6d1a3438b55",
-                    "path": "<Keyboard>/i",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -535,28 +495,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "EnableAllPlayerAbilities",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "41dd2aba-6662-491c-addc-e35d2c26a1f7",
-                    "path": "<Keyboard>/h",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Barrier",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "84add854-8929-4c42-bcff-ce54e41d5a41",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Barrier",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

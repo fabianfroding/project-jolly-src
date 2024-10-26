@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
@@ -44,6 +45,7 @@ public class PlayerPawn : PawnBase
 
     #region Other Variables
     [SerializeField] private Player_StateData playerStateData;
+    [SerializeField] private Player_StateDataAlt playerStateDataAlt;
     [SerializeField] private SOGameEvent OnPlayerHealthChangedGameEvent;
     [SerializeField] private SOGameEvent OnPlayerMaxHealthChangedGameEvent;
     [SerializeField] private SOGameEvent SOPlayerInteractEvent;
@@ -66,6 +68,8 @@ public class PlayerPawn : PawnBase
     public GameObject attackDownDamageHitBox;
 
     public GameObject attackHorizontalDamageHitBoxAlt1;
+
+    private bool inAltForm = false;
 
     [SerializeField] private Transform fireArrowSpawnTransform;
     [SerializeField] private Types.DamageData enemyCollisionDamage;
@@ -238,10 +242,24 @@ public class PlayerPawn : PawnBase
 
     #region Other Functions
 
+    public bool InAltForm() => inAltForm;
+
     private void OnPlayerManaFilled()
     {
+        inAltForm = true;
         StateMachine.ChangeState(IdleStateAlt);
         GameFunctionLibrary.PlayAudioAtPosition(playerStateData.enterAltStateSound, transform.position);
+        StartCoroutine(EndAltForm());
+    }
+
+    private IEnumerator EndAltForm()
+    {
+        if (!inAltForm)
+            yield break;
+        yield return new WaitForSeconds(playerStateDataAlt.altFormDuration.GetCurrentValue());
+        inAltForm = false;
+        StateMachine.ChangeState(IdleState);
+        // TODO: Player end alt form sound.
     }
 
     public override void TakeDamage(Types.DamageData damageData)
@@ -405,6 +423,7 @@ public class PlayerPawn : PawnBase
     public void TriggerOnPlayerExitAirGlideState() => OnPlayerExitAirGlideState();
 
     public Player_StateData GetPlayerStateData() => playerStateData;
+    public Player_StateDataAlt GetPlayerStateDataAlt() => playerStateDataAlt;
 
     public int GetFacingDirection() => Movement.FacingDirection;
 

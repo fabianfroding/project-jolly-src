@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "newPlayerData", menuName = "Data/PlayerData/StateData")]
-public class Player_StateData : ScriptableObject
+public class Player_StateData : Player_StateDataBase
 {
     public LayerMask groundLayer;
     public float defaultGravityScale = 4f;
@@ -47,7 +47,6 @@ public class Player_StateData : ScriptableObject
     public GameObject arrowPrefab;
 
     [Header("Attack State")]
-    public Types.DamageData attackDamageData;
     public GameObject vfxPrefabHorizontal;
     public GameObject vfxPrefabVertical;
     public GameObject attackSlashPrefabHorizontal;

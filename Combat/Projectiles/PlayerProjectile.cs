@@ -1,10 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerProjectile : Projectile
 {
     [SerializeField] private AudioClip playerCatchSound;
+    [SerializeField] private float returnAfterDuration = 1.75f;
 
     private bool isReturning = false;
 
@@ -12,6 +12,33 @@ public class PlayerProjectile : Projectile
     {
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer("PlayerProjectile"));
         base.Awake();
+    }
+
+    protected void OnEnable()
+    {
+        StartCoroutine(ReturnAfterDelay());
+    }
+
+    private void Return()
+    {
+        if (isReturning)
+            return;
+        isReturning = true;
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector2(-rb.velocity.x, -rb.velocity.y);
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer("PlayerProjectile"), false);
+
+        destroyOnImpact = true;
+        destroyedByDestructibles = true;
+        destroyedByGround = true;
+    }
+
+    private IEnumerator ReturnAfterDelay()
+    {
+        yield return new WaitForSeconds(returnAfterDuration);
+        Return();
     }
 
     protected override void ProcessCollision(GameObject other)
@@ -27,16 +54,7 @@ public class PlayerProjectile : Projectile
         }
         else
         {
-            isReturning = true;
-
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            rb.velocity = new Vector2(-rb.velocity.x, -rb.velocity.y);
-
-            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer("PlayerProjectile"), false);
-
-            destroyOnImpact = true;
-            destroyedByDestructibles = true;
-            destroyedByGround = true;
+            Return();
 
             IDamageable damageable = other.GetComponentInChildren<IDamageable>();
             if (damageable != null)
