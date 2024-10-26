@@ -226,7 +226,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            PlayerPawn player = FindObjectOfType<PlayerPawn>();
+            PlayerPawn player = FindFirstObjectByType<PlayerPawn>();
             if (player != null)
             {
                 player.EnableAllLockedStates();

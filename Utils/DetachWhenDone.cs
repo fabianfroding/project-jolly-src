@@ -28,7 +28,7 @@ public class DetachWhenDone : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (particleSystemComp != null && rb.velocity.y < 0)
+        if (particleSystemComp != null && rb.linearVelocity.y < 0)
         {
             particleSystemComp.Stop();
         }

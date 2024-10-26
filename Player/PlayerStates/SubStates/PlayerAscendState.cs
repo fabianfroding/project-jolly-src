@@ -95,7 +95,7 @@ public class PlayerAscendState : PlayerAbilityState
         spriteRenderer.enabled = true;
         rigidBody2D.WakeUp();
         player.Animator.SetBool(AnimationConstants.ANIM_PARAM_ASCEND, false);
-        rigidBody2D.velocity = direction * 10f;
+        rigidBody2D.linearVelocity = direction * 10f;
     }
 
     private void RotatePlayerToDirection(Vector3 direction)

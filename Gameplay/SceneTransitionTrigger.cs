@@ -26,7 +26,7 @@ public class SceneTransitionTrigger : MonoBehaviour
                 playerPawn.transform.position = sceneTransitionSpawnPoint.transform.position;
                 playerPawn.currentSceneName = SceneManager.GetActiveScene().name;
 
-                ScreenFade screenFade = FindObjectOfType<ScreenFade>();
+                ScreenFade screenFade = FindFirstObjectByType<ScreenFade>();
                 if (screenFade)
                     screenFade.FadeIn();
             }
@@ -54,7 +54,7 @@ public class SceneTransitionTrigger : MonoBehaviour
         PlayerPawn player = collision.GetComponent<PlayerPawn>();
         if (player)
         {
-            ScreenFade screenFade = FindObjectOfType<ScreenFade>();
+            ScreenFade screenFade = FindFirstObjectByType<ScreenFade>();
             if (screenFade)
             {
                 screenFade.FadeOut();

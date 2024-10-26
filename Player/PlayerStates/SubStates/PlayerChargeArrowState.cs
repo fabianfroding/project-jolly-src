@@ -43,10 +43,9 @@ public class PlayerChargeArrowState : PlayerAbilityState
                     stateMachine.ChangeState(player.FireArrowState);
                 }
             }
-            if (CollisionSenses.Ground)
-            {
+
+            if (player.InputHandler.NormInputX == 0 && Movement.CurrentVelocity.x != 0f)
                 Movement.SetVelocityX(0f);
-            }
         }
     }
 

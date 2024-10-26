@@ -312,13 +312,13 @@ public class PlayerPawn : PawnBase
     public override void Death()
     {
         base.Death();
-        Rigidbody2D.isKinematic = true;
+        Rigidbody2D.bodyType = RigidbodyType2D.Static;
         Collider2D.enabled = false;
     }
 
     public void PlayerDeathSequenceFinish()
     {
-        Rigidbody2D.isKinematic = false;
+        Rigidbody2D.bodyType = RigidbodyType2D.Static;
         Collider2D.enabled = true;
         OnPlayerDeathSequenceFinish?.Invoke(this);
     }

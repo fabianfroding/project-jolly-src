@@ -46,7 +46,7 @@ public class Projectile : MonoBehaviour
     {
         if (rb != null && speed != 0f)
         {
-            currentSpeed = rb.velocity;
+            currentSpeed = rb.linearVelocity;
         }
     }
 
@@ -145,7 +145,7 @@ public class Projectile : MonoBehaviour
     public void Init(GameObject source, Vector2 dir)
     {
         Source = source;
-        rb.velocity = speed * dir;
+        rb.linearVelocity = speed * dir;
     }
 
     public Vector2 GetDirectionFromPoint(Vector3 point) => (transform.position - point).normalized;
@@ -154,19 +154,19 @@ public class Projectile : MonoBehaviour
 
     public void SetDirection(Transform from, Transform to)
     {
-        rb.velocity = (to.position - from.position).normalized;
-        rb.velocity = new Vector2(rb.velocity.x * speed, rb.velocity.y * speed);
+        rb.linearVelocity = (to.position - from.position).normalized;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x * speed, rb.linearVelocity.y * speed);
     }
 
     public void SetSpeed(float newSpeed)
     {
         speed = newSpeed;
-        rb.velocity = currentDir * speed;
+        rb.linearVelocity = currentDir * speed;
     }
 
     public void SetRotation(Vector3 rotation) => transform.Rotate(rotation);
 
     public void InvertDirection() => 
-        rb.velocity = new Vector2(-rb.velocity.x, -rb.velocity.y);
+        rb.linearVelocity = new Vector2(-rb.linearVelocity.x, -rb.linearVelocity.y);
     #endregion
 }

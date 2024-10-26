@@ -20,7 +20,7 @@ public class PlayerAirGlideState : PlayerAbilityState
         {
             defaultGravityScale = rigidbody2D.gravityScale;
             rigidbody2D.gravityScale = 0f;
-            rigidbody2D.velocity = new Vector3(0, playerStateData.airGlideFallVelocity, 0);
+            rigidbody2D.linearVelocity = new Vector3(0, playerStateData.airGlideFallVelocity, 0);
         }
         else
         {

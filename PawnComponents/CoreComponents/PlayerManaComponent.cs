@@ -46,7 +46,6 @@ public class PlayerManaComponent : CoreComponent
                         float altFormDur = playerPawn.GetPlayerStateDataAlt().altFormDuration.GetCurrentValue();
                         float elapsed = Time.time - timeAtManaFilled;
                         playerMana.Value = (int)(Mathf.Clamp01((altFormDur - elapsed) / altFormDur) * 100f);
-                        Debug.Log(playerMana.Value);
                     }
                     else
                     {

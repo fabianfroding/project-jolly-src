@@ -26,7 +26,7 @@ public class PlayerProjectile : Projectile
         isReturning = true;
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(-rb.velocity.x, -rb.velocity.y);
+        rb.linearVelocity = new Vector2(-rb.linearVelocity.x, -rb.linearVelocity.y);
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(EditorConstants.LAYER_PLAYER), LayerMask.NameToLayer("PlayerProjectile"), false);
 

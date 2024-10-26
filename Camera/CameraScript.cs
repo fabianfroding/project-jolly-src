@@ -40,7 +40,7 @@ public class CameraScript : MonoBehaviour
         {
             if (!player)
             {
-                player = FindObjectOfType<PlayerPawn>().gameObject;
+                player = FindFirstObjectByType<PlayerPawn>().gameObject;
             }
             return player;
         }

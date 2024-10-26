@@ -23,7 +23,8 @@ public class PlayerFireArrowState : PlayerAbilityState
         base.LogicUpdate();
         if (CollisionSenses.Ground)
         {
-            //Movement.SetVelocityX(0);
+            if (player.InputHandler.NormInputX == 0 && Movement.CurrentVelocity.x != 0f)
+                Movement.SetVelocityX(0f);
         }
 
         player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, player.InputHandler.NormInputY);

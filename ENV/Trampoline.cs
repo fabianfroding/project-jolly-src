@@ -20,9 +20,9 @@ public class Trampoline : MonoBehaviour
             Rigidbody2D rigidbody2D = player.GetComponent<Rigidbody2D>();
             if (!rigidbody2D) { return; }
 
-            if (rigidbody2D.velocity.y > 0) { return; }
+            if (rigidbody2D.linearVelocity.y > 0) { return; }
 
-            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, trampolineVelocity);
+            rigidbody2D.linearVelocity = new Vector2(rigidbody2D.linearVelocity.x, trampolineVelocity);
 
             GameFunctionLibrary.PlayAudioAtPosition(trampolineAudioClip, player.transform.position);
         }
