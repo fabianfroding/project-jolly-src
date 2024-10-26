@@ -18,8 +18,10 @@ public class AnimationConstants : MonoBehaviour
     public static readonly int ANIM_PARAM_IDLE = Animator.StringToHash("idle");
     public static readonly int ANIM_PARAM_IDLE_ALT = Animator.StringToHash("idleAlt");
     public static readonly int ANIM_PARAM_IN_AIR = Animator.StringToHash("inAir");
+    public static readonly int ANIM_PARAM_IN_AIR_ALT = Animator.StringToHash("inAirAlt");
     public static readonly int ANIM_PARAM_JUMP_ALT = Animator.StringToHash("jumpAlt");
     public static readonly int ANIM_PARAM_LAND = Animator.StringToHash("land");
+    public static readonly int ANIM_PARAM_LAND_ALT = Animator.StringToHash("landAlt");
     public static readonly int ANIM_PARAM_LOOK_FOR_PLAYER = Animator.StringToHash("lookForPlayer");
     public static readonly int ANIM_PARAM_MELEE_ATTACK = Animator.StringToHash("meleeAttack");
     public static readonly int ANIM_PARAM_MELEE_ATTACK_SECOND = Animator.StringToHash("meleeAttackSecond");

@@ -34,7 +34,9 @@ public class PlayerPawn : PawnBase
     #region Alt State Variables
     public PlayerAttackStateAlt AttackStateAlt { get; private set; }
     public PlayerIdleStateAlt IdleStateAlt { get; private set; }
+    public PlayerInAirStateAlt InAirStateAlt { get; private set; }
     public PlayerJumpStateAlt JumpStateAlt { get; private set; }
+    public PlayerLandStateAlt LandStateAlt { get; private set; }
     public PlayerMoveStateAlt MoveStateAlt { get; private set; }
     #endregion
 
@@ -62,12 +64,13 @@ public class PlayerPawn : PawnBase
     public GameObject attackHorizontalDamageHitBox;
     public GameObject attackUpDamageHitBox;
     public GameObject attackDownDamageHitBox;
+
+    public GameObject attackHorizontalDamageHitBoxAlt1;
+
     [SerializeField] private Transform fireArrowSpawnTransform;
     [SerializeField] private Types.DamageData enemyCollisionDamage;
 
     [SerializeField] private SODaytimeSettings daytimeSettings;
-
-    [SerializeField] private GameObject barrierGO;
 
     public Light2D light2D;
     private PlayerInvulnerabilityIndicator playerInvulnerabilityIndicator;
@@ -116,7 +119,9 @@ public class PlayerPawn : PawnBase
 
         AttackStateAlt = new PlayerAttackStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ATTACK_ALT);
         IdleStateAlt = new PlayerIdleStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE_ALT);
+        InAirStateAlt = new PlayerInAirStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR_ALT);
         JumpStateAlt = new PlayerJumpStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_JUMP_ALT);
+        LandStateAlt = new PlayerLandStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_LAND_ALT);
         MoveStateAlt = new PlayerMoveStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_MOVE_ALT);
 
         EnableUnlockedPlayerAbilities();
@@ -418,12 +423,6 @@ public class PlayerPawn : PawnBase
     public void SetIgnoreEnemyLayerCollisoon(bool NewCollision)
     {
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer(EditorConstants.LAYER_ENEMY), NewCollision);
-    }
-
-    public void ActivateBarrier()
-    {
-        if (barrierGO)
-            barrierGO.SetActive(true);
     }
     #endregion
 }

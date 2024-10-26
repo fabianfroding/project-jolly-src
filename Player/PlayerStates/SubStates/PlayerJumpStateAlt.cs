@@ -16,7 +16,7 @@ public class PlayerJumpStateAlt : PlayerJumpState
             }
             else
             {
-                //stateMachine.ChangeState(player.InAirState);
+                stateMachine.ChangeState(player.InAirStateAlt);
             }
         }
     }

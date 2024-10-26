@@ -27,9 +27,6 @@ public class PlayerJumpState : PlayerAbilityState
         {
             stateMachine.ChangeState(player.DoubleJumpState);
         }
-
-        if (player.InputHandler.BarrierInput)
-            player.ActivateBarrier();
     }
 
     public bool CanJump() => !hasConsumedJump;

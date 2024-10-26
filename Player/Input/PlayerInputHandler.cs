@@ -22,8 +22,6 @@ public class PlayerInputHandler : MonoBehaviour
     public bool DashInputStop { get; private set; }
     public bool HoldWarpInput { get; private set; }
     public bool HoldWarpInputStop { get; private set; }
-    public bool ThunderInput { get; private set; }
-    public bool BarrierInput { get; private set; }
     public bool AirGlideInput { get; private set; }
     public bool InteractInput { get; private set; }
     public bool AdvanceInteractionInput {  get; private set; }
@@ -150,30 +148,6 @@ public class PlayerInputHandler : MonoBehaviour
         WarpDirectionInput = Vector2Int.RoundToInt(RawWarpDirectionInput.normalized);
     }
 
-    public void OnThunderInput(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            ThunderInput = true;
-        }
-        if (context.canceled)
-        {
-            ThunderInput = false;
-        }
-    }
-
-    public void OnBarrierInput(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            BarrierInput = true;
-        }
-        if (context.canceled)
-        {
-            BarrierInput = false;
-        }
-    }
-
     public void OnAirGlideInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -219,8 +193,6 @@ public class PlayerInputHandler : MonoBehaviour
     public void UseDashInput() => DashInput = false;
 
     public void UseHoldWarpInput() => HoldWarpInput = false;
-
-    public void UseThunderInput() => ThunderInput = false;
 
     public void UseInteractInput() => InteractInput = false;
     public void UseAdvanceInteractionInput() => AdvanceInteractionInput = false;

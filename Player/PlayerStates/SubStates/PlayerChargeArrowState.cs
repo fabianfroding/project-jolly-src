@@ -48,9 +48,6 @@ public class PlayerChargeArrowState : PlayerAbilityState
                 Movement.SetVelocityX(0f);
             }
         }
-
-        if (player.InputHandler.BarrierInput)
-            player.ActivateBarrier();
     }
 
     public bool CheckIfCanChargeArrow()

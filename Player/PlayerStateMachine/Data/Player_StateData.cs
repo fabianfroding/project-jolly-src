@@ -84,15 +84,6 @@ public class Player_StateData : ScriptableObject
     public GameObject warpActiveSFX;
     public GameObject warpCeilingCheck;
 
-    [Header("Thunder State")]
-    public float thunderHeight = 15f;
-    public float thunderDelay = 0.25f;
-    public float thunderRadius = 7f;
-    public float thunderCooldown = 1f;
-    public Types.DamageData thunderDamage;
-    public AudioClip[] thunderAudioClips;
-    public GameObject thunderVFX;
-
     [Header("Air Glide State")]
     public float airGlideFallVelocity = -1.5f;
     public AudioClip airGlideStartAudioClip;

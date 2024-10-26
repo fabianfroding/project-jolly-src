@@ -29,8 +29,5 @@ public class PlayerIdleState : PlayerGroundedState
                 stateMachine.ChangeState(player.InteractState);
             player.InputHandler.UseInteractInput(); 
         }
-
-        if (player.InputHandler.BarrierInput)
-            player.ActivateBarrier();
     }
 }

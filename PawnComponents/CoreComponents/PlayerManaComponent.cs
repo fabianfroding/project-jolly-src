@@ -15,11 +15,6 @@ public class PlayerManaComponent : CoreComponent
 
     private bool manaFilled = false;
 
-    protected override void Start()
-    {
-
-    }
-
     private void OnEnable()
     {
         StartCoroutine(ManaTick());
@@ -30,7 +25,6 @@ public class PlayerManaComponent : CoreComponent
     private void OnDisable()
     {
         StopCoroutine(ManaTick());
-
         if (componentOwner)
             componentOwner.OnDealtDamage -= OnDealtDamage;
     }
@@ -40,7 +34,7 @@ public class PlayerManaComponent : CoreComponent
         while (true)
         {
             yield return new WaitForSeconds(manaTickInterval);
-            if (componentOwner && componentOwner.IsAlive())
+            if (componentOwner && componentOwner.IsAlive() && !manaFilled)
             {
                 playerMana.Value = Mathf.Clamp(playerMana.Value - manaLostPerTick, 0, 100);
                 if (OnPlayerManaChangedGameEvent)

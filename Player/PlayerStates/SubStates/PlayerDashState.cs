@@ -76,9 +76,6 @@ public class PlayerDashState : PlayerAbilityState
                 stateMachine.ChangeState(player.IdleState);
             }
         }*/
-
-        if (player.InputHandler.BarrierInput)
-            player.ActivateBarrier();
     }
 
     public virtual bool CheckIfCanDash()
