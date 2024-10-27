@@ -17,8 +17,11 @@ public class Player_StateData : Player_StateDataBase
     public AudioClip jumpLandAudioClip;
     public AudioClip doubleJumpAudioClip;
 
-    [Header("Double Jump State")]
+    [Header("Bounce State")]
     public float doubleJumpVelocity = 20f;
+    public float bounceTriggerTime = 0.9f;
+    public float bounceHorizontalVelocityMultiplier = 1.5f;
+    public float bounceVerticalVelocity = 40f;
 
     [Header("In Air State")]
     public float coyoteTime = 0.2f;

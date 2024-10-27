@@ -182,9 +182,16 @@ public class PlayerPawn : PawnBase
         EnemyPawn enemy = collision.gameObject.GetComponent<EnemyPawn>();
         if (enemy)
         {
-            enemyCollisionDamage.source = collision.gameObject;
-            enemyCollisionDamage.target = gameObject;
-            TakeDamage(enemyCollisionDamage);
+            if (InAirState.CanBounceOnEnemy())
+            {
+                StateMachine.ChangeState(DoubleJumpState);
+            }
+            else
+            {
+                enemyCollisionDamage.source = collision.gameObject;
+                enemyCollisionDamage.target = gameObject;
+                TakeDamage(enemyCollisionDamage);
+            }
         }
     }
 

@@ -24,6 +24,8 @@ public class PlayerInAirState : PlayerState
 
     private float entryMoveXSpeed = 0f;
 
+    private float bounceOnEnemyTriggerTime;
+
     protected CollisionSenses CollisionSenses { get => collisionSenses != null ? collisionSenses : core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;
     protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
@@ -66,70 +68,84 @@ public class PlayerInAirState : PlayerState
         jumpInput = player.InputHandler.JumpInput;
         jumpInputStop = player.InputHandler.JumpInputStop;
         chargeBowInput = player.InputHandler.ChargeBowInput;
-        dashInput = player.InputHandler.DashInput;
-        airGlideInput = player.InputHandler.AirGlideInput;
-        holdAscendState = player.InputHandler.HoldWarpInput;
 
         CheckJumpMultiplier();
 
-        if (airGlideInput && player.AirGlideState != null)
+        // Bounce logic:
+        // 1. Wall bounce: When player starts touching wall, start bounce time window and disable bounce for enemy collision.
+        // If bounce input is consumed while on wall and within time window, the perform wall bounce.
+        // 2. Enemy bounce: If in air and not touching wall, start time window for enemy bounce.
+        // If player collides with enemy while in bounce time window, then perform enemy bounce.
+
+        if (player.DoubleJumpState != null)
         {
-            stateMachine.ChangeState(player.AirGlideState);
+            // Wall bounce
+            if (player.DoubleJumpState.CanDoubleJump()
+                && (isTouchingWall || isTouchingWallBack))
+            {
+                if (jumpInput)
+                {
+                    stateMachine.ChangeState(player.DoubleJumpState);
+                    return;
+                }
+            }
+
+            // Enemy bounce
+            if (player.DoubleJumpState.CanDoubleJump()
+                && jumpInput
+                && !isTouchingWall
+                && !isTouchingWallBack)
+            {
+                bounceOnEnemyTriggerTime = Time.time;
+                return;
+            }
         }
-        else if (player.InputHandler.AttackInput)
+
+        if (player.InputHandler.AttackInput)
         {
             stateMachine.ChangeState(player.AttackState);
+            return;
         }
-        else if (isGrounded && Movement.CurrentVelocity.y < 0.01f)
+
+        if (isGrounded && Movement.CurrentVelocity.y < 0.01f)
         {
             stateMachine.ChangeState(player.LandState);
+            return;
         }
+
         // wall jumping
-        else if (jumpInput && (isTouchingWall || isTouchingWallBack || wallJumpCoyoteTime) && player.WallJumpState != null)
+        /*if (jumpInput && (isTouchingWall || isTouchingWallBack || wallJumpCoyoteTime) && player.WallJumpState != null)
         {
             StopWallJumpCoyoteTime();
             isTouchingWall = CollisionSenses.WallFront;
             player.WallJumpState.DetermineWallJumpDirection(isTouchingWall);
             stateMachine.ChangeState(player.WallJumpState);
-        }
-        else if (jumpInput && player.JumpState.CanJump())
+            return;
+        }*/
+
+        if (jumpInput && player.JumpState.CanJump())
         {
             stateMachine.ChangeState(player.JumpState);
+            return;
         }
-        else if (isTouchingWall && xInput == Movement.FacingDirection && Movement.CurrentVelocity.y <= 0 && player.WallSlideState != null)
-        {
-            stateMachine.ChangeState(player.WallSlideState);
-        }
-        else if (jumpInput && player.DoubleJumpState != null && player.DoubleJumpState.CanDoubleJump())
-        {
-            stateMachine.ChangeState(player.DoubleJumpState);
-        }
+
         else if (chargeBowInput && player.ChargeArrowState.CheckIfCanChargeArrow())
         {
             stateMachine.ChangeState(player.ChargeArrowState);
+            return;
         }
-        else if (dashInput && player.DashState != null && player.DashState.CheckIfCanDash())
-        {
-            stateMachine.ChangeState(player.DashState);
-        }
-        else if (holdAscendState && player.HoldAscendState != null)
-        {
-            stateMachine.ChangeState(player.HoldAscendState);
-        }
-        else
-        {
-            Movement.CheckIfShouldFlip(xInput);
-            Movement.SetVelocityX(entryMoveXSpeed * xInput);
 
-            // if touching wall and travelling up quickly, slow player down so it doesnt look like ice  
-            if (isTouchingWall && Movement.CurrentVelocity.y > 5f)
-            {
-                Movement.SetVelocityY(Movement.CurrentVelocity.y * playerStateData.wallFrictionMultiplier);
-            }
+        Movement.CheckIfShouldFlip(xInput);
+        Movement.SetVelocityX(entryMoveXSpeed * xInput);
 
-            player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_X_VELOCITY, Mathf.Abs(Movement.CurrentVelocity.x));
-            player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_VELOCITY, Movement.CurrentVelocity.y);
+        // if touching wall and travelling up quickly, slow player down so it doesnt look like ice  
+        if (isTouchingWall && Movement.CurrentVelocity.y > 5f)
+        {
+            Movement.SetVelocityY(Movement.CurrentVelocity.y * playerStateData.wallFrictionMultiplier);
         }
+
+        player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_X_VELOCITY, Mathf.Abs(Movement.CurrentVelocity.x));
+        player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_VELOCITY, Movement.CurrentVelocity.y);
     }
 
     private void CheckJumpMultiplier()
@@ -180,4 +196,11 @@ public class PlayerInAirState : PlayerState
     public void StopWallJumpCoyoteTime() => wallJumpCoyoteTime = false;
 
     public void SetIsJumping() => isJumping = true;
+
+    public bool CanBounceOnEnemy()
+    {
+        return player.DoubleJumpState != null 
+            && player.DoubleJumpState.CanDoubleJump()
+            && Time.time < bounceOnEnemyTriggerTime + playerStateData.bounceTriggerTime;
+    }
 }
