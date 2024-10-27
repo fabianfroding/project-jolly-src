@@ -25,9 +25,6 @@ public class PlayerPawn : PawnBase
     public PlayerTakeDamageState TakeDamageState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
-    public PlayerHoldAscendState HoldAscendState { get; private set; }
-    public PlayerAscendState AscendState { get; private set; }
-    public PlayerAirGlideState AirGlideState { get; private set; }
     public PlayerFloatingBubbleState FloatingBubbleState { get; private set; }
     public PlayerInteractState InteractState { get; private set; }
     #endregion
@@ -228,10 +225,6 @@ public class PlayerPawn : PawnBase
             case Types.EUnlockablePlayerAbilityID.WallJump:
                 WallSlideState = new PlayerWallSlideState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_WALL_SLIDE);
                 WallJumpState = new PlayerWallJumpState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
-                break;
-            case Types.EUnlockablePlayerAbilityID.Warp:
-                HoldAscendState = new PlayerHoldAscendState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_HOLD_ASCEND);
-                AscendState = new PlayerAscendState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ASCEND);
                 break;
         }
     }

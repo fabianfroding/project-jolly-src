@@ -84,7 +84,7 @@ public class PlayerHoldAscendState : PlayerAbilityState
 
                     if (ascendHit)
                     {
-                        stateMachine.ChangeState(player.AscendState);
+                        //stateMachine.ChangeState(player.AscendState);
                     }
                     else
                     {

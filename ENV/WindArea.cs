@@ -40,14 +40,14 @@ public class WindArea : MonoBehaviour
             {
                 Rigidbody2D rigidBody2D = playerComponent.GetComponent<Rigidbody2D>();
 
-                if (playerComponent.StateMachine.CurrentState != playerComponent.AirGlideState)
-                {
-                    rigidBody2D.gravityScale = playerComponent.GetPlayerStateData().defaultGravityScale;
-                }
-                else
-                {
+                //if (playerComponent.StateMachine.CurrentState != playerComponent.AirGlideState)
+                //{
+                //    rigidBody2D.gravityScale = playerComponent.GetPlayerStateData().defaultGravityScale;
+                //}
+                //else
+                //{
                     rigidBody2D.linearVelocity = new Vector3(rigidBody2D.linearVelocity.x, playerComponent.GetPlayerStateData().airGlideFallVelocity, 0);
-                }
+                //}
             }
             player = null;
         }
@@ -55,7 +55,7 @@ public class WindArea : MonoBehaviour
 
     private void SetWindVelocity()
     {
-        if (player && playerRigidbody2D && player.StateMachine.CurrentState == player.AirGlideState)
+        if (player && playerRigidbody2D /*&& player.StateMachine.CurrentState == player.AirGlideState*/)
         {
             playerRigidbody2D.gravityScale = 0f;
             playerRigidbody2D.linearVelocity = new Vector3(0, windVelocity, 0);

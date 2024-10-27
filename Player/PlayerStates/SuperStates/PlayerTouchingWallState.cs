@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class PlayerTouchingWallState : PlayerState
 {
     protected bool isGrounded;
@@ -9,23 +7,13 @@ public class PlayerTouchingWallState : PlayerState
 
     protected CollisionSenses CollisionSenses { get => collisionSenses ?? core.GetCoreComponent(ref collisionSenses); }
     protected CollisionSenses collisionSenses;
-    protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
+    protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
 
-    public PlayerTouchingWallState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
-    {
-    }
-
-    public override void AnimationFinishTrigger()
-    {
-        base.AnimationFinishTrigger();
-    }
-
-    public override void AnimationTrigger()
-    {
-        base.AnimationTrigger();
-    }
+    public PlayerTouchingWallState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+        : base(player, stateMachine, playerStateData, animBoolName)
+    {}
 
     public override void DoChecks()
     {
@@ -33,16 +21,6 @@ public class PlayerTouchingWallState : PlayerState
 
         isGrounded = CollisionSenses.Ground;
         isTouchingWall = CollisionSenses.WallFront;
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
     }
 
     public override void LogicUpdate()
@@ -65,10 +43,5 @@ public class PlayerTouchingWallState : PlayerState
         {
             stateMachine.ChangeState(player.InAirState);
         }
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
     }
 }

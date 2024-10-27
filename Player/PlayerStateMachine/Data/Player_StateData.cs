@@ -20,7 +20,7 @@ public class Player_StateData : Player_StateDataBase
     [Header("Bounce State")]
     public float doubleJumpVelocity = 20f;
     public float bounceTriggerTime = 0.9f;
-    public float bounceHorizontalVelocityMultiplier = 1.5f;
+    public float bounceHorizontalVelocity = 30f;
     public float bounceVerticalVelocity = 40f;
 
     [Header("In Air State")]

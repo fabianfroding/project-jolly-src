@@ -5,6 +5,8 @@ public class PlayerDoubleJumpState : PlayerAbilityState
     private bool hasConsumedDoubleJump;
     private bool isTouchingWall;
 
+    private float entryMoveXSpeed = 0f;
+
     public PlayerDoubleJumpState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
         : base(player, stateMachine, playerStateData, animBoolName)
     {}
@@ -18,11 +20,11 @@ public class PlayerDoubleJumpState : PlayerAbilityState
         InstantiateDoubleJumpVisuals();
         player.InAirState.SetIsJumping();
 
-        float xVelocityMultiplier = CollisionSenses.WallFront
-            ? -playerStateData.bounceHorizontalVelocityMultiplier
-            : playerStateData.bounceHorizontalVelocityMultiplier;
-        Movement.SetVelocityX(Movement.CurrentVelocity.x * xVelocityMultiplier);
-        Movement.SetVelocityY(playerStateData.bounceVerticalVelocity);
+        if (!CollisionSenses.WallFront)
+        {
+            Movement.SetVelocityY(playerStateData.bounceVerticalVelocity);
+            Movement.SetVelocityX(playerStateData.bounceHorizontalVelocity);
+        }
     }
 
     public override void DoChecks()
@@ -42,12 +44,12 @@ public class PlayerDoubleJumpState : PlayerAbilityState
         }
 
         Movement.CheckIfShouldFlip(player.InputHandler.NormInputX);
-        Movement.SetVelocityX(Movement.CurrentVelocity.x * player.InputHandler.NormInputX);
+        Movement.SetVelocityX(playerStateData.bounceHorizontalVelocity * player.InputHandler.NormInputX);
 
-        // if touching wall and travelling up quickly, slow player down so it doesnt look like ice  
-        if (isTouchingWall && Movement.CurrentVelocity.y > 5f)
+        if (isTouchingWall)
         {
-            Movement.SetVelocityY(Movement.CurrentVelocity.y * playerStateData.wallFrictionMultiplier);
+            player.WallJumpState.DetermineWallJumpDirection(true);
+            stateMachine.ChangeState(player.WallJumpState);
         }
 
         player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_X_VELOCITY, Mathf.Abs(Movement.CurrentVelocity.x));

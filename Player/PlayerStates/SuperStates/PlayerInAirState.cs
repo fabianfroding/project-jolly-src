@@ -97,6 +97,7 @@ public class PlayerInAirState : PlayerState
                 && !isTouchingWallBack)
             {
                 bounceOnEnemyTriggerTime = Time.time;
+                player.DoubleJumpState.ConsumeDoubleJump();
                 return;
             }
         }
@@ -200,7 +201,6 @@ public class PlayerInAirState : PlayerState
     public bool CanBounceOnEnemy()
     {
         return player.DoubleJumpState != null 
-            && player.DoubleJumpState.CanDoubleJump()
             && Time.time < bounceOnEnemyTriggerTime + playerStateData.bounceTriggerTime;
     }
 }
