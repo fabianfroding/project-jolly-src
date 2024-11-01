@@ -26,7 +26,7 @@ public class PlayerInAirStateAlt : PlayerState
     public override void Enter()
     {
         base.Enter();
-        entryMoveXSpeed = Movement.movementSpeed.GetCurrentValue();
+        entryMoveXSpeed = Movement.movementSpeed.GetCurrentValue() * 1.5f;
     }
 
     public override void DoChecks()

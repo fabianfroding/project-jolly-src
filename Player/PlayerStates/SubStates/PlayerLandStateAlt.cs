@@ -1,10 +1,13 @@
-using UnityEngine;
+using UnityEditor.Overlays;
 
 public class PlayerLandStateAlt : PlayerGroundedState
 {
-    public PlayerLandStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+    Player_StateDataAlt playerStateDataAlt;
+
+    public PlayerLandStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName, Player_StateDataAlt playerStateDataAlt)
         : base(player, stateMachine, playerStateData, animBoolName)
     {
+        this.playerStateDataAlt = playerStateDataAlt;
     }
 
     public override void Enter()
@@ -34,6 +37,9 @@ public class PlayerLandStateAlt : PlayerGroundedState
     private void InstantiateLandVisuals()
     {
         if (collisionSenses.Ground)
-            GameFunctionLibrary.PlayAudioAtPosition(playerStateData.jumpLandAudioClip, player.transform.position);
+        {
+            GameFunctionLibrary.PlayAudioAtPosition(playerStateDataAlt.jumpLandAudioClip, player.transform.position);
+            EventBus.Publish(playerStateDataAlt.altFormJumpLandCameraShakeEvent);
+        }
     }
 }

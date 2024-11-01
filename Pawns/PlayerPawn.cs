@@ -79,6 +79,7 @@ public class PlayerPawn : PawnBase
 
     public BoxCollider2D boxCollider;
     public GameObject dashDamageCollider;
+    private float defaultGravityScale;
     #endregion
 
     #region Events
@@ -121,8 +122,8 @@ public class PlayerPawn : PawnBase
         AttackStateAlt = new PlayerAttackStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ATTACK_ALT);
         IdleStateAlt = new PlayerIdleStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE_ALT);
         InAirStateAlt = new PlayerInAirStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR_ALT);
-        JumpStateAlt = new PlayerJumpStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_JUMP_ALT);
-        LandStateAlt = new PlayerLandStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_LAND_ALT);
+        JumpStateAlt = new PlayerJumpStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_JUMP_ALT, playerStateDataAlt);
+        LandStateAlt = new PlayerLandStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_LAND_ALT, playerStateDataAlt);
         MoveStateAlt = new PlayerMoveStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_MOVE_ALT);
 
         EnableUnlockedPlayerAbilities();
@@ -248,6 +249,8 @@ public class PlayerPawn : PawnBase
     {
         inAltForm = true;
         StateMachine.ChangeState(IdleStateAlt);
+        defaultGravityScale = Rigidbody2D.gravityScale;
+        Rigidbody2D.gravityScale *= 1.5f;
         GameFunctionLibrary.PlayAudioAtPosition(playerStateData.enterAltStateSound, transform.position);
         StartCoroutine(EndAltForm());
     }
@@ -259,6 +262,7 @@ public class PlayerPawn : PawnBase
         yield return new WaitForSeconds(playerStateDataAlt.altFormDuration.GetCurrentValue());
         inAltForm = false;
         StateMachine.ChangeState(IdleState);
+        Rigidbody2D.gravityScale = defaultGravityScale;
         // TODO: Player end alt form sound.
     }
 

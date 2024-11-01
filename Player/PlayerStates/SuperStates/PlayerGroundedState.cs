@@ -41,11 +41,11 @@ public class PlayerGroundedState : PlayerState
         chargeArrowInput = player.InputHandler.ChargeBowInput;
         dashInput = player.InputHandler.DashInput;
 
-        if (player.InputHandler.AttackInput)
-        {
-            stateMachine.ChangeState(player.AttackState);
-        }
-        else if (jumpInput && player.JumpState.CanJump())
+        //if (player.InputHandler.AttackInput)
+        //{
+            //stateMachine.ChangeState(player.AttackState);
+        //}
+        if (jumpInput && player.JumpState.CanJump())
         {
             stateMachine.ChangeState(player.JumpState);
         }

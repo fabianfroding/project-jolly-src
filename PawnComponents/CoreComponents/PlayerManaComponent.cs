@@ -8,6 +8,8 @@ public class PlayerManaComponent : CoreComponent
     [SerializeField] private float manaTickInterval = 0.5f;
     [SerializeField] private int manaLostPerTick = 2;
 
+    [SerializeField] private AudioClip manaFilledAudioClip;
+
     [SerializeField] private SOIntVariable playerMana;
     [SerializeField] private SOGameEvent OnPlayerManaChangedGameEvent;
 
@@ -84,6 +86,7 @@ public class PlayerManaComponent : CoreComponent
 
     private IEnumerator ManaFilled()
     {
+        GameFunctionLibrary.PlayAudioAtPosition(manaFilledAudioClip, transform.position);
         yield return new WaitForSeconds(1.5f);
         if (OnPlayerManaChangedGameEvent)
             OnPlayerManaChangedGameEvent.Raise();

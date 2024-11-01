@@ -10,11 +10,6 @@ public class Player_StateData : Player_StateDataBase
     public float deadStateDuration = 3f;
 
     [Header("Jump State")]
-    public float jumpVelocity = 25f;
-    public GameObject jumpVFXPrefab;
-    public GameObject jumpTrailVFXPrefab;
-    public AudioClip jumpAudioClip;
-    public AudioClip jumpLandAudioClip;
     public AudioClip doubleJumpAudioClip;
 
     [Header("Bounce State")]

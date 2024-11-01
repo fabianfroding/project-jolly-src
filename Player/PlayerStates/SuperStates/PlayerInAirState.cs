@@ -102,11 +102,11 @@ public class PlayerInAirState : PlayerState
             }
         }
 
-        if (player.InputHandler.AttackInput)
-        {
-            stateMachine.ChangeState(player.AttackState);
-            return;
-        }
+        //if (player.InputHandler.AttackInput)
+        //{
+            //stateMachine.ChangeState(player.AttackState);
+            //return;
+        //}
 
         if (isGrounded && Movement.CurrentVelocity.y < 0.01f)
         {
