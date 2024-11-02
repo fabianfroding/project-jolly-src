@@ -7,6 +7,7 @@ public class PlayerState
     protected PlayerPawn player;
     protected PlayerStateMachine stateMachine;
     protected Player_StateData playerStateData;
+    protected Player_StateDataAlt playerStateDataAlt;
     protected float startTime;
     protected bool isAnimationFinished;
     protected bool isExitingState;
@@ -20,6 +21,7 @@ public class PlayerState
         this.playerStateData = playerStateData;
         this.animBoolName = animBoolName;
         core = player.Core;
+        playerStateDataAlt = player.GetPlayerStateDataAlt();
     }
 
     public virtual void DoChecks() {}

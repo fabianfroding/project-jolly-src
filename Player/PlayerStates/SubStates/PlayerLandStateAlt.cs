@@ -1,13 +1,9 @@
-using UnityEditor.Overlays;
-
 public class PlayerLandStateAlt : PlayerGroundedState
 {
-    Player_StateDataAlt playerStateDataAlt;
-
-    public PlayerLandStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName, Player_StateDataAlt playerStateDataAlt)
+    public PlayerLandStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
         : base(player, stateMachine, playerStateData, animBoolName)
     {
-        this.playerStateDataAlt = playerStateDataAlt;
+
     }
 
     public override void Enter()

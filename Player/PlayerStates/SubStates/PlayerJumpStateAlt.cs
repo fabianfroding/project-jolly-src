@@ -1,12 +1,15 @@
 public class PlayerJumpStateAlt : PlayerJumpStateBase
 {
-    public PlayerJumpStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName, Player_StateDataAlt playerStateDataAlt)
+    public PlayerJumpStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
         : base(player, stateMachine, playerStateData, animBoolName)
     {
-        jumpVFXPrefab = playerStateDataAlt.jumpVFXPrefab;
-        jumpTrailVFXPrefab = playerStateDataAlt.jumpTrailVFXPrefab;
-        jumpAudioClip = playerStateDataAlt.jumpAudioClip;
-        jumpVelocity = playerStateDataAlt.jumpVelocity;
+        if (playerStateDataAlt)
+        {
+            jumpVFXPrefab = playerStateDataAlt.jumpVFXPrefab;
+            jumpTrailVFXPrefab = playerStateDataAlt.jumpTrailVFXPrefab;
+            jumpAudioClip = playerStateDataAlt.jumpAudioClip;
+            jumpVelocity = playerStateDataAlt.jumpVelocity;
+        }
     }
 
     public override void LogicUpdate()

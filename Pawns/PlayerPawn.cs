@@ -122,8 +122,8 @@ public class PlayerPawn : PawnBase
         AttackStateAlt = new PlayerAttackStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ATTACK_ALT);
         IdleStateAlt = new PlayerIdleStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IDLE_ALT);
         InAirStateAlt = new PlayerInAirStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR_ALT);
-        JumpStateAlt = new PlayerJumpStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_JUMP_ALT, playerStateDataAlt);
-        LandStateAlt = new PlayerLandStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_LAND_ALT, playerStateDataAlt);
+        JumpStateAlt = new PlayerJumpStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_JUMP_ALT);
+        LandStateAlt = new PlayerLandStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_LAND_ALT);
         MoveStateAlt = new PlayerMoveStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_MOVE_ALT);
 
         EnableUnlockedPlayerAbilities();
@@ -189,6 +189,17 @@ public class PlayerPawn : PawnBase
                 enemyCollisionDamage.source = collision.gameObject;
                 enemyCollisionDamage.target = gameObject;
                 TakeDamage(enemyCollisionDamage);
+            }
+        }
+        else
+        {
+            // Allow bouncing on ground.
+            if (InAirState.CanBounceOnEnemy())
+            {
+                if (collision.gameObject.layer == LayerMask.NameToLayer(EditorConstants.LAYER_GROUND))
+                {
+                    StateMachine.ChangeState(DoubleJumpState);
+                }
             }
         }
     }

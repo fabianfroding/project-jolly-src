@@ -456,6 +456,17 @@
                 },
                 {
                     "name": "",
+                    "id": "45342c6c-91e6-4bec-8ebd-81fb718de7cb",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "BowCharge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2e97234e-3740-41a0-8dec-a6fa0aaba002",
                     "path": "<Keyboard>/e",
                     "interactions": "",
