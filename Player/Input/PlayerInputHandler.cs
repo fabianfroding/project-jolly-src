@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputHandler : MonoBehaviour
+public class PlayerInputHandler : MonoBehaviour, ILogicUpdate
 {
     private PlayerInput playerInput;
 
@@ -46,12 +46,17 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        //playerInput.actions.FindActionMap(InGameMenusActionMapName).Enable();
+        UpdateManager.RegisterLogicUpdate(this);
     }
-
-    private void Update()
+    
+    protected virtual void OnDisable()
+    {
+        UpdateManager.UnregisterLogicUpdate(this);
+    }
+    
+    public void LogicUpdate()
     {
         CheckJumpInputHoldTime();
         CheckDashInputHoldTime();
@@ -226,7 +231,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            PlayerPawn player = FindObjectOfType<PlayerPawn>();
+            PlayerPawn player = Object.FindFirstObjectByType<PlayerPawn>();
             if (player != null)
             {
                 player.EnableAllLockedStates();

@@ -31,12 +31,6 @@ public class PawnBase : MonoBehaviour, IDamageable
 
     protected virtual void Start() {}
 
-    protected virtual void Update()
-    {
-        if (Core)
-            Core.LogicUpdate();
-    }
-
     public virtual void TakeDamage(Types.DamageData damageData)
     {
         HealthComponent.TakeDamage(damageData);

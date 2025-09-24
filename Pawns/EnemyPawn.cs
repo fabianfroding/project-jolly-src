@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyPawn : PawnBase, IParriable
+public class EnemyPawn : PawnBase, ILogicUpdate, IPhysicsUpdate, IParriable
 {
     public D_Enemy enemyData;
 
@@ -42,17 +42,30 @@ public class EnemyPawn : PawnBase, IParriable
         InitialPosition = transform.position;
         InitialFacing = Core.GetCoreComponent<Movement>().FacingDirection == 1;
     }
-
-    protected override void Update()
+    
+    private void OnEnable()
     {
-        base.Update();
+        UpdateManager.RegisterLogicUpdate(this);
+        UpdateManager.RegisterPhysicsUpdate(this);
+    }
+
+    private void OnDisable()
+    {
+        UpdateManager.UnregisterLogicUpdate(this);
+        UpdateManager.UnregisterPhysicsUpdate(this);
+    }
+    
+    public void LogicUpdate()
+    {
+        if (Core)
+            Core.LogicUpdate();
 
         // Everytime Update is called on the Enemy, we call the LogicUpdate on the state.
         StateMachine.currentState?.LogicUpdate();
         Combat.CheckStunRecoveryTime();
     }
 
-    protected virtual void FixedUpdate()
+    public void PhysicsUpdate()
     {
         StateMachine.currentState?.PhysicsUpdate();
     }

@@ -40,7 +40,7 @@ public class TimedPlatform : MonoBehaviour
 
             Rigidbody2D rigidbody2D = collision.GetComponent<Rigidbody2D>();
             if (!rigidbody2D) { return; }
-            if (rigidbody2D.velocity.y >= 0) { return; }
+            if (rigidbody2D.linearVelocity.y >= 0) { return; }
 
             gameObject.layer = LayerMask.NameToLayer(EditorConstants.LAYER_GROUND);
             boxCollider2D.isTrigger = false;

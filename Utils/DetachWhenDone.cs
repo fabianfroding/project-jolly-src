@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class DetachWhenDone : MonoBehaviour
+public class DetachWhenDone : MonoBehaviour, ILogicUpdate
 {
     private ParticleSystem particleSystemComp;
     private Rigidbody2D rb;
@@ -25,10 +25,20 @@ public class DetachWhenDone : MonoBehaviour
             StartCoroutine(DetachAfterDelay(audioSource.clip.length));
         }
     }
-
-    private void FixedUpdate()
+    
+    private void OnEnable()
     {
-        if (particleSystemComp != null && rb.velocity.y < 0)
+        UpdateManager.RegisterLogicUpdate(this);
+    }
+    
+    protected virtual void OnDisable()
+    {
+        UpdateManager.UnregisterLogicUpdate(this);
+    }
+    
+    public void LogicUpdate()
+    {
+        if (particleSystemComp != null && rb.linearVelocity.y < 0)
         {
             particleSystemComp.Stop();
         }

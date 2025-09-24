@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        GameManager[] gameManagers = GameObject.FindObjectsOfType<GameManager>();
+        GameManager[] gameManagers = FindObjectsByType<GameManager>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         if (gameManagers.Length > 1)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     private void QuitToMainMenu()
     {
-        PlayerPawn playerPawn = FindObjectOfType<PlayerPawn>();
+        PlayerPawn playerPawn = FindFirstObjectByType<PlayerPawn>();
         if (playerPawn)
         {
             Destroy(playerPawn.gameObject);

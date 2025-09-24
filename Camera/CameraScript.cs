@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class CameraScript : MonoBehaviour
+public class CameraScript : MonoBehaviour, ILogicUpdate
 {
     [SerializeField] private float zoomDistance = 22.5f;
     [SerializeField] private Vector2 playerBaseOffset = new(1.5f, 1f);
@@ -40,7 +40,7 @@ public class CameraScript : MonoBehaviour
         {
             if (!player)
             {
-                player = FindObjectOfType<PlayerPawn>().gameObject;
+                player = FindFirstObjectByType<PlayerPawn>().gameObject;
             }
             return player;
         }
@@ -103,8 +103,8 @@ public class CameraScript : MonoBehaviour
             transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, -zoomDistance);
         }
     }
-
-    private void LateUpdate()
+    
+    void ILogicUpdate.LogicUpdate()
     {
         if (Player)
         {
@@ -115,6 +115,7 @@ public class CameraScript : MonoBehaviour
 
     private void OnEnable()
     {
+        UpdateManager.RegisterLogicUpdate(this);
         CameraBehaviourZone.OnEnterCameraBehaviourZone += SetCurrentBehaviourObj;
         CameraBehaviourZone.OnExitCameraBehaviourZone += SetCurrentBehaviourObj;
         EventBus.Subscribe<CameraShakeEvent>(StartCameraShake);
@@ -122,6 +123,7 @@ public class CameraScript : MonoBehaviour
 
     private void OnDisable()
     {
+        UpdateManager.UnregisterLogicUpdate(this);
         CameraBehaviourZone.OnEnterCameraBehaviourZone -= SetCurrentBehaviourObj;
         CameraBehaviourZone.OnExitCameraBehaviourZone -= SetCurrentBehaviourObj;
         EventBus.Unsubscribe<CameraShakeEvent>(StartCameraShake);

@@ -37,7 +37,7 @@ public class Movement : CoreComponent, IKnockbackable
     public override void LogicUpdate()
     {
         CheckKnockback();
-        CurrentVelocity = RB.velocity;
+        CurrentVelocity = RB.linearVelocity;
     }
     
     public void SetVelocity(float velocity, Vector2 angle, int direction)
@@ -72,7 +72,7 @@ public class Movement : CoreComponent, IKnockbackable
         SetFinalVelocity();
     }
 
-    public void SetDrag(float value) => RB.drag = value;
+    public void SetDrag(float value) => RB.linearDamping = value;
 
     public void CheckIfShouldFlip(int xInput)
     {
@@ -93,7 +93,7 @@ public class Movement : CoreComponent, IKnockbackable
     {
         if (CanSetVelocity)
         {
-            RB.velocity = workspace;
+            RB.linearVelocity = workspace;
             CurrentVelocity = workspace;
         }
     }

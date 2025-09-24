@@ -29,7 +29,7 @@ public class PlayerFloatingBubbleState : PlayerState
         if (playerRigidbody2D)
         {
             playerRigidbody2D.gravityScale = player.GetPlayerStateData().defaultGravityScale;
-            playerRigidbody2D.velocity = Vector2.zero;
+            playerRigidbody2D.linearVelocity = Vector2.zero;
         }
     }
 

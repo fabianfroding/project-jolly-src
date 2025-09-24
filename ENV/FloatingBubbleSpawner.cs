@@ -34,7 +34,7 @@ public class FloatingBubbleSpawner : MonoBehaviour
         Rigidbody2D rigidbody2D = tempGo.GetComponent<Rigidbody2D>();
         if (rigidbody2D)
         {
-            rigidbody2D.velocity = bubbleVelocity;
+            rigidbody2D.linearVelocity = bubbleVelocity;
         }
 
         Destroy(tempGo, bubbleDuration);

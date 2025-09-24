@@ -58,7 +58,7 @@ public class FloatingBubble : MonoBehaviour
                         Debug.LogError("FloatingBubble:SetFloatingBubbleSettings: Failed to get rigid body on collision object.");
                         return;
                     }
-                    playerRigidbody2D.velocity = bubbleRigidbody2D.velocity;
+                    playerRigidbody2D.linearVelocity = bubbleRigidbody2D.linearVelocity;
                 }
                 else
                 {

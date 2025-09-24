@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
-public class PlayerPawn : PawnBase
+public class PlayerPawn : PawnBase, ILogicUpdate, IPhysicsUpdate
 {
     #region State Variables
     public PlayerStateMachine StateMachine { get; private set; }
@@ -161,20 +161,19 @@ public class PlayerPawn : PawnBase
         if (OnPlayerHealthChangedGameEvent)
             OnPlayerHealthChangedGameEvent.Raise();
     }
-
-    protected override void Update()
+    
+    void ILogicUpdate.LogicUpdate()
     {
-        base.Update();
         Core.LogicUpdate();
-        StateMachine.CurrentState.LogicUpdate();
+        StateMachine.CurrentState?.LogicUpdate();
 
         if (InputHandler.QuitInput)
             OnQuitInput?.Invoke();
     }
-
-    private void FixedUpdate()
+    
+    void IPhysicsUpdate.PhysicsUpdate()
     {
-        StateMachine.CurrentState.PhysicsUpdate();
+        StateMachine.CurrentState?.PhysicsUpdate();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -190,11 +189,15 @@ public class PlayerPawn : PawnBase
 
     private void OnEnable()
     {
+        UpdateManager.RegisterLogicUpdate(this);
+        UpdateManager.RegisterPhysicsUpdate(this);
         PlayerManaComponent.OnPlayerManaFilled += OnPlayerManaFilled;
     }
 
     private void OnDisable()
     {
+        UpdateManager.UnregisterLogicUpdate(this);
+        UpdateManager.UnregisterPhysicsUpdate(this);
         PlayerManaComponent.OnPlayerManaFilled -= OnPlayerManaFilled;
     }
     #endregion
@@ -312,13 +315,13 @@ public class PlayerPawn : PawnBase
     public override void Death()
     {
         base.Death();
-        Rigidbody2D.isKinematic = true;
+        Rigidbody2D.bodyType = RigidbodyType2D.Static;
         Collider2D.enabled = false;
     }
 
     public void PlayerDeathSequenceFinish()
     {
-        Rigidbody2D.isKinematic = false;
+        Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
         Collider2D.enabled = true;
         OnPlayerDeathSequenceFinish?.Invoke(this);
     }
