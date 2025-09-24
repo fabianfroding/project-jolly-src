@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class WidgetMainMenu : MonoBehaviour
+public class MainMenuScreen : MonoBehaviour
 {
     [SerializeField] private string newGameSceneName;
 
