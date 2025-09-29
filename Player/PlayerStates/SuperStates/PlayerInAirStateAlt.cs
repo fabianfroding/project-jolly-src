@@ -43,13 +43,13 @@ public class PlayerInAirStateAlt : PlayerState
 
         CheckCoyoteTime();
 
-        xInput = player.InputHandler.NormInputX;
-        jumpInput = player.InputHandler.JumpInput;
-        jumpInputStop = player.InputHandler.JumpInputStop;
+        xInput = player.PlayerController.NormInputX;
+        jumpInput = player.PlayerController.JumpInput;
+        jumpInputStop = player.PlayerController.JumpInputStop;
 
         CheckJumpMultiplier();
         // TODO: Should alt form be able to attack in air?
-        //if (player.InputHandler.AttackInput)
+        //if (player.PlayerController.AttackInput)
         //{
             //stateMachine.ChangeState(player.AttackState);
         //}

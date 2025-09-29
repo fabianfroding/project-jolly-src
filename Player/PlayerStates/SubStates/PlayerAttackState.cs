@@ -12,7 +12,7 @@ public class PlayerAttackState : PlayerAbilityState
     {
         base.Enter();
 
-        int yInput = player.InputHandler.NormInputY;
+        int yInput = player.PlayerController.NormInputY;
         if (yInput < 0 && !CollisionSenses.Ground)
         {
             player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, yInput);
@@ -22,7 +22,7 @@ public class PlayerAttackState : PlayerAbilityState
             player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, yInput);
         }
 
-        player.InputHandler.UseAttackInput();
+        player.PlayerController.UseAttackInput();
     }
 
     public override void Exit()
@@ -36,7 +36,7 @@ public class PlayerAttackState : PlayerAbilityState
     {
         base.LogicUpdate();
 
-        int xInput = player.InputHandler.NormInputX;
+        int xInput = player.PlayerController.NormInputX;
         Movement.CheckIfShouldFlip(xInput);
         if (xInput == 0 && Movement.CurrentVelocity.x != 0f)
             Movement.SetVelocityX(0f);
@@ -47,7 +47,7 @@ public class PlayerAttackState : PlayerAbilityState
         base.AnimationTrigger();
         Combat.IsInTriggeredParriedAnimationFrames = false;
 
-        int yInput = player.InputHandler.NormInputY;
+        int yInput = player.PlayerController.NormInputY;
         if (yInput < 0 && !CollisionSenses.Ground)
         {
             player.attackDownDamageHitBox.SetActive(true);

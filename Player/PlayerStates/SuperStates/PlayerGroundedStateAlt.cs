@@ -14,10 +14,10 @@ public class PlayerGroundedStateAlt : PlayerGroundedState
 
     public override void LogicUpdate()
     {
-        xInput = player.InputHandler.NormInputX;
-        jumpInput = player.InputHandler.JumpInput;
+        xInput = player.PlayerController.NormInputX;
+        jumpInput = player.PlayerController.JumpInput;
 
-        if (player.InputHandler.AttackInput)
+        if (player.PlayerController.AttackInput)
         {
             stateMachine.ChangeState(player.AttackStateAlt);
         }

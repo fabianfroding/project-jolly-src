@@ -24,7 +24,7 @@ public class PlayerAscendState : PlayerAbilityState
         spriteRenderer = player.GetComponent<SpriteRenderer>();
         rigidBody2D = player.GetComponent<Rigidbody2D>();
 
-        direction = player.InputHandler.RawWarpDirectionInput.normalized;
+        direction = player.PlayerController.RawWarpDirectionInput.normalized;
 
         RotatePlayerToDirection(direction);
         isAscending = false;

@@ -22,7 +22,7 @@ public class PlayerDeadState : PlayerState
             playerSpriteRenderer.enabled = false;
 
         HealthComponent.SetInvulnerable(true);
-        player.InputHandler.enabled = false;
+        player.PlayerController.enabled = false;
     }
 
     public override void Exit()
@@ -32,7 +32,7 @@ public class PlayerDeadState : PlayerState
             playerSpriteRenderer.enabled = true;
 
         HealthComponent.SetInvulnerable(false);
-        player.InputHandler.enabled = true;
+        player.PlayerController.enabled = true;
 
         base.Exit();
     }

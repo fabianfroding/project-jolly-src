@@ -13,7 +13,7 @@ public class PlayerJumpState : PlayerAbilityState
         base.Enter();
         InstantiateJumpVisuals();
 
-        player.InputHandler.UseJumpInput();
+        player.PlayerController.UseJumpInput();
         Movement.SetVelocityY(playerStateData.jumpVelocity);
         isAbilityDone = true;
         ConsumeJump();
@@ -23,7 +23,7 @@ public class PlayerJumpState : PlayerAbilityState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (player.InputHandler.JumpInput && player.DoubleJumpState != null && player.DoubleJumpState.CanDoubleJump())
+        if (player.PlayerController.JumpInput && player.DoubleJumpState != null && player.DoubleJumpState.CanDoubleJump())
         {
             stateMachine.ChangeState(player.DoubleJumpState);
         }

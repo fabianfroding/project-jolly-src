@@ -15,7 +15,7 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.LogicUpdate();
 
-        interactionInput = player.InputHandler.InteractInput;
+        interactionInput = player.PlayerController.InteractInput;
 
         Movement.SetVelocityX(0f);
         if (xInput != 0 && !isExitingState)
@@ -27,7 +27,7 @@ public class PlayerIdleState : PlayerGroundedState
         {
             if (player.Interact())
                 stateMachine.ChangeState(player.InteractState);
-            player.InputHandler.UseInteractInput(); 
+            player.PlayerController.UseInteractInput(); 
         }
     }
 }

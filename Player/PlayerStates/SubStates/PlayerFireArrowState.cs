@@ -26,7 +26,7 @@ public class PlayerFireArrowState : PlayerAbilityState
             //Movement.SetVelocityX(0);
         }
 
-        player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, player.InputHandler.NormInputY);
+        player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, player.PlayerController.NormInputY);
     }
 
     public override void AnimationFinishTrigger()
@@ -41,7 +41,7 @@ public class PlayerFireArrowState : PlayerAbilityState
     {
         Vector2 inputDir;
         Vector2 spawnPos;
-        int verticalInput = player.InputHandler.NormInputY;
+        int verticalInput = player.PlayerController.NormInputY;
 
         if (verticalInput != 0)
         {

@@ -41,7 +41,7 @@ public class PlayerPawn : PawnBase, ILogicUpdate, IPhysicsUpdate
     public PlayerMoveStateAlt MoveStateAlt { get; private set; }
     #endregion
 
-    public PlayerInputHandler InputHandler { get; private set; }
+    public GamePlayerController PlayerController { get; private set; }
 
     #region Other Variables
     [SerializeField] private Player_StateData playerStateData;
@@ -87,7 +87,6 @@ public class PlayerPawn : PawnBase, ILogicUpdate, IPhysicsUpdate
     #region Events
     public static event Action<PlayerPawn> OnPlayerAwake;
     public static event Action<PlayerPawn> OnPlayerDeathSequenceFinish;
-    public static event Action OnQuitInput;
 
     public static event Action OnPlayerEnterAirGlideState;
     public static event Action OnPlayerExitAirGlideState;
@@ -127,14 +126,20 @@ public class PlayerPawn : PawnBase, ILogicUpdate, IPhysicsUpdate
         JumpStateAlt = new PlayerJumpStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_JUMP_ALT);
         LandStateAlt = new PlayerLandStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_LAND_ALT);
         MoveStateAlt = new PlayerMoveStateAlt(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_MOVE_ALT);
+        
+        DashState = new PlayerDashState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_DASH);
+        DoubleJumpState = new PlayerDoubleJumpState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
+        WallSlideState = new PlayerWallSlideState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_WALL_SLIDE);
+        WallJumpState = new PlayerWallJumpState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_IN_AIR);
+        HoldAscendState = new PlayerHoldAscendState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_HOLD_ASCEND);
+        AscendState = new PlayerAscendState(this, StateMachine, playerStateData, AnimationConstants.ANIM_PARAM_ASCEND);
 
         EnableUnlockedPlayerAbilities();
 
-        InputHandler = GetComponent<PlayerInputHandler>();
+        PlayerController = GetComponent<GamePlayerController>();
         playerInvulnerabilityIndicator = GetComponent<PlayerInvulnerabilityIndicator>();
 
         OnPlayerAwake?.Invoke(this);
-        DontDestroyOnLoad(gameObject);
     }
 
     protected override void Start()
@@ -166,9 +171,6 @@ public class PlayerPawn : PawnBase, ILogicUpdate, IPhysicsUpdate
     {
         Core.LogicUpdate();
         StateMachine.CurrentState?.LogicUpdate();
-
-        if (InputHandler.QuitInput)
-            OnQuitInput?.Invoke();
     }
     
     void IPhysicsUpdate.PhysicsUpdate()
@@ -415,8 +417,8 @@ public class PlayerPawn : PawnBase, ILogicUpdate, IPhysicsUpdate
 
     public bool HasXMovementInput()
     {
-        if (InputHandler.enabled)
-            return InputHandler.NormInputX != 0;
+        if (PlayerController.enabled)
+            return PlayerController.NormInputX != 0;
         return false;
     }
 

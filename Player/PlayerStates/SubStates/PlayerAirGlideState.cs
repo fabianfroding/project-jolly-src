@@ -50,8 +50,8 @@ public class PlayerAirGlideState : PlayerAbilityState
         base.LogicUpdate();
 
         isGrounded = CollisionSenses.Ground;
-        airGlideInput = player.InputHandler.AirGlideInput;
-        xInput = player.InputHandler.NormInputX;
+        airGlideInput = player.PlayerController.AirGlideInput;
+        xInput = player.PlayerController.NormInputX;
 
         if (isGrounded)
         {

@@ -31,7 +31,7 @@ public class PlayerHoldAscendState : PlayerAbilityState
 
         isHolding = true;
         ascendHit = false;
-        player.InputHandler.UseHoldWarpInput();
+        player.PlayerController.UseHoldWarpInput();
         player.Animator.SetBool(AnimationConstants.ANIM_PARAM_HOLD_ASCEND, true);
     }
 
@@ -47,7 +47,7 @@ public class PlayerHoldAscendState : PlayerAbilityState
                 lineRenderer.SetPosition(0, CollisionSenses.GetWallCheckTransform().position);
 
                 // Get the raw input direction from the player
-                Vector2 inputDirection = player.InputHandler.RawWarpDirectionInput;
+                Vector2 inputDirection = player.PlayerController.RawWarpDirectionInput;
 
                 // Normalize the direction to ensure consistent direction regardless of input magnitude
                 Vector3 direction = inputDirection.normalized;
@@ -75,7 +75,7 @@ public class PlayerHoldAscendState : PlayerAbilityState
                     lineRenderer.SetPosition(1, player.transform.position + direction * playerStateData.ascendRayDistance);
                 }
 
-                if (player.InputHandler.HoldWarpInputStop)
+                if (player.PlayerController.HoldWarpInputStop)
                 {
                     lineRenderer.enabled = false;
                     isHolding = false;

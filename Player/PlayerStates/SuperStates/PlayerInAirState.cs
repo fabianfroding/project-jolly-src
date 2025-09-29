@@ -62,13 +62,13 @@ public class PlayerInAirState : PlayerState
         CheckCoyoteTime();
         CheckWallJumpCoyoteTime();
 
-        xInput = player.InputHandler.NormInputX;
-        jumpInput = player.InputHandler.JumpInput;
-        jumpInputStop = player.InputHandler.JumpInputStop;
-        chargeBowInput = player.InputHandler.ChargeBowInput;
-        dashInput = player.InputHandler.DashInput;
-        airGlideInput = player.InputHandler.AirGlideInput;
-        holdAscendState = player.InputHandler.HoldWarpInput;
+        xInput = player.PlayerController.NormInputX;
+        jumpInput = player.PlayerController.JumpInput;
+        jumpInputStop = player.PlayerController.JumpInputStop;
+        chargeBowInput = player.PlayerController.ChargeBowInput;
+        dashInput = player.PlayerController.DashInput;
+        airGlideInput = player.PlayerController.AirGlideInput;
+        holdAscendState = player.PlayerController.HoldWarpInput;
 
         CheckJumpMultiplier();
 
@@ -76,7 +76,7 @@ public class PlayerInAirState : PlayerState
         {
             stateMachine.ChangeState(player.AirGlideState);
         }
-        else if (player.InputHandler.AttackInput)
+        else if (player.PlayerController.AttackInput)
         {
             stateMachine.ChangeState(player.AttackState);
         }

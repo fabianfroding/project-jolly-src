@@ -36,12 +36,12 @@ public class PlayerGroundedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        xInput = player.InputHandler.NormInputX;
-        jumpInput = player.InputHandler.JumpInput;
-        chargeArrowInput = player.InputHandler.ChargeBowInput;
-        dashInput = player.InputHandler.DashInput;
+        xInput = player.PlayerController.NormInputX;
+        jumpInput = player.PlayerController.JumpInput;
+        chargeArrowInput = player.PlayerController.ChargeBowInput;
+        dashInput = player.PlayerController.DashInput;
 
-        if (player.InputHandler.AttackInput)
+        if (player.PlayerController.AttackInput)
         {
             stateMachine.ChangeState(player.AttackState);
         }

@@ -17,7 +17,7 @@ public class PlayerDashState : PlayerAbilityState
     {
         base.Enter();
         CanDash = false;
-        player.InputHandler.UseDashInput();
+        player.PlayerController.UseDashInput();
         dashDirection = Vector2.right * Movement.FacingDirection;
         playerPawn.SetIgnoreEnemyLayerCollisoon(true);
         playerPawn.dashDamageCollider.SetActive(true);

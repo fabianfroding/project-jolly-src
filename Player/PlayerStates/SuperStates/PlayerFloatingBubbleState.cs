@@ -37,8 +37,8 @@ public class PlayerFloatingBubbleState : PlayerState
     {
         base.LogicUpdate();
 
-        xInput = player.InputHandler.NormInputX;
-        yInput = player.InputHandler.NormInputY;
+        xInput = player.PlayerController.NormInputX;
+        yInput = player.PlayerController.NormInputY;
 
         Movement.CheckIfShouldFlip(xInput);
         Movement.SetVelocityX(Movement.movementSpeed.GetCurrentValue() * 0.5f * xInput);

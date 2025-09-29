@@ -5,7 +5,10 @@ using UnityEngine.InputSystem;
 
 public class WidgetManager : Manager<WidgetManager>
 {
+    [SerializeField] private GameObject pauseMenuWidget;
+    
     [SerializeField] private InputActionReference BackAction;
+    [SerializeField] private InputActionReference PauseAction;
     
     private List<WidgetBase> widgetPool;
     private List<WidgetBase> widgetStack;
@@ -120,6 +123,11 @@ public class WidgetManager : Manager<WidgetManager>
         if (inputActionEvent.GetInputAction() == BackAction.action)
         {
             PopCurrentActiveWidget();
+        }
+
+        if (inputActionEvent.GetInputAction() == PauseAction.action)
+        {
+            PushWidgetInternal(pauseMenuWidget);
         }
     }
 }

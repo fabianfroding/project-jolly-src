@@ -22,7 +22,7 @@ public class PlayerInteractState : PlayerGroundedState
     {
         base.LogicUpdate();
 
-        advanceInteractionInput = player.InputHandler.AdvanceInteractionInput;
+        advanceInteractionInput = player.PlayerController.AdvanceInteractionInput;
         if (advanceInteractionInput)
         {
             if (!player.AdvanceInteraction())
@@ -30,7 +30,7 @@ public class PlayerInteractState : PlayerGroundedState
                 stateMachine.ChangeState(player.IdleState);
                 player.EndInteraction();
             }
-            player.InputHandler.UseAdvanceInteractionInput();
+            player.PlayerController.UseAdvanceInteractionInput();
         }
     }
 }

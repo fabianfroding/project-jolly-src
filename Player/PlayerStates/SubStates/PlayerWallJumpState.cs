@@ -11,7 +11,7 @@ public class PlayerWallJumpState : PlayerAbilityState
     {
         base.Enter();
         InstantiateJumpVisuals();
-        player.InputHandler.UseJumpInput();
+        player.PlayerController.UseJumpInput();
         Movement.SetVelocity(playerStateData.wallJumpVelocity, playerStateData.wallJumpAngle, wallJumpDirection);
         Movement.CheckIfShouldFlip(wallJumpDirection);
         player.JumpState.ConsumeJump();
@@ -29,7 +29,7 @@ public class PlayerWallJumpState : PlayerAbilityState
         }
 
         // jumped during walljumptime - end state / cancel walljump time early, give player control back early
-        if (player.InputHandler.JumpInput)
+        if (player.PlayerController.JumpInput)
         {
             isAbilityDone = true;
             stateMachine.ChangeState(player.JumpState);

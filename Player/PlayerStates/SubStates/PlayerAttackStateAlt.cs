@@ -13,7 +13,7 @@ public class PlayerAttackStateAlt : PlayerAbilityState
     {
         base.Enter();
 
-        int yInput = player.InputHandler.NormInputY;
+        int yInput = player.PlayerController.NormInputY;
         if (yInput < 0 && !CollisionSenses.Ground)
         {
             player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, yInput);
@@ -23,7 +23,7 @@ public class PlayerAttackStateAlt : PlayerAbilityState
             player.Animator.SetFloat(AnimationConstants.ANIM_PARAM_Y_INPUT, yInput);
         }
 
-        player.InputHandler.UseAttackInput();
+        player.PlayerController.UseAttackInput();
     }
 
     public override void Exit()
@@ -47,7 +47,7 @@ public class PlayerAttackStateAlt : PlayerAbilityState
             }
         }
 
-        int xInput = player.InputHandler.NormInputX;
+        int xInput = player.PlayerController.NormInputX;
         Movement.CheckIfShouldFlip(xInput);
         if (xInput == 0 && Movement.CurrentVelocity.x != 0f)
             Movement.SetVelocityX(0f);

@@ -16,7 +16,7 @@ public class PlayerRespawnState : PlayerState
         base.Enter();
         HealthComponent.SetInvulnerable(true);
         respawnStartTime = Time.time;
-        player.InputHandler.enabled = false;
+        player.PlayerController.enabled = false;
     }
 
     public override void Exit()
@@ -25,7 +25,7 @@ public class PlayerRespawnState : PlayerState
         player.transform.position = currentRespawnPosition;
         HealthComponent.SetInvulnerable(false);
         player.StopInvulnerabilityFlash();
-        player.InputHandler.enabled = true;
+        player.PlayerController.enabled = true;
         base.Exit();
     }
 

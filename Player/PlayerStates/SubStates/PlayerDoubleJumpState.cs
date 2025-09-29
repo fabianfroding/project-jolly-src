@@ -12,7 +12,7 @@ public class PlayerDoubleJumpState : PlayerAbilityState
         base.Enter();
         InstantiateDoubleJumpVisuals();
 
-        player.InputHandler.UseJumpInput();
+        player.PlayerController.UseJumpInput();
         Movement.SetVelocityY(playerStateData.doubleJumpVelocity);
         isAbilityDone = true;
         ConsumeDoubleJump();

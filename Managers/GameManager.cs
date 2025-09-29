@@ -24,13 +24,11 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
 
         PlayerPawn.OnPlayerDeathSequenceFinish += OnPlayerDeathSequenceFinish;
-        PlayerPawn.OnQuitInput += QuitToMainMenu;
     }
 
     private void OnDestroy()
     {
         PlayerPawn.OnPlayerDeathSequenceFinish -= OnPlayerDeathSequenceFinish;
-        PlayerPawn.OnQuitInput -= QuitToMainMenu;
     }
 
     private void AddWidgetHUD()
