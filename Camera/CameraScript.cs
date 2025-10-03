@@ -12,9 +12,6 @@ public class CameraScript : MonoBehaviour, ILogicUpdate
     [SerializeField] private Color backgroundColorMidday;
     [SerializeField] private Color backgroundColorMidnight;
 
-    [SerializeField] private SODaytimeSettings daytimeSettings;
-    [SerializeField] private SOGameEvent onCameraShake;
-
     private CameraState cameraState = CameraState.FollowPlayer;
     private CameraBehaviourZone.CameraBehaviour cameraBehaviour = CameraBehaviourZone.CameraBehaviour.HorizontalLane;
 
@@ -40,14 +37,14 @@ public class CameraScript : MonoBehaviour, ILogicUpdate
         {
             if (!player)
             {
-                player = FindFirstObjectByType<PlayerPawn>().gameObject;
+                player = FindFirstObjectByType<PlayerCharacter>().gameObject;
             }
             return player;
         }
     }
 
-    private PlayerPawn playerScript;
-    private PlayerPawn PlayerScript
+    private PlayerCharacter playerScript;
+    private PlayerCharacter PlayerScript
     {
         get
         {
@@ -55,7 +52,7 @@ public class CameraScript : MonoBehaviour, ILogicUpdate
             {
                 if (Player != null)
                 {
-                    playerScript = Player.GetComponent<PlayerPawn>();
+                    playerScript = Player.GetComponent<PlayerCharacter>();
                 }
             }
             return playerScript;
@@ -73,6 +70,12 @@ public class CameraScript : MonoBehaviour, ILogicUpdate
             }
             return null;
         }
+    }
+    
+    public static void SnapToPlayer(GameObject playerGO)
+    {
+        GameObject cameraGO = FindFirstObjectByType<CameraScript>().gameObject;
+        cameraGO.transform.position = new Vector3(playerGO.transform.position.x, playerGO.transform.position.y, cameraGO.transform.position.z);
     }
 
     public enum CameraState
@@ -369,40 +372,5 @@ public class CameraScript : MonoBehaviour, ILogicUpdate
     public Vector2 GetDefaultFST()
     {
         return defaultFST;
-    }
-
-    public void UpdateBackgroundTint()
-    {
-        if (!cachedCamera) return;
-        if (!daytimeSettings) return;
-
-        float timeOfDay = daytimeSettings.currentHour + (daytimeSettings.currentMinute / 60f);
-        float dawnMidTime = daytimeSettings.DawnMidTime; // TODO: Can be cached for performance.
-        float duskMidTime = daytimeSettings.DuskMidTime;
-
-        if (timeOfDay >= daytimeSettings.DawnStartTime && timeOfDay < dawnMidTime)
-        {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - daytimeSettings.DawnStartTime) / (dawnMidTime - daytimeSettings.DawnStartTime));
-            cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidnight, backgroundColorDawnAndDusk, lerpFactor);
-        }
-        else if (timeOfDay >= dawnMidTime && timeOfDay < daytimeSettings.DawnEndTime)
-        {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - dawnMidTime) / (daytimeSettings.DawnEndTime - dawnMidTime));
-            cachedCamera.backgroundColor = Color.Lerp(backgroundColorDawnAndDusk, backgroundColorMidday, lerpFactor);
-        }
-        else if (timeOfDay >= daytimeSettings.DuskStartTime && timeOfDay < duskMidTime)
-        {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - daytimeSettings.DuskStartTime) / (duskMidTime - daytimeSettings.DuskStartTime));
-            cachedCamera.backgroundColor = Color.Lerp(backgroundColorMidday, backgroundColorDawnAndDusk, lerpFactor);
-        }
-        else if (timeOfDay >= duskMidTime && timeOfDay < daytimeSettings.DuskEndTime)
-        {
-            float lerpFactor = Mathf.Clamp01((timeOfDay - duskMidTime) / (daytimeSettings.DuskEndTime - duskMidTime));
-            cachedCamera.backgroundColor = Color.Lerp(backgroundColorDawnAndDusk, backgroundColorMidnight, lerpFactor);
-        }
-        else
-        {
-            cachedCamera.backgroundColor = (timeOfDay < daytimeSettings.DawnStartTime || timeOfDay >= daytimeSettings.DuskEndTime) ? backgroundColorMidnight : backgroundColorMidday;
-        }
     }
 }

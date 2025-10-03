@@ -1,6 +1,6 @@
 public class PlayerMoveState : PlayerGroundedState
 {
-    public PlayerMoveState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerMoveState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void LogicUpdate()

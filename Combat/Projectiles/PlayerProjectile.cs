@@ -45,7 +45,7 @@ public class PlayerProjectile : Projectile
     {
         if (isReturning)
         {
-            if (other.GetComponent<PlayerPawn>())
+            if (other.GetComponent<PlayerCharacter>())
             {
                 GameFunctionLibrary.PlayAudioAtPosition(playerCatchSound, transform.position);
                 // TODO: Give player back the boomerang.
@@ -62,7 +62,7 @@ public class PlayerProjectile : Projectile
                 damageData.source = Source;
                 damageData.target = other;
                 damageable.TakeDamage(damageData);
-                damageData.source.GetComponent<PawnBase>().BroadcastOnDealtDamage();
+                damageData.source.GetComponent<CharacterBase>().BroadcastOnDealtDamage();
             }
         }
     }

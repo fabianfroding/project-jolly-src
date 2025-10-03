@@ -11,7 +11,7 @@ public class PlayerGroundedState : PlayerState
     protected Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    public PlayerGroundedState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerGroundedState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void DoChecks()

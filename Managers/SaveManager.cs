@@ -18,17 +18,11 @@ public static class SaveManager
 
     public static event Action OnGameSaved;
 
-    public static void SavePlayerSaveData(PlayerPawn playerPawn, Vector2 position, string sceneName, SODaytimeSettings daytimeSettings)
+    public static void SavePlayerSaveData(PlayerCharacter playerCharacter, Vector2 position, string sceneName)
     {
         BinaryFormatter formatter = new();
         FileStream stream = new(SaveDataPath(PlayerSaveDataFileName()), FileMode.Create);
-        PlayerSaveData playerSaveData = new(playerPawn, position.x, position.y, sceneName);
-
-        if (daytimeSettings)
-        {
-            playerSaveData.currentHour = daytimeSettings.currentHour;
-            playerSaveData.currentMinute = daytimeSettings.currentMinute;
-        }
+        PlayerSaveData playerSaveData = new(playerCharacter, position.x, position.y, sceneName);
 
         formatter.Serialize(stream, playerSaveData);
         stream.Close();

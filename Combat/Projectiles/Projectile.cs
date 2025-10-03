@@ -98,11 +98,11 @@ public class Projectile : MonoBehaviour, ILogicUpdate
         if (!other.GetComponent<Collider2D>().isTrigger && Source != other)
         {
             // Prevent player damage-objects from colliding with NPCs.
-            if (Source != null && Source.GetComponent<PlayerPawn>() && other.GetComponent<NPCPawn>())
+            if (Source != null && Source.GetComponent<PlayerCharacter>() && other.GetComponent<NPC>())
                 return;
 
-            PawnBase pawn = other.GetComponent<PawnBase>();
-            if (pawn != null)
+            CharacterBase character = other.GetComponent<CharacterBase>();
+            if (character != null)
             {
                 damageData.source = Source;
                 damageData.target = other;
@@ -114,7 +114,7 @@ public class Projectile : MonoBehaviour, ILogicUpdate
                 damageData.source = Source;
                 damageData.target = other;
                 damageable.TakeDamage(damageData);
-                damageData.source.GetComponent<PawnBase>().BroadcastOnDealtDamage();
+                damageData.source.GetComponent<CharacterBase>().BroadcastOnDealtDamage();
             }
 
             if (destroyOnImpact)

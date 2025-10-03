@@ -7,7 +7,9 @@ public class WidgetBase : MonoBehaviour
     [SerializeField] private EInputMode activatedInputMode = EInputMode.UI;
     [SerializeField] private EInputMode deactivatedInputMode = EInputMode.Gameplay;
 
-    [SerializeField] private AnimationClip openAnim;
+    [SerializeField] private bool allowBackHandling = true;
+
+    [SerializeField] protected AnimationClip openAnim;
     [SerializeField] protected AnimationClip closeAnim;
     
     private GameObject lastSelected;
@@ -31,7 +33,7 @@ public class WidgetBase : MonoBehaviour
         InputModeEvent inputModeEvent = new(activatedInputMode);
         EventBus.Publish(inputModeEvent);
         
-        if (animator)
+        if (animator && openAnim)
         {
             animator.Play(openAnim.name);
         }
@@ -54,6 +56,8 @@ public class WidgetBase : MonoBehaviour
         EventBus.Unsubscribe<InputTypeEvent>(HandleInputTypeEvent);
     }
     
+    public bool AllowsBackHandling() => allowBackHandling;
+    
     public virtual void Pop()
     {
         if (animator)
@@ -71,7 +75,7 @@ public class WidgetBase : MonoBehaviour
         lastSelected = null;
     }
 
-    public void OpenAnimationDone()
+    public virtual void OpenAnimationDone()
     {
         Activate();
     }
@@ -99,7 +103,7 @@ public class WidgetBase : MonoBehaviour
         {
             SelectDefaultElement();
         }
-        else if (inputTypeEvent.newInputType == EInputType.KeyboardAndMouse)
+        else if (EventSystem.current && inputTypeEvent.newInputType == EInputType.KeyboardAndMouse)
         {
             EventSystem.current.SetSelectedGameObject(null);
         }

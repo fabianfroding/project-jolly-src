@@ -1,6 +1,6 @@
 public class PlayerJumpStateAlt : PlayerJumpState
 {
-    public PlayerJumpStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+    public PlayerJumpStateAlt(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
         : base(player, stateMachine, playerStateData, animBoolName)
     {
 

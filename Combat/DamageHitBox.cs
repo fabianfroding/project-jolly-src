@@ -17,16 +17,16 @@ public class DamageHitBox : MonoBehaviour
     [SerializeField] private float selfKnockbackForce;
     [SerializeField] private LayerMask affectedLayerMask; // TODO: Consider moving this to damage data.
 
-    private EnemyPawn owningEnemyPawn;
-    private PlayerPawn owningPlayerPawn;
+    private EnemyCharacter owningEnemy;
+    private PlayerCharacter owningPlayer;
 
     private Collider2D hitBoxCollider2D;
     private List<Collider2D> cachedHitColliders; // Used to filter out already damaged targets.
 
     private void Awake()
     {
-        owningEnemyPawn = GetComponentInParent<EnemyPawn>();
-        owningPlayerPawn = GetComponentInParent<PlayerPawn>();
+        owningEnemy = GetComponentInParent<EnemyCharacter>();
+        owningPlayer = GetComponentInParent<PlayerCharacter>();
         hitBoxCollider2D = GetComponent<Collider2D>();
         cachedHitColliders = new();
     }
@@ -60,7 +60,7 @@ public class DamageHitBox : MonoBehaviour
         damageable.TakeDamage(damageData);
         cachedHitColliders.Add(collision);
 
-        GameObject owner = owningPlayerPawn ? owningPlayerPawn.gameObject : owningEnemyPawn.gameObject;
+        GameObject owner = owningPlayer ? owningPlayer.gameObject : owningEnemy.gameObject;
         if (selfKnockbackForce != 0f && selfKnockbackDirection != SelfKnockbackDirection.None)
         {
             Movement movement = owner.GetComponentInChildren<Movement>();
@@ -86,9 +86,9 @@ public class DamageHitBox : MonoBehaviour
 
     private bool IsFriendlyTarget(Collider2D collision)
     {
-        if (owningPlayerPawn && collision.GetComponent<PlayerPawn>())
+        if (owningPlayer && collision.GetComponent<PlayerCharacter>())
             return true;
-        if (owningEnemyPawn && collision.GetComponent<EnemyPawn>())
+        if (owningEnemy && collision.GetComponent<EnemyCharacter>())
             return true;
         return false;
     }

@@ -53,4 +53,15 @@ public class UpdateManager : Manager<UpdateManager>
         PhysicsUpdateObservers.Remove(physicsUpdate);
         currentPhysicsUpdateIndex--;
     }
+
+    public static void ClearUpdateManager()
+    {
+        LogicUpdateObservers .Clear();
+        PendingLogicUpdateObservers.Clear();
+        currentLogicUpdateIndex = 0;
+
+        PhysicsUpdateObservers.Clear();
+        PendingPhysicsUpdateObservers.Clear();
+        currentPhysicsUpdateIndex = 0;
+    }
 }

@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class WidgetPauseMenu : WidgetBase
 {
-    [SerializeField] private string mainMenuScene = "MainMenuScene";
     [SerializeField] private string quitConfirmPromptTitle = "Quit to Menu?";
 
     private WidgetConfirmPrompt quitConfirmPrompt;
@@ -60,8 +59,7 @@ public class WidgetPauseMenu : WidgetBase
         
         if (confirmed)
         {
-            EventBus.Clear();
-            SceneManager.LoadScene(mainMenuScene);
+            GameInstance.Instance.GoToMainMenu();
         }
     }
 }

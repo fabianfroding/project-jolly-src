@@ -5,7 +5,7 @@ public class PlayerChargeArrowState : PlayerAbilityState
     public bool IsCharging { get; private set; }
     private float lastChargeArrowTime;
 
-    public PlayerChargeArrowState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerChargeArrowState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

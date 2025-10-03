@@ -5,10 +5,10 @@ public class WidgetPlayerMana : MonoBehaviour
 {
     [SerializeField] private Slider widgetPlayerManaFill;
 
-    [SerializeField] private SOIntVariable playerMana;
+    [SerializeField] private int playerMana;
 
     public void OnPlayerManaChanged()
     {
-        widgetPlayerManaFill.value = playerMana.Value;
+        widgetPlayerManaFill.value = playerMana;
     }
 }

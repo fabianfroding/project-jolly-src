@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerState
 {
-    protected PawnCore core;
+    protected CharacterCore core;
 
-    protected PlayerPawn player;
+    protected PlayerCharacter player;
     protected PlayerStateMachine stateMachine;
     protected Player_StateData playerStateData;
     protected float startTime;
@@ -13,7 +13,7 @@ public class PlayerState
 
     private int animBoolName;
 
-    public PlayerState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+    public PlayerState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
     {
         this.player = player;
         this.stateMachine = stateMachine;

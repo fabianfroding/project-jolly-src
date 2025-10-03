@@ -2,7 +2,7 @@ public class PlayerIdleState : PlayerGroundedState
 {
     private bool interactionInput = false;
 
-    public PlayerIdleState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerIdleState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

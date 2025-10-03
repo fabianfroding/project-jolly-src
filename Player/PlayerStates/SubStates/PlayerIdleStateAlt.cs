@@ -1,6 +1,6 @@
 public class PlayerIdleStateAlt : PlayerGroundedStateAlt
 {
-    public PlayerIdleStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+    public PlayerIdleStateAlt(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
         : base(player, stateMachine, playerStateData, animBoolName)
     {
 

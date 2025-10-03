@@ -6,12 +6,9 @@ public class PlayerDashState : PlayerAbilityState
     protected float lastDashTime;
     protected Vector2 destination;
     private Vector2 dashDirection;
-    private PlayerPawn playerPawn;
 
-    public PlayerDashState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
-    {
-        this.playerPawn = player;
-    }
+    public PlayerDashState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    {}
 
     public override void Enter()
     {
@@ -19,8 +16,8 @@ public class PlayerDashState : PlayerAbilityState
         CanDash = false;
         player.PlayerController.UseDashInput();
         dashDirection = Vector2.right * Movement.FacingDirection;
-        playerPawn.SetIgnoreEnemyLayerCollisoon(true);
-        playerPawn.dashDamageCollider.SetActive(true);
+        player.SetIgnoreEnemyLayerCollisoon(true);
+        player.dashDamageCollider.SetActive(true);
 
         /*Vector2 chestPos = CollisionSenses.GetChestTransform().position;
         GameObject tempGO = GameObject.Instantiate(playerStateData.dashVFXPrefab);
@@ -42,8 +39,8 @@ public class PlayerDashState : PlayerAbilityState
     public override void Exit()
     {
         base.Exit();
-        playerPawn.SetIgnoreEnemyLayerCollisoon(false);
-        playerPawn.dashDamageCollider.SetActive(false);
+        player.SetIgnoreEnemyLayerCollisoon(false);
+        player.dashDamageCollider.SetActive(false);
         isAbilityDone = true;
     }
 

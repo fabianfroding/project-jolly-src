@@ -12,7 +12,7 @@ public class PlayerAscendState : PlayerAbilityState
 
     private Quaternion originalRotation; // Store the player's original rotation
 
-    public PlayerAscendState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerAscendState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

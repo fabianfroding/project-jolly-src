@@ -11,14 +11,14 @@ public class PlayerSaveData
     public int currentHour;
     public int currentMinute;
 
-    public PlayerSaveData(PlayerPawn playerPawn, float xPos, float yPos, string sceneName)
+    public PlayerSaveData(PlayerCharacter playerCharacter, float xPos, float yPos, string sceneName)
     {
         position = new float[2];
         position[0] = xPos;
         position[1] = yPos;
 
-        playerHealth = playerPawn.HealthComponent.GetCurrenthealth().Value;
-        playerMaxHealth = playerPawn.HealthComponent.GetMaxHealth().Value;
+        playerHealth = playerCharacter.HealthComponent.GetCurrenthealth();
+        playerMaxHealth = playerCharacter.HealthComponent.GetMaxHealth();
 
         this.sceneName = sceneName;
     }

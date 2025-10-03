@@ -5,7 +5,7 @@ public class PlayerInteractState : PlayerGroundedState
     private bool advanceInteractionInput = false;
 
     public PlayerInteractState(
-        PlayerPawn player, 
+        PlayerCharacter player, 
         PlayerStateMachine stateMachine, 
         Player_StateData playerStateData, 
         int animBoolName) : 

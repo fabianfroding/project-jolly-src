@@ -7,7 +7,7 @@ public class PlayerAirGlideState : PlayerAbilityState
     private int xInput;
     private Rigidbody2D rigidbody2D;
 
-    public PlayerAirGlideState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerAirGlideState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerLandStateAlt : PlayerGroundedState
 {
-    public PlayerLandStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+    public PlayerLandStateAlt(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
         : base(player, stateMachine, playerStateData, animBoolName)
     {
     }

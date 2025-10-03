@@ -4,7 +4,7 @@ public class PlayerJumpState : PlayerAbilityState
 {
     protected bool hasConsumedJump;
 
-    public PlayerJumpState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+    public PlayerJumpState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
         : base(player, stateMachine, playerStateData, animBoolName)
     {}
 

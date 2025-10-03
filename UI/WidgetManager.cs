@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class WidgetManager : Manager<WidgetManager>
 {
     [SerializeField] private GameObject pauseMenuWidget;
+    [SerializeField] private GameObject gameOverlayWidget;
     
     [SerializeField] private InputActionReference BackAction;
     [SerializeField] private InputActionReference PauseAction;
@@ -21,6 +22,8 @@ public class WidgetManager : Manager<WidgetManager>
         
         widgetPool = new List<WidgetBase>();
         widgetStack = new List<WidgetBase>();
+        
+        if (gameOverlayWidget)  gameOverlayWidget = Instantiate(gameOverlayWidget);
     }
 
     private void OnEnable()
@@ -32,6 +35,8 @@ public class WidgetManager : Manager<WidgetManager>
     {
         EventBus.Unsubscribe<InputActionEvent>(HandleInputActionEvent);
     }
+
+    public GameObject GetWidgetGameOverlayGO() => gameOverlayWidget;
     
     public static GameObject PushWidget(GameObject pushedWidgetObject)
     {
@@ -122,7 +127,12 @@ public class WidgetManager : Manager<WidgetManager>
     {
         if (inputActionEvent.GetInputAction() == BackAction.action)
         {
-            PopCurrentActiveWidget();
+            WidgetBase currentActiveWidget = widgetStack.Last();
+            if (currentActiveWidget)
+            {
+                if (currentActiveWidget.AllowsBackHandling())
+                    PopCurrentActiveWidget();
+            }
         }
 
         if (inputActionEvent.GetInputAction() == PauseAction.action)

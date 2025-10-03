@@ -7,7 +7,7 @@ public class PickupableAbility : Pickupable
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        PlayerPawn player = collision.gameObject.GetComponent<PlayerPawn>();
+        PlayerCharacter player = collision.gameObject.GetComponent<PlayerCharacter>();
         if (player)
         {
             UnlockAbility(player);
@@ -17,9 +17,9 @@ public class PickupableAbility : Pickupable
         }
     }
 
-    private void UnlockAbility(PlayerPawn playerPawn)
+    private void UnlockAbility(PlayerCharacter playerCharacter)
     {
-        playerPawn.EnableUnlockablePlayerAbility(unlockablePlayerAbilityID);
+        playerCharacter.EnableUnlockablePlayerAbility(unlockablePlayerAbilityID);
         SaveManager.SaveUnlockedPlayerAbilityID(unlockablePlayerAbilityID);
     }
 }

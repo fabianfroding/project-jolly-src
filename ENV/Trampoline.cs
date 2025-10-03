@@ -9,7 +9,7 @@ public class Trampoline : MonoBehaviour
     {
         if (collision.CompareTag(EditorConstants.TAG_PLAYER))
         {
-            PlayerPawn player = collision.GetComponent<PlayerPawn>();
+            PlayerCharacter player = collision.GetComponent<PlayerCharacter>();
             if (!player) { return; }
 
             CollisionSenses collisionSenses = player.GetComponentInChildren<CollisionSenses>();

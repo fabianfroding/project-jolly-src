@@ -25,7 +25,6 @@ public class PlayerInputHandler : MonoBehaviour, ILogicUpdate
     public bool AirGlideInput { get; private set; }
     public bool InteractInput { get; private set; }
     public bool AdvanceInteractionInput {  get; private set; }
-    public bool QuitInput { get; private set; }
 
     [Header("Action Map Names")]
     [Tooltip("Name of the action map for toggling ingame menus.")]
@@ -181,14 +180,6 @@ public class PlayerInputHandler : MonoBehaviour, ILogicUpdate
             AdvanceInteractionInput = false;
     }
 
-    public void OnQuitInput(InputAction.CallbackContext context)
-    {
-        if (context.started)
-            QuitInput = true;
-        if (context.canceled)
-            QuitInput = false;
-    }
-
     public void UseJumpInput() => JumpInput = false;
 
     public void UseChargeBowInput() => ChargeBowInput = false;
@@ -231,7 +222,7 @@ public class PlayerInputHandler : MonoBehaviour, ILogicUpdate
     {
         if (context.started)
         {
-            PlayerPawn player = Object.FindFirstObjectByType<PlayerPawn>();
+            PlayerCharacter player = Object.FindFirstObjectByType<PlayerCharacter>();
             if (player != null)
             {
                 player.EnableAllLockedStates();
@@ -242,7 +233,7 @@ public class PlayerInputHandler : MonoBehaviour, ILogicUpdate
 
     private bool AllowInGameMenusToggle()
     {
-        PlayerPawn player = GetComponent<PlayerPawn>();
+        PlayerCharacter player = GetComponent<PlayerCharacter>();
         return player != null && !player.InAir();
     }
 }

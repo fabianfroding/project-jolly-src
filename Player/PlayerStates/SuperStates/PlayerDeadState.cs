@@ -10,7 +10,7 @@ public class PlayerDeadState : PlayerState
     private Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     private Movement movement;
 
-    public PlayerDeadState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerDeadState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

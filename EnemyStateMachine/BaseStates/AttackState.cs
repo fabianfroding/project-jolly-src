@@ -9,7 +9,7 @@ public class AttackState : State
     protected Movement Movement => movement ? movement : core.GetCoreComponent(ref movement);
     protected Movement movement;
 
-    public AttackState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName) : base(enemy, stateMachine, animBoolName) {}
+    public AttackState(EnemyCharacter enemy, FiniteStateMachine stateMachine, int animBoolName) : base(enemy, stateMachine, animBoolName) {}
 
     public override void Enter()
     {

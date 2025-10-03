@@ -19,7 +19,7 @@ public class PlayerInAirStateAlt : PlayerState
     private Movement Movement { get => movement != null ? movement : core.GetCoreComponent(ref movement); }
     private Movement movement;
 
-    public PlayerInAirStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+    public PlayerInAirStateAlt(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
         : base(player, stateMachine, playerStateData, animBoolName)
     {}
 

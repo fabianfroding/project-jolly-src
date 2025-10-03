@@ -13,7 +13,7 @@ public class DodgeState : State
     protected Movement Movement { get => movement ?? core.GetCoreComponent(ref movement); }
     protected Movement movement;
 
-    public DodgeState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_DodgeState stateData) : base(enemy, stateMachine, animBoolName)
+    public DodgeState(EnemyCharacter enemy, FiniteStateMachine stateMachine, int animBoolName, D_DodgeState stateData) : base(enemy, stateMachine, animBoolName)
     {
         this.stateData = stateData;
     }

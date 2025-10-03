@@ -13,8 +13,8 @@ public class PlayAnimOnEnterTrigger : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!animator) return;
-        PawnBase collidingPawn = collision.GetComponent<PawnBase>();
-        if (!collidingPawn) return;
+        CharacterBase collidingCharacter = collision.GetComponent<CharacterBase>();
+        if (!collidingCharacter) return;
         animator.Play(animNameToPlay);
     }
 }

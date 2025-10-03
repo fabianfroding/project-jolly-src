@@ -4,7 +4,7 @@ public class PlayerWallJumpState : PlayerAbilityState
 {
     private int wallJumpDirection;
 
-    public PlayerWallJumpState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerWallJumpState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

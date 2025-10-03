@@ -8,7 +8,7 @@ public class PlayerRespawnState : PlayerState
     private HealthComponent HealthComponent => healthComponent ? healthComponent : core.GetCoreComponent(ref healthComponent);
     private HealthComponent healthComponent;
 
-    public PlayerRespawnState(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
+    public PlayerRespawnState(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName) : base(player, stateMachine, playerStateData, animBoolName)
     {}
 
     public override void Enter()

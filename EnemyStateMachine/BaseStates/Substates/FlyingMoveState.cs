@@ -3,7 +3,7 @@ public class FlyingMoveState : MoveState
     protected bool isDetectingWallUp;
     protected bool isDetectingWallDown;
 
-    public FlyingMoveState(EnemyPawn enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData) : base(enemy, stateMachine, animBoolName, stateData)
+    public FlyingMoveState(EnemyCharacter enemy, FiniteStateMachine stateMachine, int animBoolName, D_MoveState stateData) : base(enemy, stateMachine, animBoolName, stateData)
     {}
 
     public override void DoChecks()

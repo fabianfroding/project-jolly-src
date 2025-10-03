@@ -3,7 +3,7 @@ public class PlayerAttackStateAlt : PlayerAbilityState
     protected Combat Combat => combat ? combat : core.GetCoreComponent(ref combat);
     protected Combat combat;
 
-    public PlayerAttackStateAlt(PlayerPawn player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
+    public PlayerAttackStateAlt(PlayerCharacter player, PlayerStateMachine stateMachine, Player_StateData playerStateData, int animBoolName)
         : base(player, stateMachine, playerStateData, animBoolName)
     {
 
